@@ -1,17 +1,17 @@
-import '@/ui/global.css'
+import "@/ui/global.css";
+import Header from "../ui/components/Header/Header";
 
 export default function RootLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-  return (
-    <html lang="fa" dir='rtl'>
-      <body
-        className={`text-primary`}
-      >
-        {children}
-      </body>
-    </html>
-  );
+    return (
+        <html lang="fa" dir="rtl">
+            <body className={`text-primary`}>
+                <Header />
+                {children}
+            </body>
+        </html>
+    );
 }

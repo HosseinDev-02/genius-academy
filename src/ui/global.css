@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import './fonts.css';
+
 :root {}
 
 @theme {
@@ -33,4 +34,9 @@
 
 @media (prefers-color-scheme: dark) {}
 
-body {}
+body {
+  background-color: rgb(var(--color-background));
+  color: rgb(var(--color-caption));
+  min-height: 100vh;
+  font-family: "YekanBakh Regular";
+}
