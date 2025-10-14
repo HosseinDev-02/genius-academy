@@ -1,0 +1,36 @@
+@import "tailwindcss";
+@import './fonts.css';
+:root {}
+
+@theme {
+
+  /* Colors */
+  --color-primary: rgb(29, 78, 216);
+  --color-success: rgb(34, 197, 94);
+  --color-caption: rgb(75, 85, 99);
+  --color-title: rgb(9, 9, 11);
+  --color-secondary: rgb(244, 244, 245);
+  --color-background: rgb(255, 255, 255);
+  --color-border: rgb(228, 228, 231);
+
+  /* Breakpoints */
+  --breakpoint-*: initial;
+  --breakpoint-xs: 30rem;
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+
+
+
+  /* Fonts */
+
+  --font-YekanBakh-Regular: 'YekanBakh Regular';
+  --font-YekanBakh-Bold: 'YekanBakh Bold';
+  --font-YekanBakh-SemiBold: 'YekanBakh SemiBold';
+  --font-YekanBakh-Black: 'YekanBakh Black';
+}
+
+@media (prefers-color-scheme: dark) {}
+
+body {}
