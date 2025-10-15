@@ -37,7 +37,7 @@ export default function Menu() {
                                 {item.links.map((link) => {
                                     if (hasSubLinks(link)) {
                                         return (
-                                            <li className="group/subcategories">
+                                            <li key={link.id} className="group/subcategories">
                                                 <Link
                                                     className="flex items-center justify-between p-3 hover:text-primary transition-colors"
                                                     href={link.href}
@@ -90,7 +90,7 @@ export default function Menu() {
                     );
                 } else {
                     return (
-                        <li className="group">
+                        <li key={item.id} className="group">
                             <Link
                                 className="flex items-center gap-1"
                                 href={item.href}

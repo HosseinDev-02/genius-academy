@@ -25,3 +25,11 @@ export interface MenuItemWithSubLinks extends BaseMenuItem {
 
 // 📚 ترکیب همه انواع ممکن
 export type MenuItem = SimpleMenuItem | MenuItemWithLinks | MenuItemWithSubLinks;
+
+
+export type Icon = {
+    width: number,
+    height: number,
+    color?: string,
+    className?: string
+}

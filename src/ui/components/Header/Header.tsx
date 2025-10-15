@@ -2,6 +2,9 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Menu from "../Menu/Menu";
+import Logo from "../Logo/Logo";
+import RoundButton from "../Buttons/RoundButton";
+import { LucideMenu } from "lucide-react";
 
 
 function Header() {
@@ -61,13 +64,13 @@ function Header() {
                         {/* header right side */}
                         <div className="flex items-center gap-3 lg:gap-8">
                             {/* header mobile menu btn */}
-                            {/* <RoundButton
+                            <RoundButton
                                 className={"flex lg:hidden"}
                                 clickEvent={() => setMobileMenuShow(true)}
-                                icon="#bars-3"
-                            ></RoundButton> */}
+                                icon={() => <LucideMenu size={20}/>}
+                            ></RoundButton>
                             {/* header logo */}
-                            {/* <Logo></Logo> */}
+                            <Logo />
                             {/* Header Menu */}
                             <Menu/>
                         </div>
@@ -217,7 +220,7 @@ function Header() {
             >
                 {/*  mobile menu header  */}
                 <div className="flex items-center justify-between mb-8">
-                    {/* <Logo></Logo> */}
+                    <Logo />
                     <span
                         onClick={() => setMobileMenuShow(false)}
                         className="text-title"
