@@ -1,40 +1,40 @@
-'use client'
+'use client';
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Menu from "../Menu/Menu";
 import Logo from "../Logo/Logo";
 import RoundButton from "../Buttons/RoundButton";
-import { LucideMenu } from "lucide-react";
+import { LucideMenu, LucideMoon, LucideSearch, LucideShoppingCart, LucideX } from "lucide-react";
+import UserProfile from "./UserProfile";
 
 
 function Header() {
     // let localStorageValue = localStorage.getItem("theme");
     const [mobileMenuShow, setMobileMenuShow] = useState(false);
     const [searchModalShow, setSearchModalShow] = useState(false);
-    // const [darkMode, setDarkMode] = useState(localStorageValue);
+    const [darkMode, setDarkMode] = useState('light');
     const [showMobileCategoryMenu, setShowMobileCategoryMenu] = useState(false);
     const [showMobilePagesMenu, setShowMobilePagesMenu] = useState(false);
     const [showMobileCategorySubMenu, setShowMobileCategorySubMenu] =
         useState(false);
-    const [userProfileShow, setUserProfileShow] = useState(false);
     const [loading, setLoading] = useState(true);
 
-    // const themeHandler = () => {
-    //     if (darkMode === "dark") {
-    //         document.documentElement.classList.remove("dark");
-    //         localStorage.setItem("theme", "light");
-    //     } else {
-    //         document.documentElement.classList.add("dark");
-    //         localStorage.setItem("theme", "dark");
-    //     }
-    //     setDarkMode((prevStat) => {
-    //         if (prevStat === "dark") {
-    //             return "light";
-    //         } else {
-    //             return "dark";
-    //         }
-    //     });
-    // };
+    const themeHandler = () => {
+        if (darkMode === "dark") {
+            document.documentElement.classList.remove("dark");
+            localStorage.setItem("theme", "light");
+        } else {
+            document.documentElement.classList.add("dark");
+            localStorage.setItem("theme", "dark");
+        }
+        setDarkMode((prevStat) => {
+            if (prevStat === "dark") {
+                return "light";
+            } else {
+                return "dark";
+            }
+        });
+    };
 
     // useEffect(() => {
     //     console.log("theme changed");
@@ -77,11 +77,11 @@ function Header() {
                         {/* header left side */}
                         <div className="flex items-center gap-3 md:gap-5">
                             {/* header search btn */}
-                            {/* <RoundButton
+                            <RoundButton
                                 className={"hidden lg:flex cursor-pointer"}
                                 clickEvent={() => setSearchModalShow(true)}
-                                icon="#search"
-                            ></RoundButton> */}
+                                icon={() => <LucideSearch size={20} />}
+                            ></RoundButton>
                             {/* modal search wrapper */}
                             <div
                                 style={searchModalShow ? { top: "0" } : {}}
@@ -101,112 +101,30 @@ function Header() {
                                                 type="text"
                                             /> */}
                                         </form>
-                                        {/* <RoundButton
+                                        <RoundButton
                                             className="w-9 h-9 shrink-0 cursor-pointer"
-                                            icon="#x-mark"
+                                            icon={() => <LucideX size={20}/>}
                                             clickEvent={() =>
                                                 setSearchModalShow(false)
                                             }
-                                        ></RoundButton> */}
+                                        ></RoundButton>
                                     </div>
                                 </div>
                             </div>
                             {/* header change theme btn */}
-                            {/* <RoundButton
+                            <RoundButton
                                 className={"hidden lg:flex cursor-pointer"}
                                 clickEvent={themeHandler}
-                                icon={`${
-                                    localStorageValue === "dark"
-                                        ? "#sun"
-                                        : "#moon"
-                                }`}
-                            ></RoundButton> */}
+                                icon={() => <LucideMoon size={20}/>}
+                            ></RoundButton>
                             {/* header basket btn */}
-                            {/* <RoundButton
-                                link={true}
+                            <RoundButton
                                 href="/orders"
-                                icon="#bag"
+                                icon={() => <LucideShoppingCart size={20}/>}
                                 count={2}
-                            ></RoundButton> */}
+                            ></RoundButton>
                             {/* header user profile btn */}
-
-                            <div className="group/profile">
-                                <button
-                                    type="button"
-                                    onClick={() =>
-                                        setUserProfileShow(
-                                            (prevState) => !prevState
-                                        )
-                                    }
-                                    className="flex items-center gap-3 cursor-pointer"
-                                >
-                                    {/* <RoundButton icon="#user"></RoundButton> */}
-                                    <span className="hidden xs:flex flex-col gap-1 items-start text-xs pointer-events-none">
-                                        <span className="text-title font-YekanBakh-SemiBold">
-                                            حسین رستمی
-                                        </span>
-                                        <span className="font-YekanBakh-SemiBold">
-                                            خوش آمـــدید
-                                        </span>
-                                    </span>
-                                    <svg
-                                        style={
-                                            userProfileShow
-                                                ? {
-                                                      transform:
-                                                          "rotate(180deg)",
-                                                  }
-                                                : {}
-                                        }
-                                        className="w-5 h-5 hidden xs:block transition-all"
-                                    >
-                                        <use href="#chevron-down-mini"></use>
-                                    </svg>
-                                </button>
-                                {/* header user profile menu */}
-                                <div
-                                    id="user-profile"
-                                    className={`rounded-xl shadow border border-border absolute top-full left-0 w-56 p-3 flex flex-col bg-background transition-all delay-75 child:transition-colors font-YekanBakh-SemiBold text-xs text-title ${
-                                        userProfileShow
-                                            ? "visible opacity-100 z-20"
-                                            : "invisible opacity-0"
-                                    }`}
-                                >
-                                    <a
-                                        className="hover:text-primary flex items-center gap-2 py-2 px-3"
-                                        href="/dashboard/counter"
-                                    >
-                                        <span>
-                                            <svg className="w-5 h-5">
-                                                <use href="#stars"></use>
-                                            </svg>
-                                        </span>
-                                        <span>مشاهده پروفایل</span>
-                                    </a>
-                                    <Link
-                                        className="hover:text-primary flex items-center gap-2 py-2 px-3"
-                                        href="/dashboard/counter"
-                                    >
-                                        <span>
-                                            <svg className="w-5 h-5">
-                                                <use href="#setting"></use>
-                                            </svg>
-                                        </span>
-                                        <span>پنل کاربری</span>
-                                    </Link>
-                                    <a
-                                        className="hover:text-red-700 text-red-500 flex items-center gap-2 py-2 px-3"
-                                        href="/login"
-                                    >
-                                        <span>
-                                            <svg className="w-5 h-5">
-                                                <use href="#logout"></use>
-                                            </svg>
-                                        </span>
-                                        <span>خروج از حساب</span>
-                                    </a>
-                                </div>
-                            </div>
+                            <UserProfile/>
                         </div>
                     </nav>
                 </div>

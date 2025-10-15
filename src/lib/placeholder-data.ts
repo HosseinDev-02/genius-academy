@@ -215,3 +215,21 @@ export const menuItems: MenuItem[] = [
         ],
     },
 ];
+
+export const userProfileItems = [
+    {
+        id: 1,
+        title: "مشاهده پروفایل",
+        href: "/dashboard/counter",
+    },
+    {
+        id: 2,
+        title: "پنل کاربری",
+        href: "/dashboard/counter",
+    },
+    {
+        id: 3,
+        title: "خروج از حساب",
+        href: "/login",
+    },
+];
