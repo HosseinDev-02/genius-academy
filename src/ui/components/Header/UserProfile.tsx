@@ -44,7 +44,7 @@ export default function UserProfile() {
                         خوش آمـــدید
                     </span>
                 </span>
-               <LucideChevronDown size={20} className={`${userProfileShow && 'rotate-180'} transition-all`}/>
+               <LucideChevronDown size={20} className={`${userProfileShow && 'rotate-180'} transition-all hidden xs:inline`}/>
             </button>
             {/* header user profile menu */}
             <div
