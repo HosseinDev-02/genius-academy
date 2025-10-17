@@ -1,12 +1,12 @@
 import { LucideArrowUpLeft } from "lucide-react";
 import PrimaryButton from "../components/ui/Buttons/PrimaryButton";
-import { services } from "../lib/placeholder-data";
+import { latestCourses, services } from "../lib/placeholder-data";
 import ServiceItem from "../components/ui/ServiceItem";
-
+import SectionHeader from "../components/ui/section/SectionHeader";
+import SectionTitle from "../components/ui/section/SectionTitle";
+import SectionLinkBtn from "../components/ui/section/SectionLinkBtn";
+import Course from "../components/ui/Course";
 export default function Home() {
-
- 
-
     return (
         <div className="space-y-14 py-5">
             {/* Introduction Section */}
@@ -76,6 +76,35 @@ export default function Home() {
                                 );
                             })}
                         </div>
+                    </div>
+                </div>
+            </section>
+            {/* Latest Courses Section */}
+            <section>
+                <div className="container">
+                    {/*  Section Header  */}
+                    <SectionHeader>
+                        <SectionTitle
+                            title="آخرین دوره های"
+                            text="منتشر شده"
+                        ></SectionTitle>
+                        <SectionLinkBtn
+                            href="/courses"
+                            icon={<LucideArrowUpLeft size={20}/>}
+                            text="مشاهده همه"
+                        ></SectionLinkBtn>
+                    </SectionHeader>
+                    {/*  Section Content  */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mt-8 gap-5">
+                        {latestCourses.length &&
+                            latestCourses.map((course) => {
+                                return (
+                                    <Course
+                                        key={course.id}
+                                        {...course}
+                                    ></Course>
+                                );
+                            })}
                     </div>
                 </div>
             </section>

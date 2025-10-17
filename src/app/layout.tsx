@@ -18,7 +18,6 @@ export default function RootLayout({
                 >
                     <div className="body-wrapper">
                         <Header />
-
                         {children}
                     </div>
                 </ThemeProvider>

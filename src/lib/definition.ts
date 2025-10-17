@@ -33,3 +33,19 @@ export type Icon = {
     color?: string,
     className?: string
 }
+
+export type Course = {
+    img: string;
+    title: string;
+    category: string;
+    isCompleted: boolean;
+    sections: string | number;
+    time: string | number;
+    teacher: string;
+    teacherImg: string;
+    isFree: boolean;
+    offer: string | number;
+    price: string | number;
+    costPrice: string | number;
+    href: string
+}
