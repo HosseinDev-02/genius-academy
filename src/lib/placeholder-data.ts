@@ -233,3 +233,30 @@ export const userProfileItems = [
         href: "/login",
     },
 ];
+
+export const services = [
+    {
+        id: 1,
+        title: "چالش برانگیز",
+    },
+    {
+        id: 2,
+        title: "پروژه محور",
+    },
+    {
+        id: 3,
+        title: "جامع",
+    },
+    {
+        id: 4,
+        title: "به روز",
+    },
+    {
+        id: 5,
+        title: "ویدیویی",
+    },
+    {
+        id: 6,
+        title: "منتورشیپ",
+    },
+];

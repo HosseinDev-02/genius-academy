@@ -1,7 +1,84 @@
+import { LucideArrowUpLeft } from "lucide-react";
+import PrimaryButton from "../components/ui/Buttons/PrimaryButton";
+import { services } from "../lib/placeholder-data";
+import ServiceItem from "../components/ui/ServiceItem";
+
 export default function Home() {
-  return (
-    <div>
-      
-    </div>
-  );
+
+ 
+
+    return (
+        <div className="space-y-14 py-5">
+            {/* Introduction Section */}
+            <section>
+                <div className="container">
+                    <div className="bg-gradient-to-l from-secondary to-background rounded-2xl flex flex-col-reverse xl:flex-row items-center justify-center py-16 gap-10 px-5 lg:px-3 xl:px-10">
+                        {/*  introduction right side  */}
+                        <div className="max-w-[645px] space-y-5">
+                            {/*  Introduction right side offer  */}
+                            <div className="flex items-center gap-2">
+                                <div className="flex items-center gap-1 bg-primary py-1 px-2 rounded-xl text-white animate-pulse transition-all">
+                                    <span>
+                                        <svg className="w-4 h-4">
+                                            <use href="#receipt-percent"></use>
+                                        </svg>
+                                    </span>
+                                    <span className="text-xs font-YekanBakh-SemiBold">
+                                        جشنــــواره تخفیف !
+                                    </span>
+                                </div>
+                                <span className="text-xs text-primary font-YekanBakh-SemiBold">
+                                    به زودی :)
+                                </span>
+                            </div>
+                            <h1 className="text-4xl md:text-5xl text-title font-YekanBakh-Black">
+                                داستان برنامه نویس شدنت
+                                <br />
+                                از اینجا شروع میشه !
+                            </h1>
+                            <p className="max-w-80 xl:max-w-none">
+                                یادگیری برنامه‌نویسی آرزو نیست، فقط نیاز هست که
+                                تلاش و تمرین داشته باشید، بقیه‌اش با نابغه
+                            </p>
+                            <PrimaryButton
+                                className={`!inline-flex`}
+                                href="/courses"
+                                icon={<LucideArrowUpLeft size={20} />}
+                                title="شروع یادگیری برنامه نویسی"
+                            ></PrimaryButton>
+                        </div>
+                        <div className="max-w-72">
+                            <img
+                                className="w-full h-full object-cover"
+                                src="images/Introduction/main.png"
+                                alt=""
+                            />
+                        </div>
+                    </div>
+                </div>
+            </section>
+            {/* Services Section */}
+            <section>
+                <div className="container">
+                    <div className="bg-secondary rounded-2xl flex items-center flex-col">
+                        <div className="inline-flex items-center justify-center rounded-2xl border border-border h-12 px-8 bg-background font-semibold -translate-y-1/2">
+                            <h3 className="text-title text-lg font-YekanBakh-Black">
+                                چرا آکــــادمــــــی نابغه؟
+                            </h3>
+                        </div>
+                        <div className="flex items-center justify-center flex-wrap gap-5 lg:gap-10 pb-5 md:pb-10 px-2.5 sm:px-5">
+                            {services.map((service) => {
+                                return (
+                                    <ServiceItem
+                                        key={service.id}
+                                        {...service}
+                                    ></ServiceItem>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    );
 }
