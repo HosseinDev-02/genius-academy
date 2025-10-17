@@ -1,18 +1,20 @@
 "use client";
 import Link from "next/link";
 import Logo from "../Logo/Logo";
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import {
     LucideChevronDown,
     LucideChevronLeft,
     LucideEqual,
     LucideFileText,
+    LucideLogIn,
     LucideNewspaper,
     LucideSearch,
     LucideX,
 } from "lucide-react";
 import { menuItems } from "@/src/lib/placeholder-data";
 import { MenuItem } from "@/src/lib/definition";
+import ThemeToggleButton from "../Header/ThemeToggleButton";
 
 type TMobileMenuProps = {
     mobileMenuShow: boolean;
@@ -57,35 +59,17 @@ export default function MobileMenu({
                 />
             </form>
             {/*  mobile change them wrapper  */}
-            <label className="flex items-center justify-between border-y border-y-border py-4">
-                <span className="text-title font-YekanBakh-Bold text-sm">
-                    تم تاریک
-                </span>
-                {/* <input
-                        onChange={themeHandler}
-                        className="peer sr-only"
-                        type="checkbox"
-                    /> */}
-                <div className="inline-block cursor-pointer border-2 border-zinc-200 dark:border-primary h-5 w-11 bg-white dark:bg-primary relative rounded-xl transition-all">
-                    {/* <span
-                            style={
-                                darkMode === "dark"
-                                    ? {
-                                          transform: "translateX(26px)",
-                                          backgroundColor: "#000",
-                                      }
-                                    : {}
-                            }
-                            className="w-3 h-3 bg-zinc-200 absolute left-0 translate-x-[2px] rounded-full top-0 bottom-0 my-auto transition-all"
-                        ></span> */}
-                </div>
-            </label>
+            <ThemeToggleButton type="mobile"/>
             {/*  Mobile Menu Categories  */}
             <div>
                 <ul className="flex flex-col gap-5">
                     {menuItems.map((item) => {
                         return (
-                            <MenuNode key={item.id} item={item} level={level + 1} />
+                            <MenuNode
+                                key={item.id}
+                                item={item}
+                                level={level + 1}
+                            />
                         );
                     })}
                     <li>
@@ -94,11 +78,7 @@ export default function MobileMenu({
                             href="/register"
                         >
                             <span className="flex items-center gap-2">
-                                <span>
-                                    <svg className="w-5 h-5">
-                                        <use href="#login"></use>
-                                    </svg>
-                                </span>
+                                <LucideLogIn size={20} />
                                 <span className="text-xs font-YekanBakh-SemiBold">
                                     ورود / ثبت نام
                                 </span>
@@ -112,11 +92,10 @@ export default function MobileMenu({
 }
 
 function MenuNode({ item, level = 0 }: { item: MenuItem; level?: number }) {
-    const children = item.links || item.subLinks || [];
-
-    const hasChildren = children.length > 0;
     const [open, setOpen] = useState(false);
-
+    
+    const children = item.links || item.subLinks || [];
+    const hasChildren = children.length > 0;
     const getIconByTitle = (title: string) => {
         const map: Record<string, React.ElementType> = {
             "مقالات آموزشی": LucideFileText,
@@ -127,7 +106,6 @@ function MenuNode({ item, level = 0 }: { item: MenuItem; level?: number }) {
             map[title] || (level === 0 && item.subLinks && LucideChevronLeft)
         );
     };
-    console.log(level, 'level')
 
     const Icon = getIconByTitle(item.title);
 
@@ -140,16 +118,27 @@ function MenuNode({ item, level = 0 }: { item: MenuItem; level?: number }) {
                         setOpen((prev) => !prev);
                     }
                 }}
-                className={`flex items-center justify-between`}
+                className={`flex items-center justify-between ${
+                    open && "text-title"
+                }`}
                 href={item.href}
             >
                 <span className="flex items-center gap-2">
-                    {Icon && <Icon className={`${(open && level ===0) && 'transition-all -rotate-45'}`} size={20} />}
-                    <span className="text-xs font-YekanBakh-SemiBold">
+                    {Icon && (
+                        <Icon
+                            className={`${
+                                open &&
+                                level === 0 &&
+                                "transition-all -rotate-45"
+                            }`}
+                            size={20}
+                        />
+                    )}
+                    <span className={`text-xs font-YekanBakh-SemiBold`}>
                         {item.title}
                     </span>
                 </span>
-                {(hasChildren && level !== 0) && (
+                {hasChildren && level !== 0 && (
                     <LucideChevronDown
                         className={`${open && "transition-all rotate-180"}`}
                         size={20}

@@ -62,7 +62,7 @@ export default function UserProfile() {
                     return (
                         <Link
                             key={item.id}
-                            className="hover:text-primary flex items-center gap-2 py-2 px-3"
+                            className={`flex items-center gap-2 py-2 px-3 transition-colors ${item.title === 'خروج از حساب' ? 'hover:text-red-700 text-red-500' : 'hover:text-primary'}`}
                             href={item.href}
                         >
                             <Icon size={20} />

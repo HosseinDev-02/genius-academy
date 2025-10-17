@@ -15,6 +15,7 @@ import UserProfile from "./UserProfile";
 import Input from "../Form/Input";
 import Cover from "../Cover/Cover";
 import MobileMenu from "../Menu/MobileMenu";
+import ThemeToggleButton from "./ThemeToggleButton";
 
 function Header() {
     // let localStorageValue = localStorage.getItem("theme");
@@ -121,11 +122,7 @@ function Header() {
                                 </div>
                             </div>
                             {/* header change theme btn */}
-                            <RoundButton
-                                className={"hidden lg:flex cursor-pointer"}
-                                clickEvent={themeHandler}
-                                icon={() => <LucideMoon size={20} />}
-                            ></RoundButton>
+                            <ThemeToggleButton type="desktop"/>
                             {/* header basket btn */}
                             <RoundButton
                                 href="/orders"

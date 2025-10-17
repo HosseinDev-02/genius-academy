@@ -23,7 +23,7 @@ export default function Menu() {
                     return (
                         <li key={item.id} className="group/categories">
                             <Link
-                                className="flex items-center gap-1"
+                                className="flex items-center gap-1 hover:text-title"
                                 href={item.href}
                             >
                                 <span className="">{item.title}</span>
@@ -92,7 +92,7 @@ export default function Menu() {
                     return (
                         <li key={item.id} className="group">
                             <Link
-                                className="flex items-center gap-1"
+                                className="flex items-center gap-1 hover:text-title"
                                 href={item.href}
                             >
                                 {item.title}
