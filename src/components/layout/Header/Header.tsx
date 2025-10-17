@@ -1,9 +1,6 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import Menu from "../Menu/Menu";
-import Logo from "../Logo/Logo";
-import RoundButton from "../Buttons/RoundButton";
 import {
     LucideMenu,
     LucideMoon,
@@ -11,11 +8,14 @@ import {
     LucideShoppingCart,
     LucideX,
 } from "lucide-react";
-import UserProfile from "./UserProfile";
-import Input from "../Form/Input";
-import Cover from "../Cover/Cover";
-import MobileMenu from "../Menu/MobileMenu";
-import ThemeToggleButton from "./ThemeToggleButton";
+import UserProfile from "../../ui/UserProfile";
+import ThemeToggleButton from "../../ui/ThemeToggleButton";
+import RoundButton from "../../ui/Buttons/RoundButton";
+import Logo from "../../ui/Logo/Logo";
+import Menu from "../../ui/Menu/Menu";
+import Input from "../../ui/Input";
+import MobileMenu from "../../ui/Menu/MobileMenu";
+import Cover from "../../shared/Cover/Cover";
 
 function Header() {
     // let localStorageValue = localStorage.getItem("theme");

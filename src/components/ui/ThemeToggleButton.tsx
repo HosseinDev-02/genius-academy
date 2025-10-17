@@ -1,9 +1,9 @@
 "use client";
 
 import { ElementType, JSX, useEffect, useState } from "react";
-import RoundButton from "../Buttons/RoundButton";
 import { LucideMoon, LucideSun } from "lucide-react";
 import { useTheme } from "next-themes";
+import RoundButton from "./Buttons/RoundButton";
 
 type TThemeToggleButtonProps = {
     type: "mobile" | "desktop";

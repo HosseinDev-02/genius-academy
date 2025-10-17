@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { menuItems } from "@/src/lib/placeholder-data";
 import { MenuItem } from "@/src/lib/definition";
-import ThemeToggleButton from "../Header/ThemeToggleButton";
+import ThemeToggleButton from "../ThemeToggleButton";
 
 type TMobileMenuProps = {
     mobileMenuShow: boolean;

@@ -1,5 +1,5 @@
-import "../ui/global.css";
-import Header from "../ui/components/Header/Header";
+import "../styles/global.css";
+import Header from "../components/layout/Header/Header";
 import { ThemeProvider } from "next-themes";
 
 export default function RootLayout({
