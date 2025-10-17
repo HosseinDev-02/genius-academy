@@ -6,6 +6,9 @@ import SectionHeader from "../components/ui/section/SectionHeader";
 import SectionTitle from "../components/ui/section/SectionTitle";
 import SectionLinkBtn from "../components/ui/section/SectionLinkBtn";
 import Course from "../components/ui/Course";
+import CommentsSlider from "../components/section/CommentsSlider";
+
+
 export default function Home() {
     return (
         <div className="space-y-14 py-5">
@@ -90,7 +93,7 @@ export default function Home() {
                         ></SectionTitle>
                         <SectionLinkBtn
                             href="/courses"
-                            icon={<LucideArrowUpLeft size={20}/>}
+                            icon={<LucideArrowUpLeft size={20} />}
                             text="مشاهده همه"
                         ></SectionLinkBtn>
                     </SectionHeader>
@@ -105,6 +108,23 @@ export default function Home() {
                                     ></Course>
                                 );
                             })}
+                    </div>
+                </div>
+            </section>
+            {/* Comments Section */}
+            <section className="py-10">
+                <div className="container">
+                    <div className="lg:grid lg:grid-cols-12 items-center space-y-5 lg:space-y-0 lg:gap-10">
+                        <div className="lg:col-span-4">
+                            <SectionTitle
+                                textColor="#6b7280"
+                                title="در مورد نابغه چه میشنویم؟"
+                                text="این‌ها، بخش خیلی کوچکی از نظراتی هستند که افراد مختلف در مورد نابغه دارند."
+                            ></SectionTitle>
+                        </div>
+                        <div className="lg:col-span-8 max-w-xl mx-auto relative">
+                            <CommentsSlider/>
+                        </div>
                     </div>
                 </div>
             </section>

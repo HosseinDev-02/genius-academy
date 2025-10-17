@@ -1,0 +1,13 @@
+.swiper-3d .swiper-slide-shadow {
+    background: none !important;
+}
+
+.swiper.swiper-cards {
+    overflow: hidden !important;
+}
+
+@media screen and (min-width: 786px) {
+    .swiper.swiper-cards {
+        overflow: visible !important;
+    }
+}
