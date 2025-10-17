@@ -2,7 +2,7 @@
 
 import { ElementType, JSX, useEffect, useState } from "react";
 import RoundButton from "../Buttons/RoundButton";
-import { LucideMoon } from "lucide-react";
+import { LucideMoon, LucideSun } from "lucide-react";
 import { useTheme } from "next-themes";
 
 type TThemeToggleButtonProps = {
@@ -28,7 +28,11 @@ export default function ThemeToggleButton(props: TThemeToggleButtonProps) {
                     <RoundButton
                         className={"hidden lg:flex cursor-pointer"}
                         clickEvent={themeHandler}
-                        icon={() => <LucideMoon size={20} />}
+                        icon={() => theme === "dark" ? (
+                            <LucideSun size={20} />
+                        ) : (
+                            <LucideMoon size={20} />
+                        )}
                     ></RoundButton>
                 );
             case "mobile":
@@ -58,7 +62,11 @@ export default function ThemeToggleButton(props: TThemeToggleButtonProps) {
                     <RoundButton
                         className={"hidden lg:flex cursor-pointer"}
                         clickEvent={themeHandler}
-                        icon={() => <LucideMoon size={20} />}
+                        icon={() => theme === "dark" ? (
+                            <LucideSun size={20} />
+                        ) : (
+                            <LucideMoon size={20} />
+                        )}
                     ></RoundButton>
                 );
         }
