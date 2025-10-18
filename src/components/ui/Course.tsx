@@ -7,6 +7,7 @@ import GridBoxesIcon from "../icon/GridBoxesIcon";
 import PapersIcon from "../icon/PapersIcon";
 import ClockIcon from "../icon/ClockIcon";
 import { LucideArrowUpLeft } from "lucide-react";
+import Image from "next/image";
 
 export default function Course(props: Course) {
     // const [isImgLoaded, setIsImgLoaded] = useState(false);
@@ -17,12 +18,12 @@ export default function Course(props: Course) {
         <div>
             <div className="flex items-center justify-center rounded-3xl overflow-hidden relative">
                 <Link href={props.href ?? "#"}>
-                    <img
-                        loading="lazy"
-                        className="w-full h-full object-cover"
+                    <Image
+                        width={400}
+                        height={225}
+                        className=""
                         src={props.img}
                         alt={props.title}
-                        // onLoad={imgLoadedHandler}
                     />
                 </Link>
                 <Link
@@ -34,13 +35,6 @@ export default function Course(props: Course) {
                         {props.category}
                     </span>
                 </Link>
-                {/* {!isImgLoaded && (
-                    <Loader
-                        emptyColor="rgb(var(--color-secondary))"
-                        filledColor="rgb(var(--color-primary))"
-                        className="my-loader"
-                    />
-                )} */}
             </div>
             <div className="bg-gradient-to-b from-background to-secondary mx-5 p-5 rounded-3xl">
                 <div className="flex items-center gap-2">
@@ -119,7 +113,7 @@ export default function Course(props: Course) {
                 </div>
                 <div className="flex items-center gap-3 mt-3">
                     <PrimaryButton
-                        icon={<LucideArrowUpLeft size={20}/>}
+                        icon={<LucideArrowUpLeft size={20} />}
                         title="مشاهده دوره"
                     ></PrimaryButton>
                     <LikeButton></LikeButton>

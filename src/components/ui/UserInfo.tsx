@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 type TUserInfoProps = {
@@ -10,8 +11,8 @@ type TUserInfoProps = {
 export default function UserInfo(props: TUserInfoProps) {
     return (
         <div className='flex items-center gap-2'>
-            <span className='block overflow-hidden w-10 h-10 rounded-full shrink-0'>
-                <img className='w-full h-full object-cover' src={props.img ? props.img : '/images/profile.jpeg'} alt=""/>
+            <span className='block overflow-hidden w-10 h-10 rounded-full shrink-0 relative'>
+                <Image fill objectFit="cover" src={props.img ? props.img : '/images/profile.jpeg'} alt={props.title ?? 'User Image'} />
             </span>
             <div className='flex flex-col gap-1 text-xs font-YekanBakh-SemiBold'>
                 {

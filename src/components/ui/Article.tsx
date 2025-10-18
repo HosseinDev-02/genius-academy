@@ -1,8 +1,9 @@
 import Link from "next/link";
 import LikeButton from "./Buttons/LikeButton";
 import { Article } from "@/src/lib/definition";
+import Image from "next/image";
 
-type TArticleProps = Article & { roundedImg?: boolean, className?: string };
+type TArticleProps = Article & { roundedImg?: boolean; className?: string };
 
 export default function Article({
     title,
@@ -29,19 +30,20 @@ export default function Article({
                     className="flex items-center justify-center"
                 >
                     {roundedImg ? (
-                        <img
-                            loading="lazy"
-                            className="w-full h-full object-cover rounded-xl"
+                        <Image
+                            width={324}
+                            height={162}
+                            className="object-cover rounded-xl"
                             src={img}
                             alt={title}
-                            // onLoad={imgLoadedHandler}
                         />
                     ) : (
-                        <img
-                            className="w-full h-full object-cover"
+                        <Image
+                            width={324}
+                            height={162}
+                            className="object-cover rounded-xl"
                             src={img}
                             alt={title}
-                            // onLoad={imgLoadedHandler}
                         />
                     )}
                 </Link>
@@ -68,9 +70,10 @@ export default function Article({
                 </h6>
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-1">
-                        <span className="flex items-center justify-center rounded-full w-[30px] h-[30px] overflow-hidden border border-white">
-                            <img
-                                className="w-full h-full object-cover"
+                        <span className="flex items-center justify-center rounded-full w-[30px] h-[30px] overflow-hidden border border-white relative">
+                            <Image
+                                fill
+                                objectFit="cover"
                                 src={writerImg}
                                 alt={writer}
                             />

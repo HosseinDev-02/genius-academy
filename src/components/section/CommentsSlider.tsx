@@ -6,6 +6,7 @@ import { EffectCards, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-cards";
 import { LucideChevronLeft, LucideChevronRight } from "lucide-react";
+import Image from "next/image";
 function CommentsSlider() {
     return (
         <Swiper
@@ -27,11 +28,12 @@ function CommentsSlider() {
                         بسیار قابل ارزش است.
                     </p>
                     <div className="flex items-center gap-2">
-                        <span className="block overflow-hidden w-10 h-10 rounded-full">
-                            <img
-                                className="w-full h-full object-cover"
-                                src="images/profile.jpeg"
-                                alt=""
+                        <span className="block overflow-hidden w-10 h-10 rounded-full relative">
+                            <Image
+                                fill
+                                objectFit="cover"
+                                src="/images/profile.jpeg"
+                                alt="User Image"
                             />
                         </span>
                         <div className="flex flex-col gap-1 text-xs">
@@ -44,7 +46,7 @@ function CommentsSlider() {
                         </div>
                     </div>
                     <div className="swiper-button-next rounded-full w-10 h-10 border border-border flex items-center justify-center absolute left-2 top-1/2">
-                        <LucideChevronLeft size={20}/>
+                        <LucideChevronLeft size={20} />
                     </div>
                 </div>
             </SwiperSlide>
@@ -57,11 +59,12 @@ function CommentsSlider() {
                         قابل قدردانی است
                     </p>
                     <div className="flex items-center gap-2">
-                        <span className="block overflow-hidden w-10 h-10 rounded-full">
-                            <img
-                                className="w-full h-full object-cover"
-                                src="images/profile.jpeg"
-                                alt=""
+                        <span className="block overflow-hidden w-10 h-10 rounded-full relative">
+                            <Image
+                                fill
+                                objectFit="cover"
+                                src="/images/profile.jpeg"
+                                alt="User Image"
                             />
                         </span>
                         <div className="flex flex-col gap-1 text-xs">
@@ -74,7 +77,7 @@ function CommentsSlider() {
                         </div>
                     </div>
                     <div className="swiper-button-prev rounded-full w-10 h-10 border border-border flex items-center justify-center absolute right-2 top-1/2">
-                        <LucideChevronRight size={20}/>
+                        <LucideChevronRight size={20} />
                     </div>
                 </div>
             </SwiperSlide>

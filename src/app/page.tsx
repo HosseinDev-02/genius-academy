@@ -13,6 +13,7 @@ import Course from "../components/ui/Course";
 import CommentsSlider from "../components/section/CommentsSlider";
 import Article from "../components/ui/Article";
 import PopularCoursesSlider from "../components/section/PopularCoursesSlider";
+import Image from "next/image";
 
 export default function Home() {
     return (
@@ -56,10 +57,13 @@ export default function Home() {
                             ></PrimaryButton>
                         </div>
                         <div className="max-w-72">
-                            <img
-                                className="w-full h-full object-cover"
-                                src="images/Introduction/main.png"
-                                alt=""
+                            <Image
+                                height={450}
+                                width={288}
+                                objectFit="cover"
+                                src="/images/Introduction/main.png"
+                                alt="Introduction Image"
+                                quality={100}
                             />
                         </div>
                     </div>
@@ -169,14 +173,14 @@ export default function Home() {
                         ></SectionTitle>
                         <SectionLinkBtn
                             href="/courses"
-                            icon={<LucideArrowUpLeft size={20}/>}
+                            icon={<LucideArrowUpLeft size={20} />}
                             text="مشاهده همه"
                         ></SectionLinkBtn>
                     </SectionHeader>
                     {/*  Section Content  */}
 
                     <div className="relative">
-                        <PopularCoursesSlider/>
+                        <PopularCoursesSlider />
                     </div>
                 </div>
             </section>
