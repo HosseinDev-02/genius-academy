@@ -47,5 +47,18 @@ export type Course = {
     offer: string | number;
     price: string | number;
     costPrice: string | number;
-    href: string
+    href: string;
+    id: string | number;
 }
+
+export type Article = {
+    title: string;
+    img: string;
+    writer: string;
+    writerImg: string;
+    category: string;
+    time: string | number;
+    id: number | string;
+    href: string;
+    writerHref: string
+};

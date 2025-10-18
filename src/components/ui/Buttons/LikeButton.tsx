@@ -3,7 +3,7 @@ import { LucideHeart } from "lucide-react";
 type TLikeButtonProps = {
     className?: string;
     count?: number | string;
-    shadow?: string;
+    shadow?: boolean;
 };
 
 export default function LikeButton(props: TLikeButtonProps) {

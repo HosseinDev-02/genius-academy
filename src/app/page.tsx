@@ -1,13 +1,18 @@
 import { LucideArrowUpLeft } from "lucide-react";
 import PrimaryButton from "../components/ui/Buttons/PrimaryButton";
-import { latestCourses, services } from "../lib/placeholder-data";
+import {
+    latestArticles,
+    latestCourses,
+    services,
+} from "../lib/placeholder-data";
 import ServiceItem from "../components/ui/ServiceItem";
 import SectionHeader from "../components/ui/section/SectionHeader";
 import SectionTitle from "../components/ui/section/SectionTitle";
 import SectionLinkBtn from "../components/ui/section/SectionLinkBtn";
 import Course from "../components/ui/Course";
 import CommentsSlider from "../components/section/CommentsSlider";
-
+import Article from "../components/ui/Article";
+import PopularCoursesSlider from "../components/section/PopularCoursesSlider";
 
 export default function Home() {
     return (
@@ -123,8 +128,55 @@ export default function Home() {
                             ></SectionTitle>
                         </div>
                         <div className="lg:col-span-8 max-w-xl mx-auto relative">
-                            <CommentsSlider/>
+                            <CommentsSlider />
                         </div>
+                    </div>
+                </div>
+            </section>
+            {/* Latest Articles Section */}
+            <section>
+                <div className="container">
+                    <div className="bg-gradient-to-l from-secondary to-background rounded-2xl flex flex-col lg:flex-row items-center justify-between p-5 lg:p-3 xl:p-10 gap-10">
+                        <SectionTitle
+                            text="نوشتن کار جالبیه که از هزاران سال همراه ما بوده و کمک کرده تا همیشه به روز باشیم، ما در نابغه فضای رو به شکلی آماده کردیم تا شما  بتونید ایده‌ها و مطالب جالب حوزه برنامه‌نویسی رو در اختیار هزاران برنامه‌نویس عضو نابغه قرار بدید."
+                            title="از گوشه و اطراف دنیای برنامه نویسی"
+                            className={"!items-start"}
+                            textColor="#6b7280"
+                        ></SectionTitle>
+                        <div className="grid grid-cols-1 grid-rows-2 sm:grid-cols-2 gap-5 sm:pb-8">
+                            {latestArticles.length &&
+                                latestArticles.map((article) => {
+                                    return (
+                                        <Article
+                                            roundedImg={true}
+                                            key={article.id}
+                                            {...article}
+                                        ></Article>
+                                    );
+                                })}
+                        </div>
+                    </div>
+                </div>
+            </section>
+            {/* Popular Courses Section */}
+            <section>
+                <div className="container">
+                    {/*  Section Header  */}
+                    <SectionHeader>
+                        <SectionTitle
+                            title="محبوبترین دوره ها"
+                            text="به انتخاب شما"
+                        ></SectionTitle>
+                        <SectionLinkBtn
+                            href="/courses"
+                            icon={<LucideArrowUpLeft size={20}/>}
+                            text="مشاهده همه"
+                        ></SectionLinkBtn>
+                    </SectionHeader>
+                    {/*  Section Content  */}
+
+                    <div className="relative">
+                        <PopularCoursesSlider/>
                     </div>
                 </div>
             </section>

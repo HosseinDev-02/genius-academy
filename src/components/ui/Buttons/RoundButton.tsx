@@ -4,7 +4,7 @@ type TRoundButtonProp = {
     link?: string;
     className?: string;
     href?: string;
-    icon: () => React.ReactNode;
+    icon?: React.ReactNode;
     count?: string | number;
     clickEvent?: () => void;
 };
@@ -17,7 +17,7 @@ export default function RoundButton(props: TRoundButtonProp) {
             className={`flex items-center justify-center rounded-full bg-secondary text-title w-10 h-10 relative ${className}`}
             href={href}
         >
-            {icon()}
+            {icon}
             {count && (
                 <>
                     <span className="absolute -left-1 -top-1 bg-primary flex items-center justify-center rounded-full w-5 h-5 font-YekanBakh-SemiBold text-white text-xs">
@@ -32,7 +32,7 @@ export default function RoundButton(props: TRoundButtonProp) {
             onClick={clickEvent}
             className={`flex items-center justify-center rounded-full bg-secondary text-title w-10 h-10 ${className}`}
         >
-            {icon()}
+            {icon}
         </span>
     );
 }

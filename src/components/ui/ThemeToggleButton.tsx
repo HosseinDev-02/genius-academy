@@ -28,7 +28,7 @@ export default function ThemeToggleButton(props: TThemeToggleButtonProps) {
                     <RoundButton
                         className={"hidden lg:flex cursor-pointer"}
                         clickEvent={themeHandler}
-                        icon={() => theme === "dark" ? (
+                        icon={theme === "dark" ? (
                             <LucideSun size={20} />
                         ) : (
                             <LucideMoon size={20} />
@@ -62,7 +62,7 @@ export default function ThemeToggleButton(props: TThemeToggleButtonProps) {
                     <RoundButton
                         className={"hidden lg:flex cursor-pointer"}
                         clickEvent={themeHandler}
-                        icon={() => theme === "dark" ? (
+                        icon={theme === "dark" ? (
                             <LucideSun size={20} />
                         ) : (
                             <LucideMoon size={20} />

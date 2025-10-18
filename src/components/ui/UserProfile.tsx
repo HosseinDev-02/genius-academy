@@ -35,7 +35,7 @@ export default function UserProfile() {
                 onClick={() => setUserProfileShow((prevState) => !prevState)}
                 className="flex items-center gap-3 cursor-pointer"
             >
-                <RoundButton icon={() => <LucideUser size={20}/>}></RoundButton>
+                <RoundButton icon={<LucideUser size={20}/>}></RoundButton>
                 <span className="hidden xs:flex flex-col gap-1 items-start text-xs pointer-events-none">
                     <span className="text-title font-YekanBakh-SemiBold">
                         حسین رستمی

@@ -76,7 +76,7 @@ function Header() {
                             <RoundButton
                                 className={"flex lg:hidden"}
                                 clickEvent={() => setMobileMenuShow(true)}
-                                icon={() => <LucideMenu size={20} />}
+                                icon={<LucideMenu size={20} />}
                             ></RoundButton>
                             {/* header logo */}
                             <Logo />
@@ -89,7 +89,7 @@ function Header() {
                             <RoundButton
                                 className={"hidden lg:flex cursor-pointer"}
                                 clickEvent={() => setSearchModalShow(true)}
-                                icon={() => <LucideSearch size={20} />}
+                                icon={<LucideSearch size={20} />}
                             ></RoundButton>
                             {/* modal search wrapper */}
                             <div
@@ -113,7 +113,7 @@ function Header() {
                                         </form>
                                         <RoundButton
                                             className="w-9 h-9 shrink-0 cursor-pointer"
-                                            icon={() => <LucideX size={20} />}
+                                            icon={<LucideX size={20} />}
                                             clickEvent={() =>
                                                 setSearchModalShow(false)
                                             }
@@ -126,7 +126,7 @@ function Header() {
                             {/* header basket btn */}
                             <RoundButton
                                 href="/orders"
-                                icon={() => <LucideShoppingCart size={20} />}
+                                icon={<LucideShoppingCart size={20} />}
                                 count={2}
                             ></RoundButton>
                             {/* header user profile btn */}

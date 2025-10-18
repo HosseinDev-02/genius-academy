@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 type TSectionLinkBtn = {
-    clickEvent?: () => void;
+    clickEvent?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
     className?: string;
     href?: string;
     text: string;

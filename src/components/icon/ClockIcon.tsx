@@ -9,7 +9,7 @@ function ClockIcon(props: Icon) {
             height={props.height}
             className={props.className}
             xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
+            viewBox="0 0 20 20"
             fill={props.color ?? "currentColor"}
         >
             <path

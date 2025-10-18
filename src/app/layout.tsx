@@ -1,6 +1,7 @@
 import "../styles/global.css";
 import Header from "../components/layout/Header/Header";
 import { ThemeProvider } from "next-themes";
+import Footer from "../components/layout/Footer";
 
 export default function RootLayout({
     children,
@@ -19,6 +20,7 @@ export default function RootLayout({
                     <div className="body-wrapper">
                         <Header />
                         {children}
+                        <Footer/>
                     </div>
                 </ThemeProvider>
             </body>
