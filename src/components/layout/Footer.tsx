@@ -9,7 +9,7 @@ import TelegramIcon from "../icon/TelegramIcon";
 import ScrollTopButton from "../ui/Buttons/ScrollTopButton";
 import PhoneIcon from "../icon/PhoneIcon";
 import ClockIcon from "../icon/ClockIcon";
-import { useFullLinks } from "@/src/lib/placeholder-data";
+import { socialMediaLinks, useFullLinks } from "@/src/lib/placeholder-data";
 import Link from "next/link";
 
 function Footer() {
@@ -127,36 +127,17 @@ function Footer() {
                                     </form>
                                     <SubTitle title="شبکه های اجتماعی"></SubTitle>
                                     <div className="flex items-center gap-5">
-                                        <RoundButton
-                                            className="w-12 h-12 hover:text-primary transition-colors"
-                                            href="#instagram"
-                                            icon={
-                                                <InstagramIcon
-                                                    width={20}
-                                                    height={20}
-                                                />
-                                            }
-                                        ></RoundButton>
-                                        <RoundButton
-                                            className="w-12 h-12 hover:text-primary transition-colors"
-                                            href="#telegram"
-                                            icon={
-                                                <TelegramIcon
-                                                    width={20}
-                                                    height={20}
-                                                />
-                                            }
-                                        ></RoundButton>
-                                        <RoundButton
-                                            className="w-12 h-12 hover:text-primary transition-colors"
-                                            href="#youtube"
-                                            icon={
-                                                <YoutubeIcon
-                                                    width={20}
-                                                    height={20}
-                                                />
-                                            }
-                                        ></RoundButton>
+                                        {socialMediaLinks.map((link) => (
+                                            <RoundButton key={link.id}
+                                                className="w-12 h-12 hover:text-primary transition-colors"
+                                                href={link.href}
+                                                icon={
+                                                    link.title === 'telegram' && <TelegramIcon width={20} height={20}/> || 
+                                                    link.title === 'instagram' && <InstagramIcon width={20} height={20}/> ||
+                                                    link.title === 'youtube' && <YoutubeIcon width={20} height={20}/>
+                                                }
+                                            ></RoundButton>
+                                        ))}
                                     </div>
                                 </div>
                             </div>

@@ -512,3 +512,21 @@ export const useFullLinks = [
         href: '#'
     },
 ]
+
+export const socialMediaLinks = [
+    {
+        id: 1,
+        title: 'telegram',
+        href: '#'
+    },
+    {
+        id: 2,
+        title: 'instagram',
+        href: '#'
+    },
+    {
+        id: 3,
+        title: 'youtube',
+        href: '#'
+    },
+]
