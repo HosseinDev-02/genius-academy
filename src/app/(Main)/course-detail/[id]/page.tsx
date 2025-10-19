@@ -1,3 +1,9 @@
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from "@/components/ui/accordion";
 import CommentsIcon from "@/src/components/icon/CommentsIcon";
 import Box from "@/src/components/ui/Box";
 import Session from "@/src/components/ui/Session";
@@ -6,7 +12,13 @@ import UserInfo from "@/src/components/ui/UserInfo";
 import LikeButton from "@/src/components/ui/button/LikeButton";
 import PrimaryButton from "@/src/components/ui/button/PrimaryButton";
 import SectionLinkBtn from "@/src/components/ui/section/SectionLinkBtn";
-import { LucideArrowUpLeft, LucideClock, LucideCornerUpRight, LucideList, LucidePencil } from "lucide-react";
+import {
+    LucideArrowUpLeft,
+    LucideClock,
+    LucideCornerUpRight,
+    LucideList,
+    LucidePencil,
+} from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -63,7 +75,7 @@ export default function Page() {
                                         // onClick={tabViewHandler}
                                         className="flex items-center gap-2 text-sm font-YekanBakh-SemiBold px-4 py-2 rounded-3xl text-title bg-background"
                                     >
-                                        <LucidePencil size={20}/>
+                                        <LucidePencil size={20} />
                                         <span className="text-nowrap">
                                             معرفی
                                         </span>
@@ -75,7 +87,7 @@ export default function Page() {
                                         // onClick={tabViewHandler}
                                         className="flex items-center gap-2 text-sm font-YekanBakh-SemiBold px-4 py-2 rounded-3xl"
                                     >
-                                        <LucideList size={20}/>
+                                        <LucideList size={20} />
                                         <span className="text-nowrap">
                                             سرفصل ها
                                         </span>
@@ -87,7 +99,7 @@ export default function Page() {
                                         // onClick={tabViewHandler}
                                         className="flex items-center gap-2 text-sm font-YekanBakh-SemiBold px-4 py-2 rounded-3xl"
                                     >
-                                        <CommentsIcon width={20} height={20}/>
+                                        <CommentsIcon width={20} height={20} />
                                         <span className="text-nowrap">
                                             دیدگاه و پرسش
                                         </span>
@@ -167,229 +179,284 @@ export default function Page() {
                         {/*  course detail sessions  */}
                         <div id="tabTwo">
                             <SubTitle title="سرفصل ها"></SubTitle>
-                            <div className="mt-5 space-y-3">
-                                <Session
-                                    sessionTitle="معرفی دوره"
-                                    sessionIndex="فصل اول"
+                            <div className="mt-5">
+                                <Accordion
+                                    type="single"
+                                    collapsible
+                                    className="w-full space-y-3"
+                                    defaultValue="item-1"
                                 >
-                                    <li className="flex flex-col sm:flex-row items-start sm:items-center gap-3 justify-between border border-border py-3 px-2 md:px-3 md:py-1 rounded-xl text-xs">
-                                        <div className="flex items-center gap-2 md:gap-5">
-                                            <span>1</span>
-                                            <Link
-                                                href="#"
-                                                className="text-title font-YekanBakh-SemiBold transition-colors hover:text-primary line-clamp-1"
-                                            >
-                                                معرفی دوره
-                                            </Link>
-                                        </div>
-                                        <div className="flex justify-between sm:justify-end w-full sm:w-auto items-center gap-5">
-                                            <div className="flex items-center gap-1">
-                                                <span>03:54</span>
-                                                <LucideClock size={16}/>
-                                            </div>
-                                            <a
-                                                className="flex items-center justify-center gap-1 bg-secondary rounded-full text-xs px-4 h-9 hover:text-primary transition-colors shrink-0"
-                                                href="#"
-                                            >
-                                                <span className="font-YekanBakh-SemiBold">
-                                                    مشاهده
+                                    <AccordionItem className="border-b-0" value="item-1">
+                                        <AccordionTrigger className="px-5 rounded-3xl bg-secondary text-xs font-YekanBakh-SemiBold hover:text-title transition-colors hover:!no-underline cursor-pointer">
+                                            <div className="flex items-center gap-6">
+                                                <span className="text-title">
+                                                    فصل اول
                                                 </span>
-                                                <LucideArrowUpLeft size={20}/>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li className="flex flex-col sm:flex-row items-start sm:items-center gap-3 justify-between border border-border py-3 px-2 md:px-3 md:py-1 rounded-xl text-xs">
-                                        <div className="flex items-center gap-2 md:gap-5">
-                                            <span>1</span>
-                                            <Link
-                                                href="#"
-                                                className="text-title font-YekanBakh-SemiBold transition-colors hover:text-primary line-clamp-1"
-                                            >
-                                                پیش نیاز مشاهده این دوره
-                                            </Link>
-                                        </div>
-                                        <div className="flex justify-between sm:justify-end w-full sm:w-auto items-center gap-5">
-                                            <div className="flex items-center gap-1">
-                                                <span>03:54</span>
-                                                <LucideClock size={16}/>
+                                                <span>معرفی دوره</span>
                                             </div>
-                                            <a
-                                                className="flex items-center justify-center gap-1 bg-secondary rounded-full text-xs px-4 h-9 hover:text-primary transition-colors shrink-0"
-                                                href="#"
-                                            >
-                                                <span className="font-YekanBakh-SemiBold">
-                                                    مشاهده
+                                        </AccordionTrigger>
+                                        <AccordionContent className="flex flex-col gap-1 py-3 mx-8">
+                                            <li className="flex flex-col sm:flex-row items-start sm:items-center gap-3 justify-between border border-border py-3 px-2 md:px-3 md:py-1 rounded-xl text-xs">
+                                                <div className="flex items-center gap-2 md:gap-5">
+                                                    <span>1</span>
+                                                    <Link
+                                                        href="#"
+                                                        className="text-title font-YekanBakh-SemiBold transition-colors hover:text-primary line-clamp-1"
+                                                    >
+                                                        معرفی دوره
+                                                    </Link>
+                                                </div>
+                                                <div className="flex justify-between sm:justify-end w-full sm:w-auto items-center gap-5">
+                                                    <div className="flex items-center gap-1">
+                                                        <span>03:54</span>
+                                                        <LucideClock
+                                                            size={16}
+                                                        />
+                                                    </div>
+                                                    <Link
+                                                        className="flex items-center justify-center gap-1 bg-secondary rounded-full text-xs px-4 h-9 hover:text-primary transition-colors shrink-0"
+                                                        href="#"
+                                                    >
+                                                        <span className="font-YekanBakh-SemiBold">
+                                                            مشاهده
+                                                        </span>
+                                                        <LucideArrowUpLeft
+                                                            size={20}
+                                                        />
+                                                    </Link>
+                                                </div>
+                                            </li>
+                                            <li className="flex flex-col sm:flex-row items-start sm:items-center gap-3 justify-between border border-border py-3 px-2 md:px-3 md:py-1 rounded-xl text-xs">
+                                                <div className="flex items-center gap-2 md:gap-5">
+                                                    <span>1</span>
+                                                    <Link
+                                                        href="#"
+                                                        className="text-title font-YekanBakh-SemiBold transition-colors hover:text-primary line-clamp-1"
+                                                    >
+                                                        پیش نیاز مشاهده این دوره
+                                                    </Link>
+                                                </div>
+                                                <div className="flex justify-between sm:justify-end w-full sm:w-auto items-center gap-5">
+                                                    <div className="flex items-center gap-1">
+                                                        <span>03:54</span>
+                                                        <LucideClock
+                                                            size={16}
+                                                        />
+                                                    </div>
+                                                    <Link
+                                                        className="flex items-center justify-center gap-1 bg-secondary rounded-full text-xs px-4 h-9 hover:text-primary transition-colors shrink-0"
+                                                        href="#"
+                                                    >
+                                                        <span className="font-YekanBakh-SemiBold">
+                                                            مشاهده
+                                                        </span>
+                                                        <LucideArrowUpLeft
+                                                            size={20}
+                                                        />
+                                                    </Link>
+                                                </div>
+                                            </li>
+                                            <li className="flex flex-col sm:flex-row items-start sm:items-center gap-3 justify-between border border-border py-3 px-2 md:px-3 md:py-1 rounded-xl text-xs">
+                                                <div className="flex items-center gap-2 md:gap-5">
+                                                    <span>1</span>
+                                                    <Link
+                                                        href="#"
+                                                        className="text-title font-YekanBakh-SemiBold transition-colors hover:text-primary line-clamp-1"
+                                                    >
+                                                        چرا باید این دوره را
+                                                        مشاهده کنیم؟
+                                                    </Link>
+                                                </div>
+                                                <div className="flex justify-between sm:justify-end w-full sm:w-auto items-center gap-5">
+                                                    <div className="flex items-center gap-1">
+                                                        <span>03:54</span>
+                                                        <LucideClock
+                                                            size={16}
+                                                        />
+                                                    </div>
+                                                    <Link
+                                                        className="flex items-center justify-center gap-1 bg-secondary rounded-full text-xs px-4 h-9 hover:text-primary transition-colors shrink-0"
+                                                        href="#"
+                                                    >
+                                                        <span className="font-YekanBakh-SemiBold">
+                                                            مشاهده
+                                                        </span>
+                                                        <LucideArrowUpLeft
+                                                            size={20}
+                                                        />
+                                                    </Link>
+                                                </div>
+                                            </li>
+                                            <li className="flex flex-col sm:flex-row items-start sm:items-center gap-3 justify-between border border-border py-3 px-2 md:px-3 md:py-1 rounded-xl text-xs">
+                                                <div className="flex items-center gap-2 md:gap-5">
+                                                    <span>1</span>
+                                                    <Link
+                                                        href="#"
+                                                        className="text-title font-YekanBakh-SemiBold transition-colors hover:text-primary line-clamp-1"
+                                                    >
+                                                        در این پروژه از
+                                                        typescript هم استفاده
+                                                        می‌شود
+                                                    </Link>
+                                                </div>
+                                                <div className="flex justify-between sm:justify-end w-full sm:w-auto items-center gap-5">
+                                                    <div className="flex items-center gap-1">
+                                                        <span>03:54</span>
+                                                        <LucideClock
+                                                            size={16}
+                                                        />
+                                                    </div>
+                                                    <Link
+                                                        className="flex items-center justify-center gap-1 bg-secondary rounded-full text-xs px-4 h-9 hover:text-primary transition-colors shrink-0"
+                                                        href="#"
+                                                    >
+                                                        <span className="font-YekanBakh-SemiBold">
+                                                            مشاهده
+                                                        </span>
+                                                        <LucideArrowUpLeft
+                                                            size={20}
+                                                        />
+                                                    </Link>
+                                                </div>
+                                            </li>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                    <AccordionItem className="border-b-0" value="item-2">
+                                        <AccordionTrigger className="px-5 rounded-3xl bg-secondary text-xs font-YekanBakh-SemiBold hover:text-title transition-colors hover:!no-underline cursor-pointer">
+                                            <div className="flex items-center gap-6">
+                                                <span className="text-title">
+                                                    فصل دوم
                                                 </span>
-                                                <LucideArrowUpLeft size={20}/>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li className="flex flex-col sm:flex-row items-start sm:items-center gap-3 justify-between border border-border py-3 px-2 md:px-3 md:py-1 rounded-xl text-xs">
-                                        <div className="flex items-center gap-2 md:gap-5">
-                                            <span>1</span>
-                                            <Link
-                                                href="#"
-                                                className="text-title font-YekanBakh-SemiBold transition-colors hover:text-primary line-clamp-1"
-                                            >
-                                                چرا باید این دوره را مشاهده
-                                                کنیم؟
-                                            </Link>
-                                        </div>
-                                        <div className="flex justify-between sm:justify-end w-full sm:w-auto items-center gap-5">
-                                            <div className="flex items-center gap-1">
-                                                <span>03:54</span>
-                                                <LucideClock size={16}/>
+                                                <span>پیاده سازی ساختار پروژه</span>
                                             </div>
-                                            <a
-                                                className="flex items-center justify-center gap-1 bg-secondary rounded-full text-xs px-4 h-9 hover:text-primary transition-colors shrink-0"
-                                                href="#"
-                                            >
-                                                <span className="font-YekanBakh-SemiBold">
-                                                    مشاهده
-                                                </span>
-                                                <LucideArrowUpLeft size={20}/>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li className="flex flex-col sm:flex-row items-start sm:items-center gap-3 justify-between border border-border py-3 px-2 md:px-3 md:py-1 rounded-xl text-xs">
-                                        <div className="flex items-center gap-2 md:gap-5">
-                                            <span>1</span>
-                                            <Link
-                                                href="#"
-                                                className="text-title font-YekanBakh-SemiBold transition-colors hover:text-primary line-clamp-1"
-                                            >
-                                                در این پروژه از typescript هم
-                                                استفاده می‌شود
-                                            </Link>
-                                        </div>
-                                        <div className="flex justify-between sm:justify-end w-full sm:w-auto items-center gap-5">
-                                            <div className="flex items-center gap-1">
-                                                <span>03:54</span>
-                                                <LucideClock size={16}/>
-                                            </div>
-                                            <a
-                                                className="flex items-center justify-center gap-1 bg-secondary rounded-full text-xs px-4 h-9 hover:text-primary transition-colors shrink-0"
-                                                href="#"
-                                            >
-                                                <span className="font-YekanBakh-SemiBold">
-                                                    مشاهده
-                                                </span>
-                                                <LucideArrowUpLeft size={20}/>
-                                            </a>
-                                        </div>
-                                    </li>
-                                </Session>
-                                <Session
-                                    sessionTitle="پیاده سازی ساختار پروژه"
-                                    sessionIndex="فصل دوم"
-                                >
-                                    <li className="flex flex-col sm:flex-row items-start sm:items-center gap-3 justify-between border border-border py-3 px-2 md:px-3 md:py-1 rounded-xl text-xs">
-                                        <div className="flex items-center gap-2 md:gap-5">
-                                            <span>1</span>
-                                            <Link
-                                                href="#"
-                                                className="text-title font-YekanBakh-SemiBold transition-colors hover:text-primary line-clamp-1"
-                                            >
-                                                معرفی دوره
-                                            </Link>
-                                        </div>
-                                        <div className="flex justify-between sm:justify-end w-full sm:w-auto items-center gap-5">
-                                            <div className="flex items-center gap-1">
-                                                <span>03:54</span>
-                                                <LucideClock size={16}/>
-                                            </div>
-                                            <Link
-                                                className="flex items-center justify-center gap-1 bg-secondary rounded-full text-xs px-4 h-9 hover:text-primary transition-colors shrink-0"
-                                                href="#"
-                                            >
-                                                <span className="font-YekanBakh-SemiBold">
-                                                    مشاهده
-                                                </span>
-                                                <LucideArrowUpLeft size={20}/>
-                                            </Link>
-                                        </div>
-                                    </li>
-                                    <li className="flex flex-col sm:flex-row items-start sm:items-center gap-3 justify-between border border-border py-3 px-2 md:px-3 md:py-1 rounded-xl text-xs">
-                                        <div className="flex items-center gap-2 md:gap-5">
-                                            <span>1</span>
-                                            <Link
-                                                href="#"
-                                                className="text-title font-YekanBakh-SemiBold transition-colors hover:text-primary line-clamp-1"
-                                            >
-                                                پیش نیاز مشاهده این دوره
-                                            </Link>
-                                        </div>
-                                        <div className="flex justify-between sm:justify-end w-full sm:w-auto items-center gap-5">
-                                            <div className="flex items-center gap-1">
-                                                <span>03:54</span>
-                                                <LucideClock size={16}/>
-                                            </div>
-                                            <a
-                                                className="flex items-center justify-center gap-1 bg-secondary rounded-full text-xs px-4 h-9 hover:text-primary transition-colors shrink-0"
-                                                href="#"
-                                            >
-                                                <span className="font-YekanBakh-SemiBold">
-                                                    مشاهده
-                                                </span>
-                                                <LucideArrowUpLeft size={20}/>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li className="flex flex-col sm:flex-row items-start sm:items-center gap-3 justify-between border border-border py-3 px-2 md:px-3 md:py-1 rounded-xl text-xs">
-                                        <div className="flex items-center gap-2 md:gap-5">
-                                            <span>1</span>
-                                            <Link
-                                                href="#"
-                                                className="text-title font-YekanBakh-SemiBold transition-colors hover:text-primary line-clamp-1"
-                                            >
-                                                چرا باید این دوره را مشاهده
-                                                کنیم؟
-                                            </Link>
-                                        </div>
-                                        <div className="flex justify-between sm:justify-end w-full sm:w-auto items-center gap-5">
-                                            <div className="flex items-center gap-1">
-                                                <span>03:54</span>
-                                                <LucideClock size={16}/>
-                                            </div>
-                                            <a
-                                                className="flex items-center justify-center gap-1 bg-secondary rounded-full text-xs px-4 h-9 hover:text-primary transition-colors shrink-0"
-                                                href="#"
-                                            >
-                                                <span className="font-YekanBakh-SemiBold">
-                                                    مشاهده
-                                                </span>
-                                                <LucideArrowUpLeft size={20}/>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li className="flex flex-col sm:flex-row items-start sm:items-center gap-3 justify-between border border-border py-3 px-2 md:px-3 md:py-1 rounded-xl text-xs">
-                                        <div className="flex items-center gap-2 md:gap-5">
-                                            <span>1</span>
-                                            <Link
-                                                href="#"
-                                                className="text-title font-YekanBakh-SemiBold transition-colors hover:text-primary line-clamp-1"
-                                            >
-                                                در این پروژه از typescript هم
-                                                استفاده می‌شود
-                                            </Link>
-                                        </div>
-                                        <div className="flex justify-between sm:justify-end w-full sm:w-auto items-center gap-5">
-                                            <div className="flex items-center gap-1">
-                                                <span>03:54</span>
-                                                <LucideClock size={16}/>
-                                            </div>
-                                            <a
-                                                className="flex items-center justify-center gap-1 bg-secondary rounded-full text-xs px-4 h-9 hover:text-primary transition-colors shrink-0"
-                                                href="#"
-                                            >
-                                                <span className="font-YekanBakh-SemiBold">
-                                                    مشاهده
-                                                </span>
-                                                <LucideArrowUpLeft size={20}/>
-                                            </a>
-                                        </div>
-                                    </li>
-                                </Session>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="flex flex-col gap-1 py-3 mx-8">
+                                            <li className="flex flex-col sm:flex-row items-start sm:items-center gap-3 justify-between border border-border py-3 px-2 md:px-3 md:py-1 rounded-xl text-xs">
+                                                <div className="flex items-center gap-2 md:gap-5">
+                                                    <span>1</span>
+                                                    <Link
+                                                        href="#"
+                                                        className="text-title font-YekanBakh-SemiBold transition-colors hover:text-primary line-clamp-1"
+                                                    >
+                                                        معرفی دوره
+                                                    </Link>
+                                                </div>
+                                                <div className="flex justify-between sm:justify-end w-full sm:w-auto items-center gap-5">
+                                                    <div className="flex items-center gap-1">
+                                                        <span>03:54</span>
+                                                        <LucideClock
+                                                            size={16}
+                                                        />
+                                                    </div>
+                                                    <Link
+                                                        className="flex items-center justify-center gap-1 bg-secondary rounded-full text-xs px-4 h-9 hover:text-primary transition-colors shrink-0"
+                                                        href="#"
+                                                    >
+                                                        <span className="font-YekanBakh-SemiBold">
+                                                            مشاهده
+                                                        </span>
+                                                        <LucideArrowUpLeft
+                                                            size={20}
+                                                        />
+                                                    </Link>
+                                                </div>
+                                            </li>
+                                            <li className="flex flex-col sm:flex-row items-start sm:items-center gap-3 justify-between border border-border py-3 px-2 md:px-3 md:py-1 rounded-xl text-xs">
+                                                <div className="flex items-center gap-2 md:gap-5">
+                                                    <span>1</span>
+                                                    <Link
+                                                        href="#"
+                                                        className="text-title font-YekanBakh-SemiBold transition-colors hover:text-primary line-clamp-1"
+                                                    >
+                                                        پیش نیاز مشاهده این دوره
+                                                    </Link>
+                                                </div>
+                                                <div className="flex justify-between sm:justify-end w-full sm:w-auto items-center gap-5">
+                                                    <div className="flex items-center gap-1">
+                                                        <span>03:54</span>
+                                                        <LucideClock
+                                                            size={16}
+                                                        />
+                                                    </div>
+                                                    <Link
+                                                        className="flex items-center justify-center gap-1 bg-secondary rounded-full text-xs px-4 h-9 hover:text-primary transition-colors shrink-0"
+                                                        href="#"
+                                                    >
+                                                        <span className="font-YekanBakh-SemiBold">
+                                                            مشاهده
+                                                        </span>
+                                                        <LucideArrowUpLeft
+                                                            size={20}
+                                                        />
+                                                    </Link>
+                                                </div>
+                                            </li>
+                                            <li className="flex flex-col sm:flex-row items-start sm:items-center gap-3 justify-between border border-border py-3 px-2 md:px-3 md:py-1 rounded-xl text-xs">
+                                                <div className="flex items-center gap-2 md:gap-5">
+                                                    <span>1</span>
+                                                    <Link
+                                                        href="#"
+                                                        className="text-title font-YekanBakh-SemiBold transition-colors hover:text-primary line-clamp-1"
+                                                    >
+                                                        چرا باید این دوره را
+                                                        مشاهده کنیم؟
+                                                    </Link>
+                                                </div>
+                                                <div className="flex justify-between sm:justify-end w-full sm:w-auto items-center gap-5">
+                                                    <div className="flex items-center gap-1">
+                                                        <span>03:54</span>
+                                                        <LucideClock
+                                                            size={16}
+                                                        />
+                                                    </div>
+                                                    <Link
+                                                        className="flex items-center justify-center gap-1 bg-secondary rounded-full text-xs px-4 h-9 hover:text-primary transition-colors shrink-0"
+                                                        href="#"
+                                                    >
+                                                        <span className="font-YekanBakh-SemiBold">
+                                                            مشاهده
+                                                        </span>
+                                                        <LucideArrowUpLeft
+                                                            size={20}
+                                                        />
+                                                    </Link>
+                                                </div>
+                                            </li>
+                                            <li className="flex flex-col sm:flex-row items-start sm:items-center gap-3 justify-between border border-border py-3 px-2 md:px-3 md:py-1 rounded-xl text-xs">
+                                                <div className="flex items-center gap-2 md:gap-5">
+                                                    <span>1</span>
+                                                    <Link
+                                                        href="#"
+                                                        className="text-title font-YekanBakh-SemiBold transition-colors hover:text-primary line-clamp-1"
+                                                    >
+                                                        در این پروژه از
+                                                        typescript هم استفاده
+                                                        می‌شود
+                                                    </Link>
+                                                </div>
+                                                <div className="flex justify-between sm:justify-end w-full sm:w-auto items-center gap-5">
+                                                    <div className="flex items-center gap-1">
+                                                        <span>03:54</span>
+                                                        <LucideClock
+                                                            size={16}
+                                                        />
+                                                    </div>
+                                                    <Link
+                                                        className="flex items-center justify-center gap-1 bg-secondary rounded-full text-xs px-4 h-9 hover:text-primary transition-colors shrink-0"
+                                                        href="#"
+                                                    >
+                                                        <span className="font-YekanBakh-SemiBold">
+                                                            مشاهده
+                                                        </span>
+                                                        <LucideArrowUpLeft
+                                                            size={20}
+                                                        />
+                                                    </Link>
+                                                </div>
+                                            </li>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                </Accordion>
                             </div>
                         </div>
                         {/*  course detail comments  */}
@@ -432,7 +499,7 @@ export default function Page() {
                                     ></textarea>
                                     <PrimaryButton
                                         title="ثبت دیدگاه یا پرسش"
-                                        icon={<LucideArrowUpLeft size={20}/>}
+                                        icon={<LucideArrowUpLeft size={20} />}
                                         href="#"
                                     />
                                 </form>
@@ -447,7 +514,11 @@ export default function Page() {
                                         <div className="flex items-center gap-3">
                                             <SectionLinkBtn
                                                 className="h-9 text-xs text-caption"
-                                                icon={<LucideCornerUpRight size={20}/>}
+                                                icon={
+                                                    <LucideCornerUpRight
+                                                        size={20}
+                                                    />
+                                                }
                                                 text="پاسخ"
                                             />
                                             <LikeButton
@@ -474,7 +545,11 @@ export default function Page() {
                                             <div className="flex items-center gap-3">
                                                 <SectionLinkBtn
                                                     className="h-9 text-xs text-caption"
-                                                    icon={<LucideCornerUpRight size={20}/>}
+                                                    icon={
+                                                        <LucideCornerUpRight
+                                                            size={20}
+                                                        />
+                                                    }
                                                     text="پاسخ"
                                                 />
                                                 <LikeButton
@@ -500,7 +575,11 @@ export default function Page() {
                                             <div className="flex items-center gap-3">
                                                 <SectionLinkBtn
                                                     className="h-9 text-xs text-caption"
-                                                    icon={<LucideCornerUpRight size={20}/>}
+                                                    icon={
+                                                        <LucideCornerUpRight
+                                                            size={20}
+                                                        />
+                                                    }
                                                     text="پاسخ"
                                                 />
                                                 <LikeButton
@@ -547,7 +626,7 @@ export default function Page() {
                             </div>
                             <div className="flex items-center gap-3 mt-3">
                                 <PrimaryButton
-                                    icon={<LucideArrowUpLeft size={20}/>}
+                                    icon={<LucideArrowUpLeft size={20} />}
                                     title="اضافه به سبد"
                                 />
                                 <LikeButton />
