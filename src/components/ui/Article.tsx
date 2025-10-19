@@ -33,7 +33,7 @@ export default function Article({
                         <Image
                             width={324}
                             height={162}
-                            className="object-cover rounded-xl"
+                            className="object-cover rounded-xl w-full"
                             src={img}
                             alt={title}
                         />
@@ -41,19 +41,12 @@ export default function Article({
                         <Image
                             width={324}
                             height={162}
-                            className="object-cover rounded-xl"
+                            className="object-cover rounded-xl w-full"
                             src={img}
                             alt={title}
                         />
                     )}
                 </Link>
-                {/* {!isImgLoaded && (
-                    <Loader
-                        emptyColor="rgb(var(--color-secondary))"
-                        filledColor="rgb(var(--color-primary))"
-                        className="my-loader"
-                    />
-                )} */}
                 <LikeButton
                     shadow={true}
                     className="w-9 h-9 !absolute -bottom-3 left-3"

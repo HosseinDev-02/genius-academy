@@ -1,21 +1,9 @@
 import SectionHeader from "@/src/components/ui/section/SectionHeader";
 import SectionTitle from "@/src/components/ui/section/SectionTitle";
 import Course from "@/src/components/ui/Course";
-import Cover from "@/src/components/shared/Cover";
 import React from "react";
-import {
-    courseCategories,
-    courseTypes,
-    courses,
-    sortingCoursesTypes,
-} from "@/src/lib/placeholder-data";
-import { LucideFilter, LucideStar, LucideX } from "lucide-react";
-import Accordion from "@/src/components/ui/Accordion";
-import GridBoxesIcon from "@/src/components/icon/GridBoxesIcon";
-import GridBoxesOutlineIcon from "@/src/components/icon/GridBoxesOutlineIcon";
-import CoursesFilteringSidebar from "@/src/components/section/CoursesFilteringSidebar";
-import AdjustmentsIcon from "@/src/components/icon/AdjustmentsIcon";
-import CoursesProvider from "@/src/components/section/CoursesProvider";
+import { courses } from "@/src/lib/placeholder-data";
+import CoursesProvider from "@/src/components/section/courses/CoursesProvider";
 
 export default function Courses() {
     return (

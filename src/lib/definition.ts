@@ -62,3 +62,14 @@ export type Article = {
     href: string;
     writerHref: string
 };
+
+export type TFilteringCourse = {
+    id: string | number;
+    title: string
+}
+
+export type ArticlesTag = {
+    id: number;
+    title: string;
+    href: string;
+}

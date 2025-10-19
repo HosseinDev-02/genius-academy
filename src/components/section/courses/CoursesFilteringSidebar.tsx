@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Accordion from "../ui/Accordion";
+import Accordion from "../../ui/Accordion";
 import { LucideStar, LucideX } from "lucide-react";
 import { courseCategories, courseTypes } from "@/src/lib/placeholder-data";
-import GridBoxesOutlineIcon from "../icon/GridBoxesOutlineIcon";
-import Cover from "../shared/Cover";
+import GridBoxesOutlineIcon from "../../icon/GridBoxesOutlineIcon";
+import Cover from "../../shared/Cover";
 
 type TSidebarProps = {
     showSidebar: boolean;

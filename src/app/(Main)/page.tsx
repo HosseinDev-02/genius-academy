@@ -12,7 +12,7 @@ import SectionLinkBtn from "@/src/components/ui/section/SectionLinkBtn";
 import Course from "@/src/components/ui/Course";
 import CommentsSlider from "@/src/components/section/CommentsSlider";
 import Article from "@/src/components/ui/Article";
-import PopularCoursesSlider from "@/src/components/section/PopularCoursesSlider";
+import PopularCoursesSlider from "@/src/components/section/courses/PopularCoursesSlider";
 import Image from "next/image";
 
 export default function Home() {

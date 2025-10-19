@@ -1,4 +1,10 @@
-import { Article, Course, MenuItem } from "./definition";
+import {
+    Article,
+    ArticlesTag,
+    Course,
+    MenuItem,
+    TFilteringCourse,
+} from "./definition";
 
 export const menuItems: MenuItem[] = [
     {
@@ -531,21 +537,158 @@ export const socialMediaLinks = [
     },
 ];
 
-export const courseTypes = [
+export const courseTypes: TFilteringCourse[] = [
     { id: 1, title: "پولی" },
     { id: 2, title: "رایگان" },
     { id: 3, title: "همه" },
 ];
 
-export const courseCategories = [
+export const courseCategories: TFilteringCourse[] = [
     { id: 1, title: "فرانت اند" },
     { id: 2, title: "بک اند" },
     { id: 3, title: "اندروید" },
 ];
 
-export const sortingCoursesTypes = [
+export const sortingTypes: TFilteringCourse[] = [
     { id: 1, title: "جدیدترین" },
     { id: 2, title: "پرفروش ترین" },
     { id: 3, title: "گران ترین" },
     { id: 4, title: "ارزان ترین" },
+];
+
+export const articlesFilteringTags: ArticlesTag[] = [
+    {
+        id: 1,
+        title: "لاراول",
+        href: "#",
+    },
+    {
+        id: 2,
+        title: "پی_اچ_پی",
+        href: "#",
+    },
+    {
+        id: 3,
+        title: "تلویند",
+        href: "#",
+    },
+    {
+        id: 4,
+        title: "جاوااسکریپت",
+        href: "#",
+    },
+    {
+        id: 5,
+        title: "فلاتر",
+        href: "#",
+    },
+    {
+        id: 6,
+        title: "وردپرس",
+        href: "#",
+    },
+    {
+        id: 7,
+        title: "متفرقه",
+        href: "#",
+    },
+];
+
+export const articles: Article[] = [
+    {
+        id: 1,
+        title: "تفاوت بک اند و فرانت اند",
+        img: "/images/Articles/backend-vs-frontend.jpg",
+        time: "20:00",
+        writer: "حسین رستمی",
+        writerImg: "/images/profile.jpeg",
+        category: "فرانت اند",
+        href: "#",
+        writerHref: "#",
+    },
+    {
+        id: 2,
+        title: "Sass چیست ؟",
+        img: "/images/Articles/sass.jpg",
+        time: "15:00",
+        writer: "حسین رستمی",
+        writerImg: "/images/profile.jpeg",
+        category: "فرانت اند",
+        href: "#",
+        writerHref: "#",
+    },
+    {
+        id: 3,
+        title: "کار با توابع در جاوااسکریپت",
+        img: "/images/Articles/functions.jpg",
+        time: "32:00",
+        writer: "حسین رستمی",
+        writerImg: "/images/profile.jpeg",
+        category: "فرانت اند",
+        href: "#",
+        writerHref: "#",
+    },
+    {
+        id: 4,
+        title: "تفاوت جاوااسکریپت و اکمااسکریپت",
+        img: "/images/Articles/js-vs-ecma.jpg",
+        time: "10:00",
+        writer: "حسین رستمی",
+        writerImg: "/images/profile.jpeg",
+        category: "بک اند",
+        href: "#",
+        writerHref: "#",
+    },
+    {
+        id: 5,
+        title: "آموزش کار با MarkDown",
+        img: "/images/Articles/markdown.jpg",
+        time: "20:00",
+        writer: "حسین رستمی",
+        writerImg: "/images/profile.jpeg",
+        category: "فرانت اند",
+        href: "#",
+        writerHref: "#",
+    },
+    {
+        id: 6,
+        title: "بهترین تم های vscode",
+        img: "/images/Articles/theme.jpg",
+        time: "15:00",
+        writer: "حسین رستمی",
+        writerImg: "/images/profile.jpeg",
+        category: "فرانت اند",
+        href: "#",
+        writerHref: "#",
+    },
+    {
+        id: 7,
+        title: "تایپ اسکریپت چیست ؟ (TypeScript)",
+        img: "/images/Articles/typescript.jpg",
+        time: "32:00",
+        writer: "حسین رستمی",
+        writerImg: "/images/profile.jpeg",
+        category: "فرانت اند",
+        href: "#",
+        writerHref: "#",
+    },
+    {
+        id: 8,
+        title: "وردپرس چقدر امن است ؟",
+        img: "/images/Articles/wordpress-secure.jpg",
+        time: "10:00",
+        writer: "حسین رستمی",
+        writerImg: "/images/profile.jpeg",
+        category: "بک اند",
+        href: "#",
+        writerHref: "#",
+    },
+];
+
+export const articleCategories = [
+    { id: "1", title: "فرانت اند" },
+    { id: "2", title: "بک اند" },
+    { id: "3", title: "امنیت" },
+    { id: "4", title: "طراحی سایت" },
+    { id: "5", title: "فلاتر" },
 ];

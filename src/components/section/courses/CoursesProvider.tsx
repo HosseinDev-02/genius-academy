@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import CoursesFilteringSidebar from "./CoursesFilteringSidebar";
-import AdjustmentsIcon from "../icon/AdjustmentsIcon";
-import Accordion from "../ui/Accordion";
-import { sortingCoursesTypes } from "@/src/lib/placeholder-data";
+import AdjustmentsIcon from "../../icon/AdjustmentsIcon";
+import Accordion from "../../ui/Accordion";
+import { sortingTypes } from "@/src/lib/placeholder-data";
 import { LucideFilter } from "lucide-react";
 export default function CoursesProvider({
     children,
@@ -32,7 +32,7 @@ export default function CoursesProvider({
                         <div
                             className={`p-3 rounded-xl overflow-hidden bg-secondary space-y-2 left-0 right-0 top-full z-50 absolute w-full`}
                         >
-                            {sortingCoursesTypes.map((item) => (
+                            {sortingTypes.map((item) => (
                                 <label
                                     key={item.id}
                                     className={`flex items-center gap-3 text-sm cursor-pointer xl:hover:text-primary transition-colors has-[:checked]:text-primary`}

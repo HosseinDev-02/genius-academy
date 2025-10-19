@@ -2,7 +2,7 @@
 import React from "react";
 import { Autoplay, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import Course from "../ui/Course";
+import Course from "../../ui/Course";
 import { courses as popularCourses } from "@/src/lib/placeholder-data";
 function PopularCoursesSlider() {
     return (
