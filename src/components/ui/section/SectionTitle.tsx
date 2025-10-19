@@ -3,7 +3,7 @@ import EducationIcon from "../../icon/EducationIcon";
 type TSectionTitleProps = {
     className?: string;
     title: string;
-    text: string;
+    text?: string;
     textColor?: string;
     fontSize?: string;
     lineHeight?: string;

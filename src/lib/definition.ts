@@ -24,15 +24,17 @@ export interface MenuItemWithSubLinks extends BaseMenuItem {
 }
 
 // 📚 ترکیب همه انواع ممکن
-export type MenuItem = SimpleMenuItem | MenuItemWithLinks | MenuItemWithSubLinks;
-
+export type MenuItem =
+    | SimpleMenuItem
+    | MenuItemWithLinks
+    | MenuItemWithSubLinks;
 
 export type Icon = {
-    width: number,
-    height: number,
-    color?: string,
-    className?: string
-}
+    width: number;
+    height: number;
+    color?: string;
+    className?: string;
+};
 
 export type Course = {
     img: string;
@@ -49,7 +51,7 @@ export type Course = {
     costPrice: string | number;
     href: string;
     id: string | number;
-}
+};
 
 export type Article = {
     title: string;
@@ -60,16 +62,32 @@ export type Article = {
     time: string | number;
     id: number | string;
     href: string;
-    writerHref: string
+    writerHref: string;
 };
 
 export type TFilteringCourse = {
     id: string | number;
-    title: string
-}
+    title: string;
+};
 
 export type ArticlesTag = {
     id: number;
     title: string;
     href: string;
-}
+};
+
+export type CartProduct = {
+    id: number | string;
+    title: string;
+    price: number;
+    costPrice: number;
+    isFree: boolean;
+    time: number;
+    sections: number;
+    isCompleted: boolean;
+    teacher: string;
+    img: string;
+    teacherImg: string;
+    offer: number;
+    href: string
+};

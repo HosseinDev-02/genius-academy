@@ -125,7 +125,7 @@ function Header() {
                             <ThemeToggleButton type="desktop"/>
                             {/* header basket btn */}
                             <RoundButton
-                                href="/orders"
+                                href="/shopping-cart"
                                 icon={<LucideShoppingCart size={20} />}
                                 count={2}
                             ></RoundButton>

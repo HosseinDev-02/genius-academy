@@ -9,11 +9,11 @@ import ServiceItem from "@/src/components/ui/ServiceItem";
 import SectionHeader from "@/src/components/ui/section/SectionHeader";
 import SectionTitle from "@/src/components/ui/section/SectionTitle";
 import SectionLinkBtn from "@/src/components/ui/section/SectionLinkBtn";
-import Course from "@/src/components/ui/Course";
 import CommentsSlider from "@/src/components/section/CommentsSlider";
 import Article from "@/src/components/ui/Article";
 import PopularCoursesSlider from "@/src/components/section/courses/PopularCoursesSlider";
 import Image from "next/image";
+import LatestCourses from "@/src/components/section/courses/LatestCourses";
 
 export default function Home() {
     return (
@@ -92,34 +92,7 @@ export default function Home() {
                 </div>
             </section>
             {/* Latest Courses Section */}
-            <section>
-                <div className="container">
-                    {/*  Section Header  */}
-                    <SectionHeader>
-                        <SectionTitle
-                            title="آخرین دوره های"
-                            text="منتشر شده"
-                        ></SectionTitle>
-                        <SectionLinkBtn
-                            href="/courses"
-                            icon={<LucideArrowUpLeft size={20} />}
-                            text="مشاهده همه"
-                        ></SectionLinkBtn>
-                    </SectionHeader>
-                    {/*  Section Content  */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mt-8 gap-5">
-                        {latestCourses.length &&
-                            latestCourses.map((course) => {
-                                return (
-                                    <Course
-                                        key={course.id}
-                                        {...course}
-                                    ></Course>
-                                );
-                            })}
-                    </div>
-                </div>
-            </section>
+            <LatestCourses latestCourses={latestCourses}/>
             {/* Comments Section */}
             <section className="py-10">
                 <div className="container">
