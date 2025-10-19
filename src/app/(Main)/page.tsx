@@ -1,18 +1,18 @@
 import { LucideArrowUpLeft } from "lucide-react";
-import PrimaryButton from "../components/ui/button/PrimaryButton";
+import PrimaryButton from "@/src/components/ui/button/PrimaryButton";
 import {
     latestArticles,
     latestCourses,
     services,
-} from "../lib/placeholder-data";
-import ServiceItem from "../components/ui/ServiceItem";
-import SectionHeader from "../components/ui/section/SectionHeader";
-import SectionTitle from "../components/ui/section/SectionTitle";
-import SectionLinkBtn from "../components/ui/section/SectionLinkBtn";
-import Course from "../components/ui/Course";
-import CommentsSlider from "../components/section/CommentsSlider";
-import Article from "../components/ui/Article";
-import PopularCoursesSlider from "../components/section/PopularCoursesSlider";
+} from "@/src/lib/placeholder-data";
+import ServiceItem from "@/src/components/ui/ServiceItem";
+import SectionHeader from "@/src/components/ui/section/SectionHeader";
+import SectionTitle from "@/src/components/ui/section/SectionTitle";
+import SectionLinkBtn from "@/src/components/ui/section/SectionLinkBtn";
+import Course from "@/src/components/ui/Course";
+import CommentsSlider from "@/src/components/section/CommentsSlider";
+import Article from "@/src/components/ui/Article";
+import PopularCoursesSlider from "@/src/components/section/PopularCoursesSlider";
 import Image from "next/image";
 
 export default function Home() {

@@ -1,7 +1,7 @@
-import "../styles/global.css";
-import Header from "../components/layout/Header";
+import '@/src/styles/global.css'
+import Header from "@/src/components/layout/Header";
 import { ThemeProvider } from "next-themes";
-import Footer from "../components/layout/Footer";
+import Footer from "@/src/components/layout/Footer";
 
 export default function RootLayout({
     children,

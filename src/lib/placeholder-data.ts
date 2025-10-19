@@ -276,7 +276,7 @@ export const courses: Course[] = [
         teacherImg: "/images/profile.jpeg",
         category: "اندروید",
         offer: 12,
-        href: '#'
+        href: "#",
     },
     {
         id: 2,
@@ -292,7 +292,7 @@ export const courses: Course[] = [
         teacherImg: "/images/profile.jpeg",
         category: "فرانت اند",
         offer: 0,
-        href: '#'
+        href: "#",
     },
     {
         id: 3,
@@ -308,7 +308,7 @@ export const courses: Course[] = [
         teacherImg: "/images/profile.jpeg",
         category: "فرانت اند",
         offer: 0,
-        href: '#'
+        href: "#",
     },
     {
         id: 4,
@@ -324,7 +324,7 @@ export const courses: Course[] = [
         teacherImg: "/images/profile.jpeg",
         category: "اندروید",
         offer: 12,
-        href: '#'
+        href: "#",
     },
     {
         id: 5,
@@ -340,7 +340,7 @@ export const courses: Course[] = [
         teacherImg: "/images/profile.jpeg",
         category: "فرانت اند",
         offer: 0,
-        href: '#'
+        href: "#",
     },
     {
         id: 6,
@@ -356,7 +356,7 @@ export const courses: Course[] = [
         teacherImg: "/images/profile.jpeg",
         category: "فرانت اند",
         offer: 0,
-        href: '#'
+        href: "#",
     },
     {
         id: 7,
@@ -372,7 +372,7 @@ export const courses: Course[] = [
         teacherImg: "/images/profile.jpeg",
         category: "فرانت اند",
         offer: 0,
-        href: '#'
+        href: "#",
     },
     {
         id: 8,
@@ -388,7 +388,7 @@ export const courses: Course[] = [
         teacherImg: "/images/profile.jpeg",
         category: "فرانت اند",
         offer: 0,
-        href: '#'
+        href: "#",
     },
 ];
 
@@ -493,40 +493,59 @@ export const latestArticles: Article[] = [
 export const useFullLinks = [
     {
         id: 1,
-        title: 'قوانین و مقررات',
-        href: '#'
+        title: "قوانین و مقررات",
+        href: "#",
     },
     {
         id: 2,
-        title: 'مدرسان',
-        href: '#'
+        title: "مدرسان",
+        href: "#",
     },
     {
         id: 3,
-        title: 'درباره نابغه',
-        href: '#'
+        title: "درباره نابغه",
+        href: "#",
     },
     {
         id: 4,
-        title: 'ارتباط با ما',
-        href: '#'
+        title: "ارتباط با ما",
+        href: "#",
     },
-]
+];
 
 export const socialMediaLinks = [
     {
         id: 1,
-        title: 'telegram',
-        href: '#'
+        title: "telegram",
+        href: "#",
     },
     {
         id: 2,
-        title: 'instagram',
-        href: '#'
+        title: "instagram",
+        href: "#",
     },
     {
         id: 3,
-        title: 'youtube',
-        href: '#'
+        title: "youtube",
+        href: "#",
     },
-]
+];
+
+export const courseTypes = [
+    { id: 1, title: "پولی" },
+    { id: 2, title: "رایگان" },
+    { id: 3, title: "همه" },
+];
+
+export const courseCategories = [
+    { id: 1, title: "فرانت اند" },
+    { id: 2, title: "بک اند" },
+    { id: 3, title: "اندروید" },
+];
+
+export const sortingCoursesTypes = [
+    { id: 1, title: "جدیدترین" },
+    { id: 2, title: "پرفروش ترین" },
+    { id: 3, title: "گران ترین" },
+    { id: 4, title: "ارزان ترین" },
+];
