@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import Logo from "../Logo/Logo";
+import Logo from "../Logo";
 import { SetStateAction, useEffect, useState } from "react";
 import {
     LucideChevronDown,
@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { menuItems } from "@/src/lib/placeholder-data";
 import { MenuItem } from "@/src/lib/definition";
-import ThemeToggleButton from "../ThemeToggleButton";
+import ThemeToggleButton from "../button/ThemeToggleButton";
 
 type TMobileMenuProps = {
     mobileMenuShow: boolean;
@@ -73,7 +73,7 @@ export default function MobileMenu({
                         );
                     })}
                     <li>
-                        <a
+                        <Link
                             className="flex items-center justify-between"
                             href="/register"
                         >
@@ -83,7 +83,7 @@ export default function MobileMenu({
                                     ورود / ثبت نام
                                 </span>
                             </span>
-                        </a>
+                        </Link>
                     </li>
                 </ul>
             </div>

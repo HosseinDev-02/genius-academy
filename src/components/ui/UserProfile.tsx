@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import RoundButton from "./Buttons/RoundButton";
+import RoundButton from "./button/RoundButton";
 
 function setUserProfileItemIcon(title: string): LucideIcon {
     switch (title) {

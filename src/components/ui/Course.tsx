@@ -1,6 +1,6 @@
 import { Course } from "@/src/lib/definition";
-import LikeButton from "./Buttons/LikeButton";
-import PrimaryButton from "./Buttons/PrimaryButton";
+import LikeButton from "./button/LikeButton";
+import PrimaryButton from "./button/PrimaryButton";
 import UserInfo from "./UserInfo";
 import Link from "next/link";
 import GridBoxesIcon from "../icon/GridBoxesIcon";

@@ -9,9 +9,13 @@ type TRoundButtonProp = {
     clickEvent?: () => void;
 };
 
-export default function RoundButton(props: TRoundButtonProp) {
-    const { className, href, icon, count, clickEvent } = props;
-
+export default function RoundButton({
+    className,
+    href,
+    icon,
+    count,
+    clickEvent,
+}: TRoundButtonProp) {
     return href ? (
         <Link
             className={`flex items-center justify-center rounded-full bg-secondary text-title w-10 h-10 relative ${className}`}

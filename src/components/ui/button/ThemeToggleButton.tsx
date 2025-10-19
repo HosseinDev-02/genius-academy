@@ -3,7 +3,7 @@
 import { ElementType, JSX, useEffect, useState } from "react";
 import { LucideMoon, LucideSun } from "lucide-react";
 import { useTheme } from "next-themes";
-import RoundButton from "./Buttons/RoundButton";
+import RoundButton from "./RoundButton";
 
 type TThemeToggleButtonProps = {
     type: "mobile" | "desktop";

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import LogoIcon from "../../icon/LogoIcon";
+import LogoIcon from "../icon/LogoIcon";
 
 export default function Logo(prop: { className?: string }) {
     const { className } = prop

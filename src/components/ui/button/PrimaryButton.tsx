@@ -5,11 +5,10 @@ type TPrimaryButtonProps = {
     href?: string;
     icon?: React.ReactNode;
     className?: string;
-    clickEvent?: () => {};
+    clickEvent?: () => void;
 };
 
-export default function PrimaryButton(props: TPrimaryButtonProps) {
-    const { title, href, icon, className, clickEvent } = props;
+export default function PrimaryButton({ title, href, icon, className, clickEvent }: TPrimaryButtonProps) {
 
     return (
         <Link

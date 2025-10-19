@@ -1,5 +1,5 @@
 import "../styles/global.css";
-import Header from "../components/layout/Header/Header";
+import Header from "../components/layout/Header";
 import { ThemeProvider } from "next-themes";
 import Footer from "../components/layout/Footer";
 

@@ -1,5 +1,5 @@
 import { LucideArrowUpLeft } from "lucide-react";
-import PrimaryButton from "../components/ui/Buttons/PrimaryButton";
+import PrimaryButton from "../components/ui/button/PrimaryButton";
 import {
     latestArticles,
     latestCourses,

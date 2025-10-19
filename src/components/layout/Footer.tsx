@@ -1,12 +1,12 @@
 import React from "react";
-import RoundButton from "../ui/Buttons/RoundButton";
+import RoundButton from "../ui/button/RoundButton";
 import Input from "../ui/Input";
-import Logo from "../ui/Logo/Logo";
+import Logo from "../ui/Logo";
 import SubTitle from "../ui/SubTitle";
 import InstagramIcon from "../icon/InstagramIcon";
 import YoutubeIcon from "../icon/YoutubeIcon";
 import TelegramIcon from "../icon/TelegramIcon";
-import ScrollTopButton from "../ui/Buttons/ScrollTopButton";
+import ScrollTopButton from "../ui/button/ScrollTopButton";
 import PhoneIcon from "../icon/PhoneIcon";
 import ClockIcon from "../icon/ClockIcon";
 import { socialMediaLinks, useFullLinks } from "@/src/lib/placeholder-data";

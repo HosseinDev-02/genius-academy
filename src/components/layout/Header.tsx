@@ -8,14 +8,14 @@ import {
     LucideShoppingCart,
     LucideX,
 } from "lucide-react";
-import UserProfile from "../../ui/UserProfile";
-import ThemeToggleButton from "../../ui/ThemeToggleButton";
-import RoundButton from "../../ui/Buttons/RoundButton";
-import Logo from "../../ui/Logo/Logo";
-import Menu from "../../ui/Menu/Menu";
-import Input from "../../ui/Input";
-import MobileMenu from "../../ui/Menu/MobileMenu";
-import Cover from "../../shared/Cover/Cover";
+import UserProfile from "../ui/UserProfile";
+import ThemeToggleButton from "../ui/button/ThemeToggleButton";
+import RoundButton from "../ui/button/RoundButton";
+import Logo from "../ui/Logo";
+import Menu from "../ui/Menu/Menu";
+import Input from "../ui/Input";
+import MobileMenu from "../ui/Menu/MobileMenu";
+import Cover from "../shared/Cover";
 
 function Header() {
     // let localStorageValue = localStorage.getItem("theme");

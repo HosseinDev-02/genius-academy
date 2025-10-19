@@ -1,5 +1,5 @@
 import Link from "next/link";
-import LikeButton from "./Buttons/LikeButton";
+import LikeButton from "./button/LikeButton";
 import { Article } from "@/src/lib/definition";
 import Image from "next/image";
 
