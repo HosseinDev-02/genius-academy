@@ -17,11 +17,11 @@ export default function Course(props: Course) {
     return (
         <div>
             <div className="flex items-center justify-center rounded-3xl overflow-hidden relative">
-                <Link href={props.href ?? "#"}>
+                <Link className="flex w-full" href={props.href ?? "#"}>
                     <Image
                         width={400}
                         height={225}
-                        className=""
+                        className="w-full"
                         src={props.img}
                         alt={props.title}
                     />
