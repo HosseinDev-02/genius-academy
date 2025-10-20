@@ -1,7 +1,7 @@
 import { Icon } from "@/src/lib/definition";
 import React from "react";
 
-const NotificationsIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({
+const NotificationIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({
     width = 24,
     height = 24,
     fill = "currentColor",
@@ -26,4 +26,4 @@ const NotificationsIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({
     </svg>
 );
 
-export default NotificationsIcon
+export default NotificationIcon

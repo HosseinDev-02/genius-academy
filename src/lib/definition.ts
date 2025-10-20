@@ -89,11 +89,33 @@ export type CartProduct = {
     img: string;
     teacherImg: string;
     offer: number;
-    href: string
+    href: string;
 };
 
 export type UserPanelMenuLink = {
     id: number | string;
     title: string;
     href: string;
+};
+
+export type UserCounterItem = {
+    id: number | string;
+    title: string;
+    text: string;
+};
+
+export type UserComment = {
+    id: number | string;
+    text: string;
+    title: string
+    img: string;
+    status: boolean;
+    courseHref: string;
+};
+
+export type UserNotification = {
+    id: number | string;
+    title: string;
+    text: string;
+    time: string;
 }

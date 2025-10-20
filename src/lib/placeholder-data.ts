@@ -5,6 +5,9 @@ import {
     Course,
     MenuItem,
     TFilteringCourse,
+    UserComment,
+    UserCounterItem,
+    UserNotification,
     UserPanelMenuLink,
 } from "./definition";
 
@@ -763,5 +766,62 @@ export const userPanelMenuLinks: UserPanelMenuLink[] = [
         id: 7,
         title: "ویرایش پروفایل",
         href: "edit",
+    },
+];
+
+export const userCounterData: UserCounterItem[] = [
+    {
+        id: 1,
+        title: "باقیمانده اشتراک",
+        text: "عضو ویژه نیستید",
+    },
+    {
+        id: 2,
+        title: "در حال یادگیری",
+        text: "7 دوره",
+    },
+    {
+        id: 3,
+        title: "امتیازات",
+        text: "85,480 ستاره",
+    },
+    {
+        id: 4,
+        title: "موجودی کیف پول",
+        text: "1,079,000 تومان",
+    },
+];
+
+export const userComments: UserComment[] = [
+    {
+        id: 1,
+        text: "من این دوره رو خریدم و میخوام نکست هم بعدا یادبگیرم چون نیاز بیشتری دارم به آموزش های این دوره میشه بدون اینکه نکست رو ببینم این دوره رو ببینم ؟",
+        title: "دوره آموزش Composer",
+        img: "../images/Courses/04.jpg",
+        status: true,
+        courseHref: "#",
+    },
+    {
+        id: 2,
+        text: "من این دوره رو خریدم و میخوام نکست هم بعدا یادبگیرم چون نیاز بیشتری دارم به آموزش های این دوره میشه بدون اینکه نکست رو ببینم این دوره رو ببینم ؟",
+        title: "آموزش فلاتر از صفر",
+        img: "../images/Courses/03.jpg",
+        status: false,
+        courseHref: "#",
+    },
+];
+
+export const userNotifications: UserNotification[] = [
+    {
+        id: 1,
+        title: "ورود به سیستم",
+        text: "در صورتی که قکر میکنید این کار توسط شما انجام نشده هرچه سریعتر به بخش مدیریت نشست ها در بخش پنل کاربری خود در نابغه مراجعه کنید و نشست مورد نظر را حذف کنید .",
+        time: "6",
+    },
+    {
+        id: 2,
+        title: "ورود به سیستم",
+        text: "در صورتی که قکر میکنید این کار توسط شما انجام نشده هرچه سریعتر به بخش مدیریت نشست ها در بخش پنل کاربری خود در نابغه مراجعه کنید و نشست مورد نظر را حذف کنید .",
+        time: "4",
     },
 ];

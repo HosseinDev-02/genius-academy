@@ -13,7 +13,7 @@ type TInputReducerAction = {
 type BaseProps = {
     element: "input" | "textarea"; // نوع المنت مشخص می‌کنه کدوم استفاده میشه
     labelTitle?: string;
-    label?: string;
+    label?: boolean;
 };
 
 type InputProps =

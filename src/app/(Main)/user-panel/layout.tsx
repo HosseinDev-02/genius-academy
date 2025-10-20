@@ -1,7 +1,7 @@
 import CommentsOutlineIcon from "@/src/components/icon/CommentsOutlineIcon";
 import CounterIcon from "@/src/components/icon/CounterIcon";
 import EducationIcon from "@/src/components/icon/EducationIcon";
-import NotificationsIcon from "@/src/components/icon/NotificationsIcon";
+import NotificationIcon from "@/src/components/icon/NotificationIcon";
 import WalletIcon from "@/src/components/icon/WalletIcon";
 import { userPanelMenuLinks } from "@/src/lib/placeholder-data";
 import {
@@ -25,7 +25,7 @@ export default function UserPanelLayout({
         courses: EducationIcon,
         transactions: WalletIcon,
         favorites: LucideHeart,
-        notifications: NotificationsIcon,
+        notifications: NotificationIcon,
         edit: LucidePencil,
         questions: CommentsOutlineIcon,
     };
@@ -60,7 +60,7 @@ export default function UserPanelLayout({
                                 return (
                                     <Link
                                         key={link.id}
-                                        href={link.href}
+                                        href={`/user-panel/${link.href}`}
                                         className={`flex items-center gap-3 rounded-full px-5 bg-background hover:bg-primary hover:text-white transition-colors w-full h-11 cursor-pointer dashboard__item--active`}
                                     >
                                         <Icon className="w-5 h-5 size-5" />
