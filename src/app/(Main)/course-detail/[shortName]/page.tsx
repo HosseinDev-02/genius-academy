@@ -8,7 +8,7 @@ import CommentsIcon from "@/src/components/icon/CommentsIcon";
 import Box from "@/src/components/ui/Box";
 import Session from "@/src/components/ui/Session";
 import SubTitle from "@/src/components/ui/SubTitle";
-import UserInfo from "@/src/components/ui/UserInfo";
+import UserInfo from "@/src/components/ui/user/UserInfo";
 import LikeButton from "@/src/components/ui/button/LikeButton";
 import PrimaryButton from "@/src/components/ui/button/PrimaryButton";
 import SectionLinkBtn from "@/src/components/ui/section/SectionLinkBtn";

@@ -1,5 +1,5 @@
 import SubTitle from "@/src/components/ui/SubTitle";
-import UserFavoriteCourse from "@/src/components/ui/UserFavoriteCourse";
+import UserFavoriteCourse from "@/src/components/ui/user-panel/UserFavoriteCourse";
 import { courses } from "@/src/lib/placeholder-data";
 import React from "react";
 

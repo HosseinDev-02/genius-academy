@@ -1,12 +1,12 @@
 import React from "react";
-import PrimaryButton from "./button/PrimaryButton";
+import PrimaryButton from "../button/PrimaryButton";
 import { LucideArrowUpLeft } from "lucide-react";
-import LikeButton from "./button/LikeButton";
+import LikeButton from "../button/LikeButton";
 import Image from "next/image";
 import { Course } from "@/src/lib/definition";
 import Link from "next/link";
-import PapersIcon from "../icon/PapersIcon";
-import ClockIcon from "../icon/ClockIcon";
+import PapersIcon from "../../icon/PapersIcon";
+import ClockIcon from "../../icon/ClockIcon";
 
 export default function UserFavoriteCourse(props: Course) {
     return (

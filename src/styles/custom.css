@@ -10,6 +10,11 @@
     overflow: hidden !important;
 }
 
+.dashboard__item--active {
+    background-color: rgb(var(--color-primary)) !important;
+    color: white !important;
+}
+
 @media screen and (min-width: 786px) {
     .swiper.swiper-cards {
         overflow: visible !important;

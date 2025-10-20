@@ -3,7 +3,7 @@ import SubTitle from "@/src/components/ui/SubTitle";
 import { userComments } from "@/src/lib/placeholder-data";
 import { LucideFileText } from "lucide-react";
 import React from "react";
-import UserComment from "@/src/components/ui/UserComment";
+import UserComment from "@/src/components/ui/user-panel/UserComment";
 export default function Questions() {
     return (
         <div>

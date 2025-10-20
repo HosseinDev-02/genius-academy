@@ -1,11 +1,11 @@
 import React from "react";
-import PrimaryButton from "./button/PrimaryButton";
+import PrimaryButton from "../button/PrimaryButton";
 import { LucideArrowUpLeft } from "lucide-react";
 import { Course } from "@/src/lib/definition";
-import GridBoxesIcon from "../icon/GridBoxesIcon";
+import GridBoxesIcon from "../../icon/GridBoxesIcon";
 import Link from "next/link";
-import PapersIcon from "../icon/PapersIcon";
-import ClockIcon from "../icon/ClockIcon";
+import PapersIcon from "../../icon/PapersIcon";
+import ClockIcon from "../../icon/ClockIcon";
 import Image from "next/image";
 
 export default function UserCourse(props: Course) {

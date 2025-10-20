@@ -2,7 +2,7 @@ import { UserComment } from "@/src/lib/definition";
 import { LucideArrowUpLeft } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import PrimaryButton from "./button/PrimaryButton";
+import PrimaryButton from "../button/PrimaryButton";
 
 export default function UserComment(props: UserComment) {
     return (

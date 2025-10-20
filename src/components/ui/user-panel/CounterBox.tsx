@@ -1,8 +1,8 @@
 import React, { JSX } from "react";
-import CursorIcon from "../icon/CursorIcon";
-import EducationIcon from "../icon/EducationIcon";
+import CursorIcon from "../../icon/CursorIcon";
+import EducationIcon from "../../icon/EducationIcon";
 import { LucideStar } from "lucide-react";
-import WalletIcon from "../icon/WalletIcon";
+import WalletIcon from "../../icon/WalletIcon";
 import { UserCounterItem } from "@/src/lib/definition";
 
 export default function CounterBox(props: UserCounterItem) {

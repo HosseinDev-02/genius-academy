@@ -1,6 +1,6 @@
 import EducationIcon from "@/src/components/icon/EducationIcon";
 import SubTitle from "@/src/components/ui/SubTitle";
-import UserCourse from "@/src/components/ui/UserCourse";
+import UserCourse from "@/src/components/ui/user-panel/UserCourse";
 import { courses } from "@/src/lib/placeholder-data";
 import { LucideFileText } from "lucide-react";
 import React from "react";

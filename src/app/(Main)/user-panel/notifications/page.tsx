@@ -1,6 +1,6 @@
 import SubTitle from "@/src/components/ui/SubTitle";
 import React from "react";
-import UserNotification from "@/src/components/ui/UserNotification";
+import UserNotification from "@/src/components/ui/user-panel/UserNotification";
 import { userNotifications } from "@/src/lib/placeholder-data";
 
 export default function Notifications() {

@@ -231,12 +231,12 @@ export const userProfileItems = [
     {
         id: 1,
         title: "مشاهده پروفایل",
-        href: "/dashboard/counter",
+        href: "/user-panel/counter",
     },
     {
         id: 2,
         title: "پنل کاربری",
-        href: "/dashboard/counter",
+        href: "/user-panel",
     },
     {
         id: 3,

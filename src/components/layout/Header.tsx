@@ -8,7 +8,7 @@ import {
     LucideShoppingCart,
     LucideX,
 } from "lucide-react";
-import UserProfile from "../ui/UserProfile";
+import UserProfile from "../ui/user/UserProfile";
 import ThemeToggleButton from "../ui/button/ThemeToggleButton";
 import RoundButton from "../ui/button/RoundButton";
 import Logo from "../ui/Logo";
