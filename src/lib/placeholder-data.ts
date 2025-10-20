@@ -5,6 +5,7 @@ import {
     Course,
     MenuItem,
     TFilteringCourse,
+    UserPanelMenuLink,
 } from "./definition";
 
 export const menuItems: MenuItem[] = [
@@ -708,7 +709,7 @@ export const cartProducts: CartProduct[] = [
         img: "/images/Courses/03.jpg",
         teacherImg: "/images/profile.jpeg",
         offer: 12,
-        href: '#'
+        href: "#",
     },
     {
         id: 2,
@@ -723,6 +724,44 @@ export const cartProducts: CartProduct[] = [
         img: "/images/Courses/01.jpg",
         teacherImg: "/images/profile.jpeg",
         offer: 12,
-        href: '#'
+        href: "#",
+    },
+];
+
+export const userPanelMenuLinks: UserPanelMenuLink[] = [
+    {
+        id: 1,
+        title: "پیشخوان",
+        href: "counter",
+    },
+    {
+        id: 2,
+        title: "دوره ها",
+        href: "courses",
+    },
+    {
+        id: 3,
+        title: "علاقه مندی ها",
+        href: "favorites",
+    },
+    {
+        id: 4,
+        title: "مالی و اشتراک",
+        href: "transactions",
+    },
+    {
+        id: 5,
+        title: "دیدگاه و پرسش های شما",
+        href: "questions",
+    },
+    {
+        id: 6,
+        title: "اعلانات",
+        href: "notifications",
+    },
+    {
+        id: 7,
+        title: "ویرایش پروفایل",
+        href: "edit",
     },
 ];

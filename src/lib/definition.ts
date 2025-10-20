@@ -91,3 +91,9 @@ export type CartProduct = {
     offer: number;
     href: string
 };
+
+export type UserPanelMenuLink = {
+    id: number | string;
+    title: string;
+    href: string;
+}
