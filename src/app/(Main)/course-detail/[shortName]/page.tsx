@@ -22,6 +22,7 @@ import {
 import Link from "next/link";
 import React from "react";
 import Image from "next/image";
+import CourseDetailMenu from "@/src/components/ui/CourseDetailMenu";
 
 export default function Page() {
     // const tabViewHandler = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -70,48 +71,9 @@ export default function Page() {
                             ))} */}
                         </div>
                         {/*  course detail menu  */}
-                        <div className="block md:inline-block bg-secondary border border-border rounded-3xl mt-10 p-1 z-10 sticky top-24 overflow-auto">
-                            <ul className="inline-flex items-center gap-2">
-                                <li>
-                                    <button
-                                        data-type="tabOne"
-                                        // onClick={tabViewHandler}
-                                        className="flex items-center gap-2 text-sm font-YekanBakh-SemiBold px-4 py-2 rounded-3xl text-title bg-background"
-                                    >
-                                        <LucidePencil size={20} />
-                                        <span className="text-nowrap">
-                                            معرفی
-                                        </span>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button
-                                        data-type="tabTwo"
-                                        // onClick={tabViewHandler}
-                                        className="flex items-center gap-2 text-sm font-YekanBakh-SemiBold px-4 py-2 rounded-3xl"
-                                    >
-                                        <LucideList size={20} />
-                                        <span className="text-nowrap">
-                                            سرفصل ها
-                                        </span>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button
-                                        data-type="tabThree"
-                                        // onClick={tabViewHandler}
-                                        className="flex items-center gap-2 text-sm font-YekanBakh-SemiBold px-4 py-2 rounded-3xl"
-                                    >
-                                        <CommentsIcon width={20} height={20} />
-                                        <span className="text-nowrap">
-                                            دیدگاه و پرسش
-                                        </span>
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
+                        <CourseDetailMenu />
                         {/*  course detail description  */}
-                        <div id="tabOne" className="space-y-5 my-5">
+                        <div id="intro" className="space-y-5 my-5">
                             <SubTitle title="معرفی دوره"></SubTitle>
                             <p className="text-sm">
                                 بدون شک در حال حاضر یکی از پرکاربردترین
@@ -182,7 +144,7 @@ export default function Page() {
                             </div>
                         </div>
                         {/*  course detail sessions  */}
-                        <div id="tabTwo">
+                        <div id="sections">
                             <SubTitle title="سرفصل ها"></SubTitle>
                             <div className="mt-5">
                                 <Accordion
@@ -472,7 +434,7 @@ export default function Page() {
                             </div>
                         </div>
                         {/*  course detail comments  */}
-                        <div id="tabThree" className="pt-8 pb-5">
+                        <div id="comments" className="pt-8 pb-5">
                             <SubTitle title="دیدگاه و پرسش"></SubTitle>
                             <div className="p-5 rounded-3xl my-5 border border-border">
                                 <SubTitle
