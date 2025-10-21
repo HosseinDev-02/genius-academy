@@ -3,20 +3,23 @@ import { LucideArrowUpLeft } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import PrimaryButton from "../button/PrimaryButton";
+import Image from "next/image";
 
 export default function UserComment(props: UserComment) {
     return (
         <div className="flex md:flex-row flex-col md:items-start gap-5 py-8">
-            <a
+            <Link
                 className="md:w-4/12 block rounded-3xl overflow-hidden"
                 href="/course-detail/react-js"
             >
-                <img
-                    className="w-full h-full object-cover"
+                <Image
+                    width={302}
+                    height={170}
+                    className="w-full h-full"
                     src={props.img}
                     alt={props.title}
                 />
-            </a>
+            </Link>
             <div className="md:w-8/12 px-5 rounded-3xl bg-gradient-to-b from-secondary to-background">
                 <div className="bg-background rounded-b-3xl p-5">
                     <h3 className="line-clamp-1">
@@ -53,7 +56,7 @@ export default function UserComment(props: UserComment) {
                     </p>
                     <PrimaryButton
                         href={props.courseHref}
-                        icon={<LucideArrowUpLeft size={20}/>}
+                        icon={<LucideArrowUpLeft size={20} />}
                         title="مشاهده در صفحه دوره"
                     ></PrimaryButton>
                 </div>

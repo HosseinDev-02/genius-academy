@@ -5,23 +5,26 @@ import PrimaryButton from "@/src/components/ui/button/PrimaryButton";
 import SectionLinkBtn from "@/src/components/ui/section/SectionLinkBtn";
 import { LucideArrowUpLeft, LucideCornerUpRight } from "lucide-react";
 import React from "react";
+import Image from "next/image";
 
 export default function ArticleDetail() {
     return (
         <section className="py-5">
             <div className="container">
                 <div className="flex md:flex-row flex-col md:items-start gap-5">
-                    {/*  course detail right side  */}
+                    {/*  article detail right side  */}
                     <div className="md:w-8/12 pb-5">
-                        {/*  course image  */}
+                        {/*  article image  */}
                         <div>
-                            <img
-                                className="w-full rounded-3xl"
+                            <Image
+                                width={814}
+                                height={407}
+                                className="w-full h-full rounded-3xl"
                                 src="/images/Articles/backend-vs-frontend.jpg"
-                                alt=""
+                                alt="Article Info"
                             />
                         </div>
-                        {/*  course infos  */}
+                        {/*  article infos  */}
                         <div className="bg-gradient-to-b from-background to-secondary mx-5 p-5 rounded-3xl space-y-2">
                             <h1 className="text-title text-xl font-YekanBakh-Bold">
                                 تفاوت بک اند و فرانت اند
@@ -32,7 +35,7 @@ export default function ArticleDetail() {
                                 دوره react را در قالب پروژه به شما آموزش دهیم.
                             </p>
                         </div>
-                        {/*  course detail description  */}
+                        {/*  article detail description  */}
                         <div className="space-y-5 p-5 mt-5">
                             <p className="text-sm">
                                 بدون شک در حال حاضر یکی از پرکاربردترین
@@ -51,11 +54,13 @@ export default function ArticleDetail() {
                                     تفاوت بک اند و فرانت اند
                                 </h2>
                                 <div>
-                                    <img
-                                        className="w-full rounded-3xl"
-                                        src="/images/Articles/backend-vs-frontend.jpg"
-                                        alt=""
-                                    />
+                                <Image
+                                width={814}
+                                height={407}
+                                className="w-full h-full rounded-3xl"
+                                src="/images/Articles/backend-vs-frontend.jpg"
+                                alt="Article Info"
+                            />
                                 </div>
                             </div>
                             <p className="text-sm">
@@ -70,7 +75,7 @@ export default function ArticleDetail() {
                                 موضوعات جدید را در خلال ایجاد پروژه شروع خواهید
                                 کرد.
                             </p>
-                            {/*  course structure  */}
+                            {/*  article structure  */}
                             <div>
                                 <h3 className="text-lg text-title font-YekanBakh-Black mb-3">
                                     بک اند
@@ -112,7 +117,7 @@ export default function ArticleDetail() {
                                 را در ابتدا طی کنید.
                             </p>
                         </div>
-                        {/*  course detail comments  */}
+                        {/*  article detail comments  */}
                         <div id="tabThree" className="pt-8 pb-5">
                             <SubTitle title="دیدگاه و پرسش" />
                             <div className="p-5 rounded-3xl my-5 border border-border">
@@ -253,7 +258,7 @@ export default function ArticleDetail() {
                             </div>
                         </div>
                     </div>
-                    {/*  course detail left side  */}
+                    {/*  article detail left side  */}
                     <div className="md:w-4/12 md:sticky md:top-24">
                         <div className="space-y-3">
                             <SubTitle className="text-sm" title="نویسنده :" />

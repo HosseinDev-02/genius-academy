@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import Image from "next/image";
 
 export default function Page() {
     // const tabViewHandler = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -40,8 +41,10 @@ export default function Page() {
                     <div className="md:w-8/12 pb-5">
                         {/*  course image  */}
                         <div>
-                            <img
-                                className="w-full rounded-3xl"
+                            <Image
+                                width={814}
+                                height={458}
+                                className="w-full h-full rounded-3xl"
                                 src="/images/Courses/01.jpg"
                                 alt="دوره پروژه محور ری اکت و نکست"
                             />
@@ -127,8 +130,10 @@ export default function Page() {
                                     دوره پروژه محور ری اکت و نکست
                                 </h2>
                                 <div>
-                                    <img
-                                        className="w-full rounded-3xl"
+                                    <Image
+                                        width={814}
+                                        height={458}
+                                        className="w-full h-full rounded-3xl"
                                         src="/images/Courses/01.jpg"
                                         alt="دوره پروژه محور ری اکت و نکست"
                                     />
@@ -184,9 +189,11 @@ export default function Page() {
                                     type="single"
                                     collapsible
                                     className="w-full space-y-3"
-                                    defaultValue="item-1"
                                 >
-                                    <AccordionItem className="border-b-0" value="item-1">
+                                    <AccordionItem
+                                        className="border-b-0"
+                                        value="item-1"
+                                    >
                                         <AccordionTrigger className="px-5 rounded-3xl bg-secondary text-xs font-YekanBakh-SemiBold hover:text-title transition-colors hover:!no-underline cursor-pointer">
                                             <div className="flex items-center gap-6">
                                                 <span className="text-title">
@@ -321,13 +328,18 @@ export default function Page() {
                                             </li>
                                         </AccordionContent>
                                     </AccordionItem>
-                                    <AccordionItem className="border-b-0" value="item-2">
+                                    <AccordionItem
+                                        className="border-b-0"
+                                        value="item-2"
+                                    >
                                         <AccordionTrigger className="px-5 rounded-3xl bg-secondary text-xs font-YekanBakh-SemiBold hover:text-title transition-colors hover:!no-underline cursor-pointer">
                                             <div className="flex items-center gap-6">
                                                 <span className="text-title">
                                                     فصل دوم
                                                 </span>
-                                                <span>پیاده سازی ساختار پروژه</span>
+                                                <span>
+                                                    پیاده سازی ساختار پروژه
+                                                </span>
                                             </div>
                                         </AccordionTrigger>
                                         <AccordionContent className="flex flex-col gap-1 py-3 mx-8">

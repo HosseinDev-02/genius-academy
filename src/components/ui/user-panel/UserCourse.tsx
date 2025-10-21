@@ -27,13 +27,15 @@ export default function UserCourse(props: Course) {
         <div>
             <div className="block rounded-3xl overflow-hidden relative">
                 <Link href={href}>
-                    <img
-                        className="w-full h-full object-cover"
+                    <Image
+                        width={296}
+                        height={166}
+                        className="w-full h-full"
                         src={img}
                         alt={title}
                     />
                 </Link>
-                <a
+                <Link
                     href={href}
                     className="absolute left-3 top-3 flex items-center gap-1 bg-black/20 rounded-full h-11 px-4 text-white hover:opacity-80 transition-all"
                 >
@@ -41,7 +43,7 @@ export default function UserCourse(props: Course) {
                     <span className="font-YekanBakh-SemiBold text-sm tracking-wider">
                         {category}
                     </span>
-                </a>
+                </Link>
             </div>
             <div className="bg-gradient-to-b from-background to-secondary mx-5 p-5 rounded-3xl">
                 <div className="flex items-center gap-2">

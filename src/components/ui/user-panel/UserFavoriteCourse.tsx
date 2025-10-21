@@ -16,8 +16,10 @@ export default function UserFavoriteCourse(props: Course) {
                     className="flex items-center justify-center rounded-3xl overflow-hidden"
                     href={props.href}
                 >
-                    <img
-                        className="w-full h-full object-cover"
+                    <Image
+                        width={298}
+                        height={168}
+                        className="w-full h-full"
                         src={props.img}
                         alt={props.title}
                     />
@@ -43,13 +45,13 @@ export default function UserFavoriteCourse(props: Course) {
                 <div className="pt-5">
                     <div className="flex items-center gap-5">
                         <div className="flex items-center gap-1">
-                            <PapersIcon width={20} height={20}/>
+                            <PapersIcon width={20} height={20} />
                             <span className="text-xs font-YekanBakh-SemiBold">
                                 {props.sections} فصل
                             </span>
                         </div>
                         <div className="flex items-center gap-1">
-                            <ClockIcon width={20} height={20}/>
+                            <ClockIcon width={20} height={20} />
                             <span className="text-xs font-YekanBakh-SemiBold">
                                 {props.time} ساعت
                             </span>
@@ -62,7 +64,7 @@ export default function UserFavoriteCourse(props: Course) {
                                     className="w-full h-full"
                                     src={props.teacherImg}
                                     alt={props.teacher}
-                                    fill 
+                                    fill
                                     objectFit="cover"
                                 />
                             </span>
@@ -102,8 +104,8 @@ export default function UserFavoriteCourse(props: Course) {
 
                     <div className="flex items-center gap-3 mt-3">
                         <PrimaryButton
-                            icon={<LucideArrowUpLeft size={20}/>}
-                            href='#'
+                            icon={<LucideArrowUpLeft size={20} />}
+                            href="#"
                             title="مشاهده دوره"
                         ></PrimaryButton>
                         <LikeButton className={"text-red-500"}></LikeButton>
