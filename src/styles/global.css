@@ -52,12 +52,12 @@
   --font-YekanBakh-Black: 'YekanBakh Black';
 }
 
-body {
+/* body {
   background-color: rgb(var(--color-background));
   color: rgb(var(--color-caption));
   min-height: 100vh;
   font-family: "YekanBakh Regular";
-}
+} */
 
 @utility container {
   padding-inline: 0.625rem;

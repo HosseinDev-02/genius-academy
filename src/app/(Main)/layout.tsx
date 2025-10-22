@@ -11,7 +11,7 @@ export default function RootLayout({
     // suppressHydrationWarning  خطای تم هنگام لود شدن صفحه با این کد رفع شد
     return (
         <html lang="fa" dir="rtl" suppressHydrationWarning>
-            <body>
+            <body className='font-YekanBakh-Regular text-caption bg-background'>
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="system"

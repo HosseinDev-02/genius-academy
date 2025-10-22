@@ -837,36 +837,36 @@ export const adminPanelMenuItems = [
     {
         id: 1,
         title: "دوره ها",
-        href: "courses",
+        href: "/admin-panel/courses",
     },
     {
         id: 2,
         title: "دسته بندی ها",
-        href: "categories",
+        href: "/admin-panel/categories",
     },
     {
         id: 3,
         title: "مقاله ها",
-        href: "articles",
+        href: "/admin-panel/articles",
     },
     {
         id: 4,
         title: "خدمات",
-        href: "services",
+        href: "/admin-panel/services",
     },
     {
         id: 5,
         title: "سفارشات",
-        href: "basket",
+        href: "/admin-panel/basket",
     },
     {
         id: 6,
         title: "منو",
-        href: "menu-links",
+        href: "/admin-panel/menu-links",
     },
     {
         id: 7,
         title: "کاربران",
-        href: "users",
+        href: "/admin-panel/users",
     },
 ];

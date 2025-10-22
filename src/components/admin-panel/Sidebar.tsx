@@ -27,24 +27,24 @@ export default function Sidebar() {
     };
 
     return (
-        <div className="relative right-0 top-0 bottom-0 bg-gray-100 w-full p-5 h-full">
+        <div className="relative right-0 top-0 bottom-0 w-full p-5 h-full bg-zinc-900 rounded-2xl">
             {/* Sidebar Header */}
             <div className="pb-5">
-                <h5 className="text-primary font-YekanBakh-Black text-2xl text-center">
+                <h5 className="text-indigo-500 font-YekanBakh-Black text-2xl text-center">
                     پنل مدیریت
                 </h5>
             </div>
-            <ul className="flex flex-col gap-3 text-white font-YekanBakh-SemiBold *:bg-indigo-600 *:transition-colors *:cursor-pointer *:w-full *:rounded-2xl *:px-5 *:h-12 *:flex *:items-center *:gap-3">
+            <ul className="flex flex-col gap-3 text-white font-YekanBakh-SemiBold *:bg-indigo-500 *:transition-colors *:cursor-pointer *:w-full *:rounded-2xl *:px-5 *:h-12 *:flex *:items-center *:gap-3">
                 {adminPanelMenuItems.map((item) => {
                     const Icon = iconsMap[item.href];
                     return (
-                        <Link key={item.id} className="" href={`${item.href}`}>
+                        <Link key={item.id} className="" href={item.href}>
                             {Icon}
                             <span>{item.title}</span>
                         </Link>
                     );
                 })}
-                <Link className="!bg-red-600" href='#'>
+                <Link className="!bg-red-500" href='/'>
                     <PowerIcon size={24}/>
                     <span>
                         خروج از سیستم

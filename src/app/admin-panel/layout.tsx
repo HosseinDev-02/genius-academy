@@ -9,12 +9,12 @@ export default function AdminPanelLayout({
 }) {
     return (
         <html dir="rtl" lang="fa">
-            <body className="h-screen">
+            <body className="h-screen bg-[#222222] text-white font-YekanBakh-Regular p-4">
                 <div className="grid grid-cols-12 h-full">
                     <div className="col-span-2">
                         <Sidebar />
                     </div>
-                    <div className="col-span-10 p-5">{children}</div>
+                    <div className="col-span-10 px-5">{children}</div>
                 </div>
             </body>
         </html>
