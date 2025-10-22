@@ -243,6 +243,11 @@ export const userProfileItems = [
         title: "خروج از حساب",
         href: "/login",
     },
+    {
+        id: 4,
+        title: "پنل مدیریت",
+        href: "/admin-panel",
+    },
 ];
 
 export const services = [
@@ -823,5 +828,45 @@ export const userNotifications: UserNotification[] = [
         title: "ورود به سیستم",
         text: "در صورتی که قکر میکنید این کار توسط شما انجام نشده هرچه سریعتر به بخش مدیریت نشست ها در بخش پنل کاربری خود در نابغه مراجعه کنید و نشست مورد نظر را حذف کنید .",
         time: "4",
+    },
+];
+
+// Courses - Categories - Articles - MenuLinks - Services - Basket - Users -
+
+export const adminPanelMenuItems = [
+    {
+        id: 1,
+        title: "دوره ها",
+        href: "courses",
+    },
+    {
+        id: 2,
+        title: "دسته بندی ها",
+        href: "categories",
+    },
+    {
+        id: 3,
+        title: "مقاله ها",
+        href: "articles",
+    },
+    {
+        id: 4,
+        title: "خدمات",
+        href: "services",
+    },
+    {
+        id: 5,
+        title: "سفارشات",
+        href: "basket",
+    },
+    {
+        id: 6,
+        title: "منو",
+        href: "menu-links",
+    },
+    {
+        id: 7,
+        title: "کاربران",
+        href: "users",
     },
 ];
