@@ -835,6 +835,11 @@ export const userNotifications: UserNotification[] = [
 
 export const adminPanelMenuItems = [
     {
+        id: 8,
+        title: "داشبورد",
+        href: "/admin-panel",
+    },
+    {
         id: 1,
         title: "دوره ها",
         href: "/admin-panel/courses",
