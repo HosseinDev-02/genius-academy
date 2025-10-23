@@ -34,14 +34,17 @@ const counterItems: CounterItem[] = [
 export default function Page() {
     return (
         <div>
-            {/* Page Header */}
-            <PageHeader title="داشبورد" />
-            {/* Dashboard Count Boxes */}
-            <div className="flex justify-between w-full gap-8">
-                {counterItems.map((item) => (
-                    <Box key={item.id} {...item} />
-                ))}
-            </div>
+            
         </div>
+        // <div>
+        //     {/* Page Header */}
+        //     <PageHeader title="داشبورد" />
+        //     {/* Dashboard Count Boxes */}
+        //     <div className="flex justify-between w-full gap-8">
+        //         {counterItems.map((item) => (
+        //             <Box key={item.id} {...item} />
+        //         ))}
+        //     </div>
+        // </div>
     );
 }
