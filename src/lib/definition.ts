@@ -132,3 +132,5 @@ export interface PaginationControlsProps {
     totalPages: number;
     onPageChange: (page: number) => void;
 }
+
+export type StateProp<T> = [T, React.Dispatch<React.SetStateAction<T>>];
