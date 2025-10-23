@@ -47,7 +47,7 @@ export default function AdminPanelCourses() {
             {/* Page Content */}
             <div className="h-full overflow-hidden">
                 {/* Courses Table */}
-                <DataTable data={courses} columns={columns} />
+                {courses.length !== 0 && <DataTable data={courses} columns={columns} />}
             </div>
         </div>
     );

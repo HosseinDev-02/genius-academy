@@ -1,3 +1,5 @@
+import { ColumnDef } from "@tanstack/react-table";
+
 // 📘 نوع پایه‌ای برای هر آیتم منو
 export interface BaseMenuItem {
     id: number;
@@ -118,4 +120,15 @@ export type UserNotification = {
     title: string;
     text: string;
     time: string;
+}
+
+export interface DataTableProps<TData, TValue> {
+    columns: ColumnDef<TData, TValue>[];
+    data: TData[];
+}
+
+export interface PaginationControlsProps {
+    currentPage: number;
+    totalPages: number;
+    onPageChange: (page: number) => void;
 }
