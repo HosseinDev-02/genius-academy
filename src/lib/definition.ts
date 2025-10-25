@@ -1,4 +1,4 @@
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, OnChangeFn, VisibilityState } from "@tanstack/react-table";
 
 // 📘 نوع پایه‌ای برای هر آیتم منو
 export interface BaseMenuItem {
@@ -125,6 +125,8 @@ export type UserNotification = {
 export interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
+    columnVisibility?: VisibilityState;
+    onColumnVisibilityChange?: OnChangeFn<VisibilityState>;
 }
 
 export interface PaginationControlsProps {

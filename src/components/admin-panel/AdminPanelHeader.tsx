@@ -7,7 +7,7 @@ export default function AdminPanelHeader() {
     const { sidebarOpen } = useAdminPanelContext();
     const [isOpen, setIsOpen] = sidebarOpen;
     return (
-        <div className="fixed top-0 h-16 border-b border-border right-80 left-0 flex items-center justify-between px-8">
+        <div className="fixed top-0 h-16 border-b border-border right-100 left-8 flex items-center justify-between px-8">
             <div>
                 <span
                     onClick={() => setIsOpen((prevState) => !prevState)}
@@ -19,9 +19,6 @@ export default function AdminPanelHeader() {
                         <PanelRightOpen size={28} />
                     )}
                 </span>
-                <h5 className="font-YekanBakh-Black text-2xl text-center">
-                    پنل مدیریت
-                </h5>
             </div>
         </div>
     );

@@ -4,6 +4,8 @@ import React, { JSX, SetStateAction, useState } from "react";
 import EducationIcon from "../icon/EducationIcon";
 import {
     ChartPie,
+    ChevronLeft,
+    ChevronRight,
     FileText,
     GraduationCap,
     LinkIcon,
@@ -51,15 +53,18 @@ export default function Sidebar() {
             {/* Sidebar Open/Close Button */}
             <span
                 onClick={() => setIsOpen((prevState) => !prevState)}
-                className="cursor-pointer absolute -left-12 top-0 flex items-center justify-center rounded bg-indigo-900 w-12 h-12"
+                className="w-8 h-8 rounded-l-xl bg-primary text-white hidden xl:flex items-center text-xl justify-center absolute -left-8 top-4 z-[1001]"
             >
                 {isOpen ? (
-                    <PanelRightClose size={28} />
+                    <ChevronLeft size={20} />
                 ) : (
-                    <PanelRightOpen size={28} />
+                    <ChevronRight size={20} />
                 )}
             </span>
             {/* Sidebar Header */}
+            <h5 className="font-YekanBakh-Black text-2xl text-center mb-5">
+                    پنل مدیریت
+                </h5>
             {/* Sidebar Menu */}
             <ul className="flex flex-col gap-1 text-white font-YekanBakh-SemiBold *:rounded-md *:hover:bg-indigo-950 *:transition-colors *:duration-300 *:cursor-pointer *:w-full *:px-5 *:h-14 *:flex *:items-center *:gap-3">
                 {adminPanelMenuItems.map((item) => {
