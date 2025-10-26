@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
     Form,
     FormControl,
@@ -22,6 +22,8 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { v4 as uuidv4 } from "uuid";
+import { Course } from "@/src/lib/definition";
+import { courses } from "@/src/lib/placeholder-data";
 
 interface CourseForm {
     courseId?: string;
@@ -30,7 +32,7 @@ interface CourseForm {
 const formSchema = z.object({
     title: z.string().min(3, "عنوان باید حداقل ۳ حرف باشد"),
     category: z.string().min(2, "دسته‌بندی را وارد کنید"),
-    price: z.string().min(1, "قیمت الزامی است"),
+    price: z.any(),
     img: z
         .any()
         .refine((file) => file?.length === 1, "تصویر الزامی است")
@@ -50,6 +52,21 @@ export default function CourseForm({ courseId }: CourseForm) {
             img: "",
         },
     });
+    const [fakeData, setFakeData] = useState<Course>()
+
+    useEffect(() => {
+        if(courseId) {
+            const data = courses.find(course => course.id == courseId)
+            console.log('Data :', data)
+            form.reset({
+                title: data?.title,
+                category: data?.category,
+                price: data?.price,
+                img: data?.img
+            })
+            setFakeData(data)
+        }
+    }, [courseId, form])
 
     const onSubmit = (values: z.infer<typeof formSchema>) => {
         const id = uuidv4();

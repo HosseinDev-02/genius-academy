@@ -49,7 +49,7 @@ const columns: ColumnDef<Course>[] = [
                         <DropdownMenuItem className="p-3">
                             <Link
                                 className="flex items-center justify-start gap-2 text-white"
-                                href={`course/edit/${course.id}`}
+                                href={`courses/edit/${course.id}`}
                             >
                                 <PencilIcon size={18} />
                                 <span className="font-YekanBakh-SemiBold text-sm">
