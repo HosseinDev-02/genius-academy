@@ -158,7 +158,7 @@ export default function AdminPanelCourses() {
     return (
         <div className="h-full flex flex-col rounded-md border-2 border-indigo-50">
             {/* Page Header */}
-            <PageHeader title="دوره ها" href="courses/add" />
+            <PageHeader title="دوره ها" href="courses/add-course" />
             {/* Page Content */}
             <div className="h-full overflow-hidden">
                 {/* Courses Table */}
