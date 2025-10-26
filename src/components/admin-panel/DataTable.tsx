@@ -1,6 +1,5 @@
 "use client";
 import {
-    VisibilityState,
     flexRender,
     getCoreRowModel,
     getPaginationRowModel,
@@ -14,18 +13,9 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import React, { useEffect } from "react";
+import React from "react";
 import { DataTableProps } from "@/src/lib/definition";
 import { MyPagination } from "./MyPagination";
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { ChevronDownIcon } from "lucide-react";
-import { useMediaQuery } from "usehooks-ts";
 
 export function DataTable<TData, TValue>({
     columns,
@@ -48,48 +38,15 @@ export function DataTable<TData, TValue>({
         onColumnVisibilityChange: onColumnVisibilityChange,
     });
 
-    // useEffect(( ) => {
-    //     console.log('column visibility changed')
-    // }, [columnVisibility])
-
     return (
         <div>
-            <div className="flex items-center justify-start py-4">
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button
-                            className="bg-indigo-500 text-white"
-                            variant="outline"
-                        >
-                            Columns <ChevronDownIcon className="ml-2 size-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        {table
-                            .getAllColumns()
-                            .filter((column) => column.getCanHide())
-                            .map((column) => (
-                                <DropdownMenuCheckboxItem
-                                    checked={column.getIsVisible()}
-                                    className="capitalize bg-primary text-white cursor-pointer"
-                                    key={column.id}
-                                    onCheckedChange={(value) =>
-                                        column.toggleVisibility(!!value)
-                                    }
-                                >
-                                    {column.id}
-                                </DropdownMenuCheckboxItem>
-                            ))}
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </div>
             <Table className="font-YekanBakh-SemiBold mb-8">
                 <TableHeader className="h-20">
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map((header) => (
                                 <TableHead
-                                    className="text-center"
+                                    className="text-right"
                                     key={header.id}
                                 >
                                     {header.isPlaceholder
@@ -109,7 +66,7 @@ export function DataTable<TData, TValue>({
                             <TableRow key={row.id}>
                                 {row.getVisibleCells().map((cell) => (
                                     <TableCell
-                                        className="text-center h-16"
+                                        className="text-right h-16"
                                         key={cell.id}
                                     >
                                         {flexRender(
