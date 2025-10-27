@@ -14,8 +14,13 @@ import Article from "@/src/components/ui/Article";
 import PopularCoursesSlider from "@/src/components/section/courses/PopularCoursesSlider";
 import Image from "next/image";
 import LatestCourses from "@/src/components/section/courses/LatestCourses";
+import { getCategoryCourseById } from "@/src/lib/actions";
 
-export default function Home() {
+export default async function Home() {
+
+    const category = await getCategoryCourseById(1)
+    console.log('category :', category)
+
     return (
         <div className="space-y-14 py-5">
             {/* Introduction Section */}
