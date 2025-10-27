@@ -46,3 +46,65 @@ export const fakeCourses = [
         category_id: fakeCategories[0].id,
     },
 ]
+
+export const fakeArticles = [
+    {
+        id: 1,
+        title: "تفاوت بک اند و فرانت اند",
+        img: "/images/Articles/backend-vs-frontend.jpg",
+        time: "20:00",
+        category: fakeCategories[0].id,
+        href: "#",
+        author_id: 1,
+    },
+    {
+        id: 2,
+        title: "Sass چیست ؟",
+        img: "/images/Articles/sass.jpg",
+        time: "15:00",
+        category: fakeCategories[2].id,
+        href: "#",
+        author_id: 1,
+    },
+    {
+        id: 3,
+        title: "کار با توابع در جاوااسکریپت",
+        img: "/images/Articles/functions.jpg",
+        time: "32:00",
+        category: fakeCategories[1].id,
+        href: "#",
+        author_id: 1,
+    },
+    {
+        id: 4,
+        title: "تفاوت جاوااسکریپت و اکمااسکریپت",
+        img: "/images/Articles/js-vs-ecma.jpg",
+        time: "10:00",
+        category: fakeCategories[1].id,
+        href: "#",
+        author_id: 1,
+    },
+]
+
+export const fakeUsers = [
+    {
+        id: 1,
+        name: 'حسین رستمی',
+        about: 'سلام حسین رستمی هستم توسعه دهنده فرانت اند',
+        password: '1234',
+        email: 'example@gmail.com',
+        phone_number: '09123456789',
+        image: '/images/profile.jpeg',
+        role: 'author',
+    },
+    {
+        id: 2,
+        name: 'پرهام بیات',
+        about: 'سلام حسین رستمی هستم توسعه دهنده فرانت اند',
+        password: '1111',
+        email: 'example2@gmail.com',
+        phone_number: '09127566666',
+        image: '/images/profile.jpeg',
+        role: 'user',
+    },
+]

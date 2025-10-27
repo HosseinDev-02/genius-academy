@@ -1,7 +1,7 @@
-import { fakeCategories, fakeCourses } from "@/src/lib/fake-data";
+import { fakeCategories, fakeCourses, fakeUsers } from "@/src/lib/fake-data";
 import { neon } from "@neondatabase/serverless";
 import postgres from "postgres";
-
+import bcrypt from "bcryptjs";
 const sql = neon(process.env.DATABASE_URL!);
 
 console.log("DATABASE_URL:", process.env.DATABASE_URL);
@@ -53,10 +53,41 @@ async function seedCategories() {
     return insertedCategories;
 }
 
+async function seedUsers() {
+    await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+    await sql`
+  CREATE TABLE IF NOT EXISTS users (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    phone_number VARCHAR(20),
+    role VARCHAR(50) DEFAULT 'user',
+    image TEXT,
+    about TEXT,
+    password TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
+  );
+`;
+    const insertedUsers = await Promise.all(
+        fakeUsers.map(async (user) => {
+            const hashedPassword = await bcrypt.hash(user.password, 10);
+            return sql`
+          INSERT INTO users (name, email, password, phone_number, role, image, about)
+          VALUES (${user.name}, ${user.email}, ${hashedPassword}, ${user.phone_number}, ${user.role}, ${user.image}, ${user.about})
+          ON CONFLICT (id) DO NOTHING;
+        `;
+        })
+    );
+
+    return insertedUsers;
+}
+
 export async function GET() {
     try {
         await seedCategories();
         await seedCourses();
+        await seedUsers();
 
         return Response.json({ message: "Database seeded successfully" });
     } catch (error) {
