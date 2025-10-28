@@ -16,10 +16,9 @@ import Image from "next/image";
 import LatestCourses from "@/src/components/section/courses/LatestCourses";
 import { getCategoryCourseById } from "@/src/lib/actions";
 
-export default async function Home() {
 
-    const category = await getCategoryCourseById(1)
-    console.log('category :', category)
+
+export default async function Home() {
 
     return (
         <div className="space-y-14 py-5">
