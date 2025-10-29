@@ -59,7 +59,7 @@ export default function Sidebar() {
                 <ChevronRight className={`transition-all duration-300 ${isOpen ? "rotate-180" : ""}`} strokeWidth={'2.5px'} size={20} />
             </span> */}
             {/* Sidebar Header */}
-            <h5 className="font-YekanBakh-Black text-2xl text-center mb-5">
+            <h5 className="font-YekanBakh-Black text-2xl text-center mb-4">
                     پنل مدیریت
                 </h5>
             {/* Sidebar Menu */}

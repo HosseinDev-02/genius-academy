@@ -28,7 +28,7 @@ export default function AdminPanelProvider({
                     />
                 </div>
                 <div
-                    className={`col-span-10 bg-zinc-900 rounded-2xl transition-all duration-300 ${
+                    className={`col-span-10 bg-zinc-900 rounded-2xl transition-all duration-300 p-4 ${
                         sidebarState ? "" : ""
                     }`}
                 >
