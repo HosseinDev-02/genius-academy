@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/pagination";
 import { PaginationControlsProps } from "@/src/lib/definition";
 import PrimaryButton from "../ui/button/PrimaryButton";
+import { Button } from "@/components/ui/button";
 
 export function MyPagination({
     currentPage,
@@ -57,18 +58,16 @@ export function MyPagination({
 
     return (
         <Pagination>
-            <PaginationContent className="flex justify-center flex-row-reverse">
+            <PaginationContent className="flex justify-center flex-row-reverse gap-2">
                 {/* دکمه قبلی */}
                 <PaginationItem>
-                    <PrimaryButton
-                        title="قبلی"
-                        clickEvent={() => onPageChange(currentPage - 1)}
-                        className={
-                            currentPage === 1
-                                ? "opacity-50 pointer-events-none"
-                                : "cursor-pointer"
-                        }
-                    />
+                    <Button
+                        onClick={() => onPageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className={`bg-teal-800 text-white font-YekanBakh-SemiBold cursor-pointer hover:bg-teal-600`}
+                    >
+                        قبلی
+                    </Button>
                 </PaginationItem>
                 {/* شماره صفحات */}
                 {visiblePages.map((page, index) =>
@@ -81,9 +80,9 @@ export function MyPagination({
                             <PaginationLink
                                 onClick={() => onPageChange(page)}
                                 isActive={page === currentPage}
-                                className={`cursor-pointer ${
-                                    page === currentPage &&
-                                    "bg-primary text-white"
+                                className={`cursor-pointer border-none text-white ${
+                                    page === currentPage ?
+                                    "bg-teal-800" : "hover:bg-teal-600"
                                 }`}
                             >
                                 {page}
@@ -94,15 +93,13 @@ export function MyPagination({
 
                 {/* دکمه بعدی */}
                 <PaginationItem>
-                    <PrimaryButton
-                        title="بعدی"
-                        clickEvent={() => onPageChange(currentPage + 1)}
-                        className={
-                            currentPage === totalPages
-                                ? "opacity-50 pointer-events-none"
-                                : "cursor-pointer"
-                        }
-                    />
+                    <Button
+                        onClick={() => onPageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        className={`bg-teal-800 text-white font-YekanBakh-SemiBold cursor-pointer hover:bg-teal-600`}
+                    >
+                        بعدی
+                    </Button>
                 </PaginationItem>
             </PaginationContent>
         </Pagination>

@@ -156,7 +156,7 @@ export default function AdminPanelCourses() {
         // console.log('Column Visibility :', columnVisibility)
     }, [isMobile, isTablet, isSmallerMobile]);
     return (
-        <div className="h-full flex flex-col rounded-md border-2 border-indigo-50">
+        <div className="h-full flex flex-col">
             {/* Page Header */}
             <PageHeader title="دوره ها" href="courses/add-course" />
             {/* Page Content */}

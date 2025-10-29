@@ -43,7 +43,7 @@ export function DataTable<TData, TValue>({
             <Table className="font-YekanBakh-SemiBold mb-8">
                 <TableHeader className="h-20">
                     {table.getHeaderGroups().map((headerGroup) => (
-                        <TableRow key={headerGroup.id}>
+                        <TableRow className="border-b-teal-600" key={headerGroup.id}>
                             {headerGroup.headers.map((header) => (
                                 <TableHead
                                     className="text-right"
@@ -63,7 +63,7 @@ export function DataTable<TData, TValue>({
                 <TableBody>
                     {table.getRowModel().rows?.length ? (
                         table.getRowModel().rows.map((row) => (
-                            <TableRow key={row.id}>
+                            <TableRow className="border-b-teal-600" key={row.id}>
                                 {row.getVisibleCells().map((cell) => (
                                     <TableCell
                                         className="text-right h-16"
