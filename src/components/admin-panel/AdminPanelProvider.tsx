@@ -20,17 +20,16 @@ export default function AdminPanelProvider({
     const sidebarState = useState(false);
     return (
         <AdminPanelContext.Provider value={{ sidebarOpen: sidebarState }}>
-            <div className="h-full flex">
-                <div className="">
+            <div className="h-full w-full grid grid-cols-12 gap-6 p-6">
+                <div className="col-span-2">
                     {/* <AdminPanelHeader /> */}
                     <Sidebar
                         
                     />
                 </div>
                 <div
-                    className={`py-8
-                     grow transition-all duration-300 ${
-                        sidebarState ? "pl-8 pr-8 xl:pr-100" : "pl-8 pr-20"
+                    className={`col-span-10 bg-zinc-900 rounded-2xl transition-all duration-300 ${
+                        sidebarState ? "" : ""
                     }`}
                 >
                     {children}

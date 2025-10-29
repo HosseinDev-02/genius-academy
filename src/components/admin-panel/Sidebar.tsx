@@ -48,32 +48,29 @@ export default function Sidebar() {
 
     return (
         <div
-            className={`fixed -right-80 xl:right-0 top-0 p-5 bottom-0 w-80 h-full bg-indigo-900 transition-all duration-300`}
+            className={`p-4 bg-zinc-900 transition-all duration-300 h-full w-full rounded-2xl`}
         >
+            {/* Sidebar ClassName : fixed -right-80 xl:right-0 top-0 p-5 bottom-0 w-80 h-full bg-zinc-900 transition-all duration-300 */}
             {/* Sidebar Open/Close Button */}
-            <span
+            {/* <span
                 onClick={() => setIsOpen((prevState) => !prevState)}
-                className="w-8 h-8 rounded-l-xl bg-primary text-white hidden xl:flex items-center text-xl justify-center absolute -left-8 top-4 z-[1001]"
+                className="w-10 h-10 rounded-l-xl bg-teal-700 text-white cursor-pointer hidden xl:flex items-center text-xl justify-center absolute -left-10 top-4 z-[1001]"
             >
-                {isOpen ? (
-                    <ChevronLeft size={20} />
-                ) : (
-                    <ChevronRight size={20} />
-                )}
-            </span>
+                <ChevronRight className={`transition-all duration-300 ${isOpen ? "rotate-180" : ""}`} strokeWidth={'2.5px'} size={20} />
+            </span> */}
             {/* Sidebar Header */}
             <h5 className="font-YekanBakh-Black text-2xl text-center mb-5">
                     پنل مدیریت
                 </h5>
             {/* Sidebar Menu */}
-            <ul className="flex flex-col gap-1 text-white font-YekanBakh-SemiBold *:rounded-md *:hover:bg-indigo-950 *:transition-colors *:duration-300 *:cursor-pointer *:w-full *:px-5 *:h-14 *:flex *:items-center *:gap-3">
+            <ul className="flex flex-col gap-3 font-YekanBakh-SemiBold text-white *:rounded-md *:transition-colors *:duration-300 *:cursor-pointer *:w-full *:px-5 *:h-12 *:flex *:items-center *:gap-3">
                 {adminPanelMenuItems.map((item) => {
                     const Icon = iconsMap[item.href];
                     return (
                         <Link
                             key={item.id}
                             className={
-                                pathname === item.href ? "bg-indigo-950" : ""
+                                `${pathname === item.href ? "bg-teal-800" : ""} hover:bg-teal-600` 
                             }
                             href={item.href}
                         >
@@ -82,7 +79,7 @@ export default function Sidebar() {
                         </Link>
                     );
                 })}
-                <Link className="text-red-600" href="/">
+                <Link className="text-red-600 hover:opacity-80" href="/">
                     <PowerIcon size={24} />
                     <span>خروج از سیستم</span>
                 </Link>
