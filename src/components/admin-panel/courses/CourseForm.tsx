@@ -26,38 +26,43 @@ import { Course } from "@/src/lib/definition";
 import { courses } from "@/src/lib/placeholder-data";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import { getAllCategories } from "@/src/lib/actions";
 
 interface CourseForm {
     courseId?: string;
 }
 
-const formSchema = z.object({
-    title: z.string().min(3, "عنوان باید حداقل ۳ حرف باشد"),
-    teacher: z.string().min(2, "مدرس را انتخاب کنید"),
-    category: z.string().min(2, "دسته‌بندی را وارد کنید"),
-    price: z.any(),
-    shortName: z.string().min(3, "نام کوتاه باید حداقل ۳ حرف باشد"),
-    is_completed: z.string().default('isCompleted'),
-    img: z
-        .any()
-        .refine((file) => file?.length === 1, "تصویر الزامی است")
-        .refine(
-            (file) => file?.[0]?.type?.startsWith("image/"),
-            "فایل انتخاب‌شده باید تصویر باشد"
-        ),
-});
+const formSchema = z
+    .object({
+        title: z.string().min(3, "عنوان باید حداقل ۳ حرف باشد"),
+        user_id: z.string().min(2, "مدرس را انتخاب کنید"),
+        category_id: z.string().min(2, "دسته‌بندی را وارد کنید"),
+        price: z.coerce.number(),
+        short_name: z.string().min(3, "نام کوتاه باید حداقل ۳ حرف باشد"),
+        is_completed: z.enum(["isCompleted", "inProgress"]),
+        image: z
+            .any()
+            .refine(
+                (file) => file instanceof File,
+                "لطفاً یک تصویر انتخاب کنید"
+            ),
+    })
+    .transform((data) => ({
+        ...data,
+        is_completed: data.is_completed === "isCompleted",
+    }));
 
 export default function CourseForm({ courseId }: CourseForm) {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             title: "",
-            teacher: "",
-            category: "",
-            price: "",
-            shortName: "",
-            is_completed: '',
-            img: "",
+            user_id: "",
+            category_id: "",
+            price: 0,
+            short_name: "",
+            is_completed: false,
+            image: null,
         },
     });
     const [fakeData, setFakeData] = useState<Course>();
@@ -77,10 +82,23 @@ export default function CourseForm({ courseId }: CourseForm) {
     //     }
     // }, [courseId, form]);
 
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
-        const id = uuidv4();
-        console.log({ ...values, id });
-        // اینجا می‌تونی درخواست POST به API ارسال کنی
+
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        
+        const formData = new FormData();
+        formData.append("title", values.title);
+        formData.append("price", values.price.toString());
+        formData.append("category_id", values.category_id);
+        formData.append("user_id", values.user_id);
+        formData.append("is_completed", values.is_completed ? "true" : "false");
+        formData.append("short_name", values.short_name);
+        formData.append("image", values.image);
+    
+        const res = await fetch("/api/courses", {
+          method: "POST",
+          body: formData,
+        });
+    
     };
 
     return (
@@ -113,7 +131,7 @@ export default function CourseForm({ courseId }: CourseForm) {
 
                         <FormField
                             control={form.control}
-                            name="teacher"
+                            name="user_id"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel className="text-gray-400 font-YekanBakh-SemiBold mb-2">
@@ -160,7 +178,7 @@ export default function CourseForm({ courseId }: CourseForm) {
 
                         <FormField
                             control={form.control}
-                            name="category"
+                            name="category_id"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel className="text-gray-400 font-YekanBakh-SemiBold mb-2">
@@ -215,6 +233,7 @@ export default function CourseForm({ courseId }: CourseForm) {
                                     </FormLabel>
                                     <FormControl>
                                         <Input
+                                            type="number"
                                             className="focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600"
                                             placeholder="200000"
                                             {...field}
@@ -227,7 +246,7 @@ export default function CourseForm({ courseId }: CourseForm) {
 
                         <FormField
                             control={form.control}
-                            name="shortName"
+                            name="short_name"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel className="text-gray-400 font-YekanBakh-SemiBold mb-2">
@@ -247,7 +266,7 @@ export default function CourseForm({ courseId }: CourseForm) {
 
                         <FormField
                             control={form.control}
-                            name="img"
+                            name="image"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel className="text-gray-400 font-YekanBakh-SemiBold mb-2">
@@ -258,9 +277,10 @@ export default function CourseForm({ courseId }: CourseForm) {
                                             className="border-zinc-600"
                                             type="file"
                                             accept="image/*"
-                                            onChange={(e) =>
-                                                field.onChange(e.target.files)
-                                            }
+                                            onChange={(e) => {
+                                                console.log(e.currentTarget);
+                                                field.onChange(e.target.files?.[0]);
+                                            }}
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -272,31 +292,42 @@ export default function CourseForm({ courseId }: CourseForm) {
                             name="is_completed"
                             render={({ field }) => (
                                 <FormItem className="space-y-3">
-                                  <FormLabel>وضعیت دوره</FormLabel>
-                                  <FormControl>
-                                    <RadioGroup dir="rtl"
-                                      onValueChange={field.onChange} // 👈 اتصال به فرم
-                                      defaultValue={field.value}
-                                      className="course-status flex flex-col space-y-1"
-                                    >
-                                      <FormItem className="flex items-center space-x-3 space-x-reverse">
-                                        <FormControl>
-                                          <RadioGroupItem className="border-teal-800 border-2 ring-teal-800 text-teal-800 focus-visible:ring-teal-800" value="isCompleted" />
-                                        </FormControl>
-                                        <FormLabel className="font-normal">تکمیل شده</FormLabel>
-                                      </FormItem>
-                    
-                                      <FormItem className="flex items-center space-x-3 space-x-reverse">
-                                        <FormControl>
-                                          <RadioGroupItem className="border-teal-800 border-2 ring-teal-800 text-teal-800 focus-visible:ring-teal-800" value="inProgress" />
-                                        </FormControl>
-                                        <FormLabel className="font-normal">درحال برگزاری</FormLabel>
-                                      </FormItem>
-                                    </RadioGroup>
-                                  </FormControl>
-                                  <FormMessage />
+                                    <FormLabel>وضعیت دوره</FormLabel>
+                                    <FormControl>
+                                        <RadioGroup
+                                            dir="rtl"
+                                            onValueChange={field.onChange} // 👈 اتصال به فرم
+                                            defaultValue={field.value}
+                                            className="course-status flex flex-col space-y-1"
+                                        >
+                                            <FormItem className="flex items-center space-x-3 space-x-reverse">
+                                                <FormControl>
+                                                    <RadioGroupItem
+                                                        className="border-teal-800 border-2 ring-teal-800 text-teal-800 focus-visible:ring-teal-800"
+                                                        value="isCompleted"
+                                                    />
+                                                </FormControl>
+                                                <FormLabel className="font-normal">
+                                                    تکمیل شده
+                                                </FormLabel>
+                                            </FormItem>
+
+                                            <FormItem className="flex items-center space-x-3 space-x-reverse">
+                                                <FormControl>
+                                                    <RadioGroupItem
+                                                        className="border-teal-800 border-2 ring-teal-800 text-teal-800 focus-visible:ring-teal-800"
+                                                        value="inProgress"
+                                                    />
+                                                </FormControl>
+                                                <FormLabel className="font-normal">
+                                                    درحال برگزاری
+                                                </FormLabel>
+                                            </FormItem>
+                                        </RadioGroup>
+                                    </FormControl>
+                                    <FormMessage />
                                 </FormItem>
-                              )}
+                            )}
                         />
                     </div>
 

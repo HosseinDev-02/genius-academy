@@ -54,21 +54,21 @@ async function seedCategories() {
 }
 
 async function seedUsers() {
-    await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-    await sql`
-  CREATE TABLE IF NOT EXISTS users (
-    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    phone_number VARCHAR(20),
-    role VARCHAR(50) DEFAULT 'user',
-    image TEXT,
-    about TEXT,
-    password TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT NOW(),
-    updated_at TIMESTAMP DEFAULT NOW()
-  );
-`;
+//     await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+//     await sql`
+//   CREATE TABLE IF NOT EXISTS users (
+//     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+//     name VARCHAR(255) NOT NULL,
+//     email VARCHAR(255) UNIQUE NOT NULL,
+//     phone_number VARCHAR(20),
+//     role VARCHAR(50) DEFAULT 'user',
+//     image TEXT,
+//     about TEXT,
+//     password TEXT NOT NULL,
+//     created_at TIMESTAMP DEFAULT NOW(),
+//     updated_at TIMESTAMP DEFAULT NOW()
+//   );
+// `;
     const insertedUsers = await Promise.all(
         fakeUsers.map(async (user) => {
             const hashedPassword = await bcrypt.hash(user.password, 10);
