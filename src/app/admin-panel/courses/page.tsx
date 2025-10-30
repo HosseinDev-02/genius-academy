@@ -37,7 +37,7 @@ const columns: ColumnDef<Course>[] = [
                 <DropdownMenu dir="rtl" modal={false}>
                     <DropdownMenuTrigger asChild>
                         <Button
-                            className="bg-zinc-950 border-0 cursor-pointer"
+                            className="bg-zinc-800 border-0 cursor-pointer"
                             variant="outline"
                             aria-label="Open menu"
                             size="icon-sm"
