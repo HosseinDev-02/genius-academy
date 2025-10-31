@@ -1,5 +1,5 @@
 import CourseForm from "@/src/components/admin-panel/courses/CourseForm";
-import { getAllCategories } from "@/src/lib/actions";
+import { getAllCategories, getAllTeachers } from "@/src/lib/actions";
 import React from "react";
 
 
@@ -8,14 +8,14 @@ import React from "react";
 export default async function AddCourse() {
     // Course : id, title, category, price, img
     const categories = await getAllCategories();
-    console.log('categories :', categories)
+    const teachers = await getAllTeachers()
     
 
     return (
         <div>
             {/* Page Header */}
             {/* Page Content */}
-            <CourseForm/>
+            <CourseForm teachers={teachers} categories={categories}/>
         </div>
     );
 }

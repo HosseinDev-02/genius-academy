@@ -26,10 +26,14 @@ import { Course } from "@/src/lib/definition";
 import { courses } from "@/src/lib/placeholder-data";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { getAllCategories } from "@/src/lib/actions";
+import { Category, User, getAllCategories } from "@/src/lib/actions";
+import { Params } from "next/dist/server/request/params";
+import { Timestamp } from "next/dist/server/lib/cache-handlers/types";
 
 interface CourseForm {
     courseId?: string;
+    categories: Category[];
+    teachers: User[];
 }
 
 const formSchema = z
@@ -52,7 +56,8 @@ const formSchema = z
         is_completed: data.is_completed === "isCompleted",
     }));
 
-export default function CourseForm({ courseId }: CourseForm) {
+export default function CourseForm({ courseId, categories, teachers }: CourseForm) {
+    console.log("categories :", categories);
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -65,7 +70,6 @@ export default function CourseForm({ courseId }: CourseForm) {
             image: null,
         },
     });
-    const [fakeData, setFakeData] = useState<Course>();
 
     // useEffect(() => {
     //     if (courseId) {
@@ -82,9 +86,7 @@ export default function CourseForm({ courseId }: CourseForm) {
     //     }
     // }, [courseId, form]);
 
-
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        
         const formData = new FormData();
         formData.append("title", values.title);
         formData.append("price", values.price.toString());
@@ -93,12 +95,11 @@ export default function CourseForm({ courseId }: CourseForm) {
         formData.append("is_completed", values.is_completed ? "true" : "false");
         formData.append("short_name", values.short_name);
         formData.append("image", values.image);
-    
+
         const res = await fetch("/api/courses", {
-          method: "POST",
-          body: formData,
+            method: "POST",
+            body: formData,
         });
-    
     };
 
     return (
@@ -150,24 +151,14 @@ export default function CourseForm({ courseId }: CourseForm) {
                                                 />
                                             </SelectTrigger>
                                             <SelectContent className="bg-zinc-800 border-none">
-                                                <SelectItem
-                                                    className="cursor-pointer"
-                                                    value="light"
-                                                >
-                                                    Light
-                                                </SelectItem>
-                                                <SelectItem
-                                                    className="cursor-pointer"
-                                                    value="dark"
-                                                >
-                                                    Dark
-                                                </SelectItem>
-                                                <SelectItem
-                                                    className="cursor-pointer"
-                                                    value="system"
-                                                >
-                                                    System
-                                                </SelectItem>
+                                                {teachers?.map((teacher) => (
+                                                    <SelectItem className="cursor-pointer hover:bg-gray-200 hover:text-title"
+                                                        key={teacher.id}
+                                                        value={teacher.id}
+                                                    >
+                                                        {teacher.name}
+                                                    </SelectItem>
+                                                ))}
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -197,24 +188,15 @@ export default function CourseForm({ courseId }: CourseForm) {
                                                 />
                                             </SelectTrigger>
                                             <SelectContent className="bg-zinc-800 border-none">
-                                                <SelectItem
-                                                    className="cursor-pointer"
-                                                    value="light"
-                                                >
-                                                    Light
-                                                </SelectItem>
-                                                <SelectItem
-                                                    className="cursor-pointer"
-                                                    value="dark"
-                                                >
-                                                    Dark
-                                                </SelectItem>
-                                                <SelectItem
-                                                    className="cursor-pointer"
-                                                    value="system"
-                                                >
-                                                    System
-                                                </SelectItem>
+                                                {categories?.map((category) => (
+                                                    <SelectItem
+                                                        className="cursor-pointer hover:bg-gray-200 hover:text-title"
+                                                        key={category.id}
+                                                        value={category.id}
+                                                    >
+                                                        {category.title}
+                                                    </SelectItem>
+                                                ))}
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -279,7 +261,9 @@ export default function CourseForm({ courseId }: CourseForm) {
                                             accept="image/*"
                                             onChange={(e) => {
                                                 console.log(e.currentTarget);
-                                                field.onChange(e.target.files?.[0]);
+                                                field.onChange(
+                                                    e.target.files?.[0]
+                                                );
                                             }}
                                         />
                                     </FormControl>

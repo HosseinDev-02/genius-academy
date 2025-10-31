@@ -1,5 +1,6 @@
 "use server";
 import { neon } from "@neondatabase/serverless";
+import { Timestamp } from "next/dist/server/lib/cache-handlers/types";
 const sql = neon(process.env.DATABASE_URL!);
 
 // console.log(sql)
@@ -12,6 +13,27 @@ type Course = {
     user_id: string;
     short_name: string;
     is_completed: boolean;
+};
+
+export type Category = {
+    id: string;
+    title: string;
+    short_name: string;
+    created_at: Date;
+    updated_at: Date;
+};
+
+export type User = {
+    id: string;
+    name: string;
+    email: string;
+    phone_number: string;
+    password: string;
+    about: string;
+    role: string;
+    image: string;
+    created_at: Date;
+    updated_at: Date;
 };
 
 async function createCourse(data: Course) {
@@ -40,16 +62,25 @@ async function createCourse(data: Course) {
     }
 }
 
-async function getAllCategories() {
+export async function getAllCategories(): Promise<Category[]> {
     try {
-        const data = sql`
-          SELECT * FROM categories`;
-        return data;
+        const data =
+            await sql`SELECT * FROM categories ORDER BY created_at ASC`;
+        return data as unknown as Category[];
     } catch (error) {
-        return {
-            message: "DATABASE ERROR WHILE GETTING CATEGORIES",
-        };
+        console.error(error);
+        return [];
     }
 }
 
-export { getAllCategories };
+export async function getAllTeachers(): Promise<User[]> {
+    try {
+        const data =
+            await sql`SELECT * FROM users WHERE role = 'teacher' ORDER BY created_at DESC`;
+            console.log(data)
+        return data as unknown as User[];
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}
