@@ -29,6 +29,7 @@ import { Label } from "@/components/ui/label";
 import { Category, User, getAllCategories } from "@/src/lib/actions";
 import { Params } from "next/dist/server/request/params";
 import { Timestamp } from "next/dist/server/lib/cache-handlers/types";
+import { Toaster, toast } from "sonner";
 
 interface CourseForm {
     courseId?: string;
@@ -56,7 +57,11 @@ const formSchema = z
         is_completed: data.is_completed === "isCompleted",
     }));
 
-export default function CourseForm({ courseId, categories, teachers }: CourseForm) {
+export default function CourseForm({
+    courseId,
+    categories,
+    teachers,
+}: CourseForm) {
     console.log("categories :", categories);
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -96,14 +101,43 @@ export default function CourseForm({ courseId, categories, teachers }: CourseFor
         formData.append("short_name", values.short_name);
         formData.append("image", values.image);
 
-        const res = await fetch("/api/courses", {
-            method: "POST",
-            body: formData,
-        });
+        console.log(values);
+
+        try {
+            const res = await fetch("/api/courses", {
+                method: "POST",
+                body: formData,
+            });
+            console.log(res);
+            if(res.ok) {
+                toast.success("دوره با موفقیت افزوده شد");
+            }
+            else {
+                throw new Error('هنگام افزودن دوره خطایی رخ داد');
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error("هنگام افزودن دوره خطایی رخ داد");
+            return {
+                massage: "DATABASE ERROR WHILE CREATING COURSE",
+            };
+        }
     };
 
     return (
         <div>
+            {/* <Button
+                className="bg-primary"
+                onClick={() => toast.success("دوره با موفقیت افزوده شد")}
+            >
+                Success
+            </Button>
+            <Button
+                className="bg-primary"
+                onClick={() => toast.error("هنگام افزودن دوره خطایی رخ داد")}
+            >
+                Error
+            </Button> */}
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
@@ -152,7 +186,8 @@ export default function CourseForm({ courseId, categories, teachers }: CourseFor
                                             </SelectTrigger>
                                             <SelectContent className="bg-zinc-800 border-none">
                                                 {teachers?.map((teacher) => (
-                                                    <SelectItem className="cursor-pointer hover:bg-gray-200 hover:text-title"
+                                                    <SelectItem
+                                                        className="cursor-pointer hover:bg-gray-200 hover:text-title"
                                                         key={teacher.id}
                                                         value={teacher.id}
                                                     >
@@ -326,6 +361,7 @@ export default function CourseForm({ courseId, categories, teachers }: CourseFor
                     </div>
                 </form>
             </Form>
+            <Toaster position="top-center" toastOptions={{ duration: 2500, classNames:{success: "!bg-teal-700", error: "!bg-red-700",} , className: "!text-white !border-none", }}/>
         </div>
     );
 }
