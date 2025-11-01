@@ -30,6 +30,8 @@ import { Category, User, getAllCategories } from "@/src/lib/actions";
 import { Params } from "next/dist/server/request/params";
 import { Timestamp } from "next/dist/server/lib/cache-handlers/types";
 import { Toaster, toast } from "sonner";
+import dynamic from "next/dynamic";
+import TiptapEditor from "../Editor";
 
 interface CourseForm {
     courseId?: string;
@@ -47,6 +49,7 @@ const formSchema = z
         is_completed: z.enum(["isCompleted", "inProgress"], {
             errorMap: () => ({ message: "وضعیت را انتخاب کنید" }),
         }),
+        content: z.any(),
         image: z
             .any()
             .refine(
@@ -75,6 +78,7 @@ export default function CourseForm({
             short_name: "",
             is_completed: false,
             image: null,
+            content: {}
         },
     });
 
@@ -104,7 +108,7 @@ export default function CourseForm({
         formData.append("image", values.image);
 
         console.log(values);
-        console.log('Form Submitted !!');
+        console.log("Form Submitted !!");
 
         try {
             const res = await fetch("/api/courses", {
@@ -112,11 +116,10 @@ export default function CourseForm({
                 body: formData,
             });
             console.log(res);
-            if(res.ok) {
+            if (res.ok) {
                 toast.success("دوره با موفقیت افزوده شد");
-            }
-            else {
-                throw new Error('هنگام افزودن دوره خطایی رخ داد');
+            } else {
+                throw new Error("هنگام افزودن دوره خطایی رخ داد");
             }
         } catch (error) {
             console.log(error);
@@ -353,6 +356,18 @@ export default function CourseForm({
                         />
                     </div>
 
+                    <FormField
+                        control={form.control}
+                        name="content"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>توضیحات / محتوای دوره</FormLabel>
+                                <TiptapEditor value={field.value} onChange={field.onChange} />
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
                     <div className="flex items-center justify-center">
                         <Button
                             size={"lg"}
@@ -364,7 +379,17 @@ export default function CourseForm({
                     </div>
                 </form>
             </Form>
-            <Toaster position="top-center" toastOptions={{ duration: 2500, classNames:{success: "!bg-teal-700", error: "!bg-red-700",} , className: "!text-white !border-none", }}/>
+            <Toaster
+                position="top-center"
+                toastOptions={{
+                    duration: 2500,
+                    classNames: {
+                        success: "!bg-teal-700",
+                        error: "!bg-red-700",
+                    },
+                    className: "!text-white !border-none",
+                }}
+            />
         </div>
     );
 }
