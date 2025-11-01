@@ -1,25 +1,28 @@
 import { StateProp } from "@/src/lib/definition";
-import { PanelRightClose, PanelRightOpen } from "lucide-react";
+import {
+    MenuIcon,
+    PanelRightClose,
+    PanelRightOpen,
+    TextAlignEnd,
+} from "lucide-react";
 import React from "react";
 import { useAdminPanelContext } from "./AdminPanelProvider";
 
-export default function AdminPanelHeader() {
+export default function AdminPanelHeader({ className }: { className: string }) {
     const { sidebarOpen } = useAdminPanelContext();
     const [isOpen, setIsOpen] = sidebarOpen;
     return (
-        <div className="fixed top-0 h-16 border-b border-border right-100 left-8 flex items-center justify-between px-8">
-            <div>
-                <span
-                    onClick={() => setIsOpen((prevState) => !prevState)}
-                    className="cursor-pointer flex xl:hidden items-center justify-center rounded bg-indigo-900 w-12 h-12"
-                >
-                    {isOpen ? (
-                        <PanelRightClose size={28} />
-                    ) : (
-                        <PanelRightOpen size={28} />
-                    )}
-                </span>
-            </div>
+        <div
+            className={`flex lg:hidden rounded-2xl items-center justify-between bg-zinc-900 p-4 ${className}`}
+        >
+            <span className="cursor-pointer" onClick={() => setIsOpen((prevState) => !prevState)} title="Toggle Sidebar">
+                <TextAlignEnd size={24} />
+            </span>
+            <h5 className="font-YekanBakh-Black text-2xl text-teal-700">
+                پنل مدیریت
+            </h5>
+            {/* fake elem */}
+            <span></span>
         </div>
     );
 }

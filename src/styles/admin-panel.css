@@ -1,3 +1,8 @@
 .course-status > div > button > span > svg {
     fill: var(--color-teal-800) !important;
 }
+
+.form-message {
+    color: var(--color-red-700) !important;
+    font-family: var(--font-YekanBakh-SemiBold) !important;
+}

@@ -14,7 +14,7 @@ export default function Cover({ setElemStatus, className }: CoverType) {
     return (
         <div
             onClick={coverShowHandler}
-            className={`fixed inset-0 bg-secondary/80 z-40 transition-all ${className}`}
+            className={`fixed inset-0 bg-secondary/80 z-40 transition-all duration-300 ${className}`}
         ></div>
     );
 }

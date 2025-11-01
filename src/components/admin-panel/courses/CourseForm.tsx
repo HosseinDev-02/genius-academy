@@ -40,11 +40,13 @@ interface CourseForm {
 const formSchema = z
     .object({
         title: z.string().min(3, "عنوان باید حداقل ۳ حرف باشد"),
-        user_id: z.string().min(2, "مدرس را انتخاب کنید"),
-        category_id: z.string().min(2, "دسته‌بندی را وارد کنید"),
-        price: z.coerce.number(),
+        user_id: z.string().nonempty("مدرس را انتخاب کنید"),
+        category_id: z.string().nonempty("دسته‌بندی را وارد کنید"),
+        price: z.coerce.number().min(99999, "قیمت باید حداقل 6 رقم باشد"),
         short_name: z.string().min(3, "نام کوتاه باید حداقل ۳ حرف باشد"),
-        is_completed: z.enum(["isCompleted", "inProgress"]),
+        is_completed: z.enum(["isCompleted", "inProgress"], {
+            errorMap: () => ({ message: "وضعیت را انتخاب کنید" }),
+        }),
         image: z
             .any()
             .refine(
@@ -102,6 +104,7 @@ export default function CourseForm({
         formData.append("image", values.image);
 
         console.log(values);
+        console.log('Form Submitted !!');
 
         try {
             const res = await fetch("/api/courses", {
@@ -141,9 +144,9 @@ export default function CourseForm({
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="space-y-4"
+                    className="space-y-10"
                 >
-                    <div className="grid grid-cols-2 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <FormField
                             control={form.control}
                             name="title"
@@ -159,7 +162,7 @@ export default function CourseForm({
                                             {...field}
                                         />
                                     </FormControl>
-                                    <FormMessage />
+                                    <FormMessage className="form-message" />
                                 </FormItem>
                             )}
                         />
@@ -197,7 +200,7 @@ export default function CourseForm({
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
-                                    <FormMessage />
+                                    <FormMessage className="form-message" />
                                 </FormItem>
                             )}
                         />
@@ -235,7 +238,7 @@ export default function CourseForm({
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
-                                    <FormMessage />
+                                    <FormMessage className="form-message" />
                                 </FormItem>
                             )}
                         />
@@ -256,7 +259,7 @@ export default function CourseForm({
                                             {...field}
                                         />
                                     </FormControl>
-                                    <FormMessage />
+                                    <FormMessage className="form-message" />
                                 </FormItem>
                             )}
                         />
@@ -276,7 +279,7 @@ export default function CourseForm({
                                             {...field}
                                         />
                                     </FormControl>
-                                    <FormMessage />
+                                    <FormMessage className="form-message" />
                                 </FormItem>
                             )}
                         />
@@ -302,7 +305,7 @@ export default function CourseForm({
                                             }}
                                         />
                                     </FormControl>
-                                    <FormMessage />
+                                    <FormMessage className="form-message" />
                                 </FormItem>
                             )}
                         />
@@ -344,7 +347,7 @@ export default function CourseForm({
                                             </FormItem>
                                         </RadioGroup>
                                     </FormControl>
-                                    <FormMessage />
+                                    <FormMessage className="form-message" />
                                 </FormItem>
                             )}
                         />
