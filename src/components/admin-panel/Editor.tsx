@@ -8,6 +8,7 @@ import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
 import TextAlign from "@tiptap/extension-text-align";
 import Paragraph from "@tiptap/extension-paragraph";
+import Heading from "@tiptap/extension-heading";
 import {
     Bold,
     Italic,
@@ -30,7 +31,25 @@ interface Props {
 
 const CustomParagraph = Paragraph.extend({
     renderHTML({ HTMLAttributes }: { HTMLAttributes: any }) {
-        return ["p", { ...HTMLAttributes, class: "paragraph" }, 0];
+        return ["p", { ...HTMLAttributes, class: "text-sm" }, 0];
+    },
+});
+
+const CustomImage = Image.extend({
+    renderHTML({ HTMLAttributes }: { HTMLAttributes: any }) {
+      return [
+        "img",
+        {
+          ...HTMLAttributes,
+          class: "w-full rounded-3xl",
+        },
+      ];
+    },
+  });
+
+const CustomTitle = Heading.extend({
+    renderHTML({ HTMLAttributes }: { HTMLAttributes: any }) {
+        return ["h2", { ...HTMLAttributes, class: "font-YekanBakh-Black mb-3 text-xl text-title" }, 0];
     },
 });
 
@@ -38,17 +57,15 @@ export default function TiptapEditor({ value, onChange }: Props) {
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
-                heading: { levels: [1, 2, 3] },
+                heading: false,
                 paragraph: false,
             }),
+            CustomTitle,
             CustomParagraph,
             Link.configure({
                 openOnClick: false,
             }),
-            Image,
-            Image.configure({
-                inline: false,
-            }),
+            CustomImage,
             TextAlign.configure({
                 types: ["heading", "paragraph"],
             }),
@@ -74,6 +91,10 @@ export default function TiptapEditor({ value, onChange }: Props) {
     useEffect(() => {
         return () => editor?.destroy();
     }, [editor]);
+
+    useEffect(() => {
+        console.log(value)
+    }, [value])
 
     if (!editor) return null;
 
@@ -108,21 +129,6 @@ export default function TiptapEditor({ value, onChange }: Props) {
                     )}
                 >
                     <Italic size={16} />
-                </Button>
-
-                <Button
-                    type="button"
-                    size="icon"
-                    variant="ghost"
-                    onClick={() =>
-                        editor.chain().focus().toggleHeading({ level: 1 }).run()
-                    }
-                    className={cn(
-                        btnClass,
-                        editor.isActive("heading", { level: 1 }) && activeClass
-                    )}
-                >
-                    <Heading1 size={16} />
                 </Button>
 
                 <Button

@@ -25,14 +25,6 @@ import Image from "next/image";
 import CourseDetailMenu from "@/src/components/ui/CourseDetailMenu";
 
 export default function Page() {
-    // const tabViewHandler = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    //     console.log(e.currentTarget.dataset.type);
-    //     document.querySelector(".active-tab")?.classList.remove("active-tab");
-    //     e.currentTarget.classList.add("active-tab");
-    //     document
-    //         .getElementById(e.currentTarget.dataset.type)
-    //         ?.scrollIntoView({ behavior: "smooth" });
-    // };
 
     return (
         <section className="py-5">

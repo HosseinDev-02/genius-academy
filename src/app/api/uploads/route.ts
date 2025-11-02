@@ -1,6 +1,7 @@
-import { writeFile } from "fs/promises";
-import path from "path";
 import { NextResponse } from "next/server";
+import path from "path";
+import { writeFile, access } from "fs/promises";
+import { constants } from "fs";
 
 export async function POST(req: Request) {
     try {
@@ -14,17 +15,32 @@ export async function POST(req: Request) {
             );
         }
 
+        const fileName = file.name; // از نام اصلی استفاده می‌کنیم
+        const uploadDir = path.join(process.cwd(), "public/uploads");
+        const filePath = path.join(uploadDir, fileName);
+
+        // بررسی وجود فایل
+        try {
+            await access(filePath, constants.F_OK);
+            // اگر فایل وجود داشت:
+            return NextResponse.json({
+                message: "File already exists",
+                url: `/uploads/${fileName}`,
+                exists: true,
+            });
+        } catch {
+            // اگر فایل وجود نداشت، می‌ریم برای ذخیره
+        }
+
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
-
-        const fileName = `${Date.now()}-${file.name}`;
-        const filePath = path.join(process.cwd(), "public/uploads", fileName);
 
         await writeFile(filePath, buffer);
 
         return NextResponse.json({
-            fileName,
-            url: `/uploads/${fileName}`, // مسیر قابل استفاده در فرانت
+            message: "File uploaded successfully",
+            url: `/uploads/${fileName}`,
+            exists: false,
         });
     } catch (err) {
         console.error(err);

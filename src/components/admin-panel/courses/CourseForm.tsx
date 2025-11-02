@@ -24,6 +24,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Category, User } from "@/src/lib/actions";
 import { Toaster, toast } from "sonner";
 import TiptapEditor from "../Editor";
+import { Textarea } from "@/components/ui/textarea";
 
 interface CourseForm {
     courseId?: string;
@@ -34,6 +35,7 @@ interface CourseForm {
 const formSchema = z
     .object({
         title: z.string().min(3, "عنوان باید حداقل ۳ حرف باشد"),
+        about: z.string().min(3, "توضیح باید حداقل ۳ حرف باشد"),
         user_id: z.string().nonempty("مدرس را انتخاب کنید"),
         category_id: z.string().nonempty("دسته‌بندی را وارد کنید"),
         price: z.coerce.number().min(99999, "قیمت باید حداقل 6 رقم باشد"),
@@ -65,6 +67,7 @@ export default function CourseForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
             title: "",
+            about: "",
             user_id: "",
             category_id: "",
             price: 0,
@@ -93,6 +96,7 @@ export default function CourseForm({
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         const formData = new FormData();
         formData.append("title", values.title);
+        formData.append("about", values.about);
         formData.append("price", values.price.toString());
         formData.append("category_id", values.category_id);
         formData.append("user_id", values.user_id);
@@ -133,7 +137,7 @@ export default function CourseForm({
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="space-y-10"
                 >
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
                         <FormField
                             control={form.control}
                             name="title"
@@ -333,6 +337,22 @@ export default function CourseForm({
                                                 </FormLabel>
                                             </FormItem>
                                         </RadioGroup>
+                                    </FormControl>
+                                    <FormMessage className="form-message" />
+                                </FormItem>
+                            )}
+                        />
+
+<FormField
+                            control={form.control}
+                            name="about"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-gray-400 font-YekanBakh-SemiBold mb-2">
+                                        درباره دوره
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Textarea rows={20} placeholder="توضیحات مختصر دوره ..." {...field} className="focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600 min-h-40 resize-none"/>
                                     </FormControl>
                                     <FormMessage className="form-message" />
                                 </FormItem>

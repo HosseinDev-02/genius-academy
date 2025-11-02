@@ -92,6 +92,26 @@ const columns: ColumnDef<Course>[] = [
         header: "قیمت",
     },
     {
+        accessorKey: "short_name",
+        header: "نام کوتاه",
+    },
+    {
+        accessorKey: "isCompleted",
+        header: "وضعیت",
+        cell: ({ row }) => {
+            const isCompleted = row.getValue("isCompleted");
+            return (
+                <span
+                    className={`px-2 py-1 rounded font-YekanBakh-SemiBold text-xs ${
+                        isCompleted ? "bg-green-600" : "bg-yellow-500"
+                    }`}
+                >
+                    {isCompleted ? "تکمیل شده" : "درحال برگزاری"}
+                </span>
+            );
+        },
+    },
+    {
         accessorKey: "img",
         header: "تصویر",
         cell: ({ row }) => {
@@ -163,7 +183,7 @@ export default function AdminPanelCourses() {
             <div className="h-full overflow-hidden">
                 {/* Course Table Header */}
                 <Link
-                    href='/admin-panel/courses/add-course'
+                    href="/admin-panel/courses/add-course"
                     className="col-span-1 inline-flex items-center justify-center gap-2 text-sm h-10 px-3 rounded transition-colors duration-300 bg-teal-800 hover:bg-teal-600 font-YekanBakh-SemiBold text-white cursor-pointer mb-3"
                 >
                     <span>افزودن دوره</span>
