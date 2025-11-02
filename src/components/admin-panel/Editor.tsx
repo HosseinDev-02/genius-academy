@@ -42,7 +42,6 @@ export default function TiptapEditor({ value, onChange }: Props) {
                 paragraph: false,
             }),
             CustomParagraph,
-            Underline,
             Link.configure({
                 openOnClick: false,
             }),
@@ -58,8 +57,8 @@ export default function TiptapEditor({ value, onChange }: Props) {
         editorProps: {
             attributes: {
                 class: cn(
-                    "prose prose-sm sm:prose lg:prose-lg focus:outline-none min-h-[250px] p-4 rounded-md border",
-                    "bg-zinc-900 border-zinc-700 text-zinc-100 dark:prose-invert",
+                    "prose prose-sm sm:prose lg:prose-lg focus:outline-none min-h-[400px] p-4 rounded-md border",
+                    "bg-zinc-900 border-zinc-600 text-zinc-100 dark:prose-invert focus:border-primary transition-colors duration-300",
                     "text-right leading-relaxed"
                 ),
                 dir: "rtl",
@@ -79,12 +78,12 @@ export default function TiptapEditor({ value, onChange }: Props) {
     if (!editor) return null;
 
     const activeClass = "bg-primary text-white";
-    const btnClass = "h-8 w-8 p-0 rounded-md";
+    const btnClass = "h-8 w-8 p-0 rounded-md cursor-pointer";
 
     return (
         <div className="w-full">
             {/* Toolbar */}
-            <div className="flex flex-wrap items-center gap-2 border border-zinc-700 rounded-md p-2 mb-2 bg-zinc-800/60 backdrop-blur">
+            <div className="flex flex-wrap items-center gap-2 border border-zinc-600 rounded-md p-2 mb-3 bg-zinc-800 backdrop-blur">
                 <Button
                     type="button"
                     size="icon"
@@ -109,21 +108,6 @@ export default function TiptapEditor({ value, onChange }: Props) {
                     )}
                 >
                     <Italic size={16} />
-                </Button>
-
-                <Button
-                    type="button"
-                    size="icon"
-                    variant="ghost"
-                    onClick={() =>
-                        editor.chain().focus().toggleUnderline().run()
-                    }
-                    className={cn(
-                        btnClass,
-                        editor.isActive("underline") && activeClass
-                    )}
-                >
-                    <UnderlineIcon size={16} />
                 </Button>
 
                 <Button
@@ -189,6 +173,7 @@ export default function TiptapEditor({ value, onChange }: Props) {
                     type="button"
                     size="icon"
                     variant="ghost"
+                    className={cn(btnClass)}
                     onClick={() => {
                         // یه input مخفی می‌سازیم
                         const input = document.createElement("input");
@@ -236,7 +221,7 @@ export default function TiptapEditor({ value, onChange }: Props) {
                     <ImageIcon size={16} />
                 </Button>
 
-                <div className="ml-auto flex gap-2">
+                <div className="ml-auto flex flex-row-reverse gap-2">
                     <Button
                         type="button"
                         size="icon"
@@ -261,7 +246,7 @@ export default function TiptapEditor({ value, onChange }: Props) {
             {/* Editor */}
             <EditorContent
                 editor={editor}
-                className="border border-zinc-700 rounded-md min-h-[300px] bg-zinc-900 text-zinc-100 p-3 leading-relaxed"
+                className="rounded-md min-h-[400px] bg-zinc-900 text-zinc-100 leading-relaxed"
             />
         </div>
     );

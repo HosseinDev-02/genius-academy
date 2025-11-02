@@ -15,7 +15,7 @@ import { Course } from "@/src/lib/definition";
 import Image from "next/image";
 import { useMediaQuery } from "usehooks-ts";
 import Link from "next/link";
-import { MoreHorizontalIcon, PencilIcon, TrashIcon } from "lucide-react";
+import { MoreHorizontalIcon, PencilIcon, Plus, TrashIcon } from "lucide-react";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -158,9 +158,17 @@ export default function AdminPanelCourses() {
     return (
         <div className="h-full flex flex-col">
             {/* Page Header */}
-            <PageHeader title="دوره ها" href="courses/add-course" />
+            <PageHeader title="دوره ها" />
             {/* Page Content */}
             <div className="h-full overflow-hidden">
+                {/* Course Table Header */}
+                <Link
+                    href='/admin-panel/courses/add-course'
+                    className="col-span-1 inline-flex items-center justify-center gap-2 text-sm h-10 px-3 rounded transition-colors duration-300 bg-teal-800 hover:bg-teal-600 font-YekanBakh-SemiBold text-white cursor-pointer mb-3"
+                >
+                    <span>افزودن دوره</span>
+                    <Plus strokeWidth={"2.5px"} size={16} />
+                </Link>
                 {/* Courses Table */}
                 {courses.length !== 0 && (
                     <DataTable

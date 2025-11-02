@@ -10,7 +10,7 @@ export default function AdminPanelLayout({
 }) {
     return (
         <html dir="rtl" lang="fa">
-            <body className="h-screen bg-zinc-800 text-white font-YekanBakh-Regular">
+            <body className="h-screen overflow-hidden bg-zinc-800 text-white font-YekanBakh-Regular">
                 <AdminPanelProvider>
                     {children}
                 </AdminPanelProvider>

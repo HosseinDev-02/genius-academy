@@ -1,9 +1,8 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -21,16 +20,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { v4 as uuidv4 } from "uuid";
-import { Course } from "@/src/lib/definition";
-import { courses } from "@/src/lib/placeholder-data";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
-import { Category, User, getAllCategories } from "@/src/lib/actions";
-import { Params } from "next/dist/server/request/params";
-import { Timestamp } from "next/dist/server/lib/cache-handlers/types";
+import { Category, User } from "@/src/lib/actions";
 import { Toaster, toast } from "sonner";
-import dynamic from "next/dynamic";
 import TiptapEditor from "../Editor";
 
 interface CourseForm {
@@ -49,7 +41,9 @@ const formSchema = z
         is_completed: z.enum(["isCompleted", "inProgress"], {
             errorMap: () => ({ message: "وضعیت را انتخاب کنید" }),
         }),
-        content: z.any(),
+        content: z.any().refine((val) => Object.keys(val).length > 0, {
+            message: "محتوای دوره را وارد کنید",
+          }),
         image: z
             .any()
             .refine(
@@ -67,7 +61,6 @@ export default function CourseForm({
     categories,
     teachers,
 }: CourseForm) {
-    console.log("categories :", categories);
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -351,15 +344,17 @@ export default function CourseForm({
                         control={form.control}
                         name="content"
                         render={({ field }) => (
-                            <FormItem>
+                            <FormItem className="space-y-3">
                                 <FormLabel>توضیحات / محتوای دوره</FormLabel>
-                                <TiptapEditor
-                                    value={field.value}
-                                    onChange={(json) => {
-                                        form.setValue("content", json);
-                                    }}
-                                />
-                                <FormMessage />
+                                <FormControl>
+                                    <TiptapEditor
+                                        value={field.value}
+                                        onChange={(json) => {
+                                            form.setValue("content", json);
+                                        }}
+                                    />
+                                </FormControl>
+                                <FormMessage className="form-message" />
                             </FormItem>
                         )}
                     />
