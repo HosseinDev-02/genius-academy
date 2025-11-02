@@ -16,6 +16,8 @@ export async function POST(req: Request) {
         const user_id = formData.get("user_id") as string;
         const short_name = formData.get("short_name") as string;
         const is_completed = formData.get("is_completed") === "true";
+        const contentSrt = formData.get("content") as string;
+        const content = JSON.parse(contentSrt);
 
         // ذخیره فایل در پوشه public/uploads
         const bytes = await image.arrayBuffer();
@@ -29,8 +31,8 @@ export async function POST(req: Request) {
 
         // ذخیره در دیتابیس
         await sql`
-    INSERT INTO courses (title, category_id, price, image, user_id, short_name, is_completed)
-    VALUES (${title}, ${category_id}, ${price}, ${imageUrl}, ${user_id}, ${short_name}, ${is_completed})
+    INSERT INTO courses (title, category_id, price, image, user_id, short_name, is_completed, content)
+    VALUES (${title}, ${category_id}, ${price}, ${imageUrl}, ${user_id}, ${short_name}, ${is_completed}, ${content})
     `;
 
         return NextResponse.json({ success: true, imageUrl });

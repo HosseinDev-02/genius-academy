@@ -78,7 +78,7 @@ export default function CourseForm({
             short_name: "",
             is_completed: false,
             image: null,
-            content: {}
+            content: {},
         },
     });
 
@@ -106,6 +106,9 @@ export default function CourseForm({
         formData.append("is_completed", values.is_completed ? "true" : "false");
         formData.append("short_name", values.short_name);
         formData.append("image", values.image);
+        formData.append("content", JSON.stringify(values.content));
+
+        console.log("content :", values.content);
 
         console.log(values);
         console.log("Form Submitted !!");
@@ -132,18 +135,6 @@ export default function CourseForm({
 
     return (
         <div>
-            {/* <Button
-                className="bg-primary"
-                onClick={() => toast.success("دوره با موفقیت افزوده شد")}
-            >
-                Success
-            </Button>
-            <Button
-                className="bg-primary"
-                onClick={() => toast.error("هنگام افزودن دوره خطایی رخ داد")}
-            >
-                Error
-            </Button> */}
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
@@ -362,7 +353,12 @@ export default function CourseForm({
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>توضیحات / محتوای دوره</FormLabel>
-                                <TiptapEditor value={field.value} onChange={field.onChange} />
+                                <TiptapEditor
+                                    value={field.value}
+                                    onChange={(json) => {
+                                        form.setValue("content", json);
+                                    }}
+                                />
                                 <FormMessage />
                             </FormItem>
                         )}

@@ -24,27 +24,22 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 interface Props {
-    value?: string;
-    onChange: (value: string) => void;
+    value?: any;
+    onChange: (value: any) => void;
 }
 
 const CustomParagraph = Paragraph.extend({
-    renderHTML({ HTMLAttributes}: { HTMLAttributes: any }) {
-      return ["p", { ...HTMLAttributes, class: "paragraph" }, 0]
+    renderHTML({ HTMLAttributes }: { HTMLAttributes: any }) {
+        return ["p", { ...HTMLAttributes, class: "paragraph" }, 0];
     },
-  });
+});
 
-//   const CustomTitle = Paragraph.extend({
-//     renderHTML({ HTMLAttributes}: { HTMLAttributes: any }) {
-//       return ["p", { ...HTMLAttributes, class: "paragraph" }, 0]
-//     },
-//   });
 export default function TiptapEditor({ value, onChange }: Props) {
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
                 heading: { levels: [1, 2, 3] },
-                paragraph: false
+                paragraph: false,
             }),
             CustomParagraph,
             Underline,
@@ -59,7 +54,7 @@ export default function TiptapEditor({ value, onChange }: Props) {
                 types: ["heading", "paragraph"],
             }),
         ],
-        content: value || "",
+        content: value,
         editorProps: {
             attributes: {
                 class: cn(
@@ -71,17 +66,15 @@ export default function TiptapEditor({ value, onChange }: Props) {
             },
         },
         onUpdate: ({ editor }) => {
-            onChange(editor.getHTML());
+            const json = editor.getJSON();
+            onChange(json);
         },
         immediatelyRender: false,
     });
 
     useEffect(() => {
-        if (editor && value !== editor.getHTML()) {
-            editor.commands.setContent(value || "", { emitUpdate: false });
-        }
-        console.log(value)
-    }, [value]);
+        return () => editor?.destroy();
+    }, [editor]);
 
     if (!editor) return null;
 
@@ -204,21 +197,37 @@ export default function TiptapEditor({ value, onChange }: Props) {
 
                         input.onchange = async () => {
                             const file = input.files?.[0];
-                            if (!file) return;
+                            if (!file || !editor) return;
 
-                            // فایل رو به Base64 تبدیل کن
-                            const reader = new FileReader();
-                            reader.onload = (e) => {
-                                const base64 = e.target?.result;
-                                if (base64 && editor) {
-                                    editor
-                                        .chain()
-                                        .focus()
-                                        .setImage({ src: base64 as string })
-                                        .run();
+                            // ارسال فایل به سرور
+                            const formData = new FormData();
+                            formData.append("image", file);
+
+                            try {
+                                const res = await fetch("/api/uploads", {
+                                    method: "POST",
+                                    body: formData,
+                                });
+
+                                if (!res.ok) {
+                                    console.error("Upload failed");
+                                    return;
                                 }
-                            };
-                            reader.readAsDataURL(file);
+
+                                const data = await res.json();
+
+                                // فرض می‌کنیم API ما { fileName: "...", url: "..." } برمی‌گردونه
+                                const imageUrl =
+                                    data.url || `/uploads/${data.fileName}`;
+
+                                editor
+                                    .chain()
+                                    .focus()
+                                    .setImage({ src: imageUrl })
+                                    .run();
+                            } catch (err) {
+                                console.error("Error uploading image:", err);
+                            }
                         };
 
                         input.click();
