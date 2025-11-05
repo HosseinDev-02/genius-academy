@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import {
     Form,
     FormControl,
@@ -23,7 +23,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Category, User } from "@/src/lib/actions";
 import { Toaster, toast } from "sonner";
-import TiptapEditor from "../Editor";
+import TiptapEditor, { EditorRef } from "../Editor";
 import { Textarea } from "@/components/ui/textarea";
 
 interface CourseForm {
@@ -38,14 +38,17 @@ const formSchema = z
         about: z.string().min(3, "توضیح باید حداقل ۳ حرف باشد"),
         user_id: z.string().nonempty("مدرس را انتخاب کنید"),
         category_id: z.string().nonempty("دسته‌بندی را وارد کنید"),
-        price: z.coerce.number().min(99999, "قیمت باید حداقل 6 رقم باشد"),
+        price: z.coerce.number({
+            required_error: "قیمت الزامی است",
+            invalid_type_error: "قیمت باید عدد باشد",
+        }),
         short_name: z.string().min(3, "نام کوتاه باید حداقل ۳ حرف باشد"),
         is_completed: z.enum(["isCompleted", "inProgress"], {
             errorMap: () => ({ message: "وضعیت را انتخاب کنید" }),
         }),
         content: z.any().refine((val) => Object.keys(val).length > 0, {
             message: "محتوای دوره را وارد کنید",
-          }),
+        }),
         image: z
             .any()
             .refine(
@@ -63,6 +66,8 @@ export default function CourseForm({
     categories,
     teachers,
 }: CourseForm) {
+    const fileRef = useRef<HTMLInputElement | null>(null);
+    const editorRef = useRef<EditorRef>(null);
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -105,11 +110,6 @@ export default function CourseForm({
         formData.append("image", values.image);
         formData.append("content", JSON.stringify(values.content));
 
-        console.log("content :", values.content);
-
-        console.log(values);
-        console.log("Form Submitted !!");
-
         try {
             const res = await fetch("/api/courses", {
                 method: "POST",
@@ -117,12 +117,14 @@ export default function CourseForm({
             });
             console.log(res);
             if (res.ok) {
+                form.reset();
+                fileRef.current!.value = ''
+                editorRef.current?.reset()
                 toast.success("دوره با موفقیت افزوده شد");
             } else {
                 throw new Error("هنگام افزودن دوره خطایی رخ داد");
             }
         } catch (error) {
-            console.log(error);
             toast.error("هنگام افزودن دوره خطایی رخ داد");
             return {
                 massage: "DATABASE ERROR WHILE CREATING COURSE",
@@ -169,7 +171,7 @@ export default function CourseForm({
                                     <FormControl>
                                         <Select
                                             onValueChange={field.onChange} // مقدار انتخابی رو به state فرم می‌فرسته
-                                            defaultValue={field.value}
+                                            value={field.value}
                                             dir="rtl"
                                         >
                                             <SelectTrigger className="w-full focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600">
@@ -207,7 +209,7 @@ export default function CourseForm({
                                     <FormControl>
                                         <Select
                                             onValueChange={field.onChange} // مقدار انتخابی رو به state فرم می‌فرسته
-                                            defaultValue={field.value}
+                                            value={field.value}
                                             dir="rtl"
                                         >
                                             <SelectTrigger className="w-full focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600">
@@ -285,6 +287,7 @@ export default function CourseForm({
                                     </FormLabel>
                                     <FormControl>
                                         <Input
+                                        ref={fileRef}
                                             className="border-zinc-600"
                                             type="file"
                                             accept="image/*"
@@ -310,7 +313,7 @@ export default function CourseForm({
                                         <RadioGroup
                                             dir="rtl"
                                             onValueChange={field.onChange} // 👈 اتصال به فرم
-                                            defaultValue={field.value}
+                                            value={field.value}
                                             className="course-status flex flex-col space-y-1"
                                         >
                                             <FormItem className="flex items-center space-x-3 space-x-reverse">
@@ -343,7 +346,7 @@ export default function CourseForm({
                             )}
                         />
 
-<FormField
+                        <FormField
                             control={form.control}
                             name="about"
                             render={({ field }) => (
@@ -352,7 +355,12 @@ export default function CourseForm({
                                         درباره دوره
                                     </FormLabel>
                                     <FormControl>
-                                        <Textarea rows={20} placeholder="توضیحات مختصر دوره ..." {...field} className="focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600 min-h-40 resize-none"/>
+                                        <Textarea
+                                            rows={20}
+                                            placeholder="توضیحات مختصر دوره ..."
+                                            {...field}
+                                            className="focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600 min-h-40 resize-none"
+                                        />
                                     </FormControl>
                                     <FormMessage className="form-message" />
                                 </FormItem>
@@ -368,6 +376,7 @@ export default function CourseForm({
                                 <FormLabel>توضیحات / محتوای دوره</FormLabel>
                                 <FormControl>
                                     <TiptapEditor
+                                    ref={editorRef}
                                         value={field.value}
                                         onChange={(json) => {
                                             form.setValue("content", json);
