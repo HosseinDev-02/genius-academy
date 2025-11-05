@@ -10,6 +10,7 @@ export async function POST(req: Request) {
         const formData = await req.formData();
 
         const title = formData.get("title") as string;
+        const about = formData.get("about") as string;
         const price = parseFloat(formData.get("price") as string);
         const category_id = formData.get("category_id") as string;
         const image = formData.get("image") as File;
@@ -31,8 +32,8 @@ export async function POST(req: Request) {
 
         // ذخیره در دیتابیس
         await sql`
-    INSERT INTO courses (title, category_id, price, image, user_id, short_name, is_completed, content)
-    VALUES (${title}, ${category_id}, ${price}, ${imageUrl}, ${user_id}, ${short_name}, ${is_completed}, ${content})
+    INSERT INTO courses (title, category_id, price, image, user_id, short_name, is_completed, content, about)
+    VALUES (${title}, ${category_id}, ${price}, ${imageUrl}, ${user_id}, ${short_name}, ${is_completed}, ${content}, ${about})
     `;
 
         return NextResponse.json({ success: true, imageUrl });
