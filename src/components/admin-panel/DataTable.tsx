@@ -13,7 +13,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import React from "react";
+import React, { useEffect } from "react";
 import { DataTableProps } from "@/src/lib/definition";
 import { MyPagination } from "./MyPagination";
 
