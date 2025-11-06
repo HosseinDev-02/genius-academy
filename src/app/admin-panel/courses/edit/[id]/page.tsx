@@ -1,16 +1,17 @@
 import CourseForm from "@/src/components/admin-panel/courses/CourseForm";
+import { getAllCategories, getAllTeachers } from "@/src/lib/actions";
 import React from "react";
 
-interface EditCourseProp {
-    params: { id: string };
-}
 
-export default function EditCourse({ params }: EditCourseProp) {
-    const { id } = params;
+export default async function EditCourse(context: { params: Promise<{ id: string }> }) {
+    const { id } = await context.params;
+    console.log("id : ", id)
+    const categories = await getAllCategories();
+    const teachers = await getAllTeachers()
     return (
         <div>
             {/* Edit Course Form */}
-            <CourseForm courseId={id} />
+            <CourseForm teachers={teachers} categories={categories} courseId={id} />
         </div>
     );
 }

@@ -91,7 +91,7 @@ const TiptapEditor = forwardRef<EditorRef, EditorProps>(
                     types: ["heading", "paragraph"],
                 }),
             ],
-            content: value || '',
+            content: value && Object.keys(value).length ? value : { type: "doc", content: [] },
             editorProps: {
                 attributes: {
                     class: cn(
@@ -105,6 +105,7 @@ const TiptapEditor = forwardRef<EditorRef, EditorProps>(
             onUpdate: ({ editor }) => {
                 const json = editor.getJSON();
                 onChange(json);
+                console.log('json :', json)
             },
             immediatelyRender: false,
         });
@@ -118,6 +119,16 @@ const TiptapEditor = forwardRef<EditorRef, EditorProps>(
         useEffect(() => {
             return () => editor?.destroy();
         }, [editor]);
+
+        useEffect(() => {
+            console.log('value editor :', value)
+        }, [value])
+
+        useEffect(() => {
+            if (editor && value) {
+              editor.commands.setContent(value);
+            }
+          }, [editor, value]);
 
         // useEffect(() => {
         //     console.log(editor?.getHTML());

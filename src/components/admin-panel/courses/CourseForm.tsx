@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import {
     Form,
     FormControl,
@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
     Select,
@@ -32,34 +32,26 @@ interface CourseForm {
     teachers: User[];
 }
 
-const formSchema = z
-    .object({
-        title: z.string().min(3, "عنوان باید حداقل ۳ حرف باشد"),
-        about: z.string().min(3, "توضیح باید حداقل ۳ حرف باشد"),
-        user_id: z.string().nonempty("مدرس را انتخاب کنید"),
-        category_id: z.string().nonempty("دسته‌بندی را وارد کنید"),
-        price: z.coerce.number({
-            required_error: "قیمت الزامی است",
-            invalid_type_error: "قیمت باید عدد باشد",
-        }),
-        short_name: z.string().min(3, "نام کوتاه باید حداقل ۳ حرف باشد"),
-        is_completed: z.enum(["isCompleted", "inProgress"], {
-            errorMap: () => ({ message: "وضعیت را انتخاب کنید" }),
-        }),
-        content: z.any().refine((val) => Object.keys(val).length > 0, {
-            message: "محتوای دوره را وارد کنید",
-        }),
-        image: z
-            .any()
-            .refine(
-                (file) => file instanceof File,
-                "لطفاً یک تصویر انتخاب کنید"
-            ),
-    })
-    .transform((data) => ({
-        ...data,
-        is_completed: data.is_completed === "isCompleted",
-    }));
+const formSchema = z.object({
+    title: z.string().min(3, "عنوان باید حداقل ۳ حرف باشد"),
+    about: z.string().min(3, "توضیح باید حداقل ۳ حرف باشد"),
+    user_id: z.string().nonempty("مدرس را انتخاب کنید"),
+    category_id: z.string().nonempty("دسته‌بندی را وارد کنید"),
+    price: z.coerce.number({
+        required_error: "قیمت الزامی است",
+        invalid_type_error: "قیمت باید عدد باشد",
+    }),
+    short_name: z.string().min(3, "نام کوتاه باید حداقل ۳ حرف باشد"),
+    is_completed: z.enum(["isCompleted", "inProgress"], {
+        errorMap: () => ({ message: "وضعیت را انتخاب کنید" }),
+    }),
+    content: z.any().refine((val) => Object.keys(val).length > 0, {
+        message: "محتوای دوره را وارد کنید",
+    }),
+    image: z
+        .any()
+        .refine((file) => file instanceof File, "لطفاً یک تصویر انتخاب کنید"),
+});
 
 export default function CourseForm({
     courseId,
@@ -77,26 +69,38 @@ export default function CourseForm({
             category_id: "",
             price: 0,
             short_name: "",
-            is_completed: false,
+            is_completed: "inProgress",
             image: null,
             content: {},
         },
     });
 
-    // useEffect(() => {
-    //     if (courseId) {
-    //         const data = courses.find((course) => course.id == courseId);
-    //         console.log("Data :", data);
-    //         form.reset({
-    //             title: data?.title,
-    //             category: data?.category,
-    //             teacher: data?.teacher,
-    //             price: data?.price,
-    //             img: data?.img,
-    //         });
-    //         setFakeData(data);
-    //     }
-    // }, [courseId, form]);
+    useEffect(() => {
+        console.log("id :", courseId);
+        if (courseId) {
+            fetch(`/api/courses/${courseId}`)
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log("data :", data);
+                    const formData = {
+                        title: data.title,
+                        about: data.about,
+                        user_id: data.user_id,
+                        category_id: data.category_id,
+                        price: data.price,
+                        short_name: data.short_name,
+                        is_completed: data.is_completed,
+                        image: null,
+                        content:
+                            data.content === "string"
+                                ? JSON.parse(data.content)
+                                : data.content || { type: "doc", content: [] },
+                    };
+                    form.reset(formData);
+                    console.log(form.getValues());
+                });
+        }
+    }, [courseId]);
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         const formData = new FormData();
@@ -118,8 +122,8 @@ export default function CourseForm({
             console.log(res);
             if (res.ok) {
                 form.reset();
-                fileRef.current!.value = ''
-                editorRef.current?.reset()
+                fileRef.current!.value = "";
+                editorRef.current?.reset();
                 toast.success("دوره با موفقیت افزوده شد");
             } else {
                 throw new Error("هنگام افزودن دوره خطایی رخ داد");
@@ -287,7 +291,7 @@ export default function CourseForm({
                                     </FormLabel>
                                     <FormControl>
                                         <Input
-                                        ref={fileRef}
+                                            ref={fileRef}
                                             className="border-zinc-600"
                                             type="file"
                                             accept="image/*"
@@ -374,15 +378,21 @@ export default function CourseForm({
                         render={({ field }) => (
                             <FormItem className="space-y-3">
                                 <FormLabel>توضیحات / محتوای دوره</FormLabel>
-                                <FormControl>
-                                    <TiptapEditor
-                                    ref={editorRef}
-                                        value={field.value}
-                                        onChange={(json) => {
-                                            form.setValue("content", json);
-                                        }}
-                                    />
-                                </FormControl>
+                                <Controller
+                                    name="content"
+                                    control={form.control}
+                                    render={({ field }) => (
+                                        <TiptapEditor
+                                            value={
+                                                field.value || {
+                                                    type: "doc",
+                                                    content: [],
+                                                }
+                                            }
+                                            onChange={field.onChange}
+                                        />
+                                    )}
+                                />
                                 <FormMessage className="form-message" />
                             </FormItem>
                         )}
