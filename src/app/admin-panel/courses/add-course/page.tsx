@@ -18,7 +18,7 @@ export default async function AddCourse() {
         <div>
             {/* Page Header */}
             {/* Page Content */}
-            <CourseForm teachers={teachers} categories={categories}/>
+            <CourseForm teachers={teachers} categories={categories} mode="add"/>
         </div>
     );
 }

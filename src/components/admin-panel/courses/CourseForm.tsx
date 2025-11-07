@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
     Form,
     FormControl,
@@ -25,98 +25,79 @@ import { Category, User } from "@/src/lib/actions";
 import { Toaster, toast } from "sonner";
 import TiptapEditor, { EditorRef } from "../Editor";
 import { Textarea } from "@/components/ui/textarea";
+import Image from "next/image";
+import {
+    createCourseSchema,
+    updateCourseSchema,
+} from "@/src/lib/courseSchemas";
+import { Course } from "@/src/lib/type-definition";
 
 interface CourseForm {
     courseId?: string;
     categories: Category[];
     teachers: User[];
+    mode: "add" | "edit";
+    defaultValues?: z.infer<typeof updateCourseSchema>;
 }
-
-const formSchema = z.object({
-    title: z.string().min(3, "عنوان باید حداقل ۳ حرف باشد"),
-    about: z.string().min(3, "توضیح باید حداقل ۳ حرف باشد"),
-    user_id: z.string().nonempty("مدرس را انتخاب کنید"),
-    category_id: z.string().nonempty("دسته‌بندی را وارد کنید"),
-    price: z.coerce.number({
-        required_error: "قیمت الزامی است",
-        invalid_type_error: "قیمت باید عدد باشد",
-    }),
-    short_name: z.string().min(3, "نام کوتاه باید حداقل ۳ حرف باشد"),
-    is_completed: z.enum(["isCompleted", "inProgress"], {
-        errorMap: () => ({ message: "وضعیت را انتخاب کنید" }),
-    }),
-    content: z.any().refine((val) => Object.keys(val).length > 0, {
-        message: "محتوای دوره را وارد کنید",
-    }),
-    image: z
-        .any()
-        .refine((file) => file instanceof File, "لطفاً یک تصویر انتخاب کنید"),
-});
 
 export default function CourseForm({
     courseId,
     categories,
     teachers,
+    mode,
+    defaultValues,
 }: CourseForm) {
+    const schema = mode === "add" ? createCourseSchema : updateCourseSchema;
     const fileRef = useRef<HTMLInputElement | null>(null);
     const editorRef = useRef<EditorRef>(null);
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            title: "",
-            about: "",
-            user_id: "",
-            category_id: "",
-            price: 0,
-            short_name: "",
-            is_completed: "inProgress",
-            image: null,
-            content: {},
-        },
+    const form = useForm<z.infer<typeof schema>>({
+        resolver: zodResolver(schema),
+        defaultValues:
+            mode === "edit"
+                ? defaultValues
+                : {
+                      title: "",
+                      about: "",
+                      user_id: "",
+                      category_id: "",
+                      price: 0,
+                      short_name: "",
+                      is_completed: "inProgress",
+                      image: null,
+                      content: {},
+                  },
     });
 
-    useEffect(() => {
-        console.log("id :", courseId);
-        if (courseId) {
-            fetch(`/api/courses/${courseId}`)
-                .then((res) => res.json())
-                .then((data) => {
-                    console.log("data :", data);
-                    const formData = {
-                        title: data.title,
-                        about: data.about,
-                        user_id: data.user_id,
-                        category_id: data.category_id,
-                        price: data.price,
-                        short_name: data.short_name,
-                        is_completed: data.is_completed,
-                        image: null,
-                        content:
-                            data.content === "string"
-                                ? JSON.parse(data.content)
-                                : data.content || { type: "doc", content: [] },
-                    };
-                    form.reset(formData);
-                    console.log(form.getValues());
-                });
-        }
-    }, [courseId]);
-
-    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const onSubmit = async (values: z.infer<typeof schema>) => {
         const formData = new FormData();
         formData.append("title", values.title);
         formData.append("about", values.about);
         formData.append("price", values.price.toString());
         formData.append("category_id", values.category_id);
         formData.append("user_id", values.user_id);
-        formData.append("is_completed", values.is_completed ? "true" : "false");
+        formData.append("is_completed", values.is_completed);
         formData.append("short_name", values.short_name);
         formData.append("image", values.image);
         formData.append("content", JSON.stringify(values.content));
 
+        for (const key in values) {
+            const val = values[key as keyof typeof values];
+            if (key === "image") {
+                if (val instanceof File) formData.append("image", val);
+            } else {
+                formData.append(key, JSON.stringify(val));
+            }
+        }
+
+        const method = mode === "add" ? "POST" : "PUT";
+        const url =
+            mode === "add" ? "/api/courses" : `/api/courses/${courseId}`;
+
+            console.log(formData.get("is_completed"));
+
         try {
-            const res = await fetch("/api/courses", {
-                method: "POST",
+            const res = await fetch(url, {
+                method: method,
                 body: formData,
             });
             console.log(res);
@@ -124,14 +105,14 @@ export default function CourseForm({
                 form.reset();
                 fileRef.current!.value = "";
                 editorRef.current?.reset();
-                toast.success("دوره با موفقیت افزوده شد");
+                toast.success(method === "POST" ? "دوره با موفقیت افزوده شد" : "دوره با موفقیت ویرایش شد");
             } else {
-                throw new Error("هنگام افزودن دوره خطایی رخ داد");
+                throw new Error(method === "POST" ? "دوره با موفقیت افزوده نشد" : "دوره با موفقیت ویرایش نشد");
             }
         } catch (error) {
-            toast.error("هنگام افزودن دوره خطایی رخ داد");
+            toast.error(method === "POST" ? "دوره با موفقیت افزوده نشد" : "دوره با موفقیت ویرایش نشد");
             return {
-                massage: "DATABASE ERROR WHILE CREATING COURSE",
+                massage: method === "POST" ? "DATABASE ERROR WHILE CREATING COURSE" : "DATABASE ERROR WHILE UPDATAING COURSE",
             };
         }
     };
@@ -304,6 +285,16 @@ export default function CourseForm({
                                         />
                                     </FormControl>
                                     <FormMessage className="form-message" />
+                                    {defaultValues && (
+                                        <div className="mt-2">
+                                            <Image
+                                                src={defaultValues.image}
+                                                width={80}
+                                                height={80}
+                                                alt="course image"
+                                            />
+                                        </div>
+                                    )}
                                 </FormItem>
                             )}
                         />
@@ -404,7 +395,7 @@ export default function CourseForm({
                             type="submit"
                             className="font-YekanBakh-SemiBold cursor-pointer"
                         >
-                            افزودن دوره
+                            {courseId ? "ویرایش دوره" : "افزودن دوره"}
                         </Button>
                     </div>
                 </form>

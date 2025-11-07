@@ -16,7 +16,7 @@ export async function POST(req: Request) {
         const image = formData.get("image") as File;
         const user_id = formData.get("user_id") as string;
         const short_name = formData.get("short_name") as string;
-        const is_completed = formData.get("is_completed") === "true";
+        const is_completed = formData.get("is_completed") === 'isCompleted' ? true : false;
         const contentSrt = formData.get("content") as string;
         const content = JSON.parse(contentSrt);
 
