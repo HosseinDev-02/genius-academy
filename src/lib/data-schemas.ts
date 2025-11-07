@@ -24,3 +24,8 @@ export const createCourseSchema = z.object({
 export const updateCourseSchema = createCourseSchema.extend({
     image: z.any().optional(),
 })
+
+export const createCategorySchema = z.object({
+    title: z.string().nonempty("عنوان باید حداقل ۳ حرف باشد"),
+    short_name: z.string().nonempty("نام کوتاه را وارد کنید"),
+});

@@ -4,16 +4,17 @@ import React from "react";
 import { DataTable } from "../DataTable";
 import { ColumnDef, VisibilityState } from "@tanstack/react-table";
 import { useMediaQuery } from "usehooks-ts";
+import CategoryTableAction from "./CategoryTableAction";
 
 const columns: ColumnDef<Category>[] = [
-    // {
-    //     accessorKey: "actions",
-    //     header: "عملیات",
-    //     cell: ({ row }) => {
-    //         const course = row.original;
-    //         return (<CourseTableAction courseId={course.id} />);
-    //     },
-    // },
+    {
+        accessorKey: "actions",
+        header: "عملیات",
+        cell: ({ row }) => {
+            const category = row.original;
+            return <CategoryTableAction categoryId={category.id} />;
+        },
+    },
     {
         accessorKey: "id",
         header: "#",

@@ -9,6 +9,8 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { createCategorySchema } from "@/src/lib/data-schemas";
+import { Category } from "@/src/lib/type-definition";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -18,23 +20,26 @@ import z from "zod";
 type Props = {
     mode: "add" | "edit";
     categoryId?: string;
+    defaultValues?: z.infer<typeof createCategorySchema>;
 };
 
-const schema = z.object({
-    title: z.string().nonempty("عنوان باید حداقل ۳ حرف باشد"),
-    short_name: z.string().nonempty("نام کوتاه را وارد کنید"),
-});
-
-export default function CategoryForm({ mode, categoryId }: Props) {
-    const form = useForm<z.infer<typeof schema>>({
-        resolver: zodResolver(schema),
-        defaultValues: {
-            title: "",
-            short_name: "",
-        },
+export default function CategoryForm({
+    mode,
+    categoryId,
+    defaultValues,
+}: Props) {
+    const form = useForm<z.infer<typeof createCategorySchema>>({
+        resolver: zodResolver(createCategorySchema),
+        defaultValues:
+            mode === "add"
+                ? {
+                      title: "",
+                      short_name: "",
+                  }
+                : defaultValues,
     });
 
-    const onSubmit = async (values: z.infer<typeof schema>) => {
+    const onSubmit = async (values: z.infer<typeof createCategorySchema>) => {
         console.log(values);
 
         const categoryData = new FormData();
@@ -48,20 +53,32 @@ export default function CategoryForm({ mode, categoryId }: Props) {
                 ? "/api/categories"
                 : `/api/categories/${categoryId}`;
 
-                try{
-                    const response = await fetch(url, {
-                        method: method,
-                        body: categoryData,
-                    });
-                    if(response.ok) {
-                        toast(method === 'POST' ? 'دسته بندی با موفقیت ثبت شد' : 'دسته بندی با موفقیت ویرایش شد');
-                        form.reset()
-                    }else {
-                        throw new Error(method === 'POST' ? 'دسته بندی با موفقیت ثبت نشد' : 'دسته بندی با موفقیت ویرایش نشد')
-                    }
-                }catch(error){
-                    toast(method === 'POST' ? 'دسته بندی با موفقیت ثبت نشد' : 'دسته بندی با موفقیت ویرایش نشد')
-                }
+        try {
+            const response = await fetch(url, {
+                method: method,
+                body: categoryData,
+            });
+            if (response.ok) {
+                toast.success(
+                    method === "POST"
+                        ? "دسته بندی با موفقیت ثبت شد"
+                        : "دسته بندی با موفقیت ویرایش شد"
+                );
+                form.reset();
+            } else {
+                throw new Error(
+                    method === "POST"
+                        ? "دسته بندی با موفقیت ثبت نشد"
+                        : "دسته بندی با موفقیت ویرایش نشد"
+                );
+            }
+        } catch (error) {
+            toast.error(
+                method === "POST"
+                    ? "دسته بندی با موفقیت ثبت نشد"
+                    : "دسته بندی با موفقیت ویرایش نشد"
+            );
+        }
     };
 
     return (

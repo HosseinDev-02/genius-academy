@@ -29,7 +29,7 @@ import Image from "next/image";
 import {
     createCourseSchema,
     updateCourseSchema,
-} from "@/src/lib/courseSchemas";
+} from "@/src/lib/data-schemas";
 import { Course } from "@/src/lib/type-definition";
 
 interface CourseForm {
