@@ -21,7 +21,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Category, User } from "@/src/lib/actions";
+import { Category, User, getAllCategories } from "@/src/lib/actions";
 import { Toaster, toast } from "sonner";
 import TiptapEditor, { EditorRef } from "../Editor";
 import { Textarea } from "@/components/ui/textarea";
@@ -34,22 +34,22 @@ import { Course } from "@/src/lib/type-definition";
 
 interface CourseForm {
     courseId?: string;
-    categories: Category[];
-    teachers: User[];
     mode: "add" | "edit";
     defaultValues?: z.infer<typeof updateCourseSchema>;
 }
 
 export default function CourseForm({
     courseId,
-    categories,
-    teachers,
     mode,
     defaultValues,
 }: CourseForm) {
     const schema = mode === "add" ? createCourseSchema : updateCourseSchema;
     const fileRef = useRef<HTMLInputElement | null>(null);
     const editorRef = useRef<EditorRef>(null);
+    const [teachers, setTeachers] = useState<User[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
+
+    
     const form = useForm<z.infer<typeof schema>>({
         resolver: zodResolver(schema),
         defaultValues:
@@ -93,7 +93,7 @@ export default function CourseForm({
         const url =
             mode === "add" ? "/api/courses" : `/api/courses/${courseId}`;
 
-            console.log(formData.get("is_completed"));
+        console.log(formData.get("is_completed"));
 
         try {
             const res = await fetch(url, {
@@ -105,17 +105,49 @@ export default function CourseForm({
                 form.reset();
                 fileRef.current!.value = "";
                 editorRef.current?.reset();
-                toast.success(method === "POST" ? "دوره با موفقیت افزوده شد" : "دوره با موفقیت ویرایش شد");
+                toast.success(
+                    method === "POST"
+                        ? "دوره با موفقیت افزوده شد"
+                        : "دوره با موفقیت ویرایش شد"
+                );
             } else {
-                throw new Error(method === "POST" ? "دوره با موفقیت افزوده نشد" : "دوره با موفقیت ویرایش نشد");
+                throw new Error(
+                    method === "POST"
+                        ? "دوره با موفقیت افزوده نشد"
+                        : "دوره با موفقیت ویرایش نشد"
+                );
             }
         } catch (error) {
-            toast.error(method === "POST" ? "دوره با موفقیت افزوده نشد" : "دوره با موفقیت ویرایش نشد");
+            toast.error(
+                method === "POST"
+                    ? "دوره با موفقیت افزوده نشد"
+                    : "دوره با موفقیت ویرایش نشد"
+            );
             return {
-                massage: method === "POST" ? "DATABASE ERROR WHILE CREATING COURSE" : "DATABASE ERROR WHILE UPDATAING COURSE",
+                massage:
+                    method === "POST"
+                        ? "DATABASE ERROR WHILE CREATING COURSE"
+                        : "DATABASE ERROR WHILE UPDATAING COURSE",
             };
         }
     };
+
+    useEffect(() => {
+        fetch("/api/courses/teachers")
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                setTeachers(data);
+            });
+        fetch("/api/categories")
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                setCategories(data);
+            });
+    }, []);
 
     return (
         <div>

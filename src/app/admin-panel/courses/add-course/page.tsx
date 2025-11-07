@@ -6,19 +6,11 @@ import React from "react";
 
 
 export default async function AddCourse() {
-    // Course : id, title, category, price, img
-    const categories = await getAllCategories();
-    const teachers = await getAllTeachers()
-    const courses = await getAllCourses();
-
-    console.log('courses :', courses)
-    
-
     return (
         <div>
             {/* Page Header */}
             {/* Page Content */}
-            <CourseForm teachers={teachers} categories={categories} mode="add"/>
+            <CourseForm mode="add"/>
         </div>
     );
 }
