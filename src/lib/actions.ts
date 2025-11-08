@@ -106,3 +106,14 @@ export async function getAllTeachers(): Promise<User[]> {
         return [];
     }
 }
+
+export async function getAllUsers(): Promise<User[]> {
+    try {
+        const data =
+            await sql`SELECT * FROM users ORDER BY created_at DESC`;
+        return data as unknown as User[];
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}

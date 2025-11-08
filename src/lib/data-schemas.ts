@@ -29,3 +29,17 @@ export const createCategorySchema = z.object({
     title: z.string().nonempty("عنوان باید حداقل ۳ حرف باشد"),
     short_name: z.string().nonempty("نام کوتاه را وارد کنید"),
 });
+
+export const createUserSchema = z.object({
+    name: z.string().nonempty('نام را وارد کنید'),
+    email: z.string().optional(),
+    password: z.string().min(8, 'رمز عبور باید حداقل ۸ حرف باشد'),
+    phone_number: z.string().nonempty('شماره تماس را وارد کنید'),
+    role: z.enum(["user", "teacher", "author", "admin"], {
+        errorMap: () => ({ message: "نقش را انتخاب کنید" }),
+    }),
+    image: z
+        .any()
+        .refine((file) => file instanceof File, "لطفاً یک تصویر انتخاب کنید"),
+    about: z.string().optional(),
+})
