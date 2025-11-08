@@ -2,7 +2,7 @@
 import { neon } from "@neondatabase/serverless";
 import { Timestamp } from "next/dist/server/lib/cache-handlers/types";
 import { sql } from "../db";
-import { Article } from "./type-definition";
+import { Article, ArticleWithRelations } from "./type-definition";
 
 // console.log(sql)
 
@@ -118,7 +118,7 @@ export async function getAllUsers(): Promise<User[]> {
     }
 }
 
-export async function getAllArticles(): Promise<Article[]> {
+export async function getAllArticles(): Promise<ArticleWithRelations[]> {
     try {
         const data = await sql`SELECT 
         a.id,
@@ -146,7 +146,7 @@ export async function getAllArticles(): Promise<Article[]> {
       JOIN categories cat ON a.category_id = cat.id
       JOIN users u ON a.user_id = u.id
       ORDER BY a.created_at DESC;`;
-        return data as unknown as Article[];
+        return data as unknown as ArticleWithRelations[];
     } catch (error) {
         console.error(error);
         return [];
