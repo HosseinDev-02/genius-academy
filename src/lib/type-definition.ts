@@ -1,4 +1,4 @@
-export  type Course = {
+export type Course = {
     id: string;
     about: string;
     title: string;
@@ -32,4 +32,23 @@ export type Category = {
     short_name: string;
     created_at: Date;
     updated_at: Date;
+};
+
+export type Article = {
+    id: string;
+    title: string;
+    category_id: string;
+    user_id: string;
+    image: string;
+    short_name: string;
+    time_read: string;
+    about: string;
+    content: any;
+    created_at: Date;
+    updated_at: Date;
+};
+
+export type ArticleWithRelations = Omit<Article, "category_id" | "user_id"> & {
+    category: Category;
+    author: User;
 };

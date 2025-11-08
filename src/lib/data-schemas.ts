@@ -23,7 +23,7 @@ export const createCourseSchema = z.object({
 
 export const updateCourseSchema = createCourseSchema.extend({
     image: z.any().optional(),
-})
+});
 
 export const createCategorySchema = z.object({
     title: z.string().nonempty("عنوان باید حداقل ۳ حرف باشد"),
@@ -31,10 +31,10 @@ export const createCategorySchema = z.object({
 });
 
 export const createUserSchema = z.object({
-    name: z.string().nonempty('نام را وارد کنید'),
+    name: z.string().nonempty("نام را وارد کنید"),
     email: z.string().optional(),
-    password: z.string().min(8, 'رمز عبور باید حداقل ۸ حرف باشد'),
-    phone_number: z.string().nonempty('شماره تماس را وارد کنید'),
+    password: z.string().min(8, "رمز عبور باید حداقل ۸ حرف باشد"),
+    phone_number: z.string().nonempty("شماره تماس را وارد کنید"),
     role: z.enum(["user", "teacher", "author", "admin"], {
         errorMap: () => ({ message: "نقش را انتخاب کنید" }),
     }),
@@ -42,9 +42,26 @@ export const createUserSchema = z.object({
         .any()
         .refine((file) => file instanceof File, "لطفاً یک تصویر انتخاب کنید"),
     about: z.string().optional(),
-})
+});
 
 export const updateUserSchema = createUserSchema.extend({
     image: z.any().optional(),
     password: z.string().optional(),
-})
+});
+
+export const createArticleSchema = z.object({
+    title: z.string().min(8, "عنوان باید حداقل ۸ حرف باشد"),
+    category_id: z.string().nonempty("دسته‌بندی را انتخاب کنید"),
+    user_id: z.string().nonempty("نویسنده را انتخاب کنید"),
+    time_read: z.string().nonempty(),
+    about: z.string().nonempty(),
+    short_name: z.string().min(3, "نام کوتاه باید حداقل ۳ حرف باشد"),
+    image: z
+        .any()
+        .refine((file) => file instanceof File, "لطفاً یک تصویر انتخاب کنید"),
+    content: z.any().refine((val) => Object.keys(val).length > 0, {
+        message: "محتوای مقاله را وارد کنید",
+    }),
+});
+
+export const updateArticleSchema = createArticleSchema.extend({});
