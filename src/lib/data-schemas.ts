@@ -43,3 +43,8 @@ export const createUserSchema = z.object({
         .refine((file) => file instanceof File, "لطفاً یک تصویر انتخاب کنید"),
     about: z.string().optional(),
 })
+
+export const updateUserSchema = createUserSchema.extend({
+    image: z.any().optional(),
+    password: z.string().optional(),
+})

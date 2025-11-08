@@ -18,7 +18,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { createUserSchema } from "@/src/lib/data-schemas";
+import { createUserSchema, updateCourseSchema, updateUserSchema } from "@/src/lib/data-schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import React, { useRef } from "react";
@@ -29,14 +29,15 @@ import { PasswordInput } from "../../forms/PasswordInput";
 
 type Props = {
     mode: "add" | "edit";
-    defaultValues?: z.infer<typeof createUserSchema>;
+    defaultValues?: z.infer<typeof updateUserSchema>;
     userId?: string;
 };
 
 export default function UserForm({ mode, defaultValues, userId }: Props) {
+    const schema = mode === "add" ? createUserSchema : updateUserSchema;
     const fileRef = useRef<HTMLInputElement | null>(null);
-    const form = useForm<z.infer<typeof createUserSchema>>({
-        resolver: zodResolver(createUserSchema),
+    const form = useForm<z.infer<typeof schema>>({
+        resolver: zodResolver(schema),
         defaultValues:
             mode === "add"
                 ? {
@@ -51,16 +52,18 @@ export default function UserForm({ mode, defaultValues, userId }: Props) {
                 : defaultValues,
     });
 
-    const handleSubmit = async (values: z.infer<typeof createUserSchema>) => {
+    const handleSubmit = async (values: z.infer<typeof schema>) => {
         try {
             const formData = new FormData();
             formData.append("name", values.name);
             if (values.email) formData.append("email", values.email);
             formData.append("role", values.role);
-            formData.append("password", values.password);
+            if(values.password) formData.append("password", values.password);
             formData.append("phone_number", values.phone_number);
             if (values.about) formData.append("about", values.about);
-            formData.append("image", values.image);
+            if(values.image) formData.append("image", values.image);
+
+            console.log('values :', values);
 
             const method = mode === "add" ? "POST" : "PUT";
             const url = mode === "add" ? "/api/users" : `/api/users/${userId}`;
@@ -75,6 +78,7 @@ export default function UserForm({ mode, defaultValues, userId }: Props) {
                         : "کاربر با موفقیت ویرایش شد"
                 );
                 form.reset();
+                fileRef.current!.value = "";
             } else {
                 throw new Error(
                     mode === "add"

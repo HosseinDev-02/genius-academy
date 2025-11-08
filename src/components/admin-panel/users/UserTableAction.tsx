@@ -15,22 +15,22 @@ export default function UserTableAction({ userId }: { userId: string }) {
     const router = useRouter()
     const handleDeleteUser = async () => {
         console.log('User With Id : ', userId, ' Deleted'); 
-        // try {
-        //     const response = await fetch(`/api/courses/${userId}`, {
-        //         method: "DELETE",
-        //     });
+        try {
+            const response = await fetch(`/api/users/${userId}`, {
+                method: "DELETE",
+            });
 
-        //     console.log("response :", response);
+            console.log("response :", response);
 
-        //     if (response.ok) {
-        //         toast.success("دوره با موفقیت حذف شد");
-        //         router.refresh();
-        //     } else {
-        //         throw new Error("هنگام حذف دوره خطایی رخ داد");
-        //     }
-        // } catch (error) {
-        //     toast.error("هنگام حذف دوره خطایی رخ داد");
-        // }
+            if (response.ok) {
+                toast.success("کاربر با موفقیت حذف شد");
+                router.refresh();
+            } else {
+                throw new Error("هنگام حذف کاربر خطایی رخ داد");
+            }
+        } catch (error) {
+            toast.error("هنگام حذف کاربر خطایی رخ داد");
+        }
     };
 
     return (

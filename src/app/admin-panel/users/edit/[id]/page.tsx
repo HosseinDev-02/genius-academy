@@ -1,3 +1,4 @@
+import UserForm from "@/src/components/admin-panel/users/UserForm";
 import React from "react";
 
 export default async function EditUser({
@@ -7,5 +8,20 @@ export default async function EditUser({
 }) {
     const { id } = await params;
     console.log("Id : ", id);
-    return <div>EditUser</div>;
+    const response = await fetch(`http://localhost:3000/api/users/${id}`);
+    const user = await response.json();
+    return (
+        <UserForm
+            mode="edit"
+            userId={id}
+            defaultValues={{
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                phone_number: user.phone_number,
+                about: user.about,
+                image: user.image,
+            }}
+        />
+    );
 }
