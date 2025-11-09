@@ -21,7 +21,7 @@ export function DataTable<TData, TValue>({
     columns,
     data,
     columnVisibility,
-    onColumnVisibilityChange
+    onColumnVisibilityChange,
 }: DataTableProps<TData, TValue>) {
     const [pagination, setPagination] = React.useState({
         pageIndex: 0,
@@ -43,7 +43,10 @@ export function DataTable<TData, TValue>({
             <Table className="font-YekanBakh-SemiBold mb-8">
                 <TableHeader className="h-20">
                     {table.getHeaderGroups().map((headerGroup) => (
-                        <TableRow className="border-b-teal-600" key={headerGroup.id}>
+                        <TableRow
+                            className="border-b-teal-600"
+                            key={headerGroup.id}
+                        >
                             {headerGroup.headers.map((header) => (
                                 <TableHead
                                     className="text-right"
@@ -63,7 +66,10 @@ export function DataTable<TData, TValue>({
                 <TableBody>
                     {table.getRowModel().rows?.length ? (
                         table.getRowModel().rows.map((row) => (
-                            <TableRow className="border-b-teal-600" key={row.id}>
+                            <TableRow
+                                className="border-b-teal-600"
+                                key={row.id}
+                            >
                                 {row.getVisibleCells().map((cell) => (
                                     <TableCell
                                         className="text-right h-16"
@@ -90,11 +96,13 @@ export function DataTable<TData, TValue>({
                 </TableBody>
             </Table>
             {/* Pagination */}
-            <MyPagination
-                currentPage={table.getState().pagination.pageIndex + 1}
-                totalPages={table.getPageCount()}
-                onPageChange={(page) => table.setPageIndex(page - 1)}
-            />
+            {data.length > 0 && (
+                <MyPagination
+                    currentPage={table.getState().pagination.pageIndex + 1}
+                    totalPages={table.getPageCount()}
+                    onPageChange={(page) => table.setPageIndex(page - 1)}
+                />
+            )}
         </div>
     );
 }

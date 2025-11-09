@@ -67,3 +67,8 @@ export const createArticleSchema = z.object({
 export const updateArticleSchema = createArticleSchema.extend({
     image: z.any().optional(),
 });
+
+export const createServiceSchema = z.object({
+    title: z.string().nonempty('عنوان را وارد کنید'),
+    key: z.string().nonempty('کلید را وارد کنید'),
+})

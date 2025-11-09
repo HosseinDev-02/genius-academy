@@ -52,3 +52,11 @@ export type ArticleWithRelations = Omit<Article, "category_id" | "user_id"> & {
     category: Category;
     author: User;
 };
+
+export type Service = {
+    id: string;
+    title: string;
+    key: string;
+    created_at: Date;
+    updated_at: Date;
+}

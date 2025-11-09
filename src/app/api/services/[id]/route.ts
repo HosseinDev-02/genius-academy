@@ -7,26 +7,19 @@ export async function DELETE(
 ) {
     try {
         const { id } = await context.params;
-
         if (!id) {
             return NextResponse.json(
                 { error: "شناسه نامعتبر است" },
                 { status: 400 }
             );
         }
-        const response = await sql`
-            DELETE FROM categories WHERE id = ${id}
-        `;
+        await sql`DELETE FROM services WHERE id = ${id}`;
         return NextResponse.json(
-            { message: "دسته با موفقیت حذف شد", id },
+            { message: "خدمت با موفقیت حذف شد", id },
             { status: 201 }
         );
     } catch (error) {
-        console.log(error);
-        return NextResponse.json(
-            { error: "خطایی در حذف دسته بندی رخ داد" },
-            { status: 500 }
-        );
+        return NextResponse.json({ error }, { status: 500 });
     }
 }
 
@@ -36,18 +29,9 @@ export async function GET(
 ) {
     try {
         const { id } = await context.params;
-        if (!id) {
-            return NextResponse.json(
-                { error: "شناسه نامعتبر است" },
-                { status: 400 }
-            );
-        }
-        const data = await sql`
-            SELECT * FROM categories WHERE id = ${id}
-        `;
+        const data = await sql`SELECT * FROM services WHERE id = ${id}`;
         return NextResponse.json(data[0], { status: 201 });
     } catch (error) {
-        console.log(error);
         return NextResponse.json({ error }, { status: 500 });
     }
 }
@@ -57,11 +41,11 @@ export async function PUT(
     context: { params: Promise<{ id: string }> }
 ) {
     try {
-        const formData = await req.formData();
         const { id } = await context.params;
+        const formData = await req.formData();
 
-        const title = formData.get("title");
-        const short_name = formData.get("short_name");
+        const title = formData.get("title") as string;
+        const key = formData.get("key") as string;
 
         if (!id) {
             return NextResponse.json(
@@ -69,19 +53,20 @@ export async function PUT(
                 { status: 400 }
             );
         }
+
         await sql`
-            UPDATE categories 
+            UPDATE services 
             SET 
             title = ${title},
-            short_name = ${short_name}
+            key = ${key}
             WHERE id = ${id}
         `;
 
-        return NextResponse.json({success: true, message: "دسته با موفقیت ویرایش شد"}, {status: 201});
-    } catch (error) {
         return NextResponse.json(
-            { error: "هنگام ویرایش دسته بندی خطایی رخ داد" },
-            { status: 500 }
+            { success: true, message: "سرویس با موفقیت ویرایش شد" },
+            { status: 201 }
         );
+    } catch (error) {
+        return NextResponse.json({ error }, { status: 500 });
     }
 }
