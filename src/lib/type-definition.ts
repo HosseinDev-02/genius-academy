@@ -60,3 +60,12 @@ export type Service = {
     created_at: Date;
     updated_at: Date;
 }
+
+export type Menu = {
+    id: string;
+    title: string;
+    url: string;
+    order_index: number;
+    created_at: Date;
+    updated_at: Date;
+}

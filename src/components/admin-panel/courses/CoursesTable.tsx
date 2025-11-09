@@ -43,21 +43,12 @@ const columns: ColumnDef<Course>[] = [
     {
         accessorKey: "actions",
         header: "عملیات",
-        cell: ({ row }) => {
-            const course = row.original;
-            return (<CourseTableAction courseId={course.id} />);
-        },
+        cell: ({ row }) => <CourseTableAction courseId={row.original.id} />,
     },
     {
         accessorKey: "id",
         header: "#",
-        cell: ({ row }) => {
-            return (
-                <span className="font-YekanBakh-SemiBold text-sm">
-                    {row.index + 1}
-                </span>
-            );
-        }
+        cell: ({ row }) => {row.index + 1}
     },
     {
         accessorKey: "title",

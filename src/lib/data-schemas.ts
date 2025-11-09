@@ -72,3 +72,12 @@ export const createServiceSchema = z.object({
     title: z.string().nonempty('عنوان را وارد کنید'),
     key: z.string().nonempty('کلید را وارد کنید'),
 })
+
+export const createMenuSchema = z.object({
+    title: z.string().nonempty(''),
+    url: z.string().nonempty(''),
+    order_index: z.coerce.number(),
+})
+
+export const updateMenuSchema = createMenuSchema.extend({})
+

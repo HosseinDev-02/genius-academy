@@ -35,16 +35,13 @@ export default function Sidebar({ className }: { className: string }) {
     const { sidebarOpen } = useAdminPanelContext();
     const [isOpen, setIsOpen] = sidebarOpen;
 
-    console.log("pathname :", pathname);
-    console.log("sidebarOpen :", sidebarOpen);
-
     const iconsMap: Record<string, JSX.Element> = {
         "/admin-panel": <ChartPie size={24} />,
         "/admin-panel/courses": <GraduationCap size={24} />,
         "/admin-panel/articles": <FileText size={24} />,
         "/admin-panel/categories": <Shapes size={24} />,
         "/admin-panel/services": <WrenchIcon size={24} />,
-        "/admin-panel/menu-links": <LinkIcon size={24} />,
+        "/admin-panel/menus": <LinkIcon size={24} />,
         "/admin-panel/users": <UsersRound size={24} />,
         "/admin-panel/basket": <ShoppingBag size={24} />,
     };

@@ -931,7 +931,7 @@ export const adminPanelMenuItems = [
     {
         id: 6,
         title: "منو",
-        href: "/admin-panel/menu-links",
+        href: "/admin-panel/menus",
     },
     {
         id: 7,
