@@ -81,3 +81,11 @@ export const createMenuSchema = z.object({
 
 export const updateMenuSchema = createMenuSchema.extend({})
 
+export const createSubmenuSchema = createMenuSchema.extend({
+    menu_id: z.string(),
+})
+
+export const updateSubmenuSchema = createSubmenuSchema.extend({})
+
+
+

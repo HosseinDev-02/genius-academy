@@ -37,7 +37,7 @@
     "app/lib/placeholder-data.ts",
     "scripts/seed.js",
     ".next\\dev/types/**/*.ts"
-  ],
+, "src/app/admin-panel/submenus/edit/[id]/page.tsx"  ],
   "exclude": [
     "node_modules"
   ]

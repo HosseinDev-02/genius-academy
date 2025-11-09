@@ -2,7 +2,7 @@
 import { neon } from "@neondatabase/serverless";
 import { Timestamp } from "next/dist/server/lib/cache-handlers/types";
 import { sql } from "../db";
-import { Article, ArticleWithRelations } from "./type-definition";
+import { Article, ArticleWithRelations, SubMenuWithRelations } from "./type-definition";
 
 // console.log(sql)
 
@@ -147,6 +147,31 @@ export async function getAllArticles(): Promise<ArticleWithRelations[]> {
       JOIN users u ON a.user_id = u.id
       ORDER BY a.created_at DESC;`;
         return data as unknown as ArticleWithRelations[];
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}
+
+export async function getAllSubmenus(): Promise<SubMenuWithRelations[]>{
+    try {
+        const data = await sql`
+        SELECT 
+        s.id,
+        s.title,
+        s.url,
+        s.order_index,
+        s.created_at,
+        s.updated_at,
+        json_build_object(
+          'id', m.id,
+          'title', m.title,
+          'url', m.url
+        ) AS menu
+      FROM submenus s
+      JOIN menus m ON s.menu_id = m.id
+      ORDER BY s.created_at DESC;`
+      return data as unknown as SubMenuWithRelations[]
     } catch (error) {
         console.error(error);
         return [];

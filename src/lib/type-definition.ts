@@ -69,3 +69,16 @@ export type Menu = {
     created_at: Date;
     updated_at: Date;
 }
+export type SubMenu = {
+    id: string;
+    title: string;
+    url: string;
+    menu_id: string;
+    order_index: number;
+    created_at: Date;
+    updated_at: Date;
+}
+
+export type SubMenuWithRelations = Omit<SubMenu, 'menu_id'> & {
+    menu: Menu
+}

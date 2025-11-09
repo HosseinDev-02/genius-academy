@@ -934,6 +934,11 @@ export const adminPanelMenuItems = [
         href: "/admin-panel/menus",
     },
     {
+        id: 9,
+        title: "زیرمنو",
+        href: "/admin-panel/submenus",
+    },
+    {
         id: 7,
         title: "کاربران",
         href: "/admin-panel/users",
