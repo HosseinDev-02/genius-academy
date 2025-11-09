@@ -74,7 +74,7 @@ export default function ArticleForm({ articleId, mode, defaultValues }: Props) {
                       user_id: "",
                       category_id: "",
                       short_name: "",
-                      time_read: "",
+                      time_read: 0,
                       image: null,
                       content: {},
                   },
@@ -83,7 +83,7 @@ export default function ArticleForm({ articleId, mode, defaultValues }: Props) {
     const onSubmit = async (values: z.infer<typeof schema>) => {
         const formData = new FormData();
         formData.append("title", values.title);
-        formData.append("time_read", values.time_read);
+        formData.append("time_read", values.time_read.toString());
         formData.append("about", values.about);
         formData.append("category_id", values.category_id);
         formData.append("user_id", values.user_id);
@@ -100,18 +100,16 @@ export default function ArticleForm({ articleId, mode, defaultValues }: Props) {
             }
         }
 
-        console.log("values :", values);
-
         const method = mode === "add" ? "POST" : "PUT";
         const url =
             mode === "add" ? "/api/articles" : `/api/articles/${articleId}`;
 
+            console.log('values :', values)
         try {
             const res = await fetch(url, {
                 method: method,
                 body: formData,
             });
-            console.log(res);
             if (res.ok) {
                 form.reset();
                 fileRef.current!.value = "";
@@ -277,6 +275,7 @@ export default function ArticleForm({ articleId, mode, defaultValues }: Props) {
                                     </FormLabel>
                                     <FormControl>
                                         <Input
+                                        type="number"
                                             className="focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600"
                                             placeholder="30"
                                             {...field}

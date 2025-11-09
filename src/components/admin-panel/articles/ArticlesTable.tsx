@@ -1,19 +1,24 @@
 "use client";
-import { Article, ArticleWithRelations, Category } from "@/src/lib/type-definition";
+import {
+    Article,
+    ArticleWithRelations,
+    Category,
+} from "@/src/lib/type-definition";
 import React from "react";
 import { DataTable } from "../DataTable";
 import { ColumnDef, VisibilityState } from "@tanstack/react-table";
 import { useMediaQuery } from "usehooks-ts";
 import Image from "next/image";
+import ArticleTableAction from "./ArticleTableAction";
 
 const columns: ColumnDef<ArticleWithRelations>[] = [
     {
         accessorKey: "actions",
         header: "عملیات",
-        // cell: ({ row }) => {
-        //     const category = row.original;
-        //     return <CategoryTableAction categoryId={category.id} />;
-        // },
+        cell: ({ row }) => {
+            const article = row.original;
+            return <ArticleTableAction articleId={article.id} />;
+        },
     },
     {
         accessorKey: "id",
@@ -37,12 +42,12 @@ const columns: ColumnDef<ArticleWithRelations>[] = [
     {
         accessorKey: "category",
         header: "دسته بندی",
-        cell: ({row}) => row.original.category.title
+        cell: ({ row }) => row.original.category.title,
     },
     {
         accessorKey: "author",
         header: "نویسنده",
-        cell: ({row}) => row.original.author.name
+        cell: ({ row }) => row.original.author.name,
     },
     {
         accessorKey: "image",
@@ -62,7 +67,11 @@ const columns: ColumnDef<ArticleWithRelations>[] = [
     },
 ];
 
-export default function CategoriesTable({ data }: { data: ArticleWithRelations[] }) {
+export default function CategoriesTable({
+    data,
+}: {
+    data: ArticleWithRelations[];
+}) {
     const [columnVisibility, setColumnVisibility] =
         React.useState<VisibilityState>({});
     const isMobile = useMediaQuery("(max-width: 768px)");
@@ -75,7 +84,7 @@ export default function CategoriesTable({ data }: { data: ArticleWithRelations[]
                 title: true,
                 category: true,
                 author: false,
-                image: false
+                image: false,
             });
         } else if (isTablet) {
             setColumnVisibility({
@@ -84,7 +93,7 @@ export default function CategoriesTable({ data }: { data: ArticleWithRelations[]
                 title: true,
                 category: true,
                 author: true,
-                image: false
+                image: false,
             });
         } else {
             setColumnVisibility({
@@ -93,7 +102,7 @@ export default function CategoriesTable({ data }: { data: ArticleWithRelations[]
                 title: true,
                 category: true,
                 author: true,
-                image: true
+                image: true,
             });
         }
         // console.log('Column Visibility :', columnVisibility)

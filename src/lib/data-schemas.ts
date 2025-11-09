@@ -53,7 +53,7 @@ export const createArticleSchema = z.object({
     title: z.string().min(8, "عنوان باید حداقل ۸ حرف باشد"),
     category_id: z.string().nonempty("دسته‌بندی را انتخاب کنید"),
     user_id: z.string().nonempty("نویسنده را انتخاب کنید"),
-    time_read: z.string().nonempty(),
+    time_read: z.coerce.number().min(1, "زمان خواندن باید حداقل ۱ دقیقه باشد"),
     about: z.string().nonempty(),
     short_name: z.string().min(3, "نام کوتاه باید حداقل ۳ حرف باشد"),
     image: z
@@ -64,4 +64,6 @@ export const createArticleSchema = z.object({
     }),
 });
 
-export const updateArticleSchema = createArticleSchema.extend({});
+export const updateArticleSchema = createArticleSchema.extend({
+    image: z.any().optional(),
+});
