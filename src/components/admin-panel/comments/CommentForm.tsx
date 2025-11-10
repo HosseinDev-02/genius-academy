@@ -18,14 +18,20 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import {
+    getAllCourses,
+    getAllUsers,
+    getShortArticles,
+    getShortCourses,
+} from "@/src/lib/actions";
+import {
     createCommentSchema,
     updateCommentSchema,
 } from "@/src/lib/data-schemas";
 import { Article, Comment, Course, User } from "@/src/lib/type-definition";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import z from "zod";
+import z, { set } from "zod";
 
 type Props = {
     mode: "add" | "edit";
@@ -35,8 +41,9 @@ type Props = {
 
 export default function CommentForm({ mode, defaultValues, commentId }: Props) {
     const schema = mode === "add" ? createCommentSchema : updateCommentSchema;
-    const [courses, setCourses] = React.useState<Course[]>([]);
-    const [articles, setArticles] = React.useState<Article[]>([]);
+    const [commentTypeData, setCommentTypeData] = React.useState<
+        Course[] | Article[]
+    >([]);
     const [parents, setParents] = React.useState<Comment[]>([]);
     const [users, setUsers] = React.useState<User[]>([]);
     const form = useForm<z.infer<typeof schema>>({
@@ -45,14 +52,41 @@ export default function CommentForm({ mode, defaultValues, commentId }: Props) {
             mode === "add"
                 ? {
                       content: "",
-                      target_type: "",
+                      target_type: "course",
                       target_id: "",
                       user_id: "",
                       parent_id: "",
-                      status: "",
+                      status: "pending",
                   }
                 : defaultValues,
     });
+    const commentType = form.watch("target_type");
+
+    useEffect(() => {
+        const fetchAllUsers = async () => {
+            const data = await getAllUsers();
+            console.log("users :", data);
+            setUsers(data);
+        };
+        fetchAllUsers();
+    }, []);
+
+    useEffect(() => {
+        if (commentType === "course") {
+            const fetchShortCourses = async () => {
+                const data = await getShortCourses();
+                setCommentTypeData(data);
+            };
+            fetchShortCourses();
+        } else {
+            const fetchShortArticles = async () => {
+                const data = await getShortArticles();
+                setCommentTypeData(data);
+            };
+            fetchShortArticles();
+        }
+        console.log("value :", 'type changed !');
+    }, [commentType]);
 
     const onSubmit = async (values: z.infer<typeof schema>) => {
         console.log("submit");
@@ -60,7 +94,10 @@ export default function CommentForm({ mode, defaultValues, commentId }: Props) {
     return (
         <div>
             <Form {...form}>
-                <form className="space-y-10" onSubmit={form.handleSubmit(onSubmit)}>
+                <form
+                    className="space-y-10"
+                    onSubmit={form.handleSubmit(onSubmit)}
+                >
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
                         <FormField
                             control={form.control}
@@ -105,7 +142,7 @@ export default function CommentForm({ mode, defaultValues, commentId }: Props) {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel className="text-gray-400 font-YekanBakh-SemiBold mb-2">
-                                        والد لینک
+                                        مقاله یا دوره مورد نظر
                                     </FormLabel>
                                     <FormControl>
                                         <Select
@@ -120,33 +157,17 @@ export default function CommentForm({ mode, defaultValues, commentId }: Props) {
                                                 />
                                             </SelectTrigger>
                                             <SelectContent className="bg-zinc-800 border-none">
-                                                {courses.length !== 0
-                                                    ? courses.map((course) => (
-                                                          <SelectItem
-                                                              className="cursor-pointer hover:bg-gray-200 hover:text-title"
-                                                              key={course.id}
-                                                              value={course.id}
-                                                          >
-                                                              {course.title}
-                                                          </SelectItem>
-                                                      ))
-                                                    : articles.map(
-                                                          (article) => (
-                                                              <SelectItem
-                                                                  className="cursor-pointer hover:bg-gray-200 hover:text-title"
-                                                                  key={
-                                                                      article.id
-                                                                  }
-                                                                  value={
-                                                                      article.id
-                                                                  }
-                                                              >
-                                                                  {
-                                                                      article.title
-                                                                  }
-                                                              </SelectItem>
-                                                          )
-                                                      )}
+                                                {commentTypeData?.map(
+                                                    (item) => (
+                                                        <SelectItem
+                                                            className="cursor-pointer hover:bg-gray-200 hover:text-title"
+                                                            key={item.id}
+                                                            value={item.id}
+                                                        >
+                                                            {item.title}
+                                                        </SelectItem>
+                                                    )
+                                                )}
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -224,6 +245,58 @@ export default function CommentForm({ mode, defaultValues, commentId }: Props) {
                                                 </FormControl>
                                                 <FormLabel className="font-normal">
                                                     دوره
+                                                </FormLabel>
+                                            </FormItem>
+                                        </RadioGroup>
+                                    </FormControl>
+                                    <FormMessage className="form-message" />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            name="status"
+                            render={({ field }) => (
+                                <FormItem className="space-y-3">
+                                    <FormLabel>وضعیت کامنت</FormLabel>
+                                    <FormControl>
+                                        <RadioGroup
+                                            dir="rtl"
+                                            onValueChange={field.onChange} // 👈 اتصال به فرم
+                                            value={field.value}
+                                            className="course-status flex flex-col space-y-1"
+                                        >
+                                            <FormItem className="flex items-center space-x-3 space-x-reverse">
+                                                <FormControl>
+                                                    <RadioGroupItem
+                                                        className="border-teal-800 border-2 ring-teal-800 text-teal-800 focus-visible:ring-teal-800"
+                                                        value="pending"
+                                                    />
+                                                </FormControl>
+                                                <FormLabel className="font-normal">
+                                                    در انتظار
+                                                </FormLabel>
+                                            </FormItem>
+
+                                            <FormItem className="flex items-center space-x-3 space-x-reverse">
+                                                <FormControl>
+                                                    <RadioGroupItem
+                                                        className="border-teal-800 border-2 ring-teal-800 text-teal-800 focus-visible:ring-teal-800"
+                                                        value="accepted"
+                                                    />
+                                                </FormControl>
+                                                <FormLabel className="font-normal">
+                                                    تایید شده
+                                                </FormLabel>
+                                            </FormItem>
+                                            <FormItem className="flex items-center space-x-3 space-x-reverse">
+                                                <FormControl>
+                                                    <RadioGroupItem
+                                                        className="border-teal-800 border-2 ring-teal-800 text-teal-800 focus-visible:ring-teal-800"
+                                                        value="rejected"
+                                                    />
+                                                </FormControl>
+                                                <FormLabel className="font-normal">
+                                                    رد شده
                                                 </FormLabel>
                                             </FormItem>
                                         </RadioGroup>

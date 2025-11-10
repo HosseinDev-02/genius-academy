@@ -14,6 +14,7 @@ import {
 
 type Course = {
     id: string;
+    about: string;
     title: string;
     category_id: string;
     price: number;
@@ -94,6 +95,16 @@ export async function getAllCourses(): Promise<Course[]> {
     }
 }
 
+export async function getShortCourses(): Promise<Course[]> {
+    try {
+        const data = await sql`SELECT * FROM courses ORDER BY created_at DESC`;
+        return data as Course[];
+    }catch(error) {
+        console.log(error)
+        return []
+    }
+}
+
 export async function deleteCourseById(courseId: string) {
     try {
         await sql`DELETE FROM courses WHERE id=${courseId}`;
@@ -153,6 +164,16 @@ export async function getAllArticles(): Promise<ArticleWithRelations[]> {
       JOIN users u ON a.user_id = u.id
       ORDER BY a.created_at DESC;`;
         return data as unknown as ArticleWithRelations[];
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}
+
+export async function getShortArticles(): Promise<Article[]> {
+    try {
+        const data = await sql`SELECT * FROM articles ORDER BY created_at DESC`;
+        return data as unknown as Article[];
     } catch (error) {
         console.error(error);
         return [];

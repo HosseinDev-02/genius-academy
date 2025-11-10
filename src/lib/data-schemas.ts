@@ -94,12 +94,16 @@ export const createSubSubmenuSchema = createMenuSchema.extend({
 export const updateSubSubmenuSchema = createSubSubmenuSchema.extend({});
 
 export const createCommentSchema = z.object({
-    content: z.string().nonempty('محتوای نظر را وارد کنید'),
-    target_type: z.string().nonempty("نظر مربوط به کدام است"),
-    target_id: z.string().nonempty('دوره یا مقاله مربوطه را انتخاب کنید'),
-    user_id: z.string().nonempty('کاربر مربوطه را انتخاب کنید'),
+    content: z.string().nonempty("محتوای نظر را وارد کنید"),
+    target_type: z.enum(["course", "article"], {
+        errorMap: () => ({ message: "نوع را انتخاب کنید" }),
+    }),
+    target_id: z.string().nonempty("دوره یا مقاله مربوطه را انتخاب کنید"),
+    user_id: z.string().nonempty("کاربر مربوطه را انتخاب کنید"),
     parent_id: z.string(),
-    status: z.string(),
+    status: z.enum(["pending", "accepted", "rejected"], {
+        errorMap: () => ({ message: "وضعیت را انتخاب کنید" }),
+    }),
 });
 
 export const updateCommentSchema = createCommentSchema.extend({});
