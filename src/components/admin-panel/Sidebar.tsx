@@ -42,6 +42,8 @@ export default function Sidebar({ className }: { className: string }) {
         "/admin-panel/categories": <Shapes size={24} />,
         "/admin-panel/services": <WrenchIcon size={24} />,
         "/admin-panel/menus": <LinkIcon size={24} />,
+        "/admin-panel/submenus": <LinkIcon size={24} />,
+        "/admin-panel/sub-submenus": <LinkIcon size={24} />,
         "/admin-panel/users": <UsersRound size={24} />,
         "/admin-panel/basket": <ShoppingBag size={24} />,
     };

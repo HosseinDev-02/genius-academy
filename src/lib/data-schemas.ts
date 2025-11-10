@@ -69,23 +69,26 @@ export const updateArticleSchema = createArticleSchema.extend({
 });
 
 export const createServiceSchema = z.object({
-    title: z.string().nonempty('عنوان را وارد کنید'),
-    key: z.string().nonempty('کلید را وارد کنید'),
-})
+    title: z.string().nonempty("عنوان را وارد کنید"),
+    key: z.string().nonempty("کلید را وارد کنید"),
+});
 
 export const createMenuSchema = z.object({
-    title: z.string().nonempty(''),
-    url: z.string().nonempty(''),
+    title: z.string().nonempty(""),
+    url: z.string().nonempty(""),
     order_index: z.coerce.number(),
-})
+});
 
-export const updateMenuSchema = createMenuSchema.extend({})
+export const updateMenuSchema = createMenuSchema.extend({});
 
 export const createSubmenuSchema = createMenuSchema.extend({
     menu_id: z.string(),
-})
+});
 
-export const updateSubmenuSchema = createSubmenuSchema.extend({})
+export const updateSubmenuSchema = createSubmenuSchema.extend({});
 
+export const createSubSubmenuSchema = createMenuSchema.extend({
+    submenu_id: z.string(),
+});
 
-
+export const updateSubSubmenuSchema = createSubSubmenuSchema.extend({});
