@@ -2,7 +2,13 @@
 import { neon } from "@neondatabase/serverless";
 import { Timestamp } from "next/dist/server/lib/cache-handlers/types";
 import { sql } from "../db";
-import { Article, ArticleWithRelations, SubMenuWithRelations, SubSubmenuWithRelations } from "./type-definition";
+import {
+    Article,
+    ArticleWithRelations,
+    CommentWithRelations,
+    SubMenuWithRelations,
+    SubSubmenuWithRelations,
+} from "./type-definition";
 
 // console.log(sql)
 
@@ -153,7 +159,7 @@ export async function getAllArticles(): Promise<ArticleWithRelations[]> {
     }
 }
 
-export async function getAllSubmenus(): Promise<SubMenuWithRelations[]>{
+export async function getAllSubmenus(): Promise<SubMenuWithRelations[]> {
     try {
         const data = await sql`
         SELECT 
@@ -170,15 +176,15 @@ export async function getAllSubmenus(): Promise<SubMenuWithRelations[]>{
         ) AS menu
       FROM submenus s
       JOIN menus m ON s.menu_id = m.id
-      ORDER BY s.created_at DESC;`
-      return data as unknown as SubMenuWithRelations[]
+      ORDER BY s.created_at DESC;`;
+        return data as unknown as SubMenuWithRelations[];
     } catch (error) {
         console.error(error);
         return [];
     }
 }
 
-export async function getAllSubSubmenus(): Promise<SubSubmenuWithRelations[]>{
+export async function getAllSubSubmenus(): Promise<SubSubmenuWithRelations[]> {
     try {
         const data = await sql`
         SELECT 
@@ -195,8 +201,36 @@ export async function getAllSubSubmenus(): Promise<SubSubmenuWithRelations[]>{
         ) AS submenu
       FROM sub_submenus s
       JOIN submenus m ON s.submenu_id = m.id
-      ORDER BY s.created_at DESC;`
-      return data as unknown as SubSubmenuWithRelations[]
+      ORDER BY s.created_at DESC;`;
+        return data as unknown as SubSubmenuWithRelations[];
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}
+
+export async function getAllComments(): Promise<CommentWithRelations[]> {
+    try {
+        const data = await sql`
+        SELECT 
+        c.id,
+        c.content,
+        c.target_type,
+        c.target_id,
+        c.parent_id,
+        c.created_at,
+        c.updated_at,
+        c.status,
+        json_build_object(
+        'id', u.id,
+        'name', u.name,
+        'image', u.image
+        ) AS user
+        FROM comments c
+        JOIN users u ON c.user_id = u.id
+        ORDER BY c.created_at DESC;
+        `;
+        return data as unknown as CommentWithRelations[];
     } catch (error) {
         console.error(error);
         return [];

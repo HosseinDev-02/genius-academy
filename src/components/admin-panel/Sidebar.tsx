@@ -24,6 +24,7 @@ import { adminPanelMenuItems } from "@/src/lib/placeholder-data";
 import { usePathname } from "next/navigation";
 import { useAdminPanelContext } from "./AdminPanelProvider";
 import Cover from "../shared/Cover";
+import CommentsIcon from "../icon/CommentsIcon";
 
 type SidebarProps = {
     showSidebar: boolean;
@@ -46,6 +47,7 @@ export default function Sidebar({ className }: { className: string }) {
         "/admin-panel/sub-submenus": <LinkIcon size={24} />,
         "/admin-panel/users": <UsersRound size={24} />,
         "/admin-panel/basket": <ShoppingBag size={24} />,
+        "/admin-panel/comments": <ShoppingBag size={24} />,
     };
 
     return (

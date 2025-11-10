@@ -59,7 +59,7 @@ export type Service = {
     key: string;
     created_at: Date;
     updated_at: Date;
-}
+};
 
 export type Menu = {
     id: string;
@@ -68,7 +68,7 @@ export type Menu = {
     order_index: number;
     created_at: Date;
     updated_at: Date;
-}
+};
 export type SubMenu = {
     id: string;
     title: string;
@@ -77,11 +77,11 @@ export type SubMenu = {
     order_index: number;
     created_at: Date;
     updated_at: Date;
-}
+};
 
-export type SubMenuWithRelations = Omit<SubMenu, 'menu_id'> & {
-    menu: Menu
-}
+export type SubMenuWithRelations = Omit<SubMenu, "menu_id"> & {
+    menu: Menu;
+};
 
 export type SubSubmenu = {
     id: string;
@@ -90,9 +90,23 @@ export type SubSubmenu = {
     submenu_id: string;
     order_index: number;
     created_at: Date;
-    updated_at: Date;  
-}
+    updated_at: Date;
+};
 
-export type SubSubmenuWithRelations = Omit<SubSubmenu, 'submenu_id'> & {
-    submenu: SubMenu
-}
+export type SubSubmenuWithRelations = Omit<SubSubmenu, "submenu_id"> & {
+    submenu: SubMenu;
+};
+
+export type Comment = {
+    id: string;
+    content: string;
+    target_type: string;
+    target_id: string;
+    user_id: string;
+    parent_id: string;
+    status: string;
+    created_at: Date;
+    updated_at: Date;
+};
+
+export type CommentWithRelations = Omit<Comment, "user_id"> & { user: User };

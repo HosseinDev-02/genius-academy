@@ -948,4 +948,9 @@ export const adminPanelMenuItems = [
         title: "کاربران",
         href: "/admin-panel/users",
     },
+    {
+        id: 11,
+        title: "کامنت ها",
+        href: "/admin-panel/comments",
+    },
 ];
