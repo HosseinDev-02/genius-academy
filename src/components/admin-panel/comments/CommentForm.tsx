@@ -52,15 +52,14 @@ export default function CommentForm({ mode, defaultValues, commentId }: Props) {
             mode === "add"
                 ? {
                       content: "",
-                      target_type: "course",
-                      target_id: "",
+                      course_id: "",
+                      article_id: "",
                       user_id: "",
                       parent_id: "",
                       status: "pending",
                   }
                 : defaultValues,
     });
-    const commentType = form.watch("target_type");
 
     useEffect(() => {
         const fetchAllUsers = async () => {
@@ -68,25 +67,18 @@ export default function CommentForm({ mode, defaultValues, commentId }: Props) {
             console.log("users :", data);
             setUsers(data);
         };
+        const fetchCourses = async () => {
+            const data = await getShortCourses();
+            console.log("courses :", data);
+        };
+        const fetchArticles = async () => {
+            const data = await getShortArticles();
+            console.log("articles :", data);
+        };
+        fetchCourses();
+        fetchArticles();
         fetchAllUsers();
     }, []);
-
-    useEffect(() => {
-        if (commentType === "course") {
-            const fetchShortCourses = async () => {
-                const data = await getShortCourses();
-                setCommentTypeData(data);
-            };
-            fetchShortCourses();
-        } else {
-            const fetchShortArticles = async () => {
-                const data = await getShortArticles();
-                setCommentTypeData(data);
-            };
-            fetchShortArticles();
-        }
-        console.log("value :", 'type changed !');
-    }, [commentType]);
 
     const onSubmit = async (values: z.infer<typeof schema>) => {
         console.log("submit");
@@ -138,11 +130,50 @@ export default function CommentForm({ mode, defaultValues, commentId }: Props) {
                         />
                         <FormField
                             control={form.control}
-                            name="target_id"
+                            name="course_id"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel className="text-gray-400 font-YekanBakh-SemiBold mb-2">
-                                        مقاله یا دوره مورد نظر
+                                        دوره مورد نظر
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Select
+                                            onValueChange={field.onChange} // مقدار انتخابی رو به state فرم می‌فرسته
+                                            value={field.value}
+                                            dir="rtl"
+                                        >
+                                            <SelectTrigger className="w-full focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600">
+                                                <SelectValue
+                                                    className={`font-YekanBakh-SemiBold`}
+                                                    placeholder="محصولات"
+                                                />
+                                            </SelectTrigger>
+                                            <SelectContent className="bg-zinc-800 border-none">
+                                                {commentTypeData?.map(
+                                                    (item) => (
+                                                        <SelectItem
+                                                            className="cursor-pointer hover:bg-gray-200 hover:text-title"
+                                                            key={item.id}
+                                                            value={item.id}
+                                                        >
+                                                            {item.title}
+                                                        </SelectItem>
+                                                    )
+                                                )}
+                                            </SelectContent>
+                                        </Select>
+                                    </FormControl>
+                                    <FormMessage className="form-message" />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="article_id"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-gray-400 font-YekanBakh-SemiBold mb-2">
+                                        مقاله مورد نظر
                                     </FormLabel>
                                     <FormControl>
                                         <Select
@@ -213,47 +244,6 @@ export default function CommentForm({ mode, defaultValues, commentId }: Props) {
                             )}
                         />
                         <FormField
-                            name="target_type"
-                            render={({ field }) => (
-                                <FormItem className="space-y-3">
-                                    <FormLabel>نوع کامنت</FormLabel>
-                                    <FormControl>
-                                        <RadioGroup
-                                            dir="rtl"
-                                            onValueChange={field.onChange} // 👈 اتصال به فرم
-                                            value={field.value}
-                                            className="course-status flex flex-col space-y-1"
-                                        >
-                                            <FormItem className="flex items-center space-x-3 space-x-reverse">
-                                                <FormControl>
-                                                    <RadioGroupItem
-                                                        className="border-teal-800 border-2 ring-teal-800 text-teal-800 focus-visible:ring-teal-800"
-                                                        value="article"
-                                                    />
-                                                </FormControl>
-                                                <FormLabel className="font-normal">
-                                                    مقاله
-                                                </FormLabel>
-                                            </FormItem>
-
-                                            <FormItem className="flex items-center space-x-3 space-x-reverse">
-                                                <FormControl>
-                                                    <RadioGroupItem
-                                                        className="border-teal-800 border-2 ring-teal-800 text-teal-800 focus-visible:ring-teal-800"
-                                                        value="course"
-                                                    />
-                                                </FormControl>
-                                                <FormLabel className="font-normal">
-                                                    دوره
-                                                </FormLabel>
-                                            </FormItem>
-                                        </RadioGroup>
-                                    </FormControl>
-                                    <FormMessage className="form-message" />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
                             name="status"
                             render={({ field }) => (
                                 <FormItem className="space-y-3">
@@ -281,7 +271,7 @@ export default function CommentForm({ mode, defaultValues, commentId }: Props) {
                                                 <FormControl>
                                                     <RadioGroupItem
                                                         className="border-teal-800 border-2 ring-teal-800 text-teal-800 focus-visible:ring-teal-800"
-                                                        value="accepted"
+                                                        value="approved"
                                                     />
                                                 </FormControl>
                                                 <FormLabel className="font-normal">

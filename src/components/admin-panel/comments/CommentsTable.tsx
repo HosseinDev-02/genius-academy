@@ -41,14 +41,14 @@ const columns: ColumnDef<CommentWithRelations>[] = [
             return (
                 <span
                     className={`px-2 py-1 rounded font-YekanBakh-SemiBold text-xs ${
-                        status === "accepted"
+                        status === "approved"
                             ? "bg-green-500"
                             : status === "pending"
                             ? "bg-yellow-500"
                             : "bg-red-500"
                     }`}
                 >
-                    {status === "accepted"
+                    {status === "approved"
                         ? "قبول شده"
                         : status === "pending"
                         ? "در انتظار"
@@ -63,8 +63,14 @@ const columns: ColumnDef<CommentWithRelations>[] = [
         cell: ({ row }) => row.original.user.name,
     },
     {
-        accessorKey: "target_type",
-        header: "مربوط به",
+        accessorKey: "course",
+        header: "دوره",
+        cell: ({ row }) => row.original.course?.title || '--------'
+    },
+    {
+        accessorKey: "article",
+        header: "مقاله",
+        cell: ({ row }) => row.original.article?.title || '--------'
     },
     {
         accessorKey: "answer",
@@ -91,7 +97,8 @@ export default function CommentsTable({
                 id: false,
                 content: true,
                 user: false,
-                target_type: false,
+                course_id: false,
+                article_id: false,
                 status: false,
             });
         } else if (isMobile) {
@@ -99,7 +106,8 @@ export default function CommentsTable({
                 id: false,
                 content: true,
                 user: true,
-                target_type: false,
+                course_id: false,
+                article_id: false,
                 status: false,
             });
         } else if (isTablet) {
@@ -107,7 +115,8 @@ export default function CommentsTable({
                 id: false,
                 content: true,
                 user: true,
-                target_type: true,
+                course_id: true,
+                article_id: true,
                 status: false,
             });
         } else {
@@ -115,7 +124,8 @@ export default function CommentsTable({
                 id: true,
                 content: true,
                 user: true,
-                target_type: true,
+                course_id: true,
+                article_id: true,
                 status: true,
             });
         }
@@ -136,7 +146,7 @@ export default function CommentsTable({
                     classNames: {
                         success: "!bg-teal-700",
                         error: "!bg-red-700",
-                        info: '!bg-sky-700 !text-black'
+                        info: "!bg-sky-700 !text-black",
                     },
                     className: "!text-white !border-none",
                 }}

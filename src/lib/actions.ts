@@ -234,22 +234,30 @@ export async function getAllComments(): Promise<CommentWithRelations[]> {
     try {
         const data = await sql`
         SELECT 
-        c.id,
-        c.content,
-        c.target_type,
-        c.target_id,
-        c.parent_id,
-        c.created_at,
-        c.updated_at,
-        c.status,
+        comment.id,
+        comment.content,
+        comment.parent_id,
+        comment.created_at,
+        comment.updated_at,
+        comment.status,
         json_build_object(
         'id', u.id,
         'name', u.name,
         'image', u.image
-        ) AS user
-        FROM comments c
-        JOIN users u ON c.user_id = u.id
-        ORDER BY c.created_at DESC;
+        ) AS user,
+        CASE
+            WHEN comment.course_id IS NOT NULL THEN json_build_object('id', c.id,'title', c.title,'image', c.image)
+        ELSE NULL
+            END AS course,
+        CASE
+            WHEN comment.article_id IS NOT NULL THEN json_build_object('id', a.id,'title', a.title,'image', a.image) 
+        ELSE NULL
+            END AS article
+        FROM comments comment
+        LEFT JOIN users u ON comment.user_id = u.id
+        LEFT JOIN courses c ON comment.course_id = c.id
+        LEFT JOIN articles a ON comment.article_id = a.id
+        ORDER BY comment.created_at DESC;
         `;
         return data as unknown as CommentWithRelations[];
     } catch (error) {

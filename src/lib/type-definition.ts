@@ -100,9 +100,9 @@ export type SubSubmenuWithRelations = Omit<SubSubmenu, "submenu_id"> & {
 export type Comment = {
     id: string;
     content: string;
-    target_type: string;
-    target_id: string;
-    user_id: string;
+    course: Course;
+    article: Article;
+    user: User;
     parent_id: string;
     status: string;
     created_at: Date;
