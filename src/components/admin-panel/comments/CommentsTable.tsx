@@ -7,6 +7,8 @@ import { useMediaQuery } from "usehooks-ts";
 import CommentTableAction from "./CommentTableAction";
 import CommentAnswer from "./CommentAnswer";
 import { Toaster, toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import RejectComment from "./RejectComment";
 
 const columns: ColumnDef<CommentWithRelations>[] = [
     {
@@ -78,10 +80,13 @@ const columns: ColumnDef<CommentWithRelations>[] = [
 
     },
     {
-        accessorKey: "answer",
+        accessorKey: "approved-rejected",
         header: "پاسخ",
         cell: ({ row }) =>
-            !row.original.parent_id && <CommentAnswer comment={row.original} />,
+            row.original.status === 'pending' && <div className="flex gap-2">
+                <CommentAnswer comment={row.original} />
+                <RejectComment commentId={row.original.id}/>
+            </div>,
     },
 ];
 

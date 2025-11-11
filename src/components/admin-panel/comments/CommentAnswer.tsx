@@ -5,6 +5,7 @@ import { Comment, CommentWithRelations } from "@/src/lib/type-definition";
 import React, { useState } from "react";
 import Cover from "../../shared/Cover";
 import { Toaster, toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function CommentAnswer({
     comment,
@@ -13,10 +14,9 @@ export default function CommentAnswer({
 }) {
     const [showContent, setShowContent] = useState(false);
     const [content, setContent] = useState("");
+    const router = useRouter()
 
     const answerToCommentHandler = async () => {
-        console.log("content :", content);
-        console.log("answer");
         // setShowContent(false);
         const response = await fetch("/api/comments/reply", {
             method: "POST",
@@ -29,6 +29,9 @@ export default function CommentAnswer({
         });
         if (response.ok) {
             toast.success("پاسخ با موفقیت ارسال شد");
+            setContent('')
+            setShowContent(false)
+            router.refresh()
         }
     };
     return (
