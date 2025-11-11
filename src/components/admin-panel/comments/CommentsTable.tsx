@@ -73,6 +73,11 @@ const columns: ColumnDef<CommentWithRelations>[] = [
         cell: ({ row }) => row.original.article?.title || '--------'
     },
     {
+        accessorKey: "parent_id",
+        header: "والد",
+
+    },
+    {
         accessorKey: "answer",
         header: "پاسخ",
         cell: ({ row }) =>

@@ -265,3 +265,13 @@ export async function getAllComments(): Promise<CommentWithRelations[]> {
         return [];
     }
 }
+
+export async function getAdminUsers(): Promise<User[]> {
+    try {
+        const data = await sql`SELECT * FROM users WHERE role != 'user' ORDER BY created_at DESC`;
+        return data as unknown as User[];
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}

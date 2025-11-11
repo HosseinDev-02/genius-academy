@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import {
+    getAdminUsers,
     getAllComments,
     getAllCourses,
     getAllUsers,
@@ -77,7 +78,7 @@ export default function CommentForm({
 
     useEffect(() => {
         const fetchAllUsers = async () => {
-            const data = await getAllUsers();
+            const data = await getAdminUsers();
             console.log("users :", data);
             setUsers(data);
         };
@@ -159,29 +160,31 @@ export default function CommentForm({
                                         کاربر
                                     </FormLabel>
                                     <FormControl>
-                                        <Select
-                                            onValueChange={field.onChange} // مقدار انتخابی رو به state فرم می‌فرسته
-                                            value={field.value}
-                                            dir="rtl"
-                                        >
-                                            <SelectTrigger className="w-full focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600">
-                                                <SelectValue
-                                                    className={`font-YekanBakh-SemiBold`}
-                                                    placeholder="حسین رستمی"
-                                                />
-                                            </SelectTrigger>
-                                            <SelectContent className="bg-zinc-800 border-none">
-                                                {users?.map((user) => (
-                                                    <SelectItem
-                                                        className="cursor-pointer hover:bg-gray-200 hover:text-title"
-                                                        key={user.id}
-                                                        value={user.id}
-                                                    >
-                                                        {user.name}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
+                                        {users.length !== 0 && (
+                                            <Select
+                                                onValueChange={field.onChange} // مقدار انتخابی رو به state فرم می‌فرسته
+                                                value={field.value}
+                                                dir="rtl"
+                                            >
+                                                <SelectTrigger className="w-full focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600">
+                                                    <SelectValue
+                                                        className={`font-YekanBakh-SemiBold`}
+                                                        placeholder="حسین رستمی"
+                                                    />
+                                                </SelectTrigger>
+                                                <SelectContent className="bg-zinc-800 border-none">
+                                                    {users?.map((user) => (
+                                                        <SelectItem
+                                                            className="cursor-pointer hover:bg-gray-200 hover:text-title"
+                                                            key={user.id}
+                                                            value={user.id}
+                                                        >
+                                                            {user.name}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                        )}
                                     </FormControl>
                                     <FormMessage className="form-message" />
                                 </FormItem>
@@ -196,29 +199,31 @@ export default function CommentForm({
                                         والد کامنت (اختیاری)
                                     </FormLabel>
                                     <FormControl>
-                                        <Select
-                                            onValueChange={field.onChange} // مقدار انتخابی رو به state فرم می‌فرسته
-                                            value={field.value || ""}
-                                            dir="rtl"
-                                        >
-                                            <SelectTrigger className="w-full focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600">
-                                                <SelectValue
-                                                    className={`font-YekanBakh-SemiBold`}
-                                                    placeholder="محصولات"
-                                                />
-                                            </SelectTrigger>
-                                            <SelectContent className="bg-zinc-800 border-none">
-                                                {parents?.map((parent) => (
-                                                    <SelectItem
-                                                        className="cursor-pointer hover:bg-gray-200 hover:text-title"
-                                                        key={parent.id}
-                                                        value={parent.id}
-                                                    >
-                                                        {parent.content}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
+                                        {parents.length !== 0 && (
+                                            <Select
+                                                onValueChange={field.onChange} // مقدار انتخابی رو به state فرم می‌فرسته
+                                                value={field.value || ""}
+                                                dir="rtl"
+                                            >
+                                                <SelectTrigger className="w-full focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600">
+                                                    <SelectValue
+                                                        className={`font-YekanBakh-SemiBold`}
+                                                        placeholder="انتخاب کامنت برای پاسخ"
+                                                    />
+                                                </SelectTrigger>
+                                                <SelectContent className="bg-zinc-800 border-none">
+                                                    {parents?.map((parent) => (
+                                                        <SelectItem
+                                                            className="cursor-pointer hover:bg-gray-200 hover:text-title"
+                                                            key={parent.id}
+                                                            value={parent.id}
+                                                        >
+                                                            {parent.content}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                        )}
                                     </FormControl>
                                     <FormMessage className="form-message" />
                                 </FormItem>
@@ -296,39 +301,43 @@ export default function CommentForm({
                                                 دوره مورد نظر
                                             </FormLabel>
                                             <FormControl>
-                                                <Select
-                                                    onValueChange={
-                                                        field.onChange
-                                                    } // مقدار انتخابی رو به state فرم می‌فرسته
-                                                    value={field.value || ""}
-                                                    dir="rtl"
-                                                >
-                                                    <SelectTrigger className="w-full focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600">
-                                                        <SelectValue
-                                                            className={`font-YekanBakh-SemiBold`}
-                                                            placeholder="محصولات"
-                                                        />
-                                                    </SelectTrigger>
-                                                    <SelectContent className="bg-zinc-800 border-none">
-                                                        {courses?.map(
-                                                            (course) => (
-                                                                <SelectItem
-                                                                    className="cursor-pointer hover:bg-gray-200 hover:text-title"
-                                                                    key={
-                                                                        course.id
-                                                                    }
-                                                                    value={
-                                                                        course.id
-                                                                    }
-                                                                >
-                                                                    {
-                                                                        course.title
-                                                                    }
-                                                                </SelectItem>
-                                                            )
-                                                        )}
-                                                    </SelectContent>
-                                                </Select>
+                                                {courses.length !== 0 && (
+                                                    <Select
+                                                        onValueChange={
+                                                            field.onChange
+                                                        } // مقدار انتخابی رو به state فرم می‌فرسته
+                                                        value={
+                                                            field.value || ""
+                                                        }
+                                                        dir="rtl"
+                                                    >
+                                                        <SelectTrigger className="w-full focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600">
+                                                            <SelectValue
+                                                                className={`font-YekanBakh-SemiBold`}
+                                                                placeholder="محصولات"
+                                                            />
+                                                        </SelectTrigger>
+                                                        <SelectContent className="bg-zinc-800 border-none">
+                                                            {courses?.map(
+                                                                (course) => (
+                                                                    <SelectItem
+                                                                        className="cursor-pointer hover:bg-gray-200 hover:text-title"
+                                                                        key={
+                                                                            course.id
+                                                                        }
+                                                                        value={
+                                                                            course.id
+                                                                        }
+                                                                    >
+                                                                        {
+                                                                            course.title
+                                                                        }
+                                                                    </SelectItem>
+                                                                )
+                                                            )}
+                                                        </SelectContent>
+                                                    </Select>
+                                                )}
                                             </FormControl>
                                             <FormMessage className="form-message" />
                                         </FormItem>
@@ -344,39 +353,43 @@ export default function CommentForm({
                                                 مقاله مورد نظر
                                             </FormLabel>
                                             <FormControl>
-                                                <Select
-                                                    onValueChange={
-                                                        field.onChange
-                                                    } // مقدار انتخابی رو به state فرم می‌فرسته
-                                                    value={field.value || ""}
-                                                    dir="rtl"
-                                                >
-                                                    <SelectTrigger className="w-full focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600">
-                                                        <SelectValue
-                                                            className={`font-YekanBakh-SemiBold`}
-                                                            placeholder="محصولات"
-                                                        />
-                                                    </SelectTrigger>
-                                                    <SelectContent className="bg-zinc-800 border-none">
-                                                        {articles?.map(
-                                                            (article) => (
-                                                                <SelectItem
-                                                                    className="cursor-pointer hover:bg-gray-200 hover:text-title"
-                                                                    key={
-                                                                        article.id
-                                                                    }
-                                                                    value={
-                                                                        article.id
-                                                                    }
-                                                                >
-                                                                    {
-                                                                        article.title
-                                                                    }
-                                                                </SelectItem>
-                                                            )
-                                                        )}
-                                                    </SelectContent>
-                                                </Select>
+                                                {articles.length !== 0 && (
+                                                    <Select
+                                                        onValueChange={
+                                                            field.onChange
+                                                        } // مقدار انتخابی رو به state فرم می‌فرسته
+                                                        value={
+                                                            field.value || ""
+                                                        }
+                                                        dir="rtl"
+                                                    >
+                                                        <SelectTrigger className="w-full focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600">
+                                                            <SelectValue
+                                                                className={`font-YekanBakh-SemiBold`}
+                                                                placeholder="محصولات"
+                                                            />
+                                                        </SelectTrigger>
+                                                        <SelectContent className="bg-zinc-800 border-none">
+                                                            {articles?.map(
+                                                                (article) => (
+                                                                    <SelectItem
+                                                                        className="cursor-pointer hover:bg-gray-200 hover:text-title"
+                                                                        key={
+                                                                            article.id
+                                                                        }
+                                                                        value={
+                                                                            article.id
+                                                                        }
+                                                                    >
+                                                                        {
+                                                                            article.title
+                                                                        }
+                                                                    </SelectItem>
+                                                                )
+                                                            )}
+                                                        </SelectContent>
+                                                    </Select>
+                                                )}
                                             </FormControl>
                                             <FormMessage className="form-message" />
                                         </FormItem>
