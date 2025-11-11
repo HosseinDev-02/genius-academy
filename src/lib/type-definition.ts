@@ -103,7 +103,7 @@ export type Comment = {
     course: Course;
     article: Article;
     user: User;
-    parent_id: string;
+    parent_user: User;
     status: string;
     created_at: Date;
     updated_at: Date;

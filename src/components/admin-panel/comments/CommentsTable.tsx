@@ -9,6 +9,7 @@ import CommentAnswer from "./CommentAnswer";
 import { Toaster, toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import RejectComment from "./RejectComment";
+import CommentContent from "./CommentContent";
 
 const columns: ColumnDef<CommentWithRelations>[] = [
     {
@@ -24,16 +25,7 @@ const columns: ColumnDef<CommentWithRelations>[] = [
     {
         accessorKey: "content",
         header: "متن",
-        cell: ({ row }) => (
-            <span
-                onClick={() => {
-                    toast.info(row.original.content);
-                }}
-                className="px-2 py-1 rounded font-YekanBakh-SemiBold text-xs bg-gray-600 text-white select-none cursor-pointer"
-            >
-                نمایش
-            </span>
-        ),
+        cell: ({ row }) => (<CommentContent content={row.original.content}/>),
     },
     {
         accessorKey: "status",
@@ -65,19 +57,20 @@ const columns: ColumnDef<CommentWithRelations>[] = [
         cell: ({ row }) => row.original.user.name,
     },
     {
-        accessorKey: "course",
-        header: "دوره",
-        cell: ({ row }) => row.original.course?.title || '--------'
+        accessorKey: "course/article",
+        header: "دوره / مقاله",
+        cell: ({ row }) => {
+            const courseName = row.original.course?.short_name;
+            const articleName = row.original.article?.short_name;
+            return (
+                <span className={`px-2 py-1 rounded font-YekanBakh-SemiBold text-xs ${courseName ? 'bg-blue-500' : 'bg-indigo-500'}`}>{courseName || articleName}</span>
+            )
+        }
     },
     {
-        accessorKey: "article",
-        header: "مقاله",
-        cell: ({ row }) => row.original.article?.title || '--------'
-    },
-    {
-        accessorKey: "parent_id",
-        header: "والد",
-
+        accessorKey: "parent_user",
+        header: "ارسال کننده",
+        cell: ({ row }) => row.original.parent_user.name
     },
     {
         accessorKey: "approved-rejected",
@@ -108,7 +101,8 @@ export default function CommentsTable({
                 content: true,
                 user: false,
                 course_id: false,
-                article_id: false,
+                'course/article': false,
+                parent_user: false,
                 status: false,
             });
         } else if (isMobile) {
@@ -116,8 +110,8 @@ export default function CommentsTable({
                 id: false,
                 content: true,
                 user: true,
-                course_id: false,
-                article_id: false,
+                'course/article': false,
+                parent_user: false,
                 status: false,
             });
         } else if (isTablet) {
@@ -125,17 +119,17 @@ export default function CommentsTable({
                 id: false,
                 content: true,
                 user: true,
-                course_id: true,
-                article_id: true,
+                'course/article': true,
+                parent_user: false,
                 status: false,
             });
         } else {
             onColumnVisibilityChange({
-                id: true,
+                id: false,
                 content: true,
                 user: true,
-                course_id: true,
-                article_id: true,
+                'course/article': true,
+                parent_user: true,
                 status: true,
             });
         }
