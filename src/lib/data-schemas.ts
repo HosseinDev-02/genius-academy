@@ -93,15 +93,35 @@ export const createSubSubmenuSchema = createMenuSchema.extend({
 
 export const updateSubSubmenuSchema = createSubSubmenuSchema.extend({});
 
-export const createCommentSchema = z.object({
-    content: z.string().nonempty("محتوای نظر را وارد کنید"),
-    course_id: z.string(),
-    article_id: z.string(),
-    user_id: z.string().nonempty("کاربر مربوطه را انتخاب کنید"),
-    parent_id: z.string(),
-    status: z.enum(["pending", "approved", "rejected"], {
-        errorMap: () => ({ message: "وضعیت را انتخاب کنید" }),
-    }),
-});
+export const createCommentSchema = z
+    .object({
+        content: z.string().nonempty("محتوای نظر را وارد کنید"),
+        course_id: z.string().uuid().optional().nullable(),
+        article_id: z.string().uuid().optional().nullable(),
+        user_id: z.string().nonempty("کاربر مربوطه را انتخاب کنید"),
+        parent_id: z.string().uuid().optional().nullable(),
+        status: z.enum(["pending", "approved", "rejected"], {
+            errorMap: () => ({ message: "وضعیت را انتخاب کنید" }),
+        }),
+        target_type: z.enum(["article", "course"], {
+            errorMap: () => ({ message: "نوع مقاله یا دوره را انتخاب کنید" }),
+        }),
+    })
+    .refine(
+        (data) => {
+            // یکی از course_id یا article_id باید مقدار داشته باشه، یا parent_id
+            const hasTarget =
+                data.course_id || data.article_id || data.parent_id;
+            return !!hasTarget;
+        },
+        {
+            message: "باید برای دوره، مقاله یا پاسخ به کامنت باشد",
+            path: ["course_id"], // مسیر خطا
+        }
+    )
+    .refine((data) => !(data.course_id && data.article_id), {
+        message: "کامنت نمی‌تواند همزمان برای دوره و مقاله باشد",
+        path: ["course_id"],
+    });
 
-export const updateCommentSchema = createCommentSchema.extend({});
+export const updateCommentSchema = createCommentSchema
