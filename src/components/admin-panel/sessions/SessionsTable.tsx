@@ -3,11 +3,13 @@ import { SessionWithRelations } from "@/src/lib/type-definition";
 import React from "react";
 import { DataTable } from "../DataTable";
 import { ColumnDef, VisibilityState } from "@tanstack/react-table";
+import SessionTableAction from "./SessionTableAction";
 
 const columns: ColumnDef<SessionWithRelations>[] = [
     {
         accessorKey: "actions",
         header: "عملیات",
+        cell: ({ row }) => <SessionTableAction sessionId={row.original.id}/>
     },
     {
         accessorKey: "id",
