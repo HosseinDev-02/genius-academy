@@ -7,9 +7,11 @@ import {
     ArticleWithRelations,
     CommentWithRelations,
     CourseWithRelations,
+    SessionWithRelations,
     SubMenuWithRelations,
     SubSubmenuWithRelations,
 } from "./type-definition";
+import { Session } from "inspector";
 
 // console.log(sql)
 
@@ -100,13 +102,15 @@ export async function getShortCourses(): Promise<Course[]> {
     try {
         const data = await sql`SELECT * FROM courses ORDER BY created_at DESC`;
         return data as Course[];
-    }catch(error) {
-        console.log(error)
-        return []
+    } catch (error) {
+        console.log(error);
+        return [];
     }
 }
 
-export async function getCourseByShortName(shortName: string): Promise<CourseWithRelations | {}>{
+export async function getCourseByShortName(
+    shortName: string
+): Promise<CourseWithRelations | {}> {
     try {
         const data = await sql`SELECT 
             c.id,
@@ -307,8 +311,33 @@ export async function getAllComments(): Promise<CommentWithRelations[]> {
 
 export async function getAdminUsers(): Promise<User[]> {
     try {
-        const data = await sql`SELECT * FROM users WHERE role != 'user' ORDER BY created_at DESC`;
+        const data =
+            await sql`SELECT * FROM users WHERE role != 'user' ORDER BY created_at DESC`;
         return data as unknown as User[];
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}
+
+export async function getAllSessions(): Promise<SessionWithRelations[]> {
+    try {
+        const data = await sql`
+        SELECT 
+        s.id,
+        s.title,
+        s.description,
+        s.created_at,
+        s.updated_at,
+        json_build_object (
+          'id', c.id,
+          'title', c.title
+        ) AS course
+        FROM sessions s
+        JOIN courses c ON c.id = s.course_id
+        ORDER BY s.created_at DESC;
+        `;
+        return data as unknown as SessionWithRelations[];
     } catch (error) {
         console.error(error);
         return [];

@@ -115,3 +115,15 @@ export type Comment = {
 };
 
 export type CommentWithRelations = Omit<Comment, "user_id"> & { user: User };
+
+export type Session = {
+    id: string;
+    course_id: string;
+    title: string;
+    description: string;
+    created_at: Date;
+    updated_at: Date;
+}
+
+export type SessionWithRelations = Omit<Session, "course_id"> & { course: Course }
+

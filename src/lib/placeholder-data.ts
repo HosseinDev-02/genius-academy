@@ -953,4 +953,14 @@ export const adminPanelMenuItems = [
         title: "کامنت ها",
         href: "/admin-panel/comments",
     },
+    {
+        id: 12,
+        title: "سرفصل ها",
+        href: "/admin-panel/sessions",
+    },
+    {
+        id: 13,
+        title: "ویدیوها",
+        href: "/admin-panel/videos",
+    },
 ];

@@ -125,3 +125,11 @@ export const createCommentSchema = z
     });
 
 export const updateCommentSchema = createCommentSchema
+
+export const createSessionSchema = z.object({
+    title: z.string().min(3, "عنوان باید حداقل ۳ حرف باشد"),
+    description: z.string().nonempty('توضیح باید وارد شود'),
+    course_id: z.string().uuid().nonempty("دوره را انتخاب کنید"),
+})
+
+export const updateSessionSchema = createSessionSchema.extend({})

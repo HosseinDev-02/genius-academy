@@ -8,8 +8,11 @@ import {
     ChevronRight,
     FileText,
     GraduationCap,
+    Heading,
     LinkIcon,
     LucideBookOpen,
+    Mails,
+    MonitorPlay,
     PanelRightClose,
     PanelRightOpen,
     PowerIcon,
@@ -17,6 +20,7 @@ import {
     Shapes,
     ShoppingBag,
     UsersRound,
+    Video,
     WrenchIcon,
     XIcon,
 } from "lucide-react";
@@ -47,13 +51,15 @@ export default function Sidebar({ className }: { className: string }) {
         "/admin-panel/sub-submenus": <LinkIcon size={24} />,
         "/admin-panel/users": <UsersRound size={24} />,
         "/admin-panel/basket": <ShoppingBag size={24} />,
-        "/admin-panel/comments": <ShoppingBag size={24} />,
+        "/admin-panel/comments": <Mails size={24} />,
+        "/admin-panel/sessions": <Heading size={24} />,
+        "/admin-panel/videos": <MonitorPlay size={24} />,
     };
 
     return (
         <>
-            <div
-                className={`px-2 bg-zinc-900 transition-all duration-300 h-full lg:rounded-2xl rounded-l-2xl fixed lg:static z-50 top-0 bottom-0 w-64 lg:w-full ${
+            <div dir="ltr"
+                className={`sidebar overflow-y-auto px-2 bg-zinc-900 transition-all duration-300 h-full lg:rounded-2xl rounded-l-2xl fixed lg:static z-50 top-0 bottom-0 w-64 lg:w-full ${
                     isOpen ? "right-0" : "-right-64"
                 } ${className}`}
             >
@@ -70,7 +76,7 @@ export default function Sidebar({ className }: { className: string }) {
                     </span>
                 </div>
                 {/* Sidebar Menu */}
-                <ul className="flex flex-col gap-3 font-YekanBakh-SemiBold text-white *:rounded-md mt-4 *:transition-colors *:duration-300 *:cursor-pointer *:w-full *:px-2 *:h-12 *:flex *:items-center *:gap-3">
+                <ul className="flex flex-col gap-3 font-YekanBakh-SemiBold text-white *:rounded-md my-4 *:transition-colors *:duration-300 *:cursor-pointer *:w-full *:px-2 *:h-12 *:flex *:flex-row-reverse *:items-center *:justify-start *:gap-3">
                     {adminPanelMenuItems.map((item) => {
                         const Icon = iconsMap[item.href];
                         return (
