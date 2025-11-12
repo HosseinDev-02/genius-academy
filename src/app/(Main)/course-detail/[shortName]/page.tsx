@@ -24,11 +24,20 @@ import React from "react";
 import Image from "next/image";
 import CourseDetailMenu from "@/src/components/ui/CourseDetailMenu";
 import { getCourseByShortName } from "@/src/lib/actions";
-
-export default async function Page({ params }: { params: { shortName: string } }) {
-//    const short_name = params.shortName
-    const course = await getCourseByShortName(params.shortName)
-    console.log('course :', course)
+import { CourseWithRelations } from "@/src/lib/type-definition";
+import { extensions } from "@/src/lib/tiptapExtensions";
+import {generateHTML} from '@tiptap/html'
+export default async function Page({
+    params,
+}: {
+    params: { shortName: string };
+}) {
+    //    const short_name = params.shortName
+    const course = (await getCourseByShortName(
+        params.shortName
+    )) as unknown as CourseWithRelations;
+    const content = course.content;
+    const htmlContent = generateHTML(content, extensions);
 
     return (
         <section className="py-5">
@@ -42,23 +51,27 @@ export default async function Page({ params }: { params: { shortName: string } }
                                 width={814}
                                 height={458}
                                 className="w-full h-full rounded-3xl"
-                                src="/images/Courses/01.jpg"
+                                src={course.image}
                                 alt="دوره پروژه محور ری اکت و نکست"
                             />
                         </div>
                         {/*  course infos  */}
                         <div className="bg-gradient-to-b from-background to-secondary mx-5 p-5 rounded-3xl space-y-2">
-                            <span className="text-success text-xs font-YekanBakh-Bold">
-                                تکمیل شده
+                            <span
+                                className={`text-xs font-YekanBakh-Bold ${
+                                    course.is_completed
+                                        ? "text-success"
+                                        : "text-yellow-500"
+                                }`}
+                            >
+                                {course.is_completed
+                                    ? "تکمیل شده"
+                                    : "در حال برگزاری"}
                             </span>
                             <h1 className="text-title text-xl font-YekanBakh-Bold">
-                                دوره پروژه محور ری اکت و نکست
+                                {course.title}
                             </h1>
-                            <p className="text-sm">
-                                ساخت وبسایت فروشگاهی با React عنوان دوره پروژه
-                                محور react در نابغه است که قصد داریم در قالب این
-                                دوره react را در قالب پروژه به شما آموزش دهیم.
-                            </p>
+                            <p className="text-sm">{course.about}</p>
                         </div>
                         {/*  course detail boxes  */}
                         <div className="grid grid-cols-2 lg:grid-cols-4 mt-5 gap-5">
@@ -71,73 +84,7 @@ export default async function Page({ params }: { params: { shortName: string } }
                         {/*  course detail description  */}
                         <div id="intro" className="space-y-5 my-5">
                             <SubTitle title="معرفی دوره"></SubTitle>
-                            <p className="text-sm">
-                                بدون شک در حال حاضر یکی از پرکاربردترین
-                                فریمورک‌های جاوا اسکریپتی که می‌توانید در دنیای
-                                وب پیدا بکنید React است. زمانی که یک فریمورک در
-                                زمینه‌های مختلف کاربرد داشته باشد نیز در نهایت
-                                باعث خواهد شد که فرصت‌های شغلی بسیار زیادی داشته
-                                باشد. اما آیا فکر می‌کنید برای قبول شدن در یک
-                                فرصت شغلی مناسب، تمام موارد لازم را در اختیار
-                                دارید؟ اگر حس می‌کنید در رابطه با این قضیه مطمئن
-                                نیستید و شک دارید، بهتر است با این دوره آموزشی
-                                همراه باشید.
-                            </p>
-                            <div>
-                                <h2 className="font-YekanBakh-Black mb-3 text-xl text-title">
-                                    دوره پروژه محور ری اکت و نکست
-                                </h2>
-                                <div>
-                                    <Image
-                                        width={814}
-                                        height={458}
-                                        className="w-full h-full rounded-3xl"
-                                        src="/images/Courses/01.jpg"
-                                        alt="دوره پروژه محور ری اکت و نکست"
-                                    />
-                                </div>
-                            </div>
-                            <p className="text-sm">
-                                زمانی که شما با موضوعات مختلف یک ابزار آشنایی
-                                پیدا کردید، یک نکته مهم که باید در نظر داشته
-                                باشید این است که چگونه با کنار هم قرار دادن
-                                ویژگی‌های مختلف خواهید توانست یک پروژه واقعی را
-                                ایجاد کنید. این موضوع دقیقا هدفی است که یک آموزش
-                                پروژه محور دنبال می‌کند. در یک آموزش پروژه محور
-                                در ابتدا شما به صورت مستقیم یا غیر مستقیم با
-                                مفاهیم اولیه آشنا شده و سپس فرایند یادگیری
-                                موضوعات جدید را در خلال ایجاد پروژه شروع خواهید
-                                کرد.
-                            </p>
-                            <p className="text-sm">
-                                منظور از غیر مستقیم بودن یادگیری مفاهیم اولیه
-                                این است که در برخی از وبسایت‌های آموزشی از جمله
-                                وبسایت آموزشی نابغه ما دوره‌های مقدماتی را پیشتر
-                                ضبط کرده و از شما انتظار داریم که ابتدا آن‌ها را
-                                به خوبی نگاه کرده و یاد گرفته باشید. به همین
-                                دلیل است که ما در پایان نوشته‌های مربوط به هر
-                                دوره یک قسمت اختصاصی به نام «پیش‌نیازها» را
-                                ایجاد کرده و در آنجا خواهیم گفت که برای یادگیری
-                                این دوره آموزشی نیاز خواهید داشت چه پیش‌نیازهایی
-                                را در ابتدا طی کنید.
-                            </p>
-                            {/*  course structure  */}
-                            <div>
-                                <h3 className="text-lg text-title font-YekanBakh-Black mb-3">
-                                    ساختار دوره آموزشی پروژه محور React
-                                </h3>
-                                <p className="text-sm">
-                                    در ساختار این دوره مانند دوره‌های آموزشی
-                                    دیگر، ما از یک سرفصل‌بندی جامع و دقیق
-                                    استفاده خواهیم کرد. در ادامه ما سعی می‌کنیم
-                                    این ساختار را به صورت تمام و کمال به شما
-                                    معرفی کنیم. هدف از انجام این کار نیز آشنایی
-                                    هر چه بیشتر شما با این دوره آموزشی است. در
-                                    اولین دوره این دوره نیز از ساختار دوره
-                                    صحبت‌های بسیاری شده و می‌توانید از آن نیز
-                                    استفاده کنید.
-                                </p>
-                            </div>
+                            <div className="space-y-5" dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
                         </div>
                         {/*  course detail sessions  */}
                         <div id="sections">
@@ -586,7 +533,9 @@ export default async function Page({ params }: { params: { shortName: string } }
                                     </span>
                                     <div className="flex items-center gap-1">
                                         <span className="text-xl text-title font-YekanBakh-Black">
-                                            1,450,000
+                                            {Number(
+                                                course.price
+                                            ).toLocaleString()}
                                         </span>
                                         <span className="text-xs hidden lg:inline-block">
                                             تومان
@@ -610,19 +559,12 @@ export default async function Page({ params }: { params: { shortName: string } }
                             <div>
                                 <UserInfo
                                     text="دیدن رزومه"
-                                    img="/images/profile.jpeg"
-                                    title="حسین رستمی"
+                                    img={course.user.image}
+                                    title={course.user?.name}
                                 />
                                 <div className="p-5 bg-secondary rounded-tl-2xl rounded-tr-2xl md:rounded-tr-none rounded-b-2xl mt-3">
                                     <p className="text-sm">
-                                        اول داستان، طراح گرافیک بودم و ۲ سالی به
-                                        عنوان طراح مشغول بودم، بعد به
-                                        برنامه‌نویسی علاقمند شدم و الان بیشتر از
-                                        ۱۰ ساله که عاشق کدزنی و چالش‌های
-                                        پروژه‌های مختلفم. به تدریس علاقه خاصی
-                                        دارم و دوست دارم دانشی که در این راه
-                                        بدست آوردم را در اختیار دیگران قرار بدم
-                                        :)
+                                        {course.user?.about}
                                     </p>
                                 </div>
                             </div>

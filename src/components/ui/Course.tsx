@@ -33,7 +33,7 @@ export default function Course(props: CourseWithRelations) {
                 >
                     <GridBoxesIcon width={24} height={24} />
                     <span className="font-YekanBakh-SemiBold text-sm tracking-wider">
-                        {category.title}
+                        {category?.title}
                     </span>
                 </Link>
             </div>
@@ -82,8 +82,8 @@ export default function Course(props: CourseWithRelations) {
                 <div className="flex items-center justify-between gap-5 mt-3">
                     <UserInfo
                         title="مدرس دوره :"
-                        text={user.name}
-                        img={user.image}
+                        text={user?.name}
+                        img={user?.image}
                     ></UserInfo>
                     {price === 0 ? (
                         <div className="flex items-center justify-center h-14">

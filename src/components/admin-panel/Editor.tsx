@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { extensions } from "@/src/lib/tiptapExtensions";
 
 type EditorProps = {
     value: any; // مقدار فعلی ادیتور
@@ -34,63 +35,10 @@ export type EditorRef = {
     reset: () => void; // متدی که از بیرون برای ریست کردن صدا می‌زنیم
 };
 
-const CustomParagraph = Paragraph.extend({
-    renderHTML({ HTMLAttributes }: { HTMLAttributes: any }) {
-        return ["p", { ...HTMLAttributes, class: "text-sm" }, 0];
-    },
-});
-
-const CustomImage = Image.extend({
-    renderHTML({ HTMLAttributes }: { HTMLAttributes: any }) {
-        return [
-            "img",
-            {
-                ...HTMLAttributes,
-                class: "w-full rounded-3xl",
-            },
-        ];
-    },
-});
-
-// 🎯 Extension برای دو سطح h2 و h3 با کلاس‌های متفاوت
-export const CustomTitle = Heading.extend<HeadingOptions>({
-    renderHTML({ node, HTMLAttributes }: { node: any; HTMLAttributes: any }) {
-        const level = node.attrs.level ?? 2; // پیش‌فرض h2 اگر level نبود
-
-        // کلاس‌ها برای هر heading
-        const classes: Record<number, string> = {
-            2: "text-xl text-title font-YekanBakh-Black mb-3",
-            3: "text-lg text-title font-YekanBakh-Black mb-3",
-        };
-
-        return [
-            `h${level}`,
-            mergeAttributes(HTMLAttributes, {
-                class: classes[level] || classes[2], // اگه level تعریف نشده بود
-            }),
-            0,
-        ];
-    },
-});
-
 const TiptapEditor = forwardRef<EditorRef, EditorProps>(
     ({ value, onChange }, ref) => {
         const editor = useEditor({
-            extensions: [
-                StarterKit.configure({
-                    heading: false,
-                    paragraph: false,
-                }),
-                CustomTitle,
-                CustomParagraph,
-                Link.configure({
-                    openOnClick: false,
-                }),
-                CustomImage,
-                TextAlign.configure({
-                    types: ["heading", "paragraph"],
-                }),
-            ],
+            extensions: extensions,
             content: value && Object.keys(value).length ? value : { type: "doc", content: [] },
             editorProps: {
                 attributes: {
