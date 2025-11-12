@@ -10,11 +10,10 @@ export async function POST(req: Request) {
 
     const video = formData.get("video") as File;
     const title = formData.get("title") as string;
-    const duration = formData.get("duration") as string;
+    const duration = Math.floor(Number(formData.get("duration"))) as number;
     const is_free = formData.get("is_free") === "free" ? true : false;
     const session_id = formData.get("session_id") as string;
-
-    console.log({ video, title, duration, is_free, session_id });
+    
 
     // مسیر ذخیره در پروژه
     const bytes = await video.arrayBuffer();

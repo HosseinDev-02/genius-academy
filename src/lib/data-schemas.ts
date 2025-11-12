@@ -148,4 +148,6 @@ export const createVideoSchema = z.object({
     }),
 });
 
-export const updateVideoSchema = createVideoSchema.extend({});
+export const updateVideoSchema = createVideoSchema.extend({
+    video: z.any().optional(),
+});

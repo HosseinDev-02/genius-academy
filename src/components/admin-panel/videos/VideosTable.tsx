@@ -3,11 +3,13 @@ import { DataTable } from "@/src/components/admin-panel/DataTable";
 import { Video, VideoWithRelations } from "@/src/lib/type-definition";
 import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
+import VideoTableAction from "./VideoTableAction";
 
 const columns: ColumnDef<VideoWithRelations>[] = [
     {
         accessorKey: "actions",
         header: "عملیات",
+        cell: ({ row }) => <VideoTableAction videoId={row.original.id}/>
     },
     {
         accessorKey: "id",

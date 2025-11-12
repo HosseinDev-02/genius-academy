@@ -47,7 +47,10 @@ export default function VideoForm({ mode, defaultValues, videoId }: Props) {
                       is_free: "premium",
                       session_id: "",
                   }
-                : defaultValues,
+                : {
+                      ...defaultValues,
+                      is_free: defaultValues?.is_free ? "free" : "premium",
+                },
     });
 
     React.useEffect(() => {
@@ -85,7 +88,7 @@ export default function VideoForm({ mode, defaultValues, videoId }: Props) {
             formData.append("is_free", values.is_free);
             formData.append("session_id", values.session_id);
 
-            const method = mode === "add" ? "POST" : "PUT";
+            const method = mode === "add" ? "POST" : "PATCH";
             const url =
                 mode === "add" ? "/api/videos" : `/api/videos/${videoId}`;
 
