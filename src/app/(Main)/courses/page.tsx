@@ -4,8 +4,11 @@ import Course from "@/src/components/ui/Course";
 import React from "react";
 import { courses } from "@/src/lib/placeholder-data";
 import CoursesProvider from "@/src/components/section/courses/CoursesProvider";
+import { getAllCourses } from "@/src/lib/actions";
 
-export default function Courses() {
+export default async function Courses() {
+    const allCourses = await getAllCourses()
+    console.log('courses :', allCourses)
     return (
         <main className="py-5">
             <div className="container">
@@ -20,7 +23,7 @@ export default function Courses() {
                     </SectionHeader>
                     <CoursesProvider>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
-                            {courses.map((course) => (
+                            {allCourses.map((course) => (
                                 <Course key={course.id} {...course}></Course>
                             ))}
                         </div>

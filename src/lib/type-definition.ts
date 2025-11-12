@@ -13,6 +13,11 @@ export type Course = {
     content: any;
 };
 
+export type CourseWithRelations = Omit<Course, "category_id" | "user_id"> & {
+    category: Category;
+    user: User;
+};
+
 export type User = {
     id: string;
     name: string;

@@ -23,8 +23,12 @@ import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 import CourseDetailMenu from "@/src/components/ui/CourseDetailMenu";
+import { getCourseByShortName } from "@/src/lib/actions";
 
-export default function Page() {
+export default async function Page({ params }: { params: { shortName: string } }) {
+//    const short_name = params.shortName
+    const course = await getCourseByShortName(params.shortName)
+    console.log('course :', course)
 
     return (
         <section className="py-5">

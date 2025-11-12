@@ -6,6 +6,7 @@ import {
     Article,
     ArticleWithRelations,
     CommentWithRelations,
+    CourseWithRelations,
     SubMenuWithRelations,
     SubSubmenuWithRelations,
 } from "./type-definition";
@@ -59,7 +60,7 @@ export async function getAllCategories(): Promise<Category[]> {
     }
 }
 
-export async function getAllCourses(): Promise<Course[]> {
+export async function getAllCourses(): Promise<CourseWithRelations[]> {
     try {
         const data = await sql`SELECT 
             c.id,
@@ -88,7 +89,7 @@ export async function getAllCourses(): Promise<Course[]> {
           JOIN categories cat ON c.category_id = cat.id
           JOIN users u ON c.user_id = u.id
           ORDER BY c.created_at DESC`;
-        return data as unknown as Course[];
+        return data as unknown as CourseWithRelations[];
     } catch (error) {
         console.error(error);
         return [];
@@ -102,6 +103,42 @@ export async function getShortCourses(): Promise<Course[]> {
     }catch(error) {
         console.log(error)
         return []
+    }
+}
+
+export async function getCourseByShortName(shortName: string): Promise<CourseWithRelations | {}>{
+    try {
+        const data = await sql`SELECT 
+            c.id,
+            c.title,
+            c.price,
+            c.image,
+            c.short_name,
+            c.is_completed,
+            c.content,
+            c.about,
+            json_build_object(
+              'id', cat.id,
+              'title', cat.title,
+              'short_name', cat.short_name
+            ) AS category,
+            json_build_object(
+              'id', u.id,
+              'name', u.name,
+              'role', u.role,
+              'image', u.image,
+              'about', u.about
+            ) AS user,
+              c.created_at,
+            c.updated_at
+          FROM courses c
+          JOIN categories cat ON c.category_id = cat.id
+          JOIN users u ON c.user_id = u.id
+          WHERE c.short_name = ${shortName} ORDER BY c.created_at DESC`;
+        return data[0] as unknown as CourseWithRelations;
+    } catch (error) {
+        console.error(error);
+        return {};
     }
 }
 
