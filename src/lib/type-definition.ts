@@ -127,3 +127,16 @@ export type Session = {
 
 export type SessionWithRelations = Omit<Session, "course_id"> & { course: Course }
 
+export type Video = {
+    id: string;
+    title: string;
+    session_id: string;
+    video_url: string;
+    is_free: boolean;
+    duration: number;
+    created_at: Date;
+    updated_at: Date;
+}
+
+export type VideoWithRelations = Omit<Video, "session_id"> & { session: SessionWithRelations }
+

@@ -124,12 +124,28 @@ export const createCommentSchema = z
         path: ["course_id"],
     });
 
-export const updateCommentSchema = createCommentSchema
+export const updateCommentSchema = createCommentSchema;
 
 export const createSessionSchema = z.object({
     title: z.string().min(3, "عنوان باید حداقل ۳ حرف باشد"),
-    description: z.string().nonempty('توضیح باید وارد شود'),
+    description: z.string().nonempty("توضیح باید وارد شود"),
     course_id: z.string().uuid().nonempty("دوره را انتخاب کنید"),
-})
+});
 
-export const updateSessionSchema = createSessionSchema.extend({})
+export const updateSessionSchema = createSessionSchema.extend({});
+
+export const createVideoSchema = z.object({
+    title: z.string().nonempty("عنوان باید وارد شود"),
+    duration: z.coerce
+        .number()
+        .refine((val) => val > 0, "مدت زمان باید بزرگتر از صفر باشد"),
+    video: z
+        .any()
+        .refine((file) => file instanceof File, "لطفاً یک فیلم انتخاب کنید"),
+    session_id: z.string().uuid().nonempty("دوره را انتخاب کنید"),
+    is_free: z.enum(["free", "premium"], {
+        errorMap: () => ({ message: "نوع ویدیو را انتخاب کنید" }),
+    }),
+});
+
+export const updateVideoSchema = createVideoSchema.extend({});
