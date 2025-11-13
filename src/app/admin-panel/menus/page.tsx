@@ -1,18 +1,15 @@
 import PageHeader from "@/src/components/admin-panel/PageHeader";
 import MenuItemsTable from "@/src/components/admin-panel/menus/MenusTable";
+import { getAllMenus } from "@/src/lib/actions/menus";
 import { Menu } from "@/src/lib/type-definition";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
 export default async function AdminPanelMenuLinks() {
-    const response = await fetch("http://localhost:3000/api/menus");
-    const menuItems = (await response.json()) as unknown as Menu[];
-
-    console.log("menu items :", menuItems);
-
+    const menus = await getAllMenus();
     return (
-        <div>
+        <div dir="rtl">
             {/* Page Header */}
             <PageHeader title="منو ها" className="!flex" />
             {/* Page Content */}
@@ -24,7 +21,7 @@ export default async function AdminPanelMenuLinks() {
                     <span>افزودن منو</span>
                     <Plus strokeWidth={"2.5px"} size={16} />
                 </Link>
-                <MenuItemsTable data={menuItems} />
+                <MenuItemsTable data={menus} />
             </div>
         </div>
     );

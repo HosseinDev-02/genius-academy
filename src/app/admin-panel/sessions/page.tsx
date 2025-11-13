@@ -1,6 +1,6 @@
 import PageHeader from '@/src/components/admin-panel/PageHeader';
 import SessionsTable from '@/src/components/admin-panel/sessions/SessionsTable';
-import { getAllSessions } from '@/src/lib/actions';
+import { getAllSessions } from '@/src/lib/actions/sessions';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react'
@@ -8,7 +8,7 @@ import React from 'react'
 export default async function SessionsPage() {
     const sessions = await getAllSessions();
     return (
-        <div>
+        <div dir='rtl'>
             {/* Page Header */}
             <PageHeader title="سرفصل ها" className="!flex" />
             {/* Page Content */}

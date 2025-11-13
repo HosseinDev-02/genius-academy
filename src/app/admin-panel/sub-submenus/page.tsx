@@ -1,17 +1,15 @@
 import PageHeader from "@/src/components/admin-panel/PageHeader";
 import SubSubmenusTable from "@/src/components/admin-panel/sub-submenus/SubSubmenusTable";
-import { getAllSubSubmenus } from "@/src/lib/actions";
+import { getAllSubSubmenus } from "@/src/lib/actions/sub-submenus";
 import { SubSubmenuWithRelations } from "@/src/lib/type-definition";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
 export default async function SubSubmenuPage() {
-    const subSubmenus =
-        (await getAllSubSubmenus()) as unknown as SubSubmenuWithRelations[];
-    console.log("sub-submenus :", subSubmenus);
+    const subSubmenus = await getAllSubSubmenus();
     return (
-        <div>
+        <div dir='rtl'>
             {/* Page Header */}
             <PageHeader className="!flex" title="منوهای فرعی" />
             {/* Page Content */}

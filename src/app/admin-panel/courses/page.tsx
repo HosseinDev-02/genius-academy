@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { MoreHorizontalIcon, PencilIcon, Plus, TrashIcon } from "lucide-react";
 import CoursesTable from "@/src/components/admin-panel/courses/CoursesTable";
-import { getAllCourses } from "@/src/lib/actions";
+import { getAllCourses } from "@/src/lib/actions/courses";
 
 type Category = {
     id: string;
@@ -34,11 +34,11 @@ type Course = {
 };
 
 export default async function AdminPanelCourses() {
-    const courses = await getAllCourses() as unknown as Course[];
+    const courses = await getAllCourses();
     return (
-        <div className="h-full flex flex-col">
+        <div dir='rtl'>
             {/* Page Header */}
-            <PageHeader title="دوره ها" />
+            <PageHeader className="!flex" title="دوره ها" />
             {/* Page Content */}
             <div className="h-full overflow-hidden">
                 {/* Course Table Header */}

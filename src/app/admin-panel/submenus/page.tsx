@@ -1,19 +1,17 @@
 import PageHeader from "@/src/components/admin-panel/PageHeader";
 import MenuItemsTable from "@/src/components/admin-panel/menus/MenusTable";
 import SubmenusTable from "@/src/components/admin-panel/submenus/SubmenusTable";
-import { getAllSubmenus } from "@/src/lib/actions";
+import { getAllSubmenus } from "@/src/lib/actions/submenus";
 import { Menu, SubMenu, SubMenuWithRelations } from "@/src/lib/type-definition";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
 export default async function AdminPanelMenuLinks() {
-    const submenus = await getAllSubmenus() as unknown as SubMenuWithRelations[]
-
-    console.log("submenus :", submenus);
+    const submenus = await getAllSubmenus();
 
     return (
-        <div>
+        <div dir='rtl'>
             {/* Page Header */}
             <PageHeader title="زیرمنو ها" className="!flex" />
             {/* Page Content */}

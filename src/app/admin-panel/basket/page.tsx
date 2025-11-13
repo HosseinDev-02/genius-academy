@@ -3,9 +3,9 @@ import React from 'react'
 
 export default function AdminPanelBasket() {
   return (
-    <div>
+    <div dir='rtl'>
       {/* Page Header */}
-      <PageHeader title='سفارشات' href='basket/add'/>
+      <PageHeader title='سفارشات' className='!flex'/>
       {/* Page Content */}
     </div>
   )

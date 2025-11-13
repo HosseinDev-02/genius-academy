@@ -1,7 +1,7 @@
 import { DataTable } from "@/src/components/admin-panel/DataTable";
 import PageHeader from "@/src/components/admin-panel/PageHeader";
 import CategoriesTable from "@/src/components/admin-panel/categories/CategoriesTable";
-import { getAllCategories } from "@/src/lib/actions";
+import { getAllCategories } from "@/src/lib/actions/categories";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -9,7 +9,7 @@ import React from "react";
 export default async function AdminPanelCategories() {
     const categories = await getAllCategories();
     return (
-        <div>
+        <div dir='rtl'>
             {/* Page Header */}
             <PageHeader className="!flex" title="دسته بندی ها" />
             {/* Page Content */}

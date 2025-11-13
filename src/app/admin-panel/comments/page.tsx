@@ -1,16 +1,15 @@
 import PageHeader from '@/src/components/admin-panel/PageHeader'
 import CategoriesTable from '@/src/components/admin-panel/articles/ArticlesTable'
 import CommentsTable from '@/src/components/admin-panel/comments/CommentsTable'
-import { getAllComments } from '@/src/lib/actions'
+import { getAllComments } from '@/src/lib/actions/comments'
 import { Plus } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 
 export default async function CommentsPage() {
     const comments = await getAllComments();
-    console.log('comments :', comments);
   return (
-    <div>
+    <div dir='rtl'>
             {/* Page Header */}
             <PageHeader className="!flex" title="نظرات" />
             {/* Page Content */}

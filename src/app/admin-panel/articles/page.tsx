@@ -1,6 +1,6 @@
 import PageHeader from "@/src/components/admin-panel/PageHeader";
 import ArticlesTable from "@/src/components/admin-panel/articles/ArticlesTable";
-import { getAllArticles } from "@/src/lib/actions";
+import { getAllArticles } from "@/src/lib/actions/articles";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -8,7 +8,7 @@ import React from "react";
 export default async function AdminPanelArticles() {
     const articles = await getAllArticles();
     return (
-        <div>
+        <div dir='rtl'>
             {/* Page Header */}
             <PageHeader title="مقاله ها" className="!flex" />
             {/* Page Content */}

@@ -1,15 +1,14 @@
-import PageHeader from '@/src/components/admin-panel/PageHeader'
-import VideosTable from '@/src/components/admin-panel/videos/VideosTable'
-import { getAllVideos } from '@/src/lib/actions'
-import { Plus } from 'lucide-react'
-import Link from 'next/link'
-import React from 'react'
+import PageHeader from "@/src/components/admin-panel/PageHeader";
+import VideosTable from "@/src/components/admin-panel/videos/VideosTable";
+import { getAllVideos } from "@/src/lib/actions/videos";
+import { Plus } from "lucide-react";
+import Link from "next/link";
+import React from "react";
 
 export default async function VideosPage() {
-    const videos = await getAllVideos()
-    console.log('videos :', videos)
-  return (
-    <div>
+    const videos = await getAllVideos();
+    return (
+        <div dir="rtl">
             {/* Page Header */}
             <PageHeader title="ویدیو ها" className="!flex" />
             {/* Page Content */}
@@ -21,8 +20,8 @@ export default async function VideosPage() {
                     <span>افزودن ویدیو</span>
                     <Plus strokeWidth={"2.5px"} size={16} />
                 </Link>
-                <VideosTable data={videos}/>
+                <VideosTable data={videos} />
             </div>
         </div>
-  )
+    );
 }

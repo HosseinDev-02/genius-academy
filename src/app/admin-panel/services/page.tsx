@@ -1,15 +1,15 @@
 import PageHeader from "@/src/components/admin-panel/PageHeader";
 import ServicesTable from "@/src/components/admin-panel/services/ServicesTable";
+import { getAllServices } from "@/src/lib/actions/services";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
 export default async function AdminPanelServices() {
-    const response = await fetch("http://localhost:3000/api/services");
-    const services = await response.json();
-    console.log(services);
+    const services = await getAllServices()
+
     return (
-        <div>
+        <div dir='rtl'>
             {/* Page Header */}
             <PageHeader title="خدمات" className="!flex" />
             {/* Page Content */}

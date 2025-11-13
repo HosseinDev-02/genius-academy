@@ -1,6 +1,6 @@
 import PageHeader from "@/src/components/admin-panel/PageHeader";
 import UsersTable from "@/src/components/admin-panel/users/UsersTable";
-import { getAllUsers } from "@/src/lib/actions";
+import { getAllUsers } from "@/src/lib/actions/users";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -8,7 +8,7 @@ import React from "react";
 export default async function AdminPanelUsers() {
   const users = await getAllUsers()
     return (
-        <div>
+        <div dir='rtl'>
             {/* Page Header */}
             <PageHeader title="کاربران" className="!flex" />
             {/* Page Content */}

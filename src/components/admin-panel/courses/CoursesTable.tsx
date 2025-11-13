@@ -158,7 +158,6 @@ export default function CoursesTable({ data }: { data: Course[] }) {
                 short_name: true,
             });
         }
-        // console.log('Column Visibility :', columnVisibility)
     }, [isMobile, isTablet, isSmallerMobile]);
 
     return (

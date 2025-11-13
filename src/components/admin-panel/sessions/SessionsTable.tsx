@@ -1,9 +1,10 @@
 "use client";
 import { SessionWithRelations } from "@/src/lib/type-definition";
-import React from "react";
+import React, { useEffect } from "react";
 import { DataTable } from "../DataTable";
 import { ColumnDef, VisibilityState } from "@tanstack/react-table";
 import SessionTableAction from "./SessionTableAction";
+import { useMediaQuery } from "usehooks-ts";
 
 const columns: ColumnDef<SessionWithRelations>[] = [
     {
@@ -38,6 +39,24 @@ export default function SessionsTable({
 }) {
     const [columnVisibility, setColumnVisibility] =
         React.useState<VisibilityState>({});
+    const isMobile = useMediaQuery('(max-width: 768px)')
+    useEffect(() => {
+        if (isMobile) {
+            setColumnVisibility({
+                id: false,
+                title: true,
+                description: false,
+                course: true,
+            });
+        }else {
+            setColumnVisibility({
+                id: true,
+                title: true,
+                description: true,
+                course: true,
+            });
+        }
+    }, [isMobile])
     return (
         <DataTable
             columns={columns}

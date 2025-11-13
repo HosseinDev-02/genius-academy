@@ -23,7 +23,7 @@ export default function AdminPanelProvider({
             <div className="w-full h-full flex flex-col lg:grid lg:grid-rows-none lg:grid-cols-12 lg:gap-6 gap-4 p-4 lg:p-6">
                 <AdimnPanelHeader className=""/>
                 <Sidebar className="lg:col-span-3 2xl:col-span-2"/>
-                <div
+                <div dir="ltr"
                     className={`panel-content lg:col-span-9 2xl:col-span-10 bg-zinc-900 rounded-2xl transition-all duration-300 p-4 grow overflow-auto ${
                         sidebarState ? "" : ""
                     }`}
