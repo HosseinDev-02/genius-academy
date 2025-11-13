@@ -1,6 +1,6 @@
 import PageHeader from '@/src/components/admin-panel/PageHeader';
 import SessionsTable from '@/src/components/admin-panel/sessions/SessionsTable';
-import { getAllSessions } from '@/src/lib/actions/sessions';
+import { getAllSessions } from '@/src/lib/storage/sessions';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react'

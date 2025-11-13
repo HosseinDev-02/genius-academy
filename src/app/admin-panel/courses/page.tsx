@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { MoreHorizontalIcon, PencilIcon, Plus, TrashIcon } from "lucide-react";
 import CoursesTable from "@/src/components/admin-panel/courses/CoursesTable";
-import { getAllCourses } from "@/src/lib/actions/courses";
+import { getAllCourses } from "@/src/lib/storage/courses";
 
 type Category = {
     id: string;

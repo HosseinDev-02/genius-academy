@@ -1,6 +1,6 @@
 import PageHeader from "@/src/components/admin-panel/PageHeader";
 import ServicesTable from "@/src/components/admin-panel/services/ServicesTable";
-import { getAllServices } from "@/src/lib/actions/services";
+import { getAllServices } from "@/src/lib/storage/services";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import React from "react";

@@ -1,6 +1,6 @@
 import PageHeader from "@/src/components/admin-panel/PageHeader";
 import MenuItemsTable from "@/src/components/admin-panel/menus/MenusTable";
-import { getAllMenus } from "@/src/lib/actions/menus";
+import { getAllMenus } from "@/src/lib/storage/menus";
 import { Menu } from "@/src/lib/type-definition";
 import { Plus } from "lucide-react";
 import Link from "next/link";

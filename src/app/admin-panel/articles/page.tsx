@@ -1,6 +1,6 @@
 import PageHeader from "@/src/components/admin-panel/PageHeader";
 import ArticlesTable from "@/src/components/admin-panel/articles/ArticlesTable";
-import { getAllArticles } from "@/src/lib/actions/articles";
+import { getAllArticles } from "@/src/lib/storage/articles";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import React from "react";

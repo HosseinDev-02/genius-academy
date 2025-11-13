@@ -1,6 +1,6 @@
 import PageHeader from "@/src/components/admin-panel/PageHeader";
 import SubSubmenusTable from "@/src/components/admin-panel/sub-submenus/SubSubmenusTable";
-import { getAllSubSubmenus } from "@/src/lib/actions/sub-submenus";
+import { getAllSubSubmenus } from "@/src/lib/storage/sub-submenus";
 import { SubSubmenuWithRelations } from "@/src/lib/type-definition";
 import { Plus } from "lucide-react";
 import Link from "next/link";

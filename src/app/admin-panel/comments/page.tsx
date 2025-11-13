@@ -1,7 +1,7 @@
 import PageHeader from '@/src/components/admin-panel/PageHeader'
 import CategoriesTable from '@/src/components/admin-panel/articles/ArticlesTable'
 import CommentsTable from '@/src/components/admin-panel/comments/CommentsTable'
-import { getAllComments } from '@/src/lib/actions/comments'
+import { getAllComments } from '@/src/lib/storage/comments'
 import { Plus } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'

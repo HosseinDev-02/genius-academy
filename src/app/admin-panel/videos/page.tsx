@@ -1,6 +1,6 @@
 import PageHeader from "@/src/components/admin-panel/PageHeader";
 import VideosTable from "@/src/components/admin-panel/videos/VideosTable";
-import { getAllVideos } from "@/src/lib/actions/videos";
+import { getAllVideos } from "@/src/lib/storage/videos";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import React from "react";
