@@ -17,8 +17,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { getShortSessions } from "@/src/lib/actions";
 import { createVideoSchema, updateVideoSchema } from "@/src/lib/data-schemas";
+import { getShortSessions } from "@/src/lib/storage/sessions";
 import { Session } from "@/src/lib/type-definition";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState } from "react";
@@ -80,6 +80,7 @@ export default function VideoForm({ mode, defaultValues, videoId }: Props) {
     };
 
     const onSubmit = async (values: z.infer<typeof schema>) => {
+        console.log('form submitted')
         try {
             const formData = new FormData();
             formData.append("title", values.title);
@@ -91,7 +92,7 @@ export default function VideoForm({ mode, defaultValues, videoId }: Props) {
             const method = mode === "add" ? "POST" : "PATCH";
             const url =
                 mode === "add" ? "/api/videos" : `/api/videos/${videoId}`;
-
+                
             const response = await fetch(url, {
                 method: method,
                 body: formData,
@@ -114,6 +115,7 @@ export default function VideoForm({ mode, defaultValues, videoId }: Props) {
                 );
             }
         } catch (error) {
+            console.log(error);
             toast.error(
                 mode === "add" ? "خطا در افزودن فیلم" : "خطا در ویرایش فیلم"
             );
@@ -121,7 +123,7 @@ export default function VideoForm({ mode, defaultValues, videoId }: Props) {
         console.log("values :", values);
     };
     return (
-        <div>
+        <div dir="rtl">
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}

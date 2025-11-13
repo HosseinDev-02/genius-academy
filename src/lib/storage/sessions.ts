@@ -1,3 +1,4 @@
+'use server';
 import { sql } from "@/src/db";
 import { Session, SessionWithRelations } from "../type-definition";
 
