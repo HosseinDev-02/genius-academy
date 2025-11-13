@@ -963,4 +963,9 @@ export const adminPanelMenuItems = [
         title: "ویدیوها",
         href: "/admin-panel/videos",
     },
+    {
+        id: 14,
+        title: "خروج از سیستم",
+        href: "/",
+    },
 ];

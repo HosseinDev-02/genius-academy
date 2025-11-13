@@ -54,12 +54,13 @@ export default function Sidebar({ className }: { className: string }) {
         "/admin-panel/comments": <Mails size={24} />,
         "/admin-panel/sessions": <Heading size={24} />,
         "/admin-panel/videos": <MonitorPlay size={24} />,
+        "": <PowerIcon size={24} />,
     };
 
     return (
         <>
-            <div dir="ltr"
-                className={`sidebar overflow-y-auto px-2 bg-zinc-900 transition-all duration-300 h-full lg:rounded-2xl rounded-l-2xl fixed lg:static z-50 top-0 bottom-0 w-64 lg:w-full ${
+            <div
+                className={`bg-zinc-900 transition-all duration-300 lg:rounded-2xl rounded-l-2xl fixed lg:static z-50 top-0 bottom-0 w-64 lg:w-full overflow-hidden flex flex-col ${
                     isOpen ? "right-0" : "-right-64"
                 } ${className}`}
             >
@@ -76,27 +77,29 @@ export default function Sidebar({ className }: { className: string }) {
                     </span>
                 </div>
                 {/* Sidebar Menu */}
-                <ul className="flex flex-col gap-3 font-YekanBakh-SemiBold text-white *:rounded-md my-4 *:transition-colors *:duration-300 *:cursor-pointer *:w-full *:px-2 *:h-12 *:flex *:flex-row-reverse *:items-center *:justify-start *:gap-3">
-                    {adminPanelMenuItems.map((item) => {
-                        const Icon = iconsMap[item.href];
-                        return (
-                            <Link
-                                key={item.id}
-                                className={`${
-                                    pathname === item.href ? "bg-teal-800" : ""
-                                } hover:bg-teal-600`}
-                                href={item.href}
-                            >
-                                {Icon}
-                                <span>{item.title}</span>
-                            </Link>
-                        );
-                    })}
-                    <Link className="text-red-600 hover:opacity-80" href="/">
-                        <PowerIcon size={24} />
-                        <span>خروج از سیستم</span>
-                    </Link>
-                </ul>
+                <div dir="ltr" className="sidebar-content overflow-y-auto h-full">
+                    <ul
+                        className="flex flex-col gap-3 font-YekanBakh-SemiBold text-white h-fit *:rounded-md my-4 px-2 *:transition-colors *:duration-300 *:cursor-pointer *:w-full *:px-2 *:shrink-0 *:h-12 *:flex *:flex-row-reverse *:items-center *:justify-start *:gap-3"
+                    >
+                        {adminPanelMenuItems.map((item) => {
+                            const Icon = iconsMap[item.href];
+                            return (
+                                <Link
+                                    key={item.id}
+                                    className={`hover:bg-teal-600 ${item.title === 'خروج از سیستم' && 'text-red-600 hover:bg-red-600 hover:opacity-80'} ${
+                                        (pathname === item.href && item.title !== 'خروج از سیستم')
+                                            ? "bg-teal-800"
+                                            : ""
+                                    } `}
+                                    href={item.href}
+                                >
+                                    {Icon ? Icon : (<PowerIcon size={24} />)}
+                                    <span>{item.title}</span>
+                                </Link>
+                            );
+                        })}
+                    </ul>
+                </div>
             </div>
             <Cover
                 setElemStatus={setIsOpen}
