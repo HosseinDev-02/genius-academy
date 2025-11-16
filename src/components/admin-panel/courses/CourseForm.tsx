@@ -21,16 +21,12 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Category, User, getAllCategories } from "@/src/lib/actions";
 import { Toaster, toast } from "sonner";
 import TiptapEditor, { EditorRef } from "../Editor";
 import { Textarea } from "@/components/ui/textarea";
 import Image from "next/image";
-import {
-    createCourseSchema,
-    updateCourseSchema,
-} from "@/src/lib/data-schemas";
-import { Course } from "@/src/lib/type-definition";
+import { createCourseSchema, updateCourseSchema } from "@/src/lib/data-schemas";
+import { Category, Course, User } from "@/src/lib/type-definition";
 
 interface CourseForm {
     courseId?: string;
@@ -49,7 +45,6 @@ export default function CourseForm({
     const [teachers, setTeachers] = useState<User[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
 
-    
     const form = useForm<z.infer<typeof schema>>({
         resolver: zodResolver(schema),
         defaultValues:
@@ -92,8 +87,6 @@ export default function CourseForm({
         const method = mode === "add" ? "POST" : "PUT";
         const url =
             mode === "add" ? "/api/courses" : `/api/courses/${courseId}`;
-
-        console.log(formData.get("is_completed"));
 
         try {
             const res = await fetch(url, {
@@ -150,7 +143,7 @@ export default function CourseForm({
     }, []);
 
     return (
-        <div>
+        <div dir="rtl">
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
