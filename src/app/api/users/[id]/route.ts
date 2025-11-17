@@ -1,4 +1,5 @@
 import { sql } from "@/src/db";
+import { uploadImage } from "@/src/utils";
 import bcrypt from "bcryptjs";
 import { writeFile, unlink } from "fs/promises";
 import { NextResponse } from "next/server";
@@ -58,6 +59,11 @@ export async function PUT(
     context: { params: Promise<{ id: string }> }
 ) {
     try {
+        const { id } = await context.params;
+        const mainUserResponse =
+            await sql`SELECT * FROM users WHERE id = ${id}`;
+        const mainUser = mainUserResponse[0];
+
         const formData = await req.formData();
         const name = formData.get("name") as string;
         const phone_number = formData.get("phone_number") as string;
@@ -67,46 +73,25 @@ export async function PUT(
         const about = formData.get("about") as string;
         const image = formData.get("image") as File;
 
-        const { id } = await context.params;
-        const mainUserResponse = await sql`SELECT * FROM users WHERE id = ${id}`;
-        const mainUser = mainUserResponse[0];
-
         let passwordHash = mainUser.password;
-        console.log('old pass :', mainUser.password);
 
         if (password && password.trim() !== "") {
             const salt = await bcrypt.genSalt(10);
             passwordHash = await bcrypt.hash(password, salt);
-            console.log('new password set :', passwordHash);
+            console.log("new password set :", passwordHash);
         }
 
-        let imageUrl = mainUser.image;
+        let imageUrl: string | null = null;
 
         if (image && typeof image === "object" && "arrayBuffer" in image) {
-            const bytes = await image.arrayBuffer();
-            const buffer = Buffer.from(bytes);
+            imageUrl = await uploadImage(image, "genius-academy/images/users");
+        }
 
-            const fileName = `${Date.now()}-${image.name}`;
-            const filePath = path.join(
-                process.cwd(),
-                "public/uploads",
-                fileName
-            );
-            await writeFile(filePath, buffer);
-
-            imageUrl = `/uploads/${fileName}`;
-
-            // حذف تصویر قبلی از سرور (اختیاری)
-
-            const oldPath = mainUser.image;
-            if (oldPath) {
-                const oldFile = path.join(process.cwd(), "public", oldPath);
-                try {
-                    await unlink(oldFile);
-                } catch {
-                    console.warn("Old image not found or already deleted");
-                }
-            }
+        // اگر تصویر جدیدی نیست، مقدار قبلی حفظ شود
+        if (!imageUrl) {
+            const oldImage =
+                await sql`SELECT image FROM users WHERE id = ${id}`;
+            imageUrl = oldImage[0]?.image || null;
         }
 
         await sql`

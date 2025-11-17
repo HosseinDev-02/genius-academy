@@ -21,7 +21,6 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Category, User, getAllCategories } from "@/src/lib/actions";
 import { Toaster, toast } from "sonner";
 import TiptapEditor, { EditorRef } from "../Editor";
 import { Textarea } from "@/components/ui/textarea";
@@ -30,7 +29,7 @@ import {
     createArticleSchema,
     updateArticleSchema,
 } from "@/src/lib/data-schemas";
-import { Course } from "@/src/lib/type-definition";
+import { Category, Course, User } from "@/src/lib/type-definition";
 
 interface Props {
     articleId?: string;
@@ -142,7 +141,7 @@ export default function ArticleForm({ articleId, mode, defaultValues }: Props) {
     };
 
     return (
-        <div>
+        <div dir="rtl">
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}

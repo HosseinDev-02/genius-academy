@@ -53,7 +53,6 @@ const TiptapEditor = forwardRef<EditorRef, EditorProps>(
             onUpdate: ({ editor }) => {
                 const json = editor.getJSON();
                 onChange(json);
-                console.log('json :', json)
             },
             immediatelyRender: false,
         });
@@ -68,19 +67,12 @@ const TiptapEditor = forwardRef<EditorRef, EditorProps>(
             return () => editor?.destroy();
         }, [editor]);
 
-        useEffect(() => {
-            console.log('value editor :', value)
-        }, [value])
 
         useEffect(() => {
             if (editor && value) {
               editor.commands.setContent(value);
             }
           }, [editor, value]);
-
-        // useEffect(() => {
-        //     console.log(editor?.getHTML());
-        // }, [value]);
 
         if (!editor) return null;
 

@@ -26,21 +26,6 @@ export async function POST(req: Request) {
             },
         });
 
-        console.log("file Url :", fileUrl);
-
-        // مسیر ذخیره در پروژه
-        // const bytes = await video.arrayBuffer();
-        // const buffer = Buffer.from(bytes);
-
-        // const filename = `${Date.now()}-${video.name}`;
-        // const uploadDir = path.join(process.cwd(), "public/uploads/videos");
-        // const filePath = path.join(uploadDir, filename);
-
-        // // ذخیره فایل در public
-        // await writeFile(filePath, buffer);
-
-        // const videoUrl = `/uploads/videos/${filename}`;
-
         // ذخیره اطلاعات در دیتابیس
         const [data] = await sql`
       INSERT INTO videos (title, video_url, duration, is_free, session_id)

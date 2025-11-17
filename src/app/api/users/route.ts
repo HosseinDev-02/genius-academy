@@ -3,6 +3,7 @@ import { writeFile } from "fs/promises";
 import path from "path";
 import { sql } from "@/src/db";
 import bcrypt from "bcryptjs";
+import { uploadImage } from "@/src/utils";
 
 export async function POST(req: Request) {
     try {
@@ -16,18 +17,8 @@ export async function POST(req: Request) {
         const image = data.get("image") as File;
         const phone_number = data.get("phone_number") as string;
         const hashedPassword = await bcrypt.hash(password, 10);
-
-        console.log('data :', data)
-
-        // ذخیره فایل در پوشه public/uploads
-        const bytes = await image.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-
-        const fileName = `${Date.now()}-${image.name}`;
-        const filePath = path.join(process.cwd(), "public/uploads", fileName);
-        await writeFile(filePath, buffer);
-
-        const imageUrl = `/uploads/${fileName}`;
+        
+        const imageUrl = await uploadImage(image, "genius-academy/images/users")
 
         const response = await sql`
             INSERT INTO users (name, email, password, role, image, about, phone_number)

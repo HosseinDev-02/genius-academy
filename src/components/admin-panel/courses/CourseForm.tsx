@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
+import { UploadButton } from "@bytescale/upload-widget-react";
 import {
     Form,
     FormControl,
@@ -93,7 +94,7 @@ export default function CourseForm({
                 method: method,
                 body: formData,
             });
-            console.log(res);
+            console.log("add course response :", res);
             if (res.ok) {
                 form.reset();
                 fileRef.current!.value = "";
@@ -286,6 +287,51 @@ export default function CourseForm({
                                 </FormItem>
                             )}
                         />
+
+                        {/* Upload.io */}
+
+                        {/* <FormField
+                            control={form.control}
+                            name="image"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>آپلود عکس</FormLabel> */}
+
+                                    {/* <UploadButton
+                                        options={{
+                                            apiKey: "public_G22nj3CCdK2sZbdR9c1ePkh2agx4",
+                                        }}
+                                        onComplete={(files) => {
+                                            const url = files[0].fileUrl;
+                                            field.onChange(url); // مقدار را به فرم بده
+                                        }}
+                                    >
+                                        {({ onClick }) => (
+                                            <Button
+                                                type="button"
+                                                onClick={onClick}
+                                            >
+                                                انتخاب و آپلود تصویر
+                                            </Button>
+                                        )}
+                                    </UploadButton> */}
+
+                                    {/* پیش‌نمایش عکس */}
+                                    {/* {field.value && (
+                                        <span className="block relative w-24 h-12 rounded overflow-hidden">
+                                            <Image
+                                                alt="img"
+                                                fill
+                                                objectFit="cover"
+                                                src={field.value}
+                                            />
+                                        </span>
+                                    )} */}
+
+                                    {/* <FormMessage />
+                                </FormItem>
+                            )}
+                        /> */}
 
                         <FormField
                             control={form.control}

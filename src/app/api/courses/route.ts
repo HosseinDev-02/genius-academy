@@ -1,13 +1,7 @@
 import { NextResponse } from "next/server";
 import { writeFile } from "fs/promises";
-import path from "path";
-import { neon } from "@neondatabase/serverless";
 import { sql } from "@/src/db";
-import * as ByteScale from "@bytescale/sdk";
-
-const uploadClient = new ByteScale.UploadManager({
-    apiKey: process.env.BYTESCALE_API_KEY!,
-});
+import { uploadImage } from "@/src/utils";
 
 export async function POST(req: Request) {
     try {
@@ -25,30 +19,13 @@ export async function POST(req: Request) {
         const contentSrt = formData.get("content") as string;
         const content = JSON.parse(contentSrt);
 
-        // ذخیره فایل در پوشه public/uploads
-        const bytes = await image.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-
-        // const fileName = `${Date.now()}-${image.name}`;
-        // const filePath = path.join(process.cwd(), "public/uploads", fileName);
-        // await writeFile(filePath, buffer);
-
-        // const imageUrl = `/uploads/${fileName}`;
-
-        const { fileUrl } = await uploadClient.upload({
-            data: buffer,
-            mime: image.type,
-            path: {
-                folderPath: "genius-academy/images/courses",
-            },
-            originalFileName: image.name,
-        });
+        const fileUrl = await uploadImage(image, "genius-academy/images/courses");
 
         // ذخیره در دیتابیس
         await sql`
-    INSERT INTO courses (title, category_id, price, image, user_id, short_name, is_completed, content, about)
-    VALUES (${title}, ${category_id}, ${price}, ${fileUrl}, ${user_id}, ${short_name}, ${is_completed}, ${content}, ${about})
-    `;
+        INSERT INTO courses (title, category_id, price, image, user_id, short_name, is_completed, content, about)
+        VALUES (${title}, ${category_id}, ${price}, ${fileUrl}, ${user_id}, ${short_name}, ${is_completed}, ${content}, ${about})
+        `;
 
         return NextResponse.json({ success: true, fileUrl });
     } catch (error) {

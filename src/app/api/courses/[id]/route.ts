@@ -1,7 +1,6 @@
 import { sql } from "@/src/db";
 import { NextResponse } from "next/server";
-import { writeFile, unlink } from "fs/promises";
-import path from "path";
+import { uploadImage } from "@/src/utils";
 
 export async function DELETE(
     req: Request,
@@ -58,10 +57,10 @@ export async function GET(
 
 export async function PUT(
     req: Request,
-    context: { params: Promise<{ courseId: string }> }
+    context: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { courseId } = await context.params;
+        const { id } = await context.params;
         const formData = await req.formData();
 
         const title = formData.get("title") as string;
@@ -80,37 +79,16 @@ export async function PUT(
 
         // اگر فایل جدیدی آپلود شده:
         if (image && typeof image === "object" && "arrayBuffer" in image) {
-            const bytes = await image.arrayBuffer();
-            const buffer = Buffer.from(bytes);
-
-            const fileName = `${Date.now()}-${image.name}`;
-            const filePath = path.join(
-                process.cwd(),
-                "public/uploads",
-                fileName
+            imageUrl = await uploadImage(
+                image,
+                "genius-academy/images/courses"
             );
-            await writeFile(filePath, buffer);
-
-            imageUrl = `/uploads/${fileName}`;
-
-            // حذف تصویر قبلی از سرور (اختیاری)
-            const oldImage =
-                await sql`SELECT image FROM courses WHERE id = ${courseId}`;
-            const oldPath = oldImage[0]?.image;
-            if (oldPath) {
-                const oldFile = path.join(process.cwd(), "public", oldPath);
-                try {
-                    await unlink(oldFile);
-                } catch {
-                    console.warn("Old image not found or already deleted");
-                }
-            }
         }
 
         // اگر تصویر جدیدی نیست، مقدار قبلی حفظ شود
         if (!imageUrl) {
             const oldImage =
-                await sql`SELECT image FROM courses WHERE id = ${courseId}`;
+                await sql`SELECT image FROM courses WHERE id = ${id}`;
             imageUrl = oldImage[0]?.image || null;
         }
 
@@ -127,7 +105,7 @@ export async function PUT(
           short_name = ${short_name},
           is_completed = ${is_completed},
           content = ${content}
-        WHERE id = ${courseId}
+        WHERE id = ${id}
       `;
 
         return NextResponse.json({ success: true, imageUrl });

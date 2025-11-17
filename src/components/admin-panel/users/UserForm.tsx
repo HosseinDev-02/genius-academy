@@ -63,10 +63,9 @@ export default function UserForm({ mode, defaultValues, userId }: Props) {
             if (values.about) formData.append("about", values.about);
             if(values.image) formData.append("image", values.image);
 
-            console.log('values :', values);
-
             const method = mode === "add" ? "POST" : "PUT";
             const url = mode === "add" ? "/api/users" : `/api/users/${userId}`;
+
             const response = await fetch(url, {
                 method,
                 body: formData,
@@ -96,7 +95,7 @@ export default function UserForm({ mode, defaultValues, userId }: Props) {
     };
 
     return (
-        <div>
+        <div dir="rtl">
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(handleSubmit)}

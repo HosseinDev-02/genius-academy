@@ -1,4 +1,5 @@
 import { sql } from "@/src/db";
+import { uploadImage } from "@/src/utils";
 import { unlink, writeFile } from "fs/promises";
 import { NextResponse } from "next/server";
 import path from "path";
@@ -45,7 +46,6 @@ export async function PUT(
     try {
         const { id } = await context.params;
         const formData = await req.formData();
-        console.log('article Id :', id)
 
         const title = formData.get("title") as string;
         const about = formData.get("about") as string;
@@ -59,35 +59,25 @@ export async function PUT(
 
         let imageUrl: string | null = null;
 
+        console.log("before set image :", {
+            id,
+            title,
+            about,
+            time_read,
+            category_id,
+            imageUrl,
+            user_id,
+            short_name,
+            content,
+        });
+
         // اگر فایل جدیدی آپلود شده:
         if (image && typeof image === "object" && "arrayBuffer" in image) {
-            const bytes = await image.arrayBuffer();
-            const buffer = Buffer.from(bytes);
-
-            const fileName = `${Date.now()}-${image.name}`;
-            const filePath = path.join(
-                process.cwd(),
-                "public/uploads",
-                fileName
+            imageUrl = await uploadImage(
+                image,
+                "genius-academy/images/articles"
             );
-            await writeFile(filePath, buffer);
-
-            imageUrl = `/uploads/${fileName}`;
-
-            // حذف تصویر قبلی از سرور (اختیاری)
-            const oldImage =
-                await sql`SELECT image FROM articles WHERE id = ${id}`;
-            const oldPath = oldImage[0]?.image;
-            if (oldPath) {
-                const oldFile = path.join(process.cwd(), "public", oldPath);
-                try {
-                    await unlink(oldFile);
-                } catch {
-                    console.warn("Old image not found or already deleted");
-                }
-            }
         }
-
         // اگر تصویر جدیدی نیست، مقدار قبلی حفظ شود
         if (!imageUrl) {
             const oldImage =
@@ -95,23 +85,32 @@ export async function PUT(
             imageUrl = oldImage[0]?.image || null;
         }
 
-        // آپدیت در دیتابیس
+        console.log("after set image :", {
+            id,
+            title,
+            about,
+            time_read,
+            category_id,
+            imageUrl,
+            user_id,
+            short_name,
+            content,
+        });
+
         await sql`
-        UPDATE articles
-        SET 
-          title = ${title},
-          about = ${about},
-          time_read = ${time_read},
-          category_id = ${category_id},
-          image = ${imageUrl},
-          user_id = ${user_id},
-          short_name = ${short_name},
-          content = ${content}
-        WHERE id = ${id}
-      `;
-        return NextResponse.json(
-            { success: true, imageUrl },
-        );
+                UPDATE articles
+                SET 
+                  title = ${title},
+                  about = ${about},
+                  time_read = ${time_read},
+                  category_id = ${category_id},
+                  image = ${imageUrl},
+                  user_id = ${user_id},
+                  short_name = ${short_name},
+                  content = ${content}
+                WHERE id = ${id}
+              `;
+        return NextResponse.json({ success: true, imageUrl });
     } catch (error) {
         console.error("Update failed:", error);
         return NextResponse.json({ error: "Update failed" }, { status: 500 });

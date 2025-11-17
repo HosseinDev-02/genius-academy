@@ -11,6 +11,9 @@ importers:
       '@bytescale/sdk':
         specifier: ^3.53.0
         version: 3.53.0
+      '@bytescale/upload-widget-react':
+        specifier: ^4.19.0
+        version: 4.19.0(react@19.1.0)
       '@hookform/resolvers':
         specifier: ^3.10.0
         version: 3.10.0(react-hook-form@7.65.0(react@19.1.0))
@@ -292,6 +295,14 @@ packages:
 
   '@bytescale/sdk@3.53.0':
     resolution: {integrity: sha512-qCeNup3pSjaklXuBrO9JeKbozZEs/PjQEvuqCiOAWLBRl6lDjd0V9gRVYqyttPimXYFoV+J/7dmPWtK6RfOABQ==}
+
+  '@bytescale/upload-widget-react@4.19.0':
+    resolution: {integrity: sha512-zVYlr/qkzllKRM3rxKYwVeGa2QGwggSrhZv+aLfOHKfCBw9QMI/rlmNfFVeibhT48RDDGJdFXOlBBAUXliNmVg==}
+    peerDependencies:
+      react: '>=16.3.0'
+
+  '@bytescale/upload-widget@4.27.0':
+    resolution: {integrity: sha512-exh415C59sew5LEwYbwaOUvh39nJqZlRePs/qRsacsoXky/npda1bDibsZWLC+nmsunz59uWPDJIFoUOD4shfw==}
 
   '@dotenvx/dotenvx@1.51.0':
     resolution: {integrity: sha512-CbMGzyOYSyFF7d4uaeYwO9gpSBzLTnMmSmTVpCZjvpJFV69qYbjYPpzNnCz1mb2wIvEhjWjRwQWuBzTO0jITww==}
@@ -1700,6 +1711,9 @@ packages:
   class-variance-authority@0.7.1:
     resolution: {integrity: sha512-Ka+9Trutv7G8M6WT6SeiRWz792K5qEqIGEGzXKhAE6xOWAY6pPH8U+9IY3oCMv6kqTmLsv7Xh/2w2RigkePMsg==}
 
+  classnames@2.5.1:
+    resolution: {integrity: sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==}
+
   cli-cursor@5.0.0:
     resolution: {integrity: sha512-aCj4O5wKyszjMmDT4tZj93kxyydN/K5zPWSCe6/0AV/AA1pqe5ZBIw0a2ZfPQV7lL5/yb5HsUreJ6UFAF1tEQw==}
     engines: {node: '>=18'}
@@ -2674,6 +2688,10 @@ packages:
   lodash.debounce@4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
 
+  lodash.isequal@4.5.0:
+    resolution: {integrity: sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ==}
+    deprecated: This package is deprecated. Use require('node:util').isDeepStrictEqual instead.
+
   lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
 
@@ -3022,6 +3040,9 @@ packages:
   postgres@3.4.7:
     resolution: {integrity: sha512-Jtc2612XINuBjIl/QTWsV5UvE8UHuNblcO3vVADSrKsrc6RqGX6lOW1cEo3CM2v0XG4Nat8nI+YM7/f26VxXLw==}
     engines: {node: '>=12'}
+
+  preact@10.27.2:
+    resolution: {integrity: sha512-5SYSgFKSyhCbk6SrXyMpqjb5+MQBgfvEKE/OC+PujcY34sOpqtr+0AZQtPYx5IA6VxynQ7rUPCtKzyovpj9Bpg==}
 
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
@@ -3903,6 +3924,18 @@ snapshots:
       '@babel/helper-validator-identifier': 7.27.1
 
   '@bytescale/sdk@3.53.0': {}
+
+  '@bytescale/upload-widget-react@4.19.0(react@19.1.0)':
+    dependencies:
+      '@bytescale/upload-widget': 4.27.0
+      lodash.isequal: 4.5.0
+      react: 19.1.0
+
+  '@bytescale/upload-widget@4.27.0':
+    dependencies:
+      '@bytescale/sdk': 3.53.0
+      classnames: 2.5.1
+      preact: 10.27.2
 
   '@dotenvx/dotenvx@1.51.0':
     dependencies:
@@ -5298,6 +5331,8 @@ snapshots:
     dependencies:
       clsx: 2.1.1
 
+  classnames@2.5.1: {}
+
   cli-cursor@5.0.0:
     dependencies:
       restore-cursor: 5.1.0
@@ -6364,6 +6399,8 @@ snapshots:
 
   lodash.debounce@4.0.8: {}
 
+  lodash.isequal@4.5.0: {}
+
   lodash.merge@4.6.2: {}
 
   log-symbols@6.0.0:
@@ -6702,6 +6739,8 @@ snapshots:
       xtend: 4.0.2
 
   postgres@3.4.7: {}
+
+  preact@10.27.2: {}
 
   prelude-ls@1.2.1: {}
 
