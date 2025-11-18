@@ -1,5 +1,5 @@
 import { sql } from "@/src/db";
-import { uploadImage } from "@/src/utils";
+import { uploadImage } from "@/src/lib/utils/uploadImage";
 import { NextResponse } from "next/server"
 
 export async function POST(req: Request) {

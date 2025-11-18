@@ -1,6 +1,6 @@
 import { sql } from "@/src/db";
 import { NextResponse } from "next/server";
-import { uploadImage } from "@/src/utils";
+import { uploadImage } from "@/src/lib/utils/uploadImage";
 
 export async function DELETE(
     req: Request,
@@ -96,7 +96,7 @@ export async function PUT(
         await sql`
         UPDATE courses
         SET 
-          title = ${title},
+        title = ${title},
           about = ${about},
           price = ${price},
           category_id = ${category_id},

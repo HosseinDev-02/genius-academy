@@ -1,8 +1,6 @@
 import { sql } from "@/src/db";
-import { uploadImage } from "@/src/utils";
-import { unlink, writeFile } from "fs/promises";
+import { uploadImage } from "@/src/lib/utils/uploadImage";
 import { NextResponse } from "next/server";
-import path from "path";
 
 export async function DELETE(
     req: Request,

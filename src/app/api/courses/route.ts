@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { writeFile } from "fs/promises";
 import { sql } from "@/src/db";
-import { uploadImage } from "@/src/utils";
+import { uploadImage } from "@/src/lib/utils/uploadImage";
 
 export async function POST(req: Request) {
     try {
@@ -19,9 +19,8 @@ export async function POST(req: Request) {
         const contentSrt = formData.get("content") as string;
         const content = JSON.parse(contentSrt);
 
-        const fileUrl = await uploadImage(image, "genius-academy/images/courses");
+        const fileUrl = await uploadImage(image, "genius-academy/images/courses");  // upload image in upload.io by imageUpload function
 
-        // ذخیره در دیتابیس
         await sql`
         INSERT INTO courses (title, category_id, price, image, user_id, short_name, is_completed, content, about)
         VALUES (${title}, ${category_id}, ${price}, ${fileUrl}, ${user_id}, ${short_name}, ${is_completed}, ${content}, ${about})

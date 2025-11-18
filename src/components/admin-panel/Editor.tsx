@@ -25,6 +25,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { extensions } from "@/src/lib/tiptapExtensions";
+import { UploadButton } from "@bytescale/upload-widget-react";
 
 type EditorProps = {
     value: any; // مقدار فعلی ادیتور
@@ -39,7 +40,10 @@ const TiptapEditor = forwardRef<EditorRef, EditorProps>(
     ({ value, onChange }, ref) => {
         const editor = useEditor({
             extensions: extensions,
-            content: value && Object.keys(value).length ? value : { type: "doc", content: [] },
+            content:
+                value && Object.keys(value).length
+                    ? value
+                    : { type: "doc", content: [] },
             editorProps: {
                 attributes: {
                     class: cn(
@@ -59,25 +63,31 @@ const TiptapEditor = forwardRef<EditorRef, EditorProps>(
 
         useImperativeHandle(ref, () => ({
             reset: () => {
-              editor?.commands.clearContent();
+                editor?.commands.clearContent();
             },
-          }));
+        }));
 
         useEffect(() => {
             return () => editor?.destroy();
         }, [editor]);
 
-
         useEffect(() => {
             if (editor && value) {
-              editor.commands.setContent(value);
+                editor.commands.setContent(value);
             }
-          }, [editor, value]);
+        }, [editor, value]);
 
         if (!editor) return null;
 
         const activeClass = "bg-primary text-white";
         const btnClass = "h-8 w-8 p-0 rounded-md cursor-pointer";
+
+        const options = {
+            apiKey: "public_G22nj3CCdK2sZbdR9c1ePkh2agx4", // یا API KEY خودت
+            path: {
+                folderPath: 'genius-academy/images/editor',
+            } 
+        };
 
         return (
             <div className="w-full">
@@ -186,7 +196,33 @@ const TiptapEditor = forwardRef<EditorRef, EditorProps>(
                         <LinkIcon size={16} />
                     </Button>
 
-                    <Button
+                    <UploadButton
+                        options={options}
+                        onComplete={(files) => {
+                            console.log("Uploaded Files:", files);
+
+                            // آدرس فایل:
+                            console.log("File URL:", files[0].fileUrl);
+
+                            editor
+                                .chain()
+                                .focus()
+                                .setImage({ src: files[0].fileUrl })
+                                .run();
+                        }}
+                    >
+                        {({ onClick }) => (
+                            <Button
+                                type="button"
+                                onClick={onClick}
+                                className="px-4 py-2 bg-blue-600 text-white rounded-md"
+                            >
+                                آپلود تصویر
+                            </Button>
+                        )}
+                    </UploadButton>
+
+                    {/* <Button
                         type="button"
                         size="icon"
                         variant="ghost"
@@ -239,7 +275,7 @@ const TiptapEditor = forwardRef<EditorRef, EditorProps>(
                         }}
                     >
                         <ImageIcon size={16} />
-                    </Button>
+                    </Button> */}
 
                     <div className="ml-auto flex flex-row-reverse gap-2">
                         <Button
