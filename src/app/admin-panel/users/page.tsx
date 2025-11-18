@@ -1,3 +1,5 @@
+export const revalidate = 10;
+
 import PageHeader from "@/src/components/admin-panel/PageHeader";
 import UsersTable from "@/src/components/admin-panel/users/UsersTable";
 import { getAllUsers } from "@/src/lib/storage/users";

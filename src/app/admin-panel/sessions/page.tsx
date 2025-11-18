@@ -1,3 +1,5 @@
+export const revalidate = 10;
+
 import PageHeader from '@/src/components/admin-panel/PageHeader';
 import SessionsTable from '@/src/components/admin-panel/sessions/SessionsTable';
 import { getAllSessions } from '@/src/lib/storage/sessions';

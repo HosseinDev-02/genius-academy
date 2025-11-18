@@ -1,3 +1,5 @@
+export const revalidate = 10;
+
 import PageHeader from "@/src/components/admin-panel/PageHeader";
 import MenuItemsTable from "@/src/components/admin-panel/menus/MenusTable";
 import SubmenusTable from "@/src/components/admin-panel/submenus/SubmenusTable";

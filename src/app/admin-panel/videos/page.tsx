@@ -1,3 +1,5 @@
+export const revalidate = 10;
+
 import PageHeader from "@/src/components/admin-panel/PageHeader";
 import VideosTable from "@/src/components/admin-panel/videos/VideosTable";
 import { getAllVideos } from "@/src/lib/storage/videos";

@@ -1,3 +1,5 @@
+export const revalidate = 10;
+
 import PageHeader from "@/src/components/admin-panel/PageHeader";
 import ServicesTable from "@/src/components/admin-panel/services/ServicesTable";
 import { getAllServices } from "@/src/lib/storage/services";

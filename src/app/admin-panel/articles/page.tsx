@@ -1,3 +1,5 @@
+export const revalidate = 10;
+
 import PageHeader from "@/src/components/admin-panel/PageHeader";
 import ArticlesTable from "@/src/components/admin-panel/articles/ArticlesTable";
 import { getAllArticles } from "@/src/lib/storage/articles";

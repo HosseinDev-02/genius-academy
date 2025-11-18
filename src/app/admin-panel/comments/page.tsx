@@ -1,3 +1,5 @@
+export const revalidate = 10;
+
 import PageHeader from '@/src/components/admin-panel/PageHeader'
 import CategoriesTable from '@/src/components/admin-panel/articles/ArticlesTable'
 import CommentsTable from '@/src/components/admin-panel/comments/CommentsTable'

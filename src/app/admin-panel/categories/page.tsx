@@ -1,3 +1,5 @@
+export const revalidate = 10;
+
 import { DataTable } from "@/src/components/admin-panel/DataTable";
 import PageHeader from "@/src/components/admin-panel/PageHeader";
 import CategoriesTable from "@/src/components/admin-panel/categories/CategoriesTable";

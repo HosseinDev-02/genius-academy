@@ -1,3 +1,5 @@
+// export const revalidate = 10;
+
 import PageHeader from "@/src/components/admin-panel/PageHeader";
 import React, { useState } from "react";
 import Link from "next/link";
@@ -5,33 +7,6 @@ import { MoreHorizontalIcon, PencilIcon, Plus, TrashIcon } from "lucide-react";
 import CoursesTable from "@/src/components/admin-panel/courses/CoursesTable";
 import { getAllCourses } from "@/src/lib/storage/courses";
 
-type Category = {
-    id: string;
-    title: string;
-    short_name: string;
-}
-
-type User = {
-    id: string;
-    name: string;
-    role: string;
-    image: string;
-}
-
-type Course = {
-    id: string;
-    title: string;
-    category: Category;
-    price: number;
-    image?: any;
-    user: User;
-    short_name: string;
-    is_completed: boolean;
-    created_at: Date;
-    updated_at: Date;
-    content: any;
-    about: string;
-};
 
 export default async function AdminPanelCourses() {
     const courses = await getAllCourses();
