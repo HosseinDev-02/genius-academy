@@ -3,8 +3,9 @@ import React from "react";
 import { Autoplay, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Course from "../../ui/Course";
-import { courses as popularCourses } from "@/src/lib/placeholder-data";
-function PopularCoursesSlider() {
+// import { courses as popularCourses } from "@/src/lib/placeholder-data";
+import { CourseWithRelations } from "@/src/lib/type-definition";
+function PopularCoursesSlider({ data }: { data: CourseWithRelations[] }) {
     return (
         <Swiper
             slidesPerView={1}
@@ -34,12 +35,13 @@ function PopularCoursesSlider() {
                 },
             }}
         >
-            {popularCourses.length &&
-                popularCourses.map((course) => (
+            {
+                data.map((course) => (
                     <SwiperSlide>
                         <Course key={course.id} {...course}></Course>
                     </SwiperSlide>
-                ))}
+                ))
+            }
         </Swiper>
     );
 }

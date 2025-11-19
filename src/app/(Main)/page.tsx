@@ -1,10 +1,5 @@
 import { LucideArrowUpLeft } from "lucide-react";
 import PrimaryButton from "@/src/components/ui/button/PrimaryButton";
-import {
-    latestArticles,
-    latestCourses,
-    services,
-} from "@/src/lib/placeholder-data";
 import ServiceItem from "@/src/components/ui/ServiceItem";
 import SectionHeader from "@/src/components/ui/section/SectionHeader";
 import SectionTitle from "@/src/components/ui/section/SectionTitle";
@@ -14,11 +9,18 @@ import Article from "@/src/components/ui/Article";
 import PopularCoursesSlider from "@/src/components/section/courses/PopularCoursesSlider";
 import Image from "next/image";
 import LatestCourses from "@/src/components/section/courses/LatestCourses";
-import { getCategoryCourseById } from "@/src/lib/actions";
-
-
+import { getAllServices } from "@/src/lib/storage/services";
+import { getPopularCourses } from "@/src/lib/storage/courses";
+import { getLatestArticles } from "@/src/lib/storage/articles";
 
 export default async function Home() {
+    const services = await getAllServices();
+    const popularCourses = await getPopularCourses();
+    const latestArticles = await getLatestArticles();
+
+    console.log('latestArticles : ', latestArticles);
+
+    console.log("Services :", services);
 
     return (
         <div className="space-y-14 py-5">
@@ -86,7 +88,6 @@ export default async function Home() {
                             {services.map((service) => {
                                 return (
                                     <ServiceItem
-                                        key={service.id}
                                         {...service}
                                     ></ServiceItem>
                                 );
@@ -96,7 +97,7 @@ export default async function Home() {
                 </div>
             </section>
             {/* Latest Courses Section */}
-            <LatestCourses latestCourses={latestCourses}/>
+            <LatestCourses />
             {/* Comments Section */}
             <section className="py-10">
                 <div className="container">
@@ -131,7 +132,7 @@ export default async function Home() {
                                         <Article
                                             roundedImg={true}
                                             key={article.id}
-                                            {...article}
+                                            article={article}
                                         ></Article>
                                     );
                                 })}
@@ -157,7 +158,15 @@ export default async function Home() {
                     {/*  Section Content  */}
 
                     <div className="relative">
-                        <PopularCoursesSlider />
+                        {
+                            popularCourses.length ? (
+                                <PopularCoursesSlider data={popularCourses}/>
+                            ) : (
+                                <h4 className="text-title text-lg font-YekanBakh-Black text-center py-8">
+                                    دوره ای برای نمایش وجود ندارد
+                                </h4>
+                            )
+                        }
                     </div>
                 </div>
             </section>

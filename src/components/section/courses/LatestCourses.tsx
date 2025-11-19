@@ -5,12 +5,11 @@ import SectionTitle from "../../ui/section/SectionTitle";
 import { LucideArrowUpLeft } from "lucide-react";
 import Course from "../../ui/Course";
 import { Course as TCourse } from "@/src/lib/definition";
+import { getLatestCourses } from "@/src/lib/storage/courses";
 
-export default function LatestCourses({
-    latestCourses,
-}: {
-    latestCourses: TCourse[];
-}) {
+export default async function LatestCourses() {
+    const latestCourses = await getLatestCourses();
+    console.log('latestCourses :', latestCourses);
     return (
         <section>
             <div className="container">

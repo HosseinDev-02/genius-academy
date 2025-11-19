@@ -7,7 +7,6 @@ import SpeedIcon from "../icon/SpeedIcon";
 import VideoIcon from "../icon/VideoIcon";
 
 type TServiceItemProp = {
-    key: number;
     title: string;
 };
 
@@ -28,7 +27,7 @@ export default function ServiceItem(props: TServiceItemProp) {
             color: "#22c55e",
             icon: <SpeedIcon width={32} height={32} />,
         },
-        ویدیویی: {
+        ویدیوی: {
             color: "#f43f5e",
             icon: <VideoIcon width={32} height={32} />,
         },

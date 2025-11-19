@@ -2,22 +2,18 @@ import Link from "next/link";
 import LikeButton from "./button/LikeButton";
 import { Article } from "@/src/lib/definition";
 import Image from "next/image";
+import { ArticleWithRelations } from "@/src/lib/type-definition";
 
-type TArticleProps = Article & { roundedImg?: boolean; className?: string };
+type Props = {
+    className?: string;
+    roundedImg?: boolean;
+    article: ArticleWithRelations;
+};
 
-export default function Article({
-    title,
-    className,
-    img,
-    writer,
-    writerImg,
-    category,
-    time,
-    roundedImg,
-    id,
-    href,
-    writerHref,
-}: TArticleProps) {
+export default function Article(props: Props) {
+    const { article, className, roundedImg } = props;
+    const { image, title, about, short_name, author, category, time_read } =
+        article;
     // const [isImgLoaded, setIsImgLoaded] = useState(false);
 
     // const imgLoadedHandler = () => setIsImgLoaded(true);
@@ -26,7 +22,7 @@ export default function Article({
         <div className={`bg-background rounded-xl p-4 ${className}`}>
             <div className="relative">
                 <Link
-                    href={href ?? "#"}
+                    href={`/article-detail/${short_name}`}
                     className="flex items-center justify-center"
                 >
                     {roundedImg ? (
@@ -34,7 +30,7 @@ export default function Article({
                             width={324}
                             height={162}
                             className="object-cover rounded-xl w-full"
-                            src={img}
+                            src={image}
                             alt={title}
                         />
                     ) : (
@@ -42,7 +38,7 @@ export default function Article({
                             width={324}
                             height={162}
                             className="object-cover rounded-xl w-full"
-                            src={img}
+                            src={image}
                             alt={title}
                         />
                     )}
@@ -56,7 +52,7 @@ export default function Article({
                 <h6 className="mt-2 text-title text-sm font-YekanBakh-Bold">
                     <Link
                         className="hover:text-primary transition-colors"
-                        href={href ?? "#"}
+                        href={`/article-detail/${short_name}`}
                     >
                         {title}
                     </Link>
@@ -67,25 +63,19 @@ export default function Article({
                             <Image
                                 fill
                                 objectFit="cover"
-                                src={writerImg}
-                                alt={writer}
+                                src={author?.image}
+                                alt={author?.name}
                             />
                         </span>
-                        <Link
-                            className="hover:text-primary transition-colors text-xs font-YekanBakh-Bold text-title"
-                            href={writerHref}
-                        >
-                            {writer}
-                        </Link>
-                    </div>
-                    <Link
-                        href={href ?? "#"}
-                        className="flex items-center justify-center px-4 h-8 rounded-full bg-primary/10 hover:opacity-80 transition-opacity"
-                    >
-                        <span className="text-xxs text-primary font-YekanBakh-Bold">
-                            {category}
+                        <span className="text-xs font-YekanBakh-Bold text-title">
+                            {author?.name}
                         </span>
-                    </Link>
+                    </div>
+                    <div className="flex items-center justify-center px-4 h-8 rounded-full bg-primary/10">
+                        <span className="text-xxs text-primary font-YekanBakh-Bold">
+                            {category?.title}
+                        </span>
+                    </div>
                 </div>
                 <div className="flex items-center gap-1 text-xs justify-end font-YekanBakh-SemiBold">
                     <span>
@@ -94,7 +84,7 @@ export default function Article({
                         </svg>
                     </span>
                     <span>زمان مطالعه :</span>
-                    <span className="text-title">{time} دقیقه </span>
+                    <span className="text-title">{time_read} دقیقه </span>
                 </div>
             </div>
         </div>
