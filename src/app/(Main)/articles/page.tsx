@@ -2,9 +2,10 @@ import ArticlesProvider from "@/src/components/section/articles/ArticlesProvider
 import SectionTitle from "@/src/components/ui/section/SectionTitle";
 import React from "react";
 import Article from "@/src/components/ui/Article";
-import { articles } from "@/src/lib/placeholder-data";
 import SectionHeader from "@/src/components/ui/section/SectionHeader";
-export default function page() {
+import { getAllArticles } from "@/src/lib/storage/articles";
+export default async function page() {
+    const articles = await getAllArticles();
     return (
         <main className="py-5">
             <div className="container">
@@ -24,8 +25,8 @@ export default function page() {
                                     className={"!rounded-none shadow-lg"}
                                     roundedImg={false}
                                     key={article.id}
-                                    {...article}
-                                ></Article>
+                                    article={article}
+                                />
                             ))}
                         </div>
                     </ArticlesProvider>

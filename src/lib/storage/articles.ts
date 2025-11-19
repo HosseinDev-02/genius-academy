@@ -69,3 +69,33 @@ export const getLatestArticles = unstable_cache(async () => {
         return [];
     }
 });
+
+export const getArticleByShortName = unstable_cache(
+    async (shortName: string): Promise<ArticleWithRelations> => {
+        try {
+            const data = await sql`
+            SELECT 
+            a.id,
+            a.title,
+            a.image,
+            a.short_name,
+            a.content,
+            a.about,
+            to_jsonb(cat) AS category,
+            to_jsonb(u) AS author
+            FROM articles a
+            JOIN categories cat ON a.category_id = cat.id
+            JOIN users u ON a.user_id = u.id
+            WHERE a.short_name = ${shortName}
+            `;
+            return data[0] as unknown as ArticleWithRelations;
+        } catch (error) {
+            console.error(error);
+            return {} as ArticleWithRelations;
+        }
+    },
+    ["articles"],
+    {
+        revalidate: 10,
+    }
+);

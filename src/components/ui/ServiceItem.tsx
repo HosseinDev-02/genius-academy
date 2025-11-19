@@ -8,6 +8,7 @@ import VideoIcon from "../icon/VideoIcon";
 
 type TServiceItemProp = {
     title: string;
+    key: string;
 };
 
 export default function ServiceItem(props: TServiceItemProp) {

@@ -18,7 +18,7 @@ export default async function Home() {
     const popularCourses = await getPopularCourses();
     const latestArticles = await getLatestArticles();
 
-    console.log('latestArticles : ', latestArticles);
+    console.log("latestArticles : ", latestArticles);
 
     console.log("Services :", services);
 
@@ -88,7 +88,8 @@ export default async function Home() {
                             {services.map((service) => {
                                 return (
                                     <ServiceItem
-                                        {...service}
+                                        key={service.key}
+                                        title={service.title}
                                     ></ServiceItem>
                                 );
                             })}
@@ -158,15 +159,13 @@ export default async function Home() {
                     {/*  Section Content  */}
 
                     <div className="relative">
-                        {
-                            popularCourses.length ? (
-                                <PopularCoursesSlider data={popularCourses}/>
-                            ) : (
-                                <h4 className="text-title text-lg font-YekanBakh-Black text-center py-8">
-                                    دوره ای برای نمایش وجود ندارد
-                                </h4>
-                            )
-                        }
+                        {popularCourses.length ? (
+                            <PopularCoursesSlider data={popularCourses} />
+                        ) : (
+                            <h4 className="text-title text-lg font-YekanBakh-Black text-center py-8">
+                                دوره ای برای نمایش وجود ندارد
+                            </h4>
+                        )}
                     </div>
                 </div>
             </section>

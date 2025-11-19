@@ -23,10 +23,10 @@ import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 import CourseDetailMenu from "@/src/components/ui/CourseDetailMenu";
-import { getCourseByShortName } from "@/src/lib/actions";
 import { CourseWithRelations } from "@/src/lib/type-definition";
 import { extensions } from "@/src/lib/tiptapExtensions";
-import {generateHTML} from '@tiptap/html'
+import { generateHTML } from "@tiptap/html";
+import { getCourseByShortName } from "@/src/lib/storage/courses";
 export default async function Page({
     params,
 }: {
@@ -84,7 +84,12 @@ export default async function Page({
                         {/*  course detail description  */}
                         <div id="intro" className="space-y-5 my-5">
                             <SubTitle title="معرفی دوره"></SubTitle>
-                            <div className="space-y-5" dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
+                            <div
+                                className="space-y-5"
+                                dangerouslySetInnerHTML={{
+                                    __html: htmlContent,
+                                }}
+                            ></div>
                         </div>
                         {/*  course detail sessions  */}
                         <div id="sections">
@@ -386,10 +391,10 @@ export default async function Page({
                                 ></SubTitle>
                                 <div className="flex items-end md:items-center flex-wrap gap-y-5 justify-between my-5">
                                     <div className="flex md:flex-row flex-col items-start md:items-center gap-3">
-                                        <UserInfo
+                                        {/* <UserInfo
                                             text="دوهفته پیش"
                                             title="حسین رستمی"
-                                        />
+                                        /> */}
                                         <div className="flex items-center gap-3">
                                             <span className="bg-secondary w-1 h-1 rounded-full"></span>
                                             <span className="text-xs">
@@ -424,10 +429,10 @@ export default async function Page({
                             <div>
                                 <div className="p-5 rounded-2xl border border-border mb-3">
                                     <div className="flex items-center justify-between pb-4 border-b border-border">
-                                        <UserInfo
+                                        {/* <UserInfo
                                             text="2 هفته پیش"
                                             title="حسین رستمی"
-                                        ></UserInfo>
+                                        ></UserInfo> */}
                                         <div className="flex items-center gap-3">
                                             <SectionLinkBtn
                                                 className="h-9 text-xs text-caption"
@@ -455,10 +460,10 @@ export default async function Page({
                                 <div className='pr-16 space-y-3 relative before:w-px before:bg-border before:content-[""] before:absolute before:h-[calc(100%-24px)] before:right-6 before:-top-3 after:bg-border after:content-[""] after:h-px after:w-10 after:right-6 after:absolute after:bottom-9'>
                                     <div className="p-5 rounded-2xl border border-border">
                                         <div className="flex items-center justify-between pb-4 border-b border-border">
-                                            <UserInfo
+                                            {/* <UserInfo
                                                 text="2 هفته پیش"
                                                 title="حسین رستمی"
-                                            />
+                                            /> */}
                                             <div className="flex items-center gap-3">
                                                 <SectionLinkBtn
                                                     className="h-9 text-xs text-caption"
@@ -485,10 +490,10 @@ export default async function Page({
                                     </div>
                                     <div className="p-5 rounded-2xl border border-border">
                                         <div className="flex items-center justify-between pb-4 border-b border-border">
-                                            <UserInfo
+                                            {/* <UserInfo
                                                 text="2 هفته پیش"
                                                 title="حسین رستمی"
-                                            />
+                                            /> */}
                                             <div className="flex items-center gap-3">
                                                 <SectionLinkBtn
                                                     className="h-9 text-xs text-caption"
@@ -558,9 +563,8 @@ export default async function Page({
                             ></SubTitle>
                             <div>
                                 <UserInfo
-                                    text="دیدن رزومه"
-                                    img={course.user.image}
-                                    title={course.user?.name}
+                                    image={course.user.image}
+                                    name={course.user?.name}
                                 />
                                 <div className="p-5 bg-secondary rounded-tl-2xl rounded-tr-2xl md:rounded-tr-none rounded-b-2xl mt-3">
                                     <p className="text-sm">

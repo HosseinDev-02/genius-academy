@@ -82,8 +82,8 @@ export default function Course(props: CourseWithRelations) {
                 <div className="flex items-center justify-between gap-5 mt-3">
                     <UserInfo
                         title="مدرس دوره :"
-                        text={user?.name}
-                        img={user?.image}
+                        name={user?.name}
+                        image={user?.image}
                     ></UserInfo>
                     {price === 0 ? (
                         <div className="flex items-center justify-center h-14">

@@ -2,9 +2,10 @@ import SectionHeader from "@/src/components/ui/section/SectionHeader";
 import SectionTitle from "@/src/components/ui/section/SectionTitle";
 import Course from "@/src/components/ui/Course";
 import React from "react";
-import { courses } from "@/src/lib/placeholder-data";
+// import { courses } from "@/src/lib/placeholder-data";
 import CoursesProvider from "@/src/components/section/courses/CoursesProvider";
-import { getAllCourses } from "@/src/lib/actions";
+import { getAllCourses } from "@/src/lib/storage/courses";
+// import { getAllCourses } from "@/src/lib/actions";
 
 export default async function Courses() {
     const allCourses = await getAllCourses()
