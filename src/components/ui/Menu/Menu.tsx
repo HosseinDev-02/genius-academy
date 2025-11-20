@@ -1,31 +1,14 @@
-import { menuItems } from "@/src/lib/placeholder-data";
-import MenuWrapper from "./MenuWrapper";
-import {
-    MenuItem,
-    MenuItemWithLinks,
-    MenuItemWithSubLinks,
-} from "@/src/lib/definition";
-// import { getAllArticles } from "@/src/lib/storage/articles";
 import { ChevronDown, ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import { getAllArticles } from "@/src/lib/storage/articles";
-import { MenuTree } from "@/src/lib/storage/menu-tree";
-export default function Menu({ data }: { data: MenuTree[] }) {
+import { MenuTree, getMenuTree } from "@/src/lib/storage/menu-tree";
+export default async function Menu({ data }: { data: MenuTree[] }) {
     // const articles = await getAllArticles();
     // console.log("articles :", articles);
     // const menuTree = await getMenuTree();
     // console.log('menu tree :', menuTree);
-
-    console.log("data :", data);
-
-    // function hasLinks(item: MenuItem): item is MenuItemWithLinks {
-    //     return !!item.links;
-    // }
-
-    // function hasSubLinks(item: MenuItem): item is MenuItemWithSubLinks {
-    //     return !!item.subLinks;
-    // }
+    // const menuTree = await getMenuTree();
+    // console.log("menu tree :", menuTree);
 
     return (
         <ul className="hidden lg:flex items-center gap-5 font-YekanBakh-SemiBold text-sm child-hover:text-title child:transition-colors">

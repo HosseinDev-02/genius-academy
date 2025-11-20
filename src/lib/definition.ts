@@ -4,25 +4,25 @@ import { ColumnDef, OnChangeFn, VisibilityState } from "@tanstack/react-table";
 export interface BaseMenuItem {
     id: number;
     title: string;
-    href: string;
+    url: string;
 }
 
 // 📗 آیتمی که فقط لینک ساده است
 export interface SimpleMenuItem extends BaseMenuItem {
-    links?: never;
-    subLinks?: never;
+    submenus?: never;
+    sub_submenus?: never;
 }
 
 // 📙 آیتمی که زیرمنو (links) دارد
 export interface MenuItemWithLinks extends BaseMenuItem {
-    links: MenuItem[]; // آرایه‌ای از آیتم‌ها (ممکن است زیرمجموعه داشته باشند)
-    subLinks?: never;
+    submenus: MenuItem[]; // آرایه‌ای از آیتم‌ها (ممکن است زیرمجموعه داشته باشند)
+    sub_submenus?: never;
 }
 
 // 📒 آیتمی که دارای subLinks است
 export interface MenuItemWithSubLinks extends BaseMenuItem {
-    subLinks: MenuItem[];
-    links?: never;
+    sub_submenus: MenuItem[];
+    submenus?: never;
 }
 
 // 📚 ترکیب همه انواع ممکن

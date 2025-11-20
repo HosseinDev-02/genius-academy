@@ -66,10 +66,9 @@ export default async function Home() {
                             <Image
                                 height={450}
                                 width={288}
-                                objectFit="cover"
                                 src="/images/Introduction/main.png"
                                 alt="Introduction Image"
-                                quality={100}
+                                priority
                             />
                         </div>
                     </div>

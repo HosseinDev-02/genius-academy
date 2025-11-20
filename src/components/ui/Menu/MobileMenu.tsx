@@ -1,7 +1,8 @@
 "use client";
+
 import Link from "next/link";
 import Logo from "../Logo";
-import { SetStateAction, useEffect, useState } from "react";
+import React, { SetStateAction, useEffect, useState } from "react";
 import {
     LucideChevronDown,
     LucideChevronLeft,
@@ -13,89 +14,100 @@ import {
     LucideX,
 } from "lucide-react";
 import { menuItems } from "@/src/lib/placeholder-data";
-import { MenuItem } from "@/src/lib/definition";
+import { MenuItem, StateProp } from "@/src/lib/definition";
 import ThemeToggleButton from "../button/ThemeToggleButton";
+import Cover from "../../shared/Cover";
+import { useHeaderContext } from "../../layout/HeaderProvider";
+import { MenuTree } from "@/src/lib/storage/menu-tree";
 
-type TMobileMenuProps = {
-    mobileMenuShow: boolean;
-    setMobileMenuShow: React.Dispatch<SetStateAction<boolean>>;
-    level?: number;
-};
+// type TMobileMenuProps = {
+//     mobileMenuShow: StateProp<boolean>;
+//     setMobileMenuShow: React.Dispatch<SetStateAction<boolean>>;
+//     level?: number;
+// };
 
-export default function MobileMenu({
-    mobileMenuShow,
-    setMobileMenuShow,
-    level = 0,
-}: TMobileMenuProps) {
+export default function MobileMenu({ data }: { data: MenuTree[] }) {
+    console.log("data :", data);
+    const { mobileMenuOpen } = useHeaderContext();
+    const [mobileMenuShow, setMobileMenuShow] = mobileMenuOpen;
+    const level = 0;
+
     return (
-        <div
-            id="mobile-menu"
-            className={`lg:hidden transition-all h-screen overflow-y-auto fixed top-0 bg-background rounded-tl-xl rounded-bl-xl w-72 xs:w-80 p-4 space-y-5 z-[100] ${
-                mobileMenuShow ? "right-0" : "-right-72 xs:-right-80"
-            }`}
-        >
-            {/*  mobile menu header  */}
-            <div className="flex items-center justify-between mb-8">
-                <Logo />
-                <span
-                    onClick={() => setMobileMenuShow(false)}
-                    className="text-title"
-                >
-                    <LucideX size={24} />
-                </span>
-            </div>
-            {/*  mobile search box  */}
-            <form
-                action="#"
-                className="rounded-xl flex items-center bg-secondary relative h-10 px-12 py-2 border border-border"
+        <div>
+            <div
+                id="mobile-menu"
+                className={`lg:hidden transition-all h-screen overflow-y-auto fixed top-0 bg-background rounded-tl-xl rounded-bl-xl w-72 xs:w-80 p-4 space-y-5 z-[100] ${
+                    mobileMenuShow ? "right-0" : "-right-72 xs:-right-80"
+                }`}
             >
-                <span className="absolute right-4 top-0 bottom-0 m-auto flex items-center justify-center text-title">
-                    <LucideSearch size={20} />
-                </span>
-                <input
-                    placeholder="دنبال چی میگردی ؟"
-                    className="w-full h-full bg-transparent outline-none text-title placeholder:text-caption text-sm"
-                    type="text"
-                />
-            </form>
-            {/*  mobile change them wrapper  */}
-            <ThemeToggleButton type="mobile"/>
-            {/*  Mobile Menu Categories  */}
-            <div>
-                <ul className="flex flex-col gap-5">
-                    {menuItems.map((item) => {
-                        return (
-                            <MenuNode
-                                key={item.id}
-                                item={item}
-                                level={level + 1}
-                            />
-                        );
-                    })}
-                    <li>
-                        <Link
-                            className="flex items-center justify-between"
-                            href="/register"
-                        >
-                            <span className="flex items-center gap-2">
-                                <LucideLogIn size={20} />
-                                <span className="text-xs font-YekanBakh-SemiBold">
-                                    ورود / ثبت نام
+                {/*  mobile menu header  */}
+                <div className="flex items-center justify-between mb-8">
+                    <Logo />
+                    <span
+                        onClick={() => setMobileMenuShow(false)}
+                        className="text-title"
+                    >
+                        <LucideX size={24} />
+                    </span>
+                </div>
+                {/*  mobile search box  */}
+                <form
+                    action="#"
+                    className="rounded-xl flex items-center bg-secondary relative h-10 px-12 py-2 border border-border"
+                >
+                    <span className="absolute right-4 top-0 bottom-0 m-auto flex items-center justify-center text-title">
+                        <LucideSearch size={20} />
+                    </span>
+                    <input
+                        placeholder="دنبال چی میگردی ؟"
+                        className="w-full h-full bg-transparent outline-none text-title placeholder:text-caption text-sm"
+                        type="text"
+                    />
+                </form>
+                {/*  mobile change them wrapper  */}
+                <ThemeToggleButton type="mobile" />
+                {/*  Mobile Menu Categories  */}
+                <div>
+                    <ul className="flex flex-col gap-5">
+                        {data.map((item) => {
+                            return (
+                                <MenuNode
+                                    key={item.id}
+                                    item={item}
+                                    level={level + 1}
+                                />
+                            );
+                        })}
+                        <li>
+                            <Link
+                                className="flex items-center justify-between"
+                                href="/register"
+                            >
+                                <span className="flex items-center gap-2">
+                                    <LucideLogIn size={20} />
+                                    <span className="text-xs font-YekanBakh-SemiBold">
+                                        ورود / ثبت نام
+                                    </span>
                                 </span>
-                            </span>
-                        </Link>
-                    </li>
-                </ul>
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
             </div>
+            {mobileMenuShow && (
+                <Cover className="z-50" setElemStatus={setMobileMenuShow} />
+            )}
         </div>
     );
 }
 
 function MenuNode({ item, level = 0 }: { item: MenuItem; level?: number }) {
+    console.log("item :", item);
     const [open, setOpen] = useState(false);
-    
-    const children = item.links || item.subLinks || [];
+
+    const children = item.submenus || item.sub_submenus || [];
     const hasChildren = children.length > 0;
+
     const getIconByTitle = (title: string) => {
         const map: Record<string, React.ElementType> = {
             "مقالات آموزشی": LucideFileText,
@@ -103,7 +115,10 @@ function MenuNode({ item, level = 0 }: { item: MenuItem; level?: number }) {
             "دسته بندی آموزش ها": LucideEqual,
         };
         return (
-            map[title] || (level === 0 && item.subLinks && LucideChevronLeft)
+            map[title] ||
+            (level === 0 &&
+                item.sub_submenus?.length !== 0 &&
+                LucideChevronLeft)
         );
     };
 
@@ -121,7 +136,7 @@ function MenuNode({ item, level = 0 }: { item: MenuItem; level?: number }) {
                 className={`flex items-center justify-between ${
                     open && "text-title"
                 }`}
-                href={item.href}
+                href={item.url}
             >
                 <span className="flex items-center gap-2">
                     {Icon && (

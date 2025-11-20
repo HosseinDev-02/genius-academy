@@ -62,7 +62,7 @@ export default function Article(props: Props) {
                         <span className="flex items-center justify-center rounded-full w-[30px] h-[30px] overflow-hidden border border-white relative">
                             <Image
                                 fill
-                                objectFit="cover"
+                                sizes="100%"
                                 src={author?.image}
                                 alt={author?.name}
                             />

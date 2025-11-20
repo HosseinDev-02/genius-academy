@@ -1,75 +1,58 @@
-"use client";
-
-import Link from "next/link";
-import { useEffect, useState } from "react";
 import {
-    LucideMenu,
-    LucideMoon,
-    LucideSearch,
     LucideShoppingCart,
-    LucideX,
 } from "lucide-react";
 import UserProfile from "../ui/user/UserProfile";
 import ThemeToggleButton from "../ui/button/ThemeToggleButton";
 import RoundButton from "../ui/button/RoundButton";
 import Logo from "../ui/Logo";
-// import Menu from "../ui/Menu/Menu";
-// const Menu = dynamic(() => import('../ui/Menu/Menu'), { ssr: true });
-import Input from "../ui/Input";
 import MobileMenu from "../ui/Menu/MobileMenu";
-import Cover from "../shared/Cover";
-import dynamic from "next/dynamic";
-import MenuWrapper from "../ui/Menu/MenuWrapper";
-import { MenuTree, getMenuTree } from "@/src/lib/storage/menu-tree";
-import { getAllArticles } from "@/src/lib/storage/articles";
+import HeaderSearchBox from "../ui/HeaderSearchBox";
+import MobileMenuButton from "../ui/Menu/MobileMenuButton";
+import Menu from "../ui/Menu/Menu";
+import { getMenuTree } from "@/src/lib/storage/menu-tree";
 
-function Header({ menuTree }: { menuTree: MenuTree[] }) {
+async function Header() {
+    const menuTree = await getMenuTree();
+    console.log('menu tree :', menuTree);
+
     // let localStorageValue = localStorage.getItem("theme");
-    const [mobileMenuShow, setMobileMenuShow] = useState(false);
-    const [searchModalShow, setSearchModalShow] = useState(false);
-    const [darkMode, setDarkMode] = useState("light");
-    const [loading, setLoading] = useState(true);
+    // const [darkMode, setDarkMode] = useState("light");
+    // const [loading, setLoading] = useState(true);
     // const [menuTree, setMenuTree] = useState<any>([]);
 
-    const themeHandler = () => {
-        if (darkMode === "dark") {
-            document.documentElement.classList.remove("dark");
-            localStorage.setItem("theme", "light");
-        } else {
-            document.documentElement.classList.add("dark");
-            localStorage.setItem("theme", "dark");
-        }
-        setDarkMode((prevStat) => {
-            if (prevStat === "dark") {
-                return "light";
-            } else {
-                return "dark";
-            }
-        });
-    };
+    // const themeHandler = () => {
+    //     if (darkMode === "dark") {
+    //         document.documentElement.classList.remove("dark");
+    //         localStorage.setItem("theme", "light");
+    //     } else {
+    //         document.documentElement.classList.add("dark");
+    //         localStorage.setItem("theme", "dark");
+    //     }
+    //     setDarkMode((prevStat) => {
+    //         if (prevStat === "dark") {
+    //             return "light";
+    //         } else {
+    //             return "dark";
+    //         }
+    //     });
+    // };
 
-    useEffect(() => {
+    // useEffect(() => {
 
-    //     const fetchMenuTree = async () => {
-    //         const data = await getAllArticles();
-    //         setMenuTree(data);
-    //    }
-    //    fetchMenuTree()
+    //     const handleLoad = () => setLoading(false);
+    //     const handleDomReady = () => setLoading(false);
 
-        const handleLoad = () => setLoading(false);
-        const handleDomReady = () => setLoading(false);
+    //     window.addEventListener("load", handleLoad);
+    //     document.addEventListener("DOMContentLoaded", handleDomReady);
 
-        window.addEventListener("load", handleLoad);
-        document.addEventListener("DOMContentLoaded", handleDomReady);
+    //     const timer = setTimeout(() => setLoading(false), 5000);
 
-        const timer = setTimeout(() => setLoading(false), 5000);
-
-        return () => {
-            window.removeEventListener("load", handleLoad);
-            document.removeEventListener("DOMContentLoaded", handleDomReady);
-            clearTimeout(timer);
-        };
-    }, []);
+    //     return () => {
+    //         window.removeEventListener("load", handleLoad);
+    //         document.removeEventListener("DOMContentLoaded", handleDomReady);
+    //         clearTimeout(timer);
+    //     };
+    // }, []);
 
     return (
         <>
@@ -79,54 +62,15 @@ function Header({ menuTree }: { menuTree: MenuTree[] }) {
                         {/* header right side */}
                         <div className="flex items-center gap-3 lg:gap-8">
                             {/* header mobile menu btn */}
-                            <RoundButton
-                                className={"flex lg:hidden"}
-                                clickEvent={() => setMobileMenuShow(true)}
-                                icon={<LucideMenu size={20} />}
-                            ></RoundButton>
+                            <MobileMenuButton/>
                             {/* header logo */}
                             <Logo />
                             {/* Header Menu */}
-                            <MenuWrapper data={menuTree}/>
+                            <Menu data={menuTree}/>
                         </div>
                         {/* header left side */}
                         <div className="flex items-center gap-3 md:gap-5">
-                            {/* header search btn */}
-                            <RoundButton
-                                className={"hidden lg:flex cursor-pointer"}
-                                clickEvent={() => setSearchModalShow(true)}
-                                icon={<LucideSearch size={20} />}
-                            ></RoundButton>
-                            {/* modal search wrapper */}
-                            <div
-                                style={searchModalShow ? { top: "0" } : {}}
-                                id="header-search-modal"
-                                className="transition-all fixed left-0 right-0 -top-20 bg-background z-50 hidden lg:flex items-center justify-center h-20"
-                            >
-                                <div className="container">
-                                    <div className="flex items-center justify-between gap-5">
-                                        <form
-                                            className="block w-full h-10"
-                                            action="#"
-                                        >
-                                            {/* Handle Search Logic When Add Courses Data To Project */}
-                                            <Input
-                                                element="input"
-                                                className="placeholder:text-caption w-full h-full outline-none text-title bg-transparent"
-                                                placeholder="نام دوره،مقاله و یا دسته بندی را وارد نمایید.."
-                                                type="text"
-                                            />
-                                        </form>
-                                        <RoundButton
-                                            className="w-9 h-9 shrink-0 cursor-pointer"
-                                            icon={<LucideX size={20} />}
-                                            clickEvent={() =>
-                                                setSearchModalShow(false)
-                                            }
-                                        ></RoundButton>
-                                    </div>
-                                </div>
-                            </div>
+                            <HeaderSearchBox/>
                             {/* header change theme btn */}
                             <ThemeToggleButton type="desktop"/>
                             {/* header basket btn */}
@@ -142,22 +86,9 @@ function Header({ menuTree }: { menuTree: MenuTree[] }) {
                 </div>
             </header>
             {/* Mobile Menu */}
-            <MobileMenu mobileMenuShow={mobileMenuShow} setMobileMenuShow={setMobileMenuShow}/>
+            <MobileMenu data={menuTree}/>
             {/*  mobile menu cover elem  */}
-            {/*  Courses Filtering Menu Cover  */}
-            {mobileMenuShow && (
-                <Cover className="z-50" setElemStatus={setMobileMenuShow} />
-            )}
-
-            {/* {loading && (
-                <div className="fixed inset-0 m-auto bg-black/90 flex items-center justify-center z-[19999]">
-                    <Loader
-                        emptyColor="rgb(var(--color-secondary))"
-                        filledColor="rgb(var(--color-primary))"
-                        className="page-loader"
-                    />
-                </div>
-            )} */}
+            
         </>
     );
 }

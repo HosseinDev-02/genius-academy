@@ -31,7 +31,7 @@ function CommentsSlider() {
                         <span className="block overflow-hidden w-10 h-10 rounded-full relative">
                             <Image
                                 fill
-                                objectFit="cover"
+                                sizes="100%"
                                 src="/images/profile.jpeg"
                                 alt="User Image"
                             />
@@ -62,7 +62,7 @@ function CommentsSlider() {
                         <span className="block overflow-hidden w-10 h-10 rounded-full relative">
                             <Image
                                 fill
-                                objectFit="cover"
+                                sizes="100%"
                                 src="/images/profile.jpeg"
                                 alt="User Image"
                             />
