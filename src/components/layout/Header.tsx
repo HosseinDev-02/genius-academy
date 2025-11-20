@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
@@ -12,21 +13,23 @@ import UserProfile from "../ui/user/UserProfile";
 import ThemeToggleButton from "../ui/button/ThemeToggleButton";
 import RoundButton from "../ui/button/RoundButton";
 import Logo from "../ui/Logo";
-import Menu from "../ui/Menu/Menu";
+// import Menu from "../ui/Menu/Menu";
+// const Menu = dynamic(() => import('../ui/Menu/Menu'), { ssr: true });
 import Input from "../ui/Input";
 import MobileMenu from "../ui/Menu/MobileMenu";
 import Cover from "../shared/Cover";
+import dynamic from "next/dynamic";
+import MenuWrapper from "../ui/Menu/MenuWrapper";
+import { MenuTree, getMenuTree } from "@/src/lib/storage/menu-tree";
+import { getAllArticles } from "@/src/lib/storage/articles";
 
-function Header() {
+function Header({ menuTree }: { menuTree: MenuTree[] }) {
     // let localStorageValue = localStorage.getItem("theme");
     const [mobileMenuShow, setMobileMenuShow] = useState(false);
     const [searchModalShow, setSearchModalShow] = useState(false);
     const [darkMode, setDarkMode] = useState("light");
-    const [showMobileCategoryMenu, setShowMobileCategoryMenu] = useState(false);
-    const [showMobilePagesMenu, setShowMobilePagesMenu] = useState(false);
-    const [showMobileCategorySubMenu, setShowMobileCategorySubMenu] =
-        useState(false);
     const [loading, setLoading] = useState(true);
+    // const [menuTree, setMenuTree] = useState<any>([]);
 
     const themeHandler = () => {
         if (darkMode === "dark") {
@@ -45,11 +48,14 @@ function Header() {
         });
     };
 
-    // useEffect(() => {
-    //     console.log("theme changed");
-    // }, [localStorageValue]);
-
     useEffect(() => {
+
+    //     const fetchMenuTree = async () => {
+    //         const data = await getAllArticles();
+    //         setMenuTree(data);
+    //    }
+    //    fetchMenuTree()
+
         const handleLoad = () => setLoading(false);
         const handleDomReady = () => setLoading(false);
 
@@ -81,7 +87,7 @@ function Header() {
                             {/* header logo */}
                             <Logo />
                             {/* Header Menu */}
-                            <Menu />
+                            <MenuWrapper data={menuTree}/>
                         </div>
                         {/* header left side */}
                         <div className="flex items-center gap-3 md:gap-5">

@@ -107,7 +107,7 @@ export default function SubmenuForm({
     };
 
     return (
-        <div>
+        <div dir="rtl">
             <Form {...form}>
                 <form
                     className="space-y-10"

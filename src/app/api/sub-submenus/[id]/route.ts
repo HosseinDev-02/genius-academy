@@ -1,4 +1,5 @@
 import { sql } from "@/src/db";
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function DELETE(
@@ -16,6 +17,7 @@ export async function DELETE(
         await sql`
             DELETE FROM sub_submenus WHERE id = ${id}
         `;
+        revalidateTag('sub_submenus');
         return NextResponse.json({ success: true }, { status: 200 });
     } catch (error) {
         return NextResponse.json(error, { status: 500 });
@@ -50,6 +52,7 @@ export async function PUT(
             order_index = ${order_index}
             WHERE id = ${id};
         `;
+        revalidateTag('sub_submenus');
 
         return NextResponse.json(
             { success: true, message: "زیرمنو فرعی با موفقیت ویرایش شد" },

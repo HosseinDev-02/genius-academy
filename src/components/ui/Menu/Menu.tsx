@@ -1,30 +1,41 @@
+import { menuItems } from "@/src/lib/placeholder-data";
+import MenuWrapper from "./MenuWrapper";
 import {
     MenuItem,
     MenuItemWithLinks,
     MenuItemWithSubLinks,
 } from "@/src/lib/definition";
-import { menuItems } from "@/src/lib/placeholder-data";
-import Link from "next/link";
+// import { getAllArticles } from "@/src/lib/storage/articles";
 import { ChevronDown, ChevronLeft } from "lucide-react";
+import Link from "next/link";
+import React from "react";
+import { getAllArticles } from "@/src/lib/storage/articles";
+import { MenuTree } from "@/src/lib/storage/menu-tree";
+export default function Menu({ data }: { data: MenuTree[] }) {
+    // const articles = await getAllArticles();
+    // console.log("articles :", articles);
+    // const menuTree = await getMenuTree();
+    // console.log('menu tree :', menuTree);
 
-export default function Menu() {
-    function hasLinks(item: MenuItem): item is MenuItemWithLinks {
-        return !!item.links;
-    }
+    console.log("data :", data);
 
-    function hasSubLinks(item: MenuItem): item is MenuItemWithSubLinks {
-        return !!item.subLinks;
-    }
+    // function hasLinks(item: MenuItem): item is MenuItemWithLinks {
+    //     return !!item.links;
+    // }
+
+    // function hasSubLinks(item: MenuItem): item is MenuItemWithSubLinks {
+    //     return !!item.subLinks;
+    // }
 
     return (
         <ul className="hidden lg:flex items-center gap-5 font-YekanBakh-SemiBold text-sm child-hover:text-title child:transition-colors">
-            {menuItems.map((item) => {
-                if (hasLinks(item)) {
+            {data.map((item) => {
+                if (item.submenus.length) {
                     return (
                         <li key={item.id} className="group/categories">
                             <Link
                                 className="flex items-center gap-1 hover:text-title"
-                                href={item.href}
+                                href={item.url}
                             >
                                 <span className="">{item.title}</span>
                                 <ChevronDown
@@ -34,15 +45,18 @@ export default function Menu() {
                             </Link>
                             {/* header categories menu */}
                             <ul className="invisible shadow opacity-0 group-hover/categories:visible group-hover/categories:opacity-100 absolute top-full bg-background border border-border w-56 flex flex-col gap-1 child:leading-5 delay-75 transition-all shadow-black/5 text-title z-20">
-                                {item.links.map((link) => {
-                                    if (hasSubLinks(link)) {
+                                {item.submenus.map((submenu) => {
+                                    if (submenu.sub_submenus.length) {
                                         return (
-                                            <li key={link.id} className="group/subcategories">
+                                            <li
+                                                key={submenu.id}
+                                                className="group/subcategories"
+                                            >
                                                 <Link
                                                     className="flex items-center justify-between p-3 hover:text-primary transition-colors"
-                                                    href={link.href}
+                                                    href={submenu.url}
                                                 >
-                                                    <span>{link.title}</span>
+                                                    <span>{submenu.title}</span>
                                                     <ChevronLeft size={20} />
                                                 </Link>
                                                 {/* header categories submenu */}
@@ -50,20 +64,20 @@ export default function Menu() {
                                                     <li className="absolute top-2 font-YekanBakh-Bold pointer-events-none">
                                                         محبوب ترین موضوعات
                                                     </li>
-                                                    {link.subLinks?.map(
-                                                        (subLink) => (
+                                                    {submenu.sub_submenus?.map(
+                                                        (sub_submenu) => (
                                                             <li
-                                                                key={subLink.id}
+                                                                key={sub_submenu.id}
                                                                 className="w-1/2"
                                                             >
                                                                 <Link
                                                                     className='relative before:w-1 before:h-1 before:bg-gray-600 before:rounded-full before:content-[""] before:inline-block flex items-center gap-2 before:right-0 before:top-0 before:bottom-0 before:my-auto hover:text-primary transition-colors hover:before:bg-primary'
                                                                     href={
-                                                                        subLink.href
+                                                                        sub_submenu.url
                                                                     }
                                                                 >
                                                                     {
-                                                                        subLink.title
+                                                                        sub_submenu.title
                                                                     }
                                                                 </Link>
                                                             </li>
@@ -74,12 +88,12 @@ export default function Menu() {
                                         );
                                     } else {
                                         return (
-                                            <li key={link.id}>
+                                            <li key={submenu.id}>
                                                 <Link
                                                     className={`flex items-center justify-between p-3 hover:text-primary transition-colors`}
-                                                    href={link.href}
+                                                    href={submenu.url}
                                                 >
-                                                    <span>{link.title}</span>
+                                                    <span>{submenu.title}</span>
                                                 </Link>
                                             </li>
                                         );
@@ -93,7 +107,7 @@ export default function Menu() {
                         <li key={item.id} className="group">
                             <Link
                                 className="flex items-center gap-1 hover:text-title"
-                                href={item.href}
+                                href={item.url}
                             >
                                 {item.title}
                             </Link>

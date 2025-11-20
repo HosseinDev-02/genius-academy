@@ -1,4 +1,5 @@
 import { sql } from "@/src/db";
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -13,6 +14,9 @@ export async function POST(req: Request) {
             INSERT INTO sub_submenus (title, url, order_index, submenu_id)
             VALUES (${title}, ${url}, ${order_index}, ${submenu_id})
         `;
+
+        revalidateTag('sub_submenus');
+
         
         return NextResponse.json(
             { message: "sub-submenu Added Successfully" },

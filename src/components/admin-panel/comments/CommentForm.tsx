@@ -19,17 +19,13 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import {
-    getAdminUsers,
-    getAllComments,
-    getAllCourses,
-    getAllUsers,
-    getShortArticles,
-    getShortCourses,
-} from "@/src/lib/actions";
-import {
     createCommentSchema,
     updateCommentSchema,
 } from "@/src/lib/data-schemas";
+import { getShortArticles } from "@/src/lib/storage/articles";
+import { getAllComments } from "@/src/lib/storage/comments";
+import { getShortCourses } from "@/src/lib/storage/courses";
+import { getAdminUsers } from "@/src/lib/storage/users";
 import { Article, Comment, Course, User } from "@/src/lib/type-definition";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useState } from "react";

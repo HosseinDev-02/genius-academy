@@ -16,12 +16,14 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { revalidate } from "@/src/app/admin-panel/articles/page";
 import {
     createSubSubmenuSchema,
     updateSubSubmenuSchema,
 } from "@/src/lib/data-schemas";
 import { SubMenu } from "@/src/lib/type-definition";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { revalidateTag } from "next/cache";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Toaster, toast } from "sonner";
@@ -65,8 +67,6 @@ export default function SubSubmenuForm({
     }, []);
 
     const handleSubmit = async (values: z.infer<typeof schema>) => {
-        console.log("submit");
-        console.log("values :", values);
         try {
             const formData = new FormData();
             formData.append("title", values.title);
@@ -84,6 +84,8 @@ export default function SubSubmenuForm({
                 method: method,
                 body: formData,
             });
+
+            console.log('response :', response);
 
             if(response.ok) {
                 toast.success(
@@ -109,7 +111,7 @@ export default function SubSubmenuForm({
     };
 
     return (
-        <div>
+        <div dir="rtl">
             <Form {...form}>
                 <form
                     className="space-y-10"

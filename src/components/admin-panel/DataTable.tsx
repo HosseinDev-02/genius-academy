@@ -25,7 +25,7 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
     const [pagination, setPagination] = React.useState({
         pageIndex: 0,
-        pageSize: 4,
+        pageSize: 8,
     });
     const table = useReactTable({
         data,
