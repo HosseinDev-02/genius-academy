@@ -13,7 +13,6 @@ import { getMenuTree } from "@/src/lib/storage/menu-tree";
 
 async function Header() {
     const menuTree = await getMenuTree();
-    console.log('menu tree :', menuTree);
 
     // let localStorageValue = localStorage.getItem("theme");
     // const [darkMode, setDarkMode] = useState("light");

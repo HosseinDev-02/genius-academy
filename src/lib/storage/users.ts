@@ -33,7 +33,7 @@ export const getAllUsers = unstable_cache(
     },
     ["users"],
     {
-        revalidate: 10,
+        tags: ["users"],
     }
 );
 

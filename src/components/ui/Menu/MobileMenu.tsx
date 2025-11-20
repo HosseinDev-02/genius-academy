@@ -20,14 +20,7 @@ import Cover from "../../shared/Cover";
 import { useHeaderContext } from "../../layout/HeaderProvider";
 import { MenuTree } from "@/src/lib/storage/menu-tree";
 
-// type TMobileMenuProps = {
-//     mobileMenuShow: StateProp<boolean>;
-//     setMobileMenuShow: React.Dispatch<SetStateAction<boolean>>;
-//     level?: number;
-// };
-
 export default function MobileMenu({ data }: { data: MenuTree[] }) {
-    console.log("data :", data);
     const { mobileMenuOpen } = useHeaderContext();
     const [mobileMenuShow, setMobileMenuShow] = mobileMenuOpen;
     const level = 0;
@@ -102,7 +95,6 @@ export default function MobileMenu({ data }: { data: MenuTree[] }) {
 }
 
 function MenuNode({ item, level = 0 }: { item: MenuItem; level?: number }) {
-    console.log("item :", item);
     const [open, setOpen] = useState(false);
 
     const children = item.submenus || item.sub_submenus || [];

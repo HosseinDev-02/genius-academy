@@ -68,3 +68,8 @@
     padding-inline: 1.25rem;
   }
 }
+
+.form-message {
+  color: var(--color-red-700) !important;
+  font-family: var(--font-YekanBakh-SemiBold) !important;
+}

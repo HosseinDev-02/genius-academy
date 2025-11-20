@@ -1,7 +1,4 @@
 import { unstable_cache } from "next/cache";
-import { getAllMenus } from "./menus";
-import { getAllSubmenus } from "./submenus";
-import { getAllSubSubmenus } from "./sub-submenus";
 import { sql } from "@/src/db";
 
 type SubSubmenu = {

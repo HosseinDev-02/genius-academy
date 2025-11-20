@@ -40,7 +40,7 @@ export const createUserSchema = z.object({
     }),
     image: z
         .any()
-        .refine((file) => file instanceof File, "لطفاً یک تصویر انتخاب کنید"),
+        .optional(),
     about: z.string().optional(),
 });
 
