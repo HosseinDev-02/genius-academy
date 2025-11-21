@@ -31,8 +31,8 @@ export default function Register() {
         defaultValues: {
             name: "",
             phone_number: "",
-            email: "",
             password: "",
+            repeat_password: "",
             role: "user",
         },
     });
@@ -43,17 +43,21 @@ export default function Register() {
         try {
             const formData = new FormData();
             formData.append("name", values.name);
-            if (values.email) formData.append("email", values.email);
             formData.append("password", values.password);
             formData.append("phone_number", values.phone_number);
-            formData.append('role', values.role);
+            formData.append("role", values.role);
+
+            if(values.password !== values.repeat_password) {
+                toast.error("رمز عبور با تکرار آن مطابقت ندارد");
+                return;
+            }
 
             const response = await fetch("/api/users", {
                 method: "POST",
                 body: formData,
             });
 
-            console.log("response :", response);
+            console.log('user :', await response.json())  
 
             if (response.ok) {
                 toast.success("ثبت نام شما با موفقیت انجام شد");
@@ -137,16 +141,14 @@ export default function Register() {
 
                                             <FormField
                                                 control={form.control}
-                                                name="phone_number"
+                                                name="repeat_password"
                                                 render={({ field }) => (
                                                     <FormItem>
                                                         <FormLabel className="text-gray-400 font-YekanBakh-SemiBold mb-2">
-                                                            شماره تماس
+                                                            تکرار رمز عبور
                                                         </FormLabel>
                                                         <FormControl>
-                                                            <Input
-                                                                className="focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 outline-none h-11 rounded-2xl bg-secondary border border-border px-2 w-full text-title placeholder:text-sm"
-                                                                placeholder="09123456789"
+                                                            <PasswordInput
                                                                 {...field}
                                                             />
                                                         </FormControl>
@@ -157,16 +159,16 @@ export default function Register() {
 
                                             <FormField
                                                 control={form.control}
-                                                name="email"
+                                                name="phone_number"
                                                 render={({ field }) => (
                                                     <FormItem>
                                                         <FormLabel className="text-gray-400 font-YekanBakh-SemiBold mb-2">
-                                                            ایمیل
+                                                            شماره تماس
                                                         </FormLabel>
                                                         <FormControl>
                                                             <Input
                                                                 className="focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 outline-none h-11 rounded-2xl bg-secondary border border-border px-2 w-full text-title placeholder:text-sm"
-                                                                placeholder="example@gmail.com"
+                                                                placeholder="09123456789"
                                                                 {...field}
                                                             />
                                                         </FormControl>

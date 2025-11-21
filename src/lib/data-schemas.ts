@@ -34,6 +34,7 @@ export const createUserSchema = z.object({
     name: z.string().nonempty("نام را وارد کنید"),
     email: z.string().optional(),
     password: z.string().min(8, "رمز عبور باید حداقل ۸ حرف باشد"),
+    repeat_password: z.string().min(8, "رمز عبور باید حداقل ۸ حرف باشد"),
     phone_number: z.string().nonempty("شماره تماس را وارد کنید"),
     role: z.enum(["user", "teacher", "author", "admin"], {
         errorMap: () => ({ message: "نقش را انتخاب کنید" }),

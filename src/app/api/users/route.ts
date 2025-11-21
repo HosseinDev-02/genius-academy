@@ -21,11 +21,8 @@ export async function POST(req: Request) {
 
         let imageUrl: string | null = null;
 
-        if(image) {
-            imageUrl = await uploadImage(
-                image,
-                "genius-academy/images/users"
-            );
+        if (image) {
+            imageUrl = await uploadImage(image, "genius-academy/images/users");
         }
 
         const existing = await sql`SELECT * FROM users WHERE email = ${email}`;
@@ -49,16 +46,17 @@ export async function POST(req: Request) {
 
         const response = await sql`
             INSERT INTO users (name, email, password, role, image, about, phone_number)
-            VALUES (${name}, ${email}, ${hashedPassword}, ${role}, ${imageUrl}, ${about}, ${phone_number})
+            VALUES (${name}, ${email}, ${hashedPassword}, ${role}, ${imageUrl}, ${about}, ${phone_number}) RETURNING *
         `;
 
-        console.log('response :', response);
+        console.log("response :", response);
 
         revalidateTag("users");
 
         return NextResponse.json({
             message: "User created successfully",
             success: true,
+            user: response[0],
         });
     } catch (error) {
         return NextResponse.json({
