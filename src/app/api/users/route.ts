@@ -5,6 +5,8 @@ import { sql } from "@/src/db";
 import bcrypt from "bcryptjs";
 import { uploadImage } from "@/src/lib/utils/uploadImage";
 import { revalidateTag } from "next/cache";
+import jwt from 'jsonwebtoken';
+import { cookies } from "next/headers";
 
 export async function POST(req: Request) {
     try {
@@ -34,33 +36,42 @@ export async function POST(req: Request) {
             );
         }
 
-        console.log({
-            name,
-            email,
-            password,
-            role,
-            about,
-            imageUrl,
-            phone_number,
-        });
-
-        const response = await sql`
+        const inserted = await sql`
             INSERT INTO users (name, email, password, role, image, about, phone_number)
             VALUES (${name}, ${email}, ${hashedPassword}, ${role}, ${imageUrl}, ${about}, ${phone_number}) RETURNING *
         `;
 
-        console.log("response :", response);
+        const newUser = inserted[0];
+
+        const token = jwt.sign(
+            {id: newUser.id, role: newUser.role, email: newUser.email, phone_number: newUser.phone_number},
+            process.env.JWT_SECRET!,
+            { expiresIn: '7d' }
+        )
+
+        const cookieStore = await cookies()
+
+        cookieStore.set({
+            name: 'auth_token',
+            value: token,
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            path: '/',
+            maxAge: 60 * 60 * 24 * 7, // 7 Day
+            sameSite: 'lax'
+
+        })
 
         revalidateTag("users");
 
         return NextResponse.json({
             message: "User created successfully",
             success: true,
-            user: response[0],
+            user: newUser,
         });
     } catch (error) {
         return NextResponse.json({
-            error: "هنگام ذخیره کاربر مشکلی پیش امد",
+            error: error,
             status: 500,
         });
     }
