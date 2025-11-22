@@ -5,8 +5,9 @@ import { sql } from "@/src/db";
 import bcrypt from "bcryptjs";
 import { uploadImage } from "@/src/lib/utils/uploadImage";
 import { revalidateTag } from "next/cache";
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
+import { User } from "@/src/lib/type-definition";
 
 export async function POST(req: Request) {
     try {
@@ -43,31 +44,39 @@ export async function POST(req: Request) {
 
         const newUser = inserted[0];
 
-        const token = jwt.sign(
-            {id: newUser.id, role: newUser.role, email: newUser.email, phone_number: newUser.phone_number},
-            process.env.JWT_SECRET!,
-            { expiresIn: '7d' }
-        )
+        const payload = {
+            id: newUser.id as string,
+            name: newUser.name as string,
+            email: newUser.email as string,
+            role: newUser.role as string,
+            image: newUser.image as string,
+            about: newUser.about as string,
+            phone_number: newUser.phone_number as string,
+        };
 
-        const cookieStore = await cookies()
+        const token = jwt.sign(payload, process.env.JWT_SECRET!, {
+            expiresIn: "7d",
+        });
+
+        const cookieStore = await cookies();
 
         cookieStore.set({
-            name: 'auth_token',
+            name: "auth_token",
             value: token,
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            path: '/',
+            secure: process.env.NODE_ENV === "production",
+            path: "/",
             maxAge: 60 * 60 * 24 * 7, // 7 Day
-            sameSite: 'lax'
-
-        })
+            sameSite: "lax",
+        });
 
         revalidateTag("users");
+        // return NextResponse.redirect(new URL("/", req.url));
 
         return NextResponse.json({
             message: "User created successfully",
             success: true,
-            user: newUser,
+            token,
         });
     } catch (error) {
         return NextResponse.json({

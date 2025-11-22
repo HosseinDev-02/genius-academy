@@ -9,8 +9,10 @@ import {
     LucideUser,
 } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RoundButton from "../button/RoundButton";
+import { User } from "@/src/lib/type-definition";
+import { useAuth } from "@/src/store/auth";
 
 function setUserProfileItemIcon(title: string): LucideIcon {
     switch (title) {
@@ -27,6 +29,20 @@ function setUserProfileItemIcon(title: string): LucideIcon {
 
 export default function UserProfile() {
     const [userProfileShow, setUserProfileShow] = useState(false);
+    const [userInfo, setUserInfo] = useState<User | null>(null);
+    const { user } = useAuth()
+
+    console.log('user :', user);
+
+    // useEffect(() => {
+    //     const getUserInfo = async () => {
+    //         const res = await fetch("/api/me");
+    //         const { user } = await res.json();
+    //         setUserInfo(user);
+    //         console.log("user :", user);
+    //     };
+    //     getUserInfo();
+    // }, []);
 
     return (
         <div className="group/profile">
@@ -35,16 +51,21 @@ export default function UserProfile() {
                 onClick={() => setUserProfileShow((prevState) => !prevState)}
                 className="flex items-center gap-3 cursor-pointer"
             >
-                <RoundButton icon={<LucideUser size={20}/>}></RoundButton>
+                <RoundButton icon={<LucideUser size={20} />}></RoundButton>
                 <span className="hidden xs:flex flex-col gap-1 items-start text-xs pointer-events-none">
                     <span className="text-title font-YekanBakh-SemiBold">
-                        حسین رستمی
+                        {user?.name}
                     </span>
                     <span className="font-YekanBakh-SemiBold">
                         خوش آمـــدید
                     </span>
                 </span>
-               <LucideChevronDown size={20} className={`${userProfileShow && 'rotate-180'} transition-all hidden xs:inline`}/>
+                <LucideChevronDown
+                    size={20}
+                    className={`${
+                        userProfileShow && "rotate-180"
+                    } transition-all hidden xs:inline`}
+                />
             </button>
             {/* header user profile menu */}
             <div
@@ -56,13 +77,15 @@ export default function UserProfile() {
                 }`}
             >
                 {userProfileItems.map((item) => {
-                    const Icon = setUserProfileItemIcon(
-                        item.title
-                    );
+                    const Icon = setUserProfileItemIcon(item.title);
                     return (
                         <Link
                             key={item.id}
-                            className={`flex items-center gap-2 py-2 px-3 transition-colors ${item.title === 'خروج از حساب' ? 'hover:text-red-700 text-red-500' : 'hover:text-primary'}`}
+                            className={`flex items-center gap-2 py-2 px-3 transition-colors ${
+                                item.title === "خروج از حساب"
+                                    ? "hover:text-red-700 text-red-500"
+                                    : "hover:text-primary"
+                            }`}
                             href={item.href}
                         >
                             <Icon size={20} />

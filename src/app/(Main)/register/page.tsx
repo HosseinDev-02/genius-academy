@@ -16,14 +16,19 @@ import Logo from "@/src/components/ui/Logo";
 import SubTitle from "@/src/components/ui/SubTitle";
 import PrimaryButton from "@/src/components/ui/button/PrimaryButton";
 import { createUserSchema } from "@/src/lib/data-schemas";
+import { useAuth } from "@/src/store/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { error } from "console";
 import { ArrowUpLeft, LucideArrowUpLeft } from "lucide-react";
 import Link from "next/link";
+import { redirect, useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Toaster, toast } from "sonner";
 import z from "zod";
+import jwt from "jsonwebtoken";
+import { User } from "@/src/lib/type-definition";
+import jwtDecode from "jwt-decode";
 
 export default function Register() {
     const form = useForm<z.infer<typeof createUserSchema>>({
@@ -36,6 +41,8 @@ export default function Register() {
             role: "user",
         },
     });
+    const router = useRouter();
+    const { setUser } = useAuth();
 
     const registerHandler = async (
         values: z.infer<typeof createUserSchema>
@@ -47,7 +54,7 @@ export default function Register() {
             formData.append("phone_number", values.phone_number);
             formData.append("role", values.role);
 
-            if(values.password !== values.repeat_password) {
+            if (values.password !== values.repeat_password) {
                 toast.error("رمز عبور با تکرار آن مطابقت ندارد");
                 return;
             }
@@ -57,11 +64,27 @@ export default function Register() {
                 body: formData,
             });
 
-            console.log('user :', await response.json())  
+            const result = await response.json();
 
-            if (response.ok) {
+            const decoded : any = jwt.decode(result.token);
+
+
+            console.log("decoded :", decoded);
+            console.log("result :", result);
+            setUser({
+                id: decoded.id,
+                name: decoded.name,
+                phone_number: decoded.phone_number,
+                role: decoded.role,
+                image: decoded.image,
+                about: decoded.about,
+                email: decoded.email,
+            });
+
+            if (result.success) {
                 toast.success("ثبت نام شما با موفقیت انجام شد");
                 form.reset();
+                router.push("/");
             } else {
                 throw new Error("Failed to register user");
             }
