@@ -67,19 +67,16 @@ export default function Register() {
             const result = await response.json();
 
             const decoded : any = jwt.decode(result.token);
-
-
-            console.log("decoded :", decoded);
-            console.log("result :", result);
-            setUser({
-                id: decoded.id,
-                name: decoded.name,
-                phone_number: decoded.phone_number,
-                role: decoded.role,
-                image: decoded.image,
-                about: decoded.about,
-                email: decoded.email,
-            });
+            // const userInfo = {
+            //     id: decoded.id,
+            //     name: decoded.name,
+            //     phone_number: decoded.phone_number,
+            //     role: decoded.role,
+            //     image: decoded.image,
+            //     about: decoded.about,
+            //     email: decoded.email,
+            // }
+            setUser(decoded);
 
             if (result.success) {
                 toast.success("ثبت نام شما با موفقیت انجام شد");
@@ -88,10 +85,7 @@ export default function Register() {
             } else {
                 throw new Error("Failed to register user");
             }
-
-            console.log("values :", values);
         } catch (error) {
-            console.log(error);
             toast.error("ثبت نام شما با خطا مواجه شد");
         }
     };
