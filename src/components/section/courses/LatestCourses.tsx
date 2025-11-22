@@ -9,7 +9,6 @@ import { getLatestCourses } from "@/src/lib/storage/courses";
 
 export default async function LatestCourses() {
     const latestCourses = await getLatestCourses();
-    console.log('latestCourses :', latestCourses);
     return (
         <section>
             <div className="container">

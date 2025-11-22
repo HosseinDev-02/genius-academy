@@ -30,29 +30,34 @@ import jwt from "jsonwebtoken";
 import { User } from "@/src/lib/type-definition";
 import jwtDecode from "jwt-decode";
 
+const schema = z.object({
+    name: z.string().min(3, "نام باید حداقل 3 کاراکتر باشد"),
+    phone_number: z.string().min(11, "شماره موبایل باید 11 رقم باشد"),
+    password: z.string().min(8, "رمز عبور باید حداقل 8 کاراکتر باشد"),
+    repeat_password: z.string().min(8, "رمز عبور باید حداقل 8 کاراکتر باشد"),
+})
+
 export default function Register() {
-    const form = useForm<z.infer<typeof createUserSchema>>({
-        resolver: zodResolver(createUserSchema),
+    const form = useForm<z.infer<typeof schema>>({
+        resolver: zodResolver(schema),
         defaultValues: {
             name: "",
             phone_number: "",
             password: "",
             repeat_password: "",
-            role: "user",
         },
     });
     const router = useRouter();
     const { setUser } = useAuth();
 
     const registerHandler = async (
-        values: z.infer<typeof createUserSchema>
+        values: z.infer<typeof schema>
     ) => {
         try {
             const formData = new FormData();
             formData.append("name", values.name);
             formData.append("password", values.password);
             formData.append("phone_number", values.phone_number);
-            formData.append("role", values.role);
 
             if (values.password !== values.repeat_password) {
                 toast.error("رمز عبور با تکرار آن مطابقت ندارد");

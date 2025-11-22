@@ -39,7 +39,7 @@ export async function POST(req: Request) {
 
         const inserted = await sql`
             INSERT INTO users (name, email, password, role, image, about, phone_number)
-            VALUES (${name}, ${email}, ${hashedPassword}, ${role}, ${imageUrl}, ${about}, ${phone_number}) RETURNING *
+            VALUES (${name}, ${email}, ${hashedPassword}, ${role ?? 'user'}, ${imageUrl}, ${about}, ${phone_number}) RETURNING *
         `;
 
         const newUser = inserted[0];

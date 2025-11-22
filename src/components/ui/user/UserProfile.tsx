@@ -29,20 +29,7 @@ function setUserProfileItemIcon(title: string): LucideIcon {
 
 export default function UserProfile() {
     const [userProfileShow, setUserProfileShow] = useState(false);
-    const [userInfo, setUserInfo] = useState<User | null>(null);
     const { user } = useAuth()
-
-    console.log('user :', user);
-
-    // useEffect(() => {
-    //     const getUserInfo = async () => {
-    //         const res = await fetch("/api/me");
-    //         const { user } = await res.json();
-    //         setUserInfo(user);
-    //         console.log("user :", user);
-    //     };
-    //     getUserInfo();
-    // }, []);
 
     return (
         <div className="group/profile">
