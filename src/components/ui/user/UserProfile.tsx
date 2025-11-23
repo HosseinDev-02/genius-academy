@@ -40,7 +40,7 @@ export default function UserProfile() {
         e.preventDefault();
         try {
             const response = await logout();
-            console.log('response :', response);
+            console.log("response :", response);
             if (response.success) {
                 toast.success(response.message);
                 router.push("/login");
@@ -95,13 +95,8 @@ export default function UserProfile() {
                         const Icon = setUserProfileItemIcon(item.title);
                         return (
                             <Link
-                                onClick={(e) => logOutHandler(e)}
                                 key={item.id}
-                                className={`flex items-center gap-2 py-2 px-3 transition-colors ${
-                                    item.title === "خروج از حساب"
-                                        ? "hover:text-red-700 text-red-500"
-                                        : "hover:text-primary"
-                                }`}
+                                className={`flex items-center gap-2 py-2 px-3 transition-colors hover:text-primary`}
                                 href={item.href}
                             >
                                 <Icon size={20} />
@@ -109,6 +104,14 @@ export default function UserProfile() {
                             </Link>
                         );
                     })}
+                    <Link
+                        onClick={(e) => logOutHandler(e)}
+                        className={`flex items-center gap-2 py-2 px-3 transition-colors hover:text-red-700 text-red-500`}
+                        href={"#"}
+                    >
+                        <PowerIcon size={20} />
+                        <span>خروج از حساب</span>
+                    </Link>
                 </div>
             </div>
             <Toaster

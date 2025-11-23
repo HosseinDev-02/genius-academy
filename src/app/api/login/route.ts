@@ -3,6 +3,7 @@ import { sql } from "@/src/db";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export async function POST(req: Request) {
     try {
@@ -77,6 +78,7 @@ export async function POST(req: Request) {
             message: "ورود با موفقیت انجام شد",
             token, // اگر خواستی سمت کلاینت decode کنی، می‌گذاریم
         });
+        
     } catch (err) {
         return NextResponse.json(
             { error: "مشکلی در فرآیند ورود رخ داد" },

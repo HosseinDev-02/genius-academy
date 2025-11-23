@@ -13,6 +13,7 @@ import { cookies } from "next/headers";
 async function Header() {
     const cookiesStore = await cookies()
     const token = await cookiesStore.get('auth_token')?.value
+    console.log(token);
     return (
         <>
             <header className="h-20 border-b border-b-border backdrop-blur-xl flex items-center justify-center bg-background/80 z-50 sticky left-0 right-0 top-0">

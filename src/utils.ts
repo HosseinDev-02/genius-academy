@@ -9,9 +9,9 @@ const scrollToSection = (sectionId: string): void => {
 };
 
 
-const uploadManager = new ByteScale.UploadManager({
-    apiKey: process.env.BYTESCALE_API_KEY!,
-});
+// const uploadManager = new ByteScale.UploadManager({
+//     apiKey: process.env.BYTESCALE_API_KEY!,
+// });
 
 // export async function uploadImage(file: File, folderPath: string) {
 //   const arrayBuffer = await file.arrayBuffer();

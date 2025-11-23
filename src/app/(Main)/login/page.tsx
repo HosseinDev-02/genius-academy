@@ -51,7 +51,7 @@ export default function Login() {
             if (response.success) {
                 toast.success(response.message);
                 form.reset();
-                router.push("/");
+                window.location.href = "/";
             } else {
                 throw new Error(response.message);
             }

@@ -8,6 +8,7 @@ import {
     LucideEqual,
     LucideFileText,
     LucideLogIn,
+    LucideLogOut,
     LucideNewspaper,
     LucideSearch,
     LucideX,
@@ -17,9 +18,11 @@ import ThemeToggleButton from "../button/ThemeToggleButton";
 import Cover from "../../shared/Cover";
 import { useHeaderContext } from "../../layout/HeaderProvider";
 import { MenuTree } from "@/src/lib/storage/menu-tree";
+import { useAuthContext } from "../../layout/LayoutProvider";
 
 export default function MobileMenu({ data }: { data: MenuTree[] }) {
     const { mobileMenuOpen } = useHeaderContext();
+    const { user } = useAuthContext()
     const [mobileMenuShow, setMobileMenuShow] = mobileMenuOpen;
     const level = 0;
 
@@ -69,7 +72,22 @@ export default function MobileMenu({ data }: { data: MenuTree[] }) {
                                 />
                             );
                         })}
-                        <li>
+                        {user ? (
+                            <li>
+                            <Link
+                                className="flex items-center justify-between"
+                                href="/register"
+                            >
+                                <span className="flex items-center gap-2 text-red-500">
+                                    <LucideLogOut size={20} />
+                                    <span className="text-xs font-YekanBakh-SemiBold">
+                                        خروج از حساب
+                                    </span>
+                                </span>
+                            </Link>
+                        </li>
+                        ) : (
+                            <li>
                             <Link
                                 className="flex items-center justify-between"
                                 href="/register"
@@ -82,6 +100,7 @@ export default function MobileMenu({ data }: { data: MenuTree[] }) {
                                 </span>
                             </Link>
                         </li>
+                        )}
                     </ul>
                 </div>
             </div>

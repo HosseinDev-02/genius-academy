@@ -90,9 +90,6 @@ export default function RootLayoutProvider({
         const fetchUserData = async () => {
             const response = await fetch("/api/me");
             const result = await response.json();
-            console.log("fetch user result :", result);
-            console.log("is logged in :", Boolean(result.user));
-
             if (result.user) {
                 setIsLoggedIn(Boolean(result.user));
                 setUser(result.user);

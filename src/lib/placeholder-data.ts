@@ -239,14 +239,9 @@ export const userProfileItems = [
         href: "/user-panel",
     },
     {
-        id: 4,
+        id: 3,
         title: "پنل مدیریت",
         href: "/admin-panel",
-    },
-    {
-        id: 3,
-        title: "خروج از حساب",
-        href: "#",
     },
 ];
 
