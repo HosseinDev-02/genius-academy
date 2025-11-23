@@ -1,15 +1,8 @@
 import { ChevronDown, ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import { MenuTree, getMenuTree } from "@/src/lib/storage/menu-tree";
+import { MenuTree } from "@/src/lib/storage/menu-tree";
 export default function Menu({ data }: { data: MenuTree[] }) {
-    // const articles = await getAllArticles();
-    // console.log("articles :", articles);
-    // const menuTree = await getMenuTree();
-    // console.log('menu tree :', menuTree);
-    // const menuTree = await getMenuTree();
-    // console.log("menu tree :", menuTree);
-
     return (
         <ul className="hidden lg:flex items-center gap-5 font-YekanBakh-SemiBold text-sm child-hover:text-title child:transition-colors">
             {data.map((item) => {

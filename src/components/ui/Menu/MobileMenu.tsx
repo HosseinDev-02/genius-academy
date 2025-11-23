@@ -1,8 +1,7 @@
 "use client";
-
 import Link from "next/link";
 import Logo from "../Logo";
-import React, { SetStateAction, useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
     LucideChevronDown,
     LucideChevronLeft,
@@ -13,8 +12,7 @@ import {
     LucideSearch,
     LucideX,
 } from "lucide-react";
-import { menuItems } from "@/src/lib/placeholder-data";
-import { MenuItem, StateProp } from "@/src/lib/definition";
+import { MenuItem } from "@/src/lib/definition";
 import ThemeToggleButton from "../button/ThemeToggleButton";
 import Cover from "../../shared/Cover";
 import { useHeaderContext } from "../../layout/HeaderProvider";
