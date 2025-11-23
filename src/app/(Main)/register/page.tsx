@@ -14,21 +14,16 @@ import { PasswordInput } from "@/src/components/forms/PasswordInput";
 // import Input from "@/src/components/ui/Input";
 import Logo from "@/src/components/ui/Logo";
 import SubTitle from "@/src/components/ui/SubTitle";
-import PrimaryButton from "@/src/components/ui/button/PrimaryButton";
-import { createUserSchema } from "@/src/lib/data-schemas";
-import { useAuth } from "@/src/store/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { error } from "console";
-import { ArrowUpLeft, LucideArrowUpLeft } from "lucide-react";
+import { ArrowUpLeft } from "lucide-react";
 import Link from "next/link";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Toaster, toast } from "sonner";
 import z from "zod";
 import jwt from "jsonwebtoken";
-import { User } from "@/src/lib/type-definition";
-import jwtDecode from "jwt-decode";
+import { useAuthContext } from "@/src/components/layout/LayoutProvider";
 
 const schema = z.object({
     name: z.string().min(3, "نام باید حداقل 3 کاراکتر باشد"),
@@ -48,7 +43,8 @@ export default function Register() {
         },
     });
     const router = useRouter();
-    const { setUser } = useAuth();
+    const { setUser } = useAuthContext()
+
 
     const registerHandler = async (
         values: z.infer<typeof schema>
@@ -72,26 +68,17 @@ export default function Register() {
             const result = await response.json();
 
             const decoded : any = jwt.decode(result.token);
-            // const userInfo = {
-            //     id: decoded.id,
-            //     name: decoded.name,
-            //     phone_number: decoded.phone_number,
-            //     role: decoded.role,
-            //     image: decoded.image,
-            //     about: decoded.about,
-            //     email: decoded.email,
-            // }
             setUser(decoded);
 
             if (result.success) {
-                toast.success("ثبت نام شما با موفقیت انجام شد");
+                toast.success(result.message);
                 form.reset();
                 router.push("/");
             } else {
-                throw new Error("Failed to register user");
+                throw new Error(result.error);
             }
         } catch (error) {
-            toast.error("ثبت نام شما با خطا مواجه شد");
+            toast.error(error instanceof Error ? error.message : "خطایی رخ داد");
         }
     };
 

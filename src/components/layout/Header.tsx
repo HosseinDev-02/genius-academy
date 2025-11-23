@@ -1,3 +1,4 @@
+'use client';
 import {
     LucideShoppingCart,
 } from "lucide-react";
@@ -9,15 +10,26 @@ import MobileMenu from "../ui/Menu/MobileMenu";
 import HeaderSearchBox from "../ui/HeaderSearchBox";
 import MobileMenuButton from "../ui/Menu/MobileMenuButton";
 import Menu from "../ui/Menu/Menu";
-import { getMenuTree } from "@/src/lib/storage/menu-tree";
+import { MenuTree, getMenuTree } from "@/src/lib/storage/menu-tree";
+import { useEffect, useState } from "react";
 
-async function Header() {
-    const menuTree = await getMenuTree();
+function Header() {
+    // const menuTree = await getMenuTree();
 
     // let localStorageValue = localStorage.getItem("theme");
     // const [darkMode, setDarkMode] = useState("light");
     // const [loading, setLoading] = useState(true);
-    // const [menuTree, setMenuTree] = useState<any>([]);
+    const [menuTree, setMenuTree] = useState<MenuTree[] | []>([]);
+
+    useEffect(() => {
+        const fetchMenuTree = async () => {
+            const response = await fetch('/api/menus/menuTree');
+            const result = await response.json()
+            console.log('menu :', result);
+            setMenuTree(result)
+        }
+        fetchMenuTree()
+    }, [])
 
     // const themeHandler = () => {
     //     if (darkMode === "dark") {

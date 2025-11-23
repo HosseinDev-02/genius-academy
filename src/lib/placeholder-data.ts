@@ -239,14 +239,14 @@ export const userProfileItems = [
         href: "/user-panel",
     },
     {
-        id: 3,
-        title: "خروج از حساب",
-        href: "/login",
-    },
-    {
         id: 4,
         title: "پنل مدیریت",
         href: "/admin-panel",
+    },
+    {
+        id: 3,
+        title: "خروج از حساب",
+        href: "#",
     },
 ];
 

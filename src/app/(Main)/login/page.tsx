@@ -12,7 +12,6 @@ import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/src/components/forms/PasswordInput";
 import Logo from "@/src/components/ui/Logo";
 import SubTitle from "@/src/components/ui/SubTitle";
-import PrimaryButton from "@/src/components/ui/button/PrimaryButton";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowUpLeft, LucideArrowUpLeft } from "lucide-react";
 import Link from "next/link";
@@ -21,7 +20,6 @@ import { useForm } from "react-hook-form";
 import { Toaster, toast } from "sonner";
 import z from "zod";
 import jwt from "jsonwebtoken";
-import { useAuth } from "@/src/store/auth";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/src/components/layout/LayoutProvider";
 

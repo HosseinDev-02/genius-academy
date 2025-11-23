@@ -2,7 +2,7 @@ import { ChevronDown, ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { MenuTree, getMenuTree } from "@/src/lib/storage/menu-tree";
-export default async function Menu({ data }: { data: MenuTree[] }) {
+export default function Menu({ data }: { data: MenuTree[] }) {
     // const articles = await getAllArticles();
     // console.log("articles :", articles);
     // const menuTree = await getMenuTree();

@@ -1,5 +1,5 @@
-import { unstable_cache } from "next/cache";
 import { sql } from "@/src/db";
+import { NextResponse } from "next/server";
 
 type SubSubmenu = {
     id: number;
@@ -14,14 +14,14 @@ type Submenu = {
     sub_submenus: SubSubmenu[];
 };
 
-export type MenuTree = {
+type MenuTree = {
     id: number;
     url: string;
     title: string;
     submenus: Submenu[];
 };
 
-export type Row = {
+type Row = {
     menu_id: number;
     menu_title: string;
     menu_url: string;
@@ -33,32 +33,32 @@ export type Row = {
     subsubmenu_url: string;
 };
 
-export const getMenuTree = unstable_cache(
-    async (): Promise<MenuTree[]> => {
+export async function GET(req: Request) {
+    try {
         const rows = (await sql`
-      SELECT
-      m.id        AS menu_id,
-      m.title     AS menu_title,
-      m.url     AS menu_url,
+        SELECT
+        m.id        AS menu_id,
+        m.title     AS menu_title,
+        m.url     AS menu_url,
+    
+        sm.id       AS submenu_id,
+        sm.title    AS submenu_title,
+        sm.url    AS submenu_url,
+    
+        ssm.id      AS subsubmenu_id,
+        ssm.title   AS subsubmenu_title,
+        ssm.url   AS subsubmenu_url
   
-      sm.id       AS submenu_id,
-      sm.title    AS submenu_title,
-      sm.url    AS submenu_url,
-  
-      ssm.id      AS subsubmenu_id,
-      ssm.title   AS subsubmenu_title,
-      ssm.url   AS subsubmenu_url
-  
-  FROM menus m
-  LEFT JOIN submenus sm
-      ON sm.menu_id = m.id
-  LEFT JOIN sub_submenus ssm
-      ON ssm.submenu_id = sm.id
-  
-  ORDER BY m.order_index, sm.order_index, ssm.order_index;
+        FROM menus m
+        LEFT JOIN submenus sm
+            ON sm.menu_id = m.id
+        LEFT JOIN sub_submenus ssm
+            ON ssm.submenu_id = sm.id
+        
+        ORDER BY m.order_index, sm.order_index, ssm.order_index;
       `) as unknown as Row[];
 
-        const tree: MenuTree[] = [];
+        const menuTree: MenuTree[] = [];
         const menuMap = new Map<number, MenuTree>();
         const submenuMap = new Map<number, Submenu>();
 
@@ -71,7 +71,7 @@ export const getMenuTree = unstable_cache(
                     url: row.menu_url,
                     submenus: [],
                 });
-                tree.push(menuMap.get(row.menu_id)!);
+                menuTree.push(menuMap.get(row.menu_id)!);
             }
 
             const menu = menuMap.get(row.menu_id)!;
@@ -100,9 +100,8 @@ export const getMenuTree = unstable_cache(
                 });
             }
         }
-
-        return tree;
-    },
-    ["menu-tree"], // key cache
-    { tags: ["menu-tree"] } // tags برای revalidateTag
-);
+        return NextResponse.json(menuTree, { status: 201 });
+    } catch (error) {
+        return NextResponse.json({ error }, { status: 500 });
+    }
+}

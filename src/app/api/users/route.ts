@@ -32,7 +32,7 @@ export async function POST(req: Request) {
 
         if (existing.length > 0) {
             return Response.json(
-                { error: "User already exists" },
+                { error: "کاربری با این ایمیل وجود دارد" },
                 { status: 409 }
             );
         }
@@ -71,18 +71,16 @@ export async function POST(req: Request) {
         });
 
         revalidateTag("users");
-        // return NextResponse.redirect(new URL("/", req.url));
 
         return NextResponse.json({
-            message: "User created successfully",
+            message: "ثبت نام شما با موفقیت انجام شد",
             success: true,
             token,
         });
     } catch (error) {
         return NextResponse.json({
-            error: error,
+            error: "هنگام ثبت نام خطایی رخ داد",
             status: 500,
-            message: "Server error",
         });
     }
 }
