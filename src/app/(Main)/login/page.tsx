@@ -23,6 +23,7 @@ import z from "zod";
 import jwt from "jsonwebtoken";
 import { useAuth } from "@/src/store/auth";
 import { useRouter } from "next/navigation";
+import { useAuthContext } from "@/src/components/layout/LayoutProvider";
 
 const schema = z.object({
     phone_number: z.string().min(11, "شماره موبایل باید 11 رقم باشد"),
@@ -30,8 +31,9 @@ const schema = z.object({
 });
 
 export default function Login() {
-    const router = useRouter()
-    const { setUser } = useAuth()
+    const router = useRouter();
+    // const { setUser } = useAuth()
+    const { login } = useAuthContext();
     const form = useForm<z.infer<typeof schema>>({
         resolver: zodResolver(schema),
         defaultValues: {
@@ -46,26 +48,18 @@ export default function Login() {
                 phone_number: values.phone_number,
                 password: values.password,
             };
+            const response = await login(loginInfo);
 
-            const response = await fetch("/api/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(loginInfo),
-            });
-            const result = await response.json();
-
-            const decoded: any = jwt.decode(result.token);
-            setUser(decoded)
-
-            if (result.success) {
-                toast.success("ورود با موفقیت انجام شد");
+            if (response.success) {
+                toast.success(response.message);
                 form.reset();
-                router.push("/")
+                router.push("/");
             } else {
-                throw new Error("هنگام ورود خطایی رخ داد");
+                throw new Error(response.message);
             }
         } catch (error) {
-            toast.error("هنگام ورود خطایی رخ داد");
+            console.log(error);
+            toast.error(error instanceof Error ? error.message : "خطایی رخ داد");
         }
     };
 

@@ -4,6 +4,7 @@ import { ThemeProvider } from "next-themes";
 import Footer from "@/src/components/layout/Footer";
 import { getMenuTree } from "@/src/lib/storage/menu-tree";
 import HeaderProvider from "@/src/components/layout/HeaderProvider";
+import RootLayoutProvider from "@/src/components/layout/LayoutProvider";
 
 export default async function RootLayout({
     children,
@@ -12,22 +13,24 @@ export default async function RootLayout({
 }>) {
     // suppressHydrationWarning  خطای تم هنگام لود شدن صفحه با این کد رفع شد
     return (
-        <html lang="fa" dir="rtl" suppressHydrationWarning>
-            <body className="font-YekanBakh-Regular text-caption bg-background">
-                <ThemeProvider
-                    attribute="class"
-                    defaultTheme="system"
-                    enableSystem
-                >
-                    <div className="body-wrapper">
-                        <HeaderProvider>
-                            <Header />
-                        </HeaderProvider>
-                        {children}
-                        <Footer />
-                    </div>
-                </ThemeProvider>
-            </body>
-        </html>
+        <RootLayoutProvider>
+            <html lang="fa" dir="rtl" suppressHydrationWarning>
+                <body className="font-YekanBakh-Regular text-caption bg-background">
+                    <ThemeProvider
+                        attribute="class"
+                        defaultTheme="system"
+                        enableSystem
+                    >
+                        <div className="body-wrapper">
+                            <HeaderProvider>
+                                <Header />
+                            </HeaderProvider>
+                            {children}
+                            <Footer />
+                        </div>
+                    </ThemeProvider>
+                </body>
+            </html>
+        </RootLayoutProvider>
     );
 }

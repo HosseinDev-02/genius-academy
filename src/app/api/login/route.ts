@@ -74,7 +74,7 @@ export async function POST(req: Request) {
 
         return NextResponse.json({
             success: true,
-            message: "ورود موفقیت‌آمیز بود",
+            message: "ورود با موفقیت انجام شد",
             token, // اگر خواستی سمت کلاینت decode کنی، می‌گذاریم
         });
     } catch (err) {
