@@ -7,6 +7,7 @@ import SubTitle from "../../ui/SubTitle";
 import CourseCommentForm from "./CourseCommentForm";
 import { CourseWithRelations } from "@/src/lib/type-definition";
 import { getCommentsByShortName } from "@/src/lib/storage/comments";
+import UserInfo from "../../ui/user/UserInfo";
 
 export default async function CourseCommentsWrapper({
     course,
@@ -33,86 +34,41 @@ export default async function CourseCommentsWrapper({
                         {/* main comment */}
                         <div className="p-5 rounded-2xl border border-border mb-3">
                             <div className="flex items-center justify-between pb-4 border-b border-border">
-                                {/* <UserInfo
-                                            text="2 هفته پیش"
-                                            title="حسین رستمی"
-                                        ></UserInfo> */}
+                                <UserInfo
+                                    name="2 هفته پیش"
+                                    title={comment.user?.name}
+                                    image={comment.user?.image!}
+                                />
                                 <div className="flex items-center gap-3">
                                     <SectionLinkBtn
                                         className="h-9 text-xs text-caption"
                                         icon={<LucideCornerUpRight size={20} />}
                                         text="پاسخ"
                                     />
-                                    <LikeButton className="h-9 w-9" count="3" />
+                                    {/* <LikeButton className="h-9 w-9" count="3" /> */}
                                 </div>
                             </div>
-                            <p className="text-sm mt-3">
-                                من این دوره رو خریدم و میخوام نکست هم بعدا یاد
-                                بگیرم چون نیاز بیشتری دارم به اموزش های این دوره
-                                میشه بدون اینکه دوره نکست رو ببینم این دوره رو
-                                ببینم(بخش6دوره بیشتر مد نظرمه)
-                            </p>
+                            <p className="text-sm mt-3">{comment.content}</p>
                         </div>
                         {/* sub comments */}
                         <div className='pr-16 space-y-3 relative before:w-px before:bg-border before:content-[""] before:absolute before:h-[calc(100%-24px)] before:right-6 before:-top-3 after:bg-border after:content-[""] after:h-px after:w-10 after:right-6 after:absolute after:bottom-9'>
-                            <div className="p-5 rounded-2xl border border-border">
-                                <div className="flex items-center justify-between pb-4 border-b border-border">
-                                    {/* <UserInfo
-                                                text="2 هفته پیش"
-                                                title="حسین رستمی"
-                                            /> */}
-                                    <div className="flex items-center gap-3">
-                                        <SectionLinkBtn
-                                            className="h-9 text-xs text-caption"
-                                            icon={
-                                                <LucideCornerUpRight
-                                                    size={20}
-                                                />
-                                            }
-                                            text="پاسخ"
-                                        />
-                                        <LikeButton
-                                            className="w-9 h-9"
-                                            count="3"
+                            {comment.replies?.map((reply) => (
+                                <div
+                                    key={reply.id}
+                                    className="p-5 rounded-2xl border border-border"
+                                >
+                                    <div className="flex items-center justify-between pb-4 border-b border-border">
+                                        <UserInfo
+                                            name="2 هفته پیش"
+                                            title={reply.user?.name}
+                                            image={reply.user?.image!}
                                         />
                                     </div>
+                                    <p className="text-sm mt-3">
+                                        {reply.content}
+                                    </p>
                                 </div>
-                                <p className="text-sm mt-3">
-                                    من این دوره رو خریدم و میخوام نکست هم بعدا
-                                    یاد بگیرم چون نیاز بیشتری دارم به اموزش های
-                                    این دوره میشه بدون اینکه دوره نکست رو ببینم
-                                    این دوره رو ببینم(بخش6دوره بیشتر مد نظرمه)
-                                </p>
-                            </div>
-                            <div className="p-5 rounded-2xl border border-border">
-                                <div className="flex items-center justify-between pb-4 border-b border-border">
-                                    {/* <UserInfo
-                                                text="2 هفته پیش"
-                                                title="حسین رستمی"
-                                            /> */}
-                                    <div className="flex items-center gap-3">
-                                        <SectionLinkBtn
-                                            className="h-9 text-xs text-caption"
-                                            icon={
-                                                <LucideCornerUpRight
-                                                    size={20}
-                                                />
-                                            }
-                                            text="پاسخ"
-                                        />
-                                        <LikeButton
-                                            className="w-9 h-9"
-                                            count="3"
-                                        />
-                                    </div>
-                                </div>
-                                <p className="text-sm mt-3">
-                                    من این دوره رو خریدم و میخوام نکست هم بعدا
-                                    یاد بگیرم چون نیاز بیشتری دارم به اموزش های
-                                    این دوره میشه بدون اینکه دوره نکست رو ببینم
-                                    این دوره رو ببینم(بخش6دوره بیشتر مد نظرمه)
-                                </p>
-                            </div>
+                            ))}
                         </div>
                     </div>
                 ))}

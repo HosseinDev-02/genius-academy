@@ -46,7 +46,7 @@ export const getCommentsByShortName = unstable_cache(
     }: {
         courseShortName?: string | null;
         articleShortName?: string | null;
-    }): Promise<CommentRow[]> => {
+    }): Promise<CommentWithRelations[]> => {
         try {
             // 🔥 fix: always convert undefined → null
             const courseName = courseShortName ?? null;
