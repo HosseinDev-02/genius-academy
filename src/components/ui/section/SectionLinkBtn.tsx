@@ -1,23 +1,20 @@
-import Link from "next/link";
-
 type TSectionLinkBtn = {
-    clickEvent?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
+    clickEvent?: () => void;
     className?: string;
     href?: string;
     text: string;
-    icon: React.ReactNode
+    icon: React.ReactNode;
 }
 
-export default function SectionLinkBtn(props: TSectionLinkBtn) {
+export default function SectionLinkBtn({ clickEvent, className, text, icon }: TSectionLinkBtn) {
     return (
-        <Link onClick={props.clickEvent} className={`flex items-center justify-center text-title gap-1 bg-secondary rounded-full w-11 text-sm sm:w-auto sm:px-4 h-11 hover:text-primary transition-colors shrink-0 ${props.className}`}
-           href={props.href ? props.href : '#'}>
+        <button type="button" onClick={clickEvent} className={`flex items-center justify-center text-title gap-1 bg-secondary rounded-full w-11 text-sm sm:w-auto sm:px-4 h-11 hover:text-primary transition-colors shrink-0 cursor-pointer ${className}`}>
             <span className='hidden sm:inline-block font-YekanBakh-SemiBold'>
-                {props.text}
+                {text}
             </span>
             <span>
-                {props.icon}
+                {icon}
             </span>
-        </Link>
+        </button>
     )
 }

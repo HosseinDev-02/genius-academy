@@ -3,32 +3,32 @@ import { sql } from "@/src/db";
 import { unstable_cache } from "next/cache";
 
 interface User {
-    id: number;
+    id: string;
     name: string;
     image: string | null;
 }
 
 interface Course {
-    id: number;
+    id: string;
     title: string;
     image: string | null;
     short_name: string;
 }
 
 interface Article {
-    id: number;
+    id: string;
     title: string;
     image: string | null;
     short_name: string;
 }
 
 interface CommentRow {
-    id: number;
+    id: string;
     content: string;
     created_at: string; // PostgreSQL → text
     updated_at: string | null;
     status: string;
-    parent_id: number | null;
+    parent_id: string | null;
 
     user: User | null;
     course: Course | null;
@@ -116,11 +116,11 @@ export const getCommentsByShortName = unstable_cache(
             const map: Record<number, CommentWithRelations> = {};
             const roots: CommentWithRelations[] = [];
 
-            comments.forEach((c) => (map[c.id] = c));
+            comments.forEach((c) => (map[+c.id] = c));
 
             comments.forEach((c) => {
-                if (c.parent_id && map[c.parent_id]) {
-                    map[c.parent_id].replies.push(c);
+                if (c.parent_id && map[+c.parent_id]) {
+                    map[+c.parent_id].replies.push(c);
                 } else {
                     roots.push(c);
                 }
@@ -134,7 +134,6 @@ export const getCommentsByShortName = unstable_cache(
     },
     ["comments"],
     {
-        revalidate: 10,
         tags: ["comments"],
     }
 );

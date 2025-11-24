@@ -1,4 +1,5 @@
 import { sql } from "@/src/db";
+import { revalidateTag } from "next/cache";
 import { z } from "zod";
 
 const replySchema = z.object({
@@ -44,10 +45,14 @@ export async function POST(req: Request) {
       `;
     }
 
+    revalidateTag('comments');
+
     return Response.json({
-      message: "پاسخ ارسال شد و وضعیت کامنت به‌روزرسانی شد",
+      message: "پاسخ با موفقیت ارسال شد",
       reply,
+      success: true,
     });
+
   } catch (err) {
     console.error(err);
     return Response.json({ error: "خطا در ارسال پاسخ" }, { status: 500 });

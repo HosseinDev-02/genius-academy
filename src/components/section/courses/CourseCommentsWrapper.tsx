@@ -1,13 +1,10 @@
 import React from "react";
-import SectionLinkBtn from "../../ui/section/SectionLinkBtn";
-import { LucideArrowUpLeft, LucideCornerUpRight } from "lucide-react";
-import LikeButton from "../../ui/button/LikeButton";
-import PrimaryButton from "../../ui/button/PrimaryButton";
 import SubTitle from "../../ui/SubTitle";
 import CourseCommentForm from "./CourseCommentForm";
 import { CourseWithRelations } from "@/src/lib/type-definition";
 import { getCommentsByShortName } from "@/src/lib/storage/comments";
 import UserInfo from "../../ui/user/UserInfo";
+import CommentReplyButton from "./CommentReplyButton";
 
 export default async function CourseCommentsWrapper({
     course,
@@ -15,7 +12,6 @@ export default async function CourseCommentsWrapper({
     course: CourseWithRelations;
 }) {
     const { short_name } = course;
-    console.log("short_name :", short_name);
 
     const comments = await getCommentsByShortName({
         courseShortName: short_name,
@@ -37,16 +33,9 @@ export default async function CourseCommentsWrapper({
                                 <UserInfo
                                     name="2 هفته پیش"
                                     title={comment.user?.name}
-                                    image={comment.user?.image!}
+                                    image={comment.user?.image || '/images/profile.jpeg'}
                                 />
-                                <div className="flex items-center gap-3">
-                                    <SectionLinkBtn
-                                        className="h-9 text-xs text-caption"
-                                        icon={<LucideCornerUpRight size={20} />}
-                                        text="پاسخ"
-                                    />
-                                    {/* <LikeButton className="h-9 w-9" count="3" /> */}
-                                </div>
+                                <CommentReplyButton commentId={comment.id} />
                             </div>
                             <p className="text-sm mt-3">{comment.content}</p>
                         </div>
@@ -61,7 +50,7 @@ export default async function CourseCommentsWrapper({
                                         <UserInfo
                                             name="2 هفته پیش"
                                             title={reply.user?.name}
-                                            image={reply.user?.image!}
+                                            image={reply.user?.image! || '/images/profile.jpeg'}
                                         />
                                     </div>
                                     <p className="text-sm mt-3">

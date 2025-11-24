@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import Cover from "../../shared/Cover";
 import { Toaster, toast } from "sonner";
 import { useRouter } from "next/navigation";
+import CommentReplyForm from "./CommentReplyForm";
 
 export default function CommentAnswer({
     comment,
@@ -16,7 +17,7 @@ export default function CommentAnswer({
     const [content, setContent] = useState("");
     const router = useRouter()
 
-    const answerToCommentHandler = async () => {
+    const commentReplyHandler = async () => {
         // setShowContent(false);
         const response = await fetch("/api/comments/reply", {
             method: "POST",
@@ -57,34 +58,7 @@ export default function CommentAnswer({
                 پاسخ
             </Button>
             {showContent && (
-                <div className="p-4 rounded-2xl bg-zinc-800 fixed inset-0 max-w-xl w-full m-auto max-h-80 h-full z-[1000] flex flex-col">
-                    <Textarea
-                        value={content || ""}
-                        onChange={(e) => setContent(e.target.value)}
-                        placeholder="متن پاسخ را وارد کنید ..."
-                        className="focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600 h-full resize-none focus-visible:h-full"
-                    />
-                    <div className="flex gap-4 mt-4">
-                        <Button
-                            onClick={answerToCommentHandler}
-                            size={"lg"}
-                            variant="ghost"
-                            type="button"
-                            className="bg-primary text-xs cursor-pointer"
-                        >
-                            ارسال
-                        </Button>
-                        <Button
-                            onClick={() => setShowContent(false)}
-                            size={"lg"}
-                            variant="ghost"
-                            type="button"
-                            className="bg-stone-600 text-xs cursor-pointer"
-                        >
-                            لغو
-                        </Button>
-                    </div>
-                </div>
+                <CommentReplyForm content={content} setContent={setContent} setShowContent={setShowContent} commentReplyHandler={commentReplyHandler}/>
             )}
             <Cover
                 className={`z-[999] !bg-black/80 ${

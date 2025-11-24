@@ -21,6 +21,7 @@ import { extensions } from "@/src/lib/tiptapExtensions";
 import { generateHTML } from "@tiptap/html";
 import { getCourseByShortName } from "@/src/lib/storage/courses";
 import CourseCommentsWrapper from "@/src/components/section/courses/CourseCommentsWrapper";
+import CourseRegister from "@/src/components/section/courses/CourseRegister";
 export default async function Page({ params }: { params: Promise<{ shortName: string }> }) {
     const { shortName } = await params
 
@@ -380,38 +381,7 @@ export default async function Page({ params }: { params: Promise<{ shortName: st
                     </div>
                     {/*  course detail left side  */}
                     <div className="md:w-4/12 space-y-8 md:sticky md:top-24">
-                        <div className="bg-gradient-to-b from-secondary to-background rounded-2xl px-5 pb-5">
-                            <div className="bg-background rounded-bl-2xl rounded-br-2xl p-5 mb-5">
-                                <SubTitle title="نام نویسی در دوره" />
-                            </div>
-                            <div className="flex items-center justify-between">
-                                <span className="font-YekanBakh-Bold">
-                                    هزینه ثبت نام :
-                                </span>
-                                <div className="flex flex-col items-end">
-                                    <span className="line-through">
-                                        1,900,000
-                                    </span>
-                                    <div className="flex items-center gap-1">
-                                        <span className="text-xl text-title font-YekanBakh-Black">
-                                            {Number(
-                                                course.price
-                                            ).toLocaleString()}
-                                        </span>
-                                        <span className="text-xs hidden lg:inline-block">
-                                            تومان
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-3 mt-3">
-                                <PrimaryButton
-                                    icon={<LucideArrowUpLeft size={20} />}
-                                    title="اضافه به سبد"
-                                />
-                                <LikeButton />
-                            </div>
-                        </div>
+                        <CourseRegister course={course}/>
                         <div className="space-y-3">
                             <SubTitle
                                 className="text-sm"
