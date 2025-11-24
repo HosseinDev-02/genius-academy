@@ -6,12 +6,13 @@ import PrimaryButton from "../../ui/button/PrimaryButton";
 import SubTitle from "../../ui/SubTitle";
 import { useAuthContext } from "../../layout/LayoutProvider";
 import CourseCommentForm from "./CourseCommentForm";
+import { CourseWithRelations } from "@/src/lib/type-definition";
 
-export default function CourseCommentsWrapper() {
+export default function CourseCommentsWrapper({ course }: { course: CourseWithRelations }) {
     return (
         <>
             <SubTitle title="دیدگاه و پرسش"></SubTitle>
-            <CourseCommentForm/>
+            <CourseCommentForm course={course}/>
             <div>
                 <div className="p-5 rounded-2xl border border-border mb-3">
                     <div className="flex items-center justify-between pb-4 border-b border-border">

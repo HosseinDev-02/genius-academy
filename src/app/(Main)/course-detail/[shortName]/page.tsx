@@ -4,20 +4,13 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
-import CommentsIcon from "@/src/components/icon/CommentsIcon";
-import Box from "@/src/components/ui/Box";
-import Session from "@/src/components/ui/Session";
 import SubTitle from "@/src/components/ui/SubTitle";
 import UserInfo from "@/src/components/ui/user/UserInfo";
 import LikeButton from "@/src/components/ui/button/LikeButton";
 import PrimaryButton from "@/src/components/ui/button/PrimaryButton";
-import SectionLinkBtn from "@/src/components/ui/section/SectionLinkBtn";
 import {
     LucideArrowUpLeft,
     LucideClock,
-    LucideCornerUpRight,
-    LucideList,
-    LucidePencil,
 } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -28,16 +21,13 @@ import { extensions } from "@/src/lib/tiptapExtensions";
 import { generateHTML } from "@tiptap/html";
 import { getCourseByShortName } from "@/src/lib/storage/courses";
 import CourseCommentsWrapper from "@/src/components/section/courses/CourseCommentsWrapper";
-export default async function Page({
-    params,
-}: {
-    params: { shortName: string };
-}) {
+export default async function Page({ params }: { params: Promise<{ shortName: string }> }) {
     const { shortName } = await params
-    //    const short_name = params.shortName
+
     const course = (await getCourseByShortName(
-        params.shortName
+        shortName
     )) as unknown as CourseWithRelations;
+
     const content = course.content;
     const htmlContent = generateHTML(content, extensions);
 
@@ -385,7 +375,7 @@ export default async function Page({
                         </div>
                         {/*  course detail comments  */}
                         <div id="comments" className="pt-8 pb-5">
-                            <CourseCommentsWrapper/>
+                            <CourseCommentsWrapper course={course} />
                         </div>
                     </div>
                     {/*  course detail left side  */}
