@@ -15,6 +15,7 @@ import RoundButton from "../button/RoundButton";
 import { useAuthContext } from "../../layout/LayoutProvider";
 import { Toaster, toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { User } from "@/src/lib/type-definition";
 
 function setUserProfileItemIcon(title: string): LucideIcon {
     switch (title) {
@@ -29,9 +30,9 @@ function setUserProfileItemIcon(title: string): LucideIcon {
     }
 }
 
-export default function UserProfile() {
+export default function UserProfile({ user }: { user: User | null }) {
     const [userProfileShow, setUserProfileShow] = useState(false);
-    const { user, logout } = useAuthContext();
+    const { logout } = useAuthContext();
     const router = useRouter();
 
     const logOutHandler = async (

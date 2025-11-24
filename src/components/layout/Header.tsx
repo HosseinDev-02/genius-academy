@@ -9,6 +9,7 @@ import HeaderSearchBox from "../ui/HeaderSearchBox";
 import MobileMenuButton from "../ui/Menu/MobileMenuButton";
 import MenuWrapper from "../ui/Menu/MenuWrapper";
 import { cookies } from "next/headers";
+import UserProfileWrapper from "../ui/user/UserProfileWrapper";
 
 async function Header() {
     const cookiesStore = await cookies()
@@ -40,7 +41,7 @@ async function Header() {
                                 count={2}
                             ></RoundButton>
                             {/* header user profile btn */}
-                            {token && <UserProfile />}
+                            {token && <UserProfileWrapper/>}
                         </div>
                     </nav>
                 </div>
