@@ -19,6 +19,7 @@ import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Toaster, toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const schema = z.object({
     content: z.string().min(3, "متن پاسخ باید حداقل ۳ کاراکتر باشد"),
@@ -36,6 +37,7 @@ export default function CourseCommentForm({
         },
     });
     const { user } = useAuthContext();
+    const router = useRouter();
     console.log(course);
 
     const onSendCommentHandler = async (values: z.infer<typeof schema>) => {
@@ -62,6 +64,7 @@ export default function CourseCommentForm({
             if (result.success) {
                 toast.success(result.message);
                 form.reset();
+                router.refresh();
             } else {
                 throw new Error(result.error);
             }
@@ -80,25 +83,6 @@ export default function CourseCommentForm({
                         className="text-xs mb-5"
                         title="ارسال دیدگاه یا پرسش"
                     ></SubTitle>
-                    {/* <div className="flex items-end md:items-center flex-wrap gap-y-5 justify-between my-5"> */}
-                    {/* <div className="flex md:flex-row flex-col items-start md:items-center gap-3"> */}
-                    {/* <UserInfo
-                                  text="دوهفته پیش"
-                                  title="حسین رستمی"
-                              /> */}
-                    {/* <div className="flex items-center gap-3">
-                                <span className="bg-secondary w-1 h-1 rounded-full"></span>
-                                <span className="text-xs">در پاسخ به</span>
-                                <span className="bg-secondary w-1 h-1 rounded-full"></span>
-                                <span className="text-sm font-YekanBakh-SemiBold text-title">
-                                    حسین رستمی
-                                </span>
-                            </div>
-                        </div> */}
-                    {/* <button className="text-red-500 font-YekanBakh-SemiBold text-sm">
-                            لغو پاسخ
-                        </button>
-                    </div> */}
                     <Form {...form}>
                         <form
                             className="space-y-5 flex flex-col items-end"

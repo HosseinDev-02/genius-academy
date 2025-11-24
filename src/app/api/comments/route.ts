@@ -1,4 +1,5 @@
 import { sql } from "@/src/db";
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -14,6 +15,8 @@ export async function POST(req: Request) {
             article_id || null
         }, ${parent_id || null})
         `;
+
+        revalidateTag("comments");
 
         return NextResponse.json(
             { success: true, message: "کامنت شما با موفقیت ارسال شد" },

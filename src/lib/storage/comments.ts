@@ -116,11 +116,11 @@ export const getCommentsByShortName = unstable_cache(
             const map: Record<number, CommentWithRelations> = {};
             const roots: CommentWithRelations[] = [];
 
-            comments.forEach((c) => (map[+c.id] = c));
+            comments.forEach((c) => (map[parseInt(c.id)] = c));
 
             comments.forEach((c) => {
-                if (c.parent_id && map[+c.parent_id]) {
-                    map[+c.parent_id].replies.push(c);
+                if (c.parent_id && map[parseInt(c.parent_id)]) {
+                    map[parseInt(c.parent_id)].replies.push(c);
                 } else {
                     roots.push(c);
                 }
@@ -135,6 +135,7 @@ export const getCommentsByShortName = unstable_cache(
     ["comments"],
     {
         tags: ["comments"],
+        revalidate: 10,
     }
 );
 

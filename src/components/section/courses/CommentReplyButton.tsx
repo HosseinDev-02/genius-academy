@@ -20,6 +20,7 @@ export default function CommentReplyButton({
 
     const commentReplyHandler = async () => {
         console.log("content :", content);
+        console.log("comment Id :", commentId);
         try {
             const response = await fetch("/api/comments/reply", {
                 method: "POST",
@@ -54,7 +55,11 @@ export default function CommentReplyButton({
     };
 
     return (
-        <div className="flex items-center gap-3">
+        <div
+            className={`items-center gap-3 ${
+                user?.role !== "user" ? "flex" : "hidden"
+            }`}
+        >
             <SectionLinkBtn
                 className="h-9 text-xs text-caption"
                 icon={<LucideCornerUpRight size={20} />}

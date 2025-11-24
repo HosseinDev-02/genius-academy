@@ -24,7 +24,7 @@ export default async function CourseCommentsWrapper({
         <>
             <SubTitle title="دیدگاه و پرسش"></SubTitle>
             <CourseCommentForm course={course} />
-            <div>
+            <div className="space-y-5">
                 {comments.map((comment) => (
                     <div key={comment.id}>
                         {/* main comment */}
