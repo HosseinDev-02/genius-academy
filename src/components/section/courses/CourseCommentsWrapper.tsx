@@ -4,16 +4,24 @@ import { LucideArrowUpLeft, LucideCornerUpRight } from "lucide-react";
 import LikeButton from "../../ui/button/LikeButton";
 import PrimaryButton from "../../ui/button/PrimaryButton";
 import SubTitle from "../../ui/SubTitle";
-import { useAuthContext } from "../../layout/LayoutProvider";
 import CourseCommentForm from "./CourseCommentForm";
 import { CourseWithRelations } from "@/src/lib/type-definition";
+import { getCommentsByShortName } from "@/src/lib/storage/comments";
 
-export default function CourseCommentsWrapper({ course }: { course: CourseWithRelations }) {
+export default async function CourseCommentsWrapper({ course }: { course: CourseWithRelations }) {
+    const { short_name } = course
+    console.log('short_name :', short_name);
+
+    const comments = await getCommentsByShortName({ courseShortName: short_name, articleShortName: null })
+
+    console.log('comments :', comments);
+
     return (
         <>
             <SubTitle title="دیدگاه و پرسش"></SubTitle>
             <CourseCommentForm course={course}/>
             <div>
+                {/* main comment */}
                 <div className="p-5 rounded-2xl border border-border mb-3">
                     <div className="flex items-center justify-between pb-4 border-b border-border">
                         {/* <UserInfo
@@ -36,6 +44,7 @@ export default function CourseCommentsWrapper({ course }: { course: CourseWithRe
                         نظرمه)
                     </p>
                 </div>
+                {/* sub comments */}
                 <div className='pr-16 space-y-3 relative before:w-px before:bg-border before:content-[""] before:absolute before:h-[calc(100%-24px)] before:right-6 before:-top-3 after:bg-border after:content-[""] after:h-px after:w-10 after:right-6 after:absolute after:bottom-9'>
                     <div className="p-5 rounded-2xl border border-border">
                         <div className="flex items-center justify-between pb-4 border-b border-border">
