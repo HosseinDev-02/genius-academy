@@ -17,7 +17,7 @@ export default async function Home() {
     const services = await getAllServices();
     const popularCourses = await getPopularCourses();
     const latestArticles = await getLatestArticles();
-    console.log('latest articles:', latestArticles);
+    console.log("popular courses:", popularCourses);
 
     return (
         <div className="space-y-14 py-5">

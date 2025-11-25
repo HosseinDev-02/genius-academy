@@ -1,6 +1,7 @@
 import { sql } from "@/src/db";
 import { uploadImage } from "@/src/lib/utils/uploadImage";
-import { NextResponse } from "next/server"
+import { revalidateTag } from "next/cache";
+import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
     try {
@@ -15,15 +16,24 @@ export async function POST(req: Request) {
         const about = formData.get("about") as string;
         const image = formData.get("image") as File;
 
-        const imageUrl = await uploadImage(image, "genius-academy/images/articles");
+        const imageUrl = await uploadImage(
+            image,
+            "genius-academy/images/articles"
+        );
 
         await sql`
             INSERT INTO articles (title, content, category_id, user_id, short_name, time_read, about, image)
             VALUES (${title}, ${content}, ${category_id}, ${user_id}, ${short_name}, ${time_read}, ${about}, ${imageUrl})
         `;
-
-        return NextResponse.json({ message: 'Article Added Successfully' }, { status: 201 });
-    }catch(error) {
-        return NextResponse.json({ error: 'Failed To Add Article'}, { status: 500 })
+        revalidateTag("articles");
+        return NextResponse.json(
+            { success: true, message: "مقاله با موفقیت افزوده شد" },
+            { status: 201 }
+        );
+    } catch (error) {
+        return NextResponse.json(
+            { error: "هنگام افزودن مقاله خطایی رخ داد" },
+            { status: 500 }
+        );
     }
 }

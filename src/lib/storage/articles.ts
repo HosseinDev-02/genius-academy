@@ -30,6 +30,7 @@ export const getAllArticles = unstable_cache(
     ["articles"],
     {
         revalidate: 10,
+        tags: ["articles"],
     }
 );
 
@@ -43,9 +44,10 @@ export async function getShortArticles(): Promise<Article[]> {
     }
 }
 
-export const getLatestArticles = unstable_cache(async () => {
-    try {
-        const data = await sql`
+export const getLatestArticles = unstable_cache(
+    async () => {
+        try {
+            const data = await sql`
             SELECT 
             a.id,
             a.title,
@@ -61,14 +63,20 @@ export const getLatestArticles = unstable_cache(async () => {
             FROM articles a
             JOIN categories cat ON a.category_id = cat.id
             JOIN users u ON a.user_id = u.id
-            ORDER BY a.created_at DESC LIMIT 3;
+            ORDER BY a.created_at DESC LIMIT 4;
             `;
-        return data as unknown as ArticleWithRelations[];
-    } catch (error) {
-        console.error(error);
-        return [];
+            return data as unknown as ArticleWithRelations[];
+        } catch (error) {
+            console.error(error);
+            return [];
+        }
+    },
+    ["articles"],
+    {
+        revalidate: 10,
+        tags: ["articles"],
     }
-});
+);
 
 export const getArticleByShortName = unstable_cache(
     async (shortName: string): Promise<ArticleWithRelations> => {
@@ -97,5 +105,6 @@ export const getArticleByShortName = unstable_cache(
     ["articles"],
     {
         revalidate: 10,
+        tags: ["articles"],
     }
 );

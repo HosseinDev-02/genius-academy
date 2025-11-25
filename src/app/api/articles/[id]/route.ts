@@ -1,5 +1,6 @@
 import { sql } from "@/src/db";
 import { uploadImage } from "@/src/lib/utils/uploadImage";
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function DELETE(
@@ -15,8 +16,9 @@ export async function DELETE(
             );
         }
         const response = await sql`DELETE FROM articles WHERE id = ${id}`;
+        revalidateTag("articles");
         return NextResponse.json(
-            { message: "مقاله با موفقیت حذف شد", id },
+            { message: "مقاله با موفقیت حذف شد", id, success: true },
             { status: 201 }
         );
     } catch (error) {
@@ -33,7 +35,10 @@ export async function GET(
         const data = await sql`SELECT * FROM articles WHERE id = ${id}`;
         return NextResponse.json(data[0], { status: 201 });
     } catch (error) {
-        return NextResponse.json({ error }, { status: 500 });
+        return NextResponse.json(
+            { error: "هنگام حذف مقاله خطایی رخ داد" },
+            { status: 500 }
+        );
     }
 }
 
