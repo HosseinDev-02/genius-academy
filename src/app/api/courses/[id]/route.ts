@@ -1,6 +1,7 @@
 import { sql } from "@/src/db";
 import { NextResponse } from "next/server";
 import { uploadImage } from "@/src/lib/utils/uploadImage";
+import { revalidateTag } from "next/cache";
 
 export async function DELETE(
     req: Request,
@@ -15,12 +16,11 @@ export async function DELETE(
             );
         }
 
-        // اجرای Query حذف
         const result = await sql`DELETE FROM courses WHERE id = ${id}`;
-
-        // چون delete چیزی برنمی‌گردونه، فقط پیام موفقیت
+        
+        revalidateTag('courses')
         return NextResponse.json(
-            { message: "دوره با موفقیت حذف شد", id },
+            { success: true, message: "دوره با موفقیت حذف شد", id },
             { status: 201 }
         );
     } catch (err) {

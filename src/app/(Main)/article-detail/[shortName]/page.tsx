@@ -1,9 +1,5 @@
 import SubTitle from "@/src/components/ui/SubTitle";
 import UserInfo from "@/src/components/ui/user/UserInfo";
-import LikeButton from "@/src/components/ui/button/LikeButton";
-import PrimaryButton from "@/src/components/ui/button/PrimaryButton";
-import SectionLinkBtn from "@/src/components/ui/section/SectionLinkBtn";
-import { LucideArrowUpLeft, LucideCornerUpRight } from "lucide-react";
 import React from "react";
 import Image from "next/image";
 import { ArticleWithRelations } from "@/src/lib/type-definition";

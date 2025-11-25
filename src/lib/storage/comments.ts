@@ -180,5 +180,6 @@ export const getAllComments = unstable_cache(
     ["comments"],
     {
         revalidate: 10,
+        tags: ["comments"],
     }
 );

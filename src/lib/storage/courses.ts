@@ -33,12 +33,9 @@ export const getAllCourses = unstable_cache(
     ["courses"],
     {
         revalidate: 10,
+        tags: ['courses']
     }
 );
-
-// export async function getAllCourses(): Promise<CourseWithRelations[]> {
-
-// }
 
 export async function getShortCourses(): Promise<Course[]> {
     try {
