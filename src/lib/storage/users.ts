@@ -68,7 +68,6 @@ export const getMe = async (): Promise<User | null> => {
         }
 
         decoded = jwt.verify(token, process.env.JWT_SECRET!);
-        console.log({ decoded });
 
         const rows =
             await sql`SELECT * FROM users WHERE id = ${decoded.id} LIMIT 1`;

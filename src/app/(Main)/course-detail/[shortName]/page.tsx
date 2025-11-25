@@ -17,7 +17,7 @@ import { CourseWithRelations } from "@/src/lib/type-definition";
 import { extensions } from "@/src/lib/tiptapExtensions";
 import { generateHTML } from "@tiptap/html";
 import { getCourseByShortName } from "@/src/lib/storage/courses";
-import CourseCommentsWrapper from "@/src/components/section/courses/CourseCommentsWrapper";
+import CommentWrapper from "@/src/components/section/courses/CommentsWrapper";
 import CourseRegister from "@/src/components/section/courses/CourseRegister";
 import { getMe } from "@/src/lib/storage/users";
 export default async function Page({
@@ -378,7 +378,7 @@ export default async function Page({
                         </div>
                         {/*  course detail comments  */}
                         <div id="comments" className="pt-8 pb-5">
-                            <CourseCommentsWrapper
+                            <CommentWrapper
                                 user={user}
                                 course={course}
                             />

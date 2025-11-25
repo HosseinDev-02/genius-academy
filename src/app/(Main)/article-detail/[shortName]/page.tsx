@@ -10,13 +10,15 @@ import { ArticleWithRelations } from "@/src/lib/type-definition";
 import { getArticleByShortName } from "@/src/lib/storage/articles";
 import { generateHTML } from "@tiptap/html";
 import { extensions } from "@/src/lib/tiptapExtensions";
+import CommentWrapper from "@/src/components/section/courses/CommentsWrapper";
+import { getMe } from "@/src/lib/storage/users";
 
 export default async function ArticleDetail({
     params,
 }: {
-    params: { shortName: string };
+    params: Promise<{ shortName: string }>;
 }) {
-    const { shortName } = params;
+    const { shortName } = await params;
     const article = (await getArticleByShortName(
         shortName
     )) as ArticleWithRelations;
@@ -27,13 +29,11 @@ export default async function ArticleDetail({
         author,
         about,
         image,
-        short_name,
-        category,
-        time_read,
         content,
     } = article;
 
     const htmlContent = generateHTML(content, extensions);
+    const user = await getMe();
 
     return (
         <section className="py-5">
@@ -58,7 +58,7 @@ export default async function ArticleDetail({
                             </h1>
                             <p className="text-sm">{about}</p>
                         </div>
-                        {/*  article detail description  */}
+                        {/*  article content  */}
                         <div className="p-5 mt-5">
                             <div
                                 className="space-y-5"
@@ -67,145 +67,12 @@ export default async function ArticleDetail({
                                 }}
                             ></div>
                         </div>
-                        {/*  article detail comments  */}
-                        <div id="tabThree" className="pt-8 pb-5">
-                            <SubTitle title="دیدگاه و پرسش" />
-                            <div className="p-5 rounded-3xl my-5 border border-border">
-                                <SubTitle
-                                    className="text-xs"
-                                    title="ارسال دیدگاه یا پرسش"
-                                />
-                                <div className="flex items-end md:items-center flex-wrap gap-y-5 justify-between my-5">
-                                    <div className="flex md:flex-row flex-col items-start md:items-center gap-3">
-                                        {/* <UserInfo
-                                            text="دوهفته پیش"
-                                            title="حسین رستمی"
-                                        /> */}
-                                        <div className="flex items-center gap-3">
-                                            <span className="bg-secondary w-1 h-1 rounded-full"></span>
-                                            <span className="text-xs">
-                                                در پاسخ به
-                                            </span>
-                                            <span className="bg-secondary w-1 h-1 rounded-full"></span>
-                                            <span className="text-sm font-YekanBakh-SemiBold text-title">
-                                                حسین رستمی
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <button className="text-red-500 font-YekanBakh-SemiBold text-sm">
-                                        لغو پاسخ
-                                    </button>
-                                </div>
-                                <form
-                                    className="flex flex-col items-end gap-5"
-                                    action="#"
-                                >
-                                    <textarea
-                                        rows={10}
-                                        placeholder="متن مورد نظر خود را وارد کنید ..."
-                                        className="p-5 bg-secondary rounded-xl text-sm text-title overflow-hidden w-full outline-none"
-                                    ></textarea>
-                                    <PrimaryButton
-                                        title="ثبت دیدگاه یا پرسش"
-                                        icon={<LucideArrowUpLeft size={20} />}
-                                        href="#"
-                                    />
-                                </form>
-                            </div>
-                            <div>
-                                <div className="p-5 rounded-2xl border border-border mb-3">
-                                    <div className="flex items-center justify-between pb-4 border-b border-border">
-                                        {/* <UserInfo
-                                            text="2 هفته پیش"
-                                            title="حسین رستمی"
-                                        /> */}
-                                        <div className="flex items-center gap-3">
-                                            <SectionLinkBtn
-                                                className="text-xs text-caption h-9"
-                                                icon={
-                                                    <LucideCornerUpRight
-                                                        size={20}
-                                                    />
-                                                }
-                                                text="پاسخ"
-                                            />
-                                            <LikeButton
-                                                className="w-9 h-9"
-                                                count="3"
-                                            />
-                                        </div>
-                                    </div>
-                                    <p className="text-sm mt-3">
-                                        من این دوره رو خریدم و میخوام نکست هم
-                                        بعدا یاد بگیرم چون نیاز بیشتری دارم به
-                                        اموزش های این دوره میشه بدون اینکه دوره
-                                        نکست رو ببینم این دوره رو ببینم(بخش6دوره
-                                        بیشتر مد نظرمه)
-                                    </p>
-                                </div>
-                                <div className='pr-16 space-y-3 relative before:w-px before:bg-border before:content-[""] before:absolute before:h-[calc(100%-24px)] before:right-6 before:-top-3 after:bg-border after:content-[""] after:h-px after:w-10 after:right-6 after:absolute after:bottom-9'>
-                                    <div className="p-5 rounded-2xl border border-border">
-                                        <div className="flex items-center justify-between pb-4 border-b border-border">
-                                            {/* <UserInfo
-                                                text="2 هفته پیش"
-                                                title="حسین رستمی"
-                                            /> */}
-                                            <div className="flex items-center gap-3">
-                                                <SectionLinkBtn
-                                                    className="text-xs text-caption h-9"
-                                                    icon={
-                                                        <LucideCornerUpRight
-                                                            size={20}
-                                                        />
-                                                    }
-                                                    text="پاسخ"
-                                                />
-                                                <LikeButton
-                                                    className="w-9 h-9"
-                                                    count="3"
-                                                />
-                                            </div>
-                                        </div>
-                                        <p className="text-sm mt-3">
-                                            من این دوره رو خریدم و میخوام نکست
-                                            هم بعدا یاد بگیرم چون نیاز بیشتری
-                                            دارم به اموزش های این دوره میشه بدون
-                                            اینکه دوره نکست رو ببینم این دوره رو
-                                            ببینم(بخش6دوره بیشتر مد نظرمه)
-                                        </p>
-                                    </div>
-                                    <div className="p-5 rounded-2xl border border-border">
-                                        <div className="flex items-center justify-between pb-4 border-b border-border">
-                                            {/* <UserInfo
-                                                text="2 هفته پیش"
-                                                title="حسین رستمی"
-                                            /> */}
-                                            <div className="flex items-center gap-3">
-                                                <SectionLinkBtn
-                                                    className="text-xs text-caption h-9"
-                                                    icon={
-                                                        <LucideCornerUpRight
-                                                            size={20}
-                                                        />
-                                                    }
-                                                    text="پاسخ"
-                                                />
-                                                <LikeButton
-                                                    className="w-9 h-9"
-                                                    count="3"
-                                                />
-                                            </div>
-                                        </div>
-                                        <p className="text-sm mt-3">
-                                            من این دوره رو خریدم و میخوام نکست
-                                            هم بعدا یاد بگیرم چون نیاز بیشتری
-                                            دارم به اموزش های این دوره میشه بدون
-                                            اینکه دوره نکست رو ببینم این دوره رو
-                                            ببینم(بخش6دوره بیشتر مد نظرمه)
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                        {/*  article comments  */}
+                        <div id="comments" className="pt-8 pb-5">
+                            <CommentWrapper
+                                user={user}
+                                article={article}
+                            />
                         </div>
                     </div>
                     {/*  article detail left side  */}
