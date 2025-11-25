@@ -94,7 +94,6 @@ export default function CourseForm({
                 method: method,
                 body: formData,
             });
-            console.log("add course response :", res);
             if (res.ok) {
                 form.reset();
                 fileRef.current!.value = "";
@@ -348,7 +347,6 @@ export default function CourseForm({
                                             type="file"
                                             accept="image/*"
                                             onChange={(e) => {
-                                                console.log(e.currentTarget);
                                                 field.onChange(
                                                     e.target.files?.[0]
                                                 );

@@ -62,18 +62,6 @@ export async function PUT(
 
         let imageUrl: string | null = null;
 
-        console.log("before set image :", {
-            id,
-            title,
-            about,
-            time_read,
-            category_id,
-            imageUrl,
-            user_id,
-            short_name,
-            content,
-        });
-
         // اگر فایل جدیدی آپلود شده:
         if (image && typeof image === "object" && "arrayBuffer" in image) {
             imageUrl = await uploadImage(
@@ -87,18 +75,6 @@ export async function PUT(
                 await sql`SELECT image FROM articles WHERE id = ${id}`;
             imageUrl = oldImage[0]?.image || null;
         }
-
-        console.log("after set image :", {
-            id,
-            title,
-            about,
-            time_read,
-            category_id,
-            imageUrl,
-            user_id,
-            short_name,
-            content,
-        });
 
         await sql`
                 UPDATE articles

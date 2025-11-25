@@ -96,8 +96,6 @@ export async function PATCH(
             video_url = `/uploads/videos/${filename}`;
         }
 
-        console.log({ title, video_url, duration, is_free, session_id });
-
         // بروزرسانی دیتا در دیتابیس
         const [updated] = await sql`
             UPDATE videos

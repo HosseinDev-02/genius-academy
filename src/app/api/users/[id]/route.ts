@@ -1,5 +1,5 @@
 import { sql } from "@/src/db";
-import { uploadImage } from "@/src/utils";
+import { uploadImage } from "@/src/lib/utils/uploadImage";
 import bcrypt from "bcryptjs";
 import { writeFile, unlink } from "fs/promises";
 import { NextResponse } from "next/server";
@@ -23,7 +23,6 @@ export async function DELETE(
             { status: 201 }
         );
     } catch (error) {
-        console.log(error);
         return NextResponse.json(
             { error: "خطایی در حذف کاربر رخ داد" },
             { status: 500 }
@@ -49,7 +48,6 @@ export async function GET(
 
         return NextResponse.json(result[0], { status: 200 });
     } catch (error) {
-        console.error(error);
         return NextResponse.json({ error }, { status: 500 });
     }
 }
@@ -78,7 +76,6 @@ export async function PUT(
         if (password && password.trim() !== "") {
             const salt = await bcrypt.genSalt(10);
             passwordHash = await bcrypt.hash(password, salt);
-            console.log("new password set :", passwordHash);
         }
 
         let imageUrl: string | null = null;

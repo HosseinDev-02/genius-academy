@@ -26,7 +26,13 @@ import { getShortArticles } from "@/src/lib/storage/articles";
 import { getAllComments } from "@/src/lib/storage/comments";
 import { getShortCourses } from "@/src/lib/storage/courses";
 import { getAdminUsers } from "@/src/lib/storage/users";
-import { Article, Comment, Course, User } from "@/src/lib/type-definition";
+import {
+    Article,
+    Comment,
+    CommentWithRelations,
+    Course,
+    User,
+} from "@/src/lib/type-definition";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -51,7 +57,7 @@ export default function CommentForm({
     parent_id,
 }: Props) {
     const schema = mode === "add" ? createCommentSchema : updateCommentSchema;
-    const [parents, setParents] = React.useState<Comment[]>([]);
+    const [parents, setParents] = React.useState<CommentWithRelations[]>([]);
     const [articles, setArticles] = React.useState<Article[]>([]);
     const [courses, setCourses] = React.useState<Course[]>([]);
     const [users, setUsers] = React.useState<User[]>([]);
@@ -75,22 +81,18 @@ export default function CommentForm({
     useEffect(() => {
         const fetchAllUsers = async () => {
             const data = await getAdminUsers();
-            console.log("users :", data);
             setUsers(data);
         };
         const fetchCourses = async () => {
             const data = await getShortCourses();
             setCourses(data);
-            console.log("courses :", data);
         };
         const fetchArticles = async () => {
             const data = await getShortArticles();
             setArticles(data);
-            console.log("articles :", data);
         };
         const fetchComments = async () => {
             const data = await getAllComments();
-            console.log("comments :", data);
             setParents(data);
         };
         fetchAllUsers();
@@ -117,7 +119,6 @@ export default function CommentForm({
                 method: method,
                 body: formData,
             });
-            console.log("response :", response);
             if (response.ok) {
                 toast.success(
                     mode === "add"

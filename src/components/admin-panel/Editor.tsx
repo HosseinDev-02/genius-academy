@@ -174,11 +174,6 @@ const TiptapEditor = forwardRef<EditorRef, EditorProps>(
                     <UploadButton
                         options={options}
                         onComplete={(files) => {
-                            console.log("Uploaded Files:", files);
-
-                            // آدرس فایل:
-                            console.log("File URL:", files[0].fileUrl);
-
                             editor
                                 .chain()
                                 .focus()

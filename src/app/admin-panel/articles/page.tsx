@@ -9,7 +9,6 @@ import React from "react";
 
 export default async function AdminPanelArticles() {
     const articles = await getAllArticles();
-    console.log(articles);
     return (
         <div dir='rtl'>
             {/* Page Header */}

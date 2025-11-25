@@ -64,7 +64,6 @@ export default function CategoriesTable({ data }: { data: Category[] }) {
                 short_name: true,
             });
         }
-        // console.log('Column Visibility :', columnVisibility)
     }, [isMobile, isTablet]);
     return (
         <DataTable

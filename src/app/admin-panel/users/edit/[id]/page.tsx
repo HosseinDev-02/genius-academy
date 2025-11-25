@@ -7,7 +7,6 @@ export default async function EditUser({
     params: Promise<{ id: string }>;
 }) {
     const { id } = await params;
-    console.log("Id : ", id);
     const response = await fetch(`http://localhost:3000/api/users/${id}`);
     const user = await response.json();
     return (

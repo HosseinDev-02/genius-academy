@@ -11,14 +11,12 @@ export default function RejectComment({ commentId }: { commentId: string }) {
             const response = await fetch(`/api/comments/reject/${commentId}`, {
                 method: 'PUT',
             })
-            console.log('response :', response)
             if(response.ok) {
                 toast.success('کامت مورد نظر رد شد')
                 router.refresh()
             }else {
                 throw new Error('Failed to reject comment')
             }
-            console.log("commentId :", commentId);
         } catch (error) {
             toast.error('هنگام رد کامنت خطایی رخ داد')
         }

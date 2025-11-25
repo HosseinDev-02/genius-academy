@@ -50,7 +50,6 @@ export default function ArticleForm({ articleId, mode, defaultValues }: Props) {
                 return response.json();
             })
             .then((data) => {
-                console.log("authors response :", data);
                 setAuthors(data);
             });
         fetch("/api/categories")
@@ -102,8 +101,6 @@ export default function ArticleForm({ articleId, mode, defaultValues }: Props) {
         const method = mode === "add" ? "POST" : "PUT";
         const url =
             mode === "add" ? "/api/articles" : `/api/articles/${articleId}`;
-
-            console.log('values :', values)
         try {
             const res = await fetch(url, {
                 method: method,
@@ -300,7 +297,6 @@ export default function ArticleForm({ articleId, mode, defaultValues }: Props) {
                                             type="file"
                                             accept="image/*"
                                             onChange={(e) => {
-                                                console.log(e.currentTarget);
                                                 field.onChange(
                                                     e.target.files?.[0]
                                                 );

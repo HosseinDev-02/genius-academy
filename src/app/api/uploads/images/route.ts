@@ -19,8 +19,6 @@ export async function POST(req: Request) {
             mime: file.type,
         });
 
-        console.log('fileUrl', fileUrl);
-
         return NextResponse.json({ fileUrl });
     } catch (e) {
         return NextResponse.json(

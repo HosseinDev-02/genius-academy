@@ -7,6 +7,5 @@ export default async function EditVideoPage(context: {
     const { id } = await context.params;
     const response = await fetch(`http://localhost:3000/api/videos/${id}`);
     const video = await response.json();
-    console.log("video : ", video);
     return <VideoForm mode="edit" videoId={id} defaultValues={{ ...video }} />;
 }

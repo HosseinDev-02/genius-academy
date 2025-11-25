@@ -40,7 +40,6 @@ export default function CategoryForm({
     });
 
     const onSubmit = async (values: z.infer<typeof createCategorySchema>) => {
-        console.log(values);
 
         const categoryData = new FormData();
 

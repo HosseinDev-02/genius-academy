@@ -22,7 +22,6 @@ export async function DELETE(
             { status: 201 }
         );
     } catch (error) {
-        console.log(error);
         return NextResponse.json(
             { error: "خطایی در حذف دسته بندی رخ داد" },
             { status: 500 }

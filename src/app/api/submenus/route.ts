@@ -20,8 +20,6 @@ export async function POST(req: Request) {
         const menu_id = formData.get("menu_id") as string;
         const order_index = parseFloat(formData.get("order_index") as string);
 
-        console.log({ title, url, menu_id, order_index }); 
-
         await sql`
             INSERT INTO submenus (title, url, order_index, menu_id)
             VALUES (${title}, ${url}, ${order_index}, ${menu_id});

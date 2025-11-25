@@ -18,7 +18,6 @@ export default async function ArticleDetail({
     const article = (await getArticleByShortName(
         shortName
     )) as ArticleWithRelations;
-    console.log("article :", article);
 
     const {
         title,

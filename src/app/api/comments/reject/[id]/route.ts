@@ -21,8 +21,6 @@ export async function PUT(
             WHERE id = ${id}
         `;
 
-        console.log('response :', response)
-
         return NextResponse.json(
             { message: "نظر با موفقیت رد شد", response },
             { status: 201 },

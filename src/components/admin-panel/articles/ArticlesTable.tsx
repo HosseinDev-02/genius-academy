@@ -105,7 +105,6 @@ export default function CategoriesTable({
                 image: true,
             });
         }
-        // console.log('Column Visibility :', columnVisibility)
     }, [isMobile, isTablet]);
     return (
         <DataTable

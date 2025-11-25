@@ -9,7 +9,6 @@ import { getAllCourses } from "@/src/lib/storage/courses";
 
 export default async function Courses() {
     const allCourses = await getAllCourses()
-    console.log('courses :', allCourses)
     return (
         <main className="py-5">
             <div className="container">
