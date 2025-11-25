@@ -1,19 +1,19 @@
-"use client";
 import React from "react";
 import SubTitle from "../../ui/SubTitle";
 import PrimaryButton from "../../ui/button/PrimaryButton";
 import { LucideArrowUpLeft } from "lucide-react";
 import LikeButton from "../../ui/button/LikeButton";
-import { CourseWithRelations } from "@/src/lib/type-definition";
-import { useAuthContext } from "../../layout/LayoutProvider";
+import { CourseWithRelations, User } from "@/src/lib/type-definition";
 import { Button } from "@/components/ui/button";
 
 export default function CourseRegister({
     course,
+    user
 }: {
     course: CourseWithRelations;
+    user: User | null
 }) {
-    const { user } = useAuthContext();
+    // const { user } = useAuthContext();
     return (
         <div className="bg-gradient-to-b from-secondary to-background rounded-2xl px-5 pb-5">
             <div className="bg-background rounded-bl-2xl rounded-br-2xl p-5 mb-5">

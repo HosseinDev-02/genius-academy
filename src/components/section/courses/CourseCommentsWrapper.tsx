@@ -1,15 +1,17 @@
 import React from "react";
 import SubTitle from "../../ui/SubTitle";
 import CourseCommentForm from "./CourseCommentForm";
-import { CourseWithRelations } from "@/src/lib/type-definition";
+import { CourseWithRelations, User } from "@/src/lib/type-definition";
 import { getCommentsByShortName } from "@/src/lib/storage/comments";
 import UserInfo from "../../ui/user/UserInfo";
 import CommentReplyButton from "./CommentReplyButton";
 
 export default async function CourseCommentsWrapper({
     course,
+    user
 }: {
     course: CourseWithRelations;
+    user: User | null;
 }) {
     const { short_name } = course;
 
@@ -18,12 +20,10 @@ export default async function CourseCommentsWrapper({
         articleShortName: null,
     });
 
-    console.log("comments :", comments);
-
     return (
         <>
             <SubTitle title="دیدگاه و پرسش"></SubTitle>
-            <CourseCommentForm course={course} />
+            <CourseCommentForm user={user} course={course} />
             <div className="space-y-5">
                 {comments.map((comment) => (
                     <div key={comment.id}>

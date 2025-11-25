@@ -8,10 +8,7 @@ import SubTitle from "@/src/components/ui/SubTitle";
 import UserInfo from "@/src/components/ui/user/UserInfo";
 import LikeButton from "@/src/components/ui/button/LikeButton";
 import PrimaryButton from "@/src/components/ui/button/PrimaryButton";
-import {
-    LucideArrowUpLeft,
-    LucideClock,
-} from "lucide-react";
+import { LucideArrowUpLeft, LucideClock } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import Image from "next/image";
@@ -22,8 +19,13 @@ import { generateHTML } from "@tiptap/html";
 import { getCourseByShortName } from "@/src/lib/storage/courses";
 import CourseCommentsWrapper from "@/src/components/section/courses/CourseCommentsWrapper";
 import CourseRegister from "@/src/components/section/courses/CourseRegister";
-export default async function Page({ params }: { params: Promise<{ shortName: string }> }) {
-    const { shortName } = await params
+import { getMe } from "@/src/lib/storage/users";
+export default async function Page({
+    params,
+}: {
+    params: Promise<{ shortName: string }>;
+}) {
+    const { shortName } = await params;
 
     const course = (await getCourseByShortName(
         shortName
@@ -31,7 +33,7 @@ export default async function Page({ params }: { params: Promise<{ shortName: st
 
     const content = course.content;
     const htmlContent = generateHTML(content, extensions);
-
+    const user = await getMe();
     return (
         <section className="py-5">
             <div className="container">
@@ -376,12 +378,15 @@ export default async function Page({ params }: { params: Promise<{ shortName: st
                         </div>
                         {/*  course detail comments  */}
                         <div id="comments" className="pt-8 pb-5">
-                            <CourseCommentsWrapper course={course} />
+                            <CourseCommentsWrapper
+                                user={user}
+                                course={course}
+                            />
                         </div>
                     </div>
                     {/*  course detail left side  */}
                     <div className="md:w-4/12 space-y-8 md:sticky md:top-24">
-                        <CourseRegister course={course}/>
+                        <CourseRegister user={user} course={course} />
                         <div className="space-y-3">
                             <SubTitle
                                 className="text-sm"

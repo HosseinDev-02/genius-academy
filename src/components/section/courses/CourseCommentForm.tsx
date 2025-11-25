@@ -4,7 +4,7 @@ import { useAuthContext } from "../../layout/LayoutProvider";
 import SubTitle from "../../ui/SubTitle";
 import PrimaryButton from "../../ui/button/PrimaryButton";
 import { LucideArrowUpLeft } from "lucide-react";
-import { CourseWithRelations } from "@/src/lib/type-definition";
+import { CourseWithRelations, User } from "@/src/lib/type-definition";
 import {
     Form,
     FormControl,
@@ -27,8 +27,10 @@ const schema = z.object({
 
 export default function CourseCommentForm({
     course,
+    user
 }: {
     course: CourseWithRelations;
+    user: User | null;
 }) {
     const form = useForm<z.infer<typeof schema>>({
         resolver: zodResolver(schema),
@@ -36,9 +38,7 @@ export default function CourseCommentForm({
             content: "",
         },
     });
-    const { user } = useAuthContext();
     const router = useRouter();
-    console.log(course);
 
     const onSendCommentHandler = async (values: z.infer<typeof schema>) => {
         try {
