@@ -20,7 +20,7 @@ export default function Menu({ data }: { data: MenuTree[] }) {
                                 />
                             </Link>
                             {/* header categories menu */}
-                            <ul className="invisible shadow opacity-0 group-hover/categories:visible group-hover/categories:opacity-100 absolute top-full bg-background border border-border w-56 flex flex-col gap-1 child:leading-5 delay-75 transition-all shadow-black/5 text-title z-20">
+                            <ul className="invisible shadow opacity-0 group-hover/categories:visible group-hover/categories:opacity-100 absolute top-full bg-background border border-border w-56 flex flex-col gap-1 child:leading-5 delay-75 transition-all shadow-black/5 text-title z-[100]">
                                 {item.submenus.map((submenu) => {
                                     if (submenu.sub_submenus.length) {
                                         return (

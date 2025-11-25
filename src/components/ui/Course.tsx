@@ -85,7 +85,7 @@ export default function Course(props: CourseWithRelations) {
                         name={user?.name}
                         image={user?.image}
                     ></UserInfo>
-                    {price === 0 ? (
+                    {price == 0 ? (
                         <div className="flex items-center justify-center h-14">
                             <span className="text-success font-YekanBakh-Black text-xl line-clamp-1">
                                 رایگان !
@@ -103,6 +103,7 @@ export default function Course(props: CourseWithRelations) {
                     <PrimaryButton
                         icon={<LucideArrowUpLeft size={20} />}
                         title="مشاهده دوره"
+                        href={`/course-detail/${short_name}`}
                     ></PrimaryButton>
                     <LikeButton></LikeButton>
                 </div>

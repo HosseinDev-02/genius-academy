@@ -17,7 +17,7 @@ export default function CoursesFilteringSidebar({
     return (
         <>
             <div
-                className={`fixed h-screen top-0 bg-background rounded-tl-xl rounded-bl-xl w-72 z-[100] p-4 md:rounded-none md:w-auto md:h-auto md:p-0 md:block col-span-4 lg:col-span-3 md:sticky md:top-24 transition-all ${
+                className={`fixed h-screen top-0 bg-background rounded-tl-xl rounded-bl-xl w-72 z-[100] md:z-30 p-4 md:rounded-none md:w-auto md:h-auto md:p-0 md:block col-span-4 lg:col-span-3 md:sticky md:top-24 transition-all ${
                     showSidebar ? "right-0" : "-right-72"
                 }`}
             >

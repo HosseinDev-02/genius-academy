@@ -2,13 +2,6 @@
 
 import React, { forwardRef, useEffect, useImperativeHandle } from "react";
 import { useEditor, EditorContent, mergeAttributes, Node } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import Underline from "@tiptap/extension-underline";
-import Link from "@tiptap/extension-link";
-import Image from "@tiptap/extension-image";
-import TextAlign from "@tiptap/extension-text-align";
-import Paragraph from "@tiptap/extension-paragraph";
-import Heading, { HeadingOptions } from "@tiptap/extension-heading";
 import {
     Bold,
     Italic,
@@ -176,24 +169,6 @@ const TiptapEditor = forwardRef<EditorRef, EditorProps>(
                         )}
                     >
                         <List size={16} />
-                    </Button>
-
-                    <Button
-                        type="button"
-                        size="icon"
-                        variant="ghost"
-                        onClick={() => {
-                            const url = prompt("آدرس لینک:");
-                            if (url)
-                                editor
-                                    .chain()
-                                    .focus()
-                                    .setLink({ href: url })
-                                    .run();
-                        }}
-                        className={btnClass}
-                    >
-                        <LinkIcon size={16} />
                     </Button>
 
                     <UploadButton

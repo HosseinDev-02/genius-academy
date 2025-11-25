@@ -56,5 +56,4 @@ export const extensions = [
     TextAlign.configure({
         types: ["heading", "paragraph"],
     }),
-    Link.configure({ openOnClick: false }),
 ];
