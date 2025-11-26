@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { createServiceSchema } from "@/src/lib/data-schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Toaster, toast } from "sonner";
@@ -30,6 +31,7 @@ export default function ServiceForm({ mode, defaultValues, serviceId }: Props) {
             key: "",
         },
     });
+    const router = useRouter();
 
     const onSubmit = async (values: z.infer<typeof createServiceSchema>) => {
         try {
@@ -45,31 +47,27 @@ export default function ServiceForm({ mode, defaultValues, serviceId }: Props) {
                 body: formData,
             });
 
-            if (response.ok) {
-                toast.success(
-                    mode === "add"
-                        ? "سرویس با موفقیت ثبت شد"
-                        : "سرویس با موفقیت ویرایش شد"
-                );
-                form.reset();
+            const result = await response.json();
+
+            if (result.success) {
+                toast.success(result.message);
+                if (method === "POST") {
+                    form.reset();
+                } else if (method === "PUT") {
+                    router.refresh();
+                }
             } else {
-                throw new Error(
-                    mode === "add"
-                        ? "Failed To Add New Service"
-                        : "Failed To Edit Service"
-                );
+                throw new Error(result.error);
             }
         } catch (error) {
             toast.error(
-                mode === "add"
-                    ? "هنگام افزودن سرویس خطایی رخ داد"
-                    : "هنگام ویرایش سرویس خطایی رخ داد"
+                error instanceof Error ? error.message : "خطایی رخ داد"
             );
         }
     };
 
     return (
-        <div>
+        <div dir="rtl">
             <Form {...form}>
                 <form
                     className="space-y-10"

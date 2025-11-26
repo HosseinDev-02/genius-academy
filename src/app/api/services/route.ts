@@ -1,4 +1,5 @@
 import { sql } from "@/src/db";
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
@@ -21,11 +22,13 @@ export async function POST(req: Request) {
             VALUES (${title}, ${key})
         `;
 
+        revalidateTag('services')
+
         return NextResponse.json(
-            { message: "Service created successfully" },
+            { success: true, message: "سرویس با موفقیت ساخته شد" },
             { status: 201 }
         );
     } catch (error) {
-        return NextResponse.json({ error }, { status: 500 });
+        return NextResponse.json({ error: 'هنگام ساخت سرویس خطایی رخ داد' }, { status: 500 });
     }
 }

@@ -1,4 +1,5 @@
 import { sql } from "@/src/db";
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function DELETE(
@@ -7,19 +8,15 @@ export async function DELETE(
 ) {
     try {
         const { id } = await context.params;
-        if (!id) {
-            return NextResponse.json(
-                { error: "شناسه نامعتبر است" },
-                { status: 400 }
-            );
-        }
+
         await sql`DELETE FROM services WHERE id = ${id}`;
+        revalidateTag('services');
         return NextResponse.json(
-            { message: "خدمت با موفقیت حذف شد", id },
+            { success: true, message: "سرویس با موفقیت حذف شد", id },
             { status: 201 }
         );
     } catch (error) {
-        return NextResponse.json({ error }, { status: 500 });
+        return NextResponse.json({ error: 'هنگام حذف سرویس خطایی رخ داد' }, { status: 500 });
     }
 }
 
@@ -47,13 +44,6 @@ export async function PUT(
         const title = formData.get("title") as string;
         const key = formData.get("key") as string;
 
-        if (!id) {
-            return NextResponse.json(
-                { error: "شناسه نامعتبر است" },
-                { status: 400 }
-            );
-        }
-
         await sql`
             UPDATE services 
             SET 
@@ -61,12 +51,12 @@ export async function PUT(
             key = ${key}
             WHERE id = ${id}
         `;
-
+        revalidateTag('services');
         return NextResponse.json(
             { success: true, message: "سرویس با موفقیت ویرایش شد" },
             { status: 201 }
         );
     } catch (error) {
-        return NextResponse.json({ error }, { status: 500 });
+        return NextResponse.json({ error: 'هنگام ویرایش سرویس خطایی رخ داد' }, { status: 500 });
     }
 }
