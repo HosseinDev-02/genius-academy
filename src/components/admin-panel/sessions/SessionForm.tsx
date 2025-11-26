@@ -17,11 +17,11 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { getShortCourses } from "@/src/lib/actions";
 import {
     createSessionSchema,
     updateSessionSchema,
 } from "@/src/lib/data-schemas";
+import { getShortCourses } from "@/src/lib/storage/courses";
 import { Course } from "@/src/lib/type-definition";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";

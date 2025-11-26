@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React from "react";
 import { DataTable } from "../DataTable";
 import { useMediaQuery } from "usehooks-ts";
@@ -9,20 +9,18 @@ import { toast } from "sonner";
 import dynamic from "next/dynamic";
 import CourseTableAction from "./CourseTableAction";
 
-
-
 type Category = {
     id: string;
     title: string;
     short_name: string;
-}
+};
 
 type User = {
     id: string;
     name: string;
     role: string;
     image: string;
-}
+};
 
 type Course = {
     id: string;
@@ -48,7 +46,9 @@ const columns: ColumnDef<Course>[] = [
     {
         accessorKey: "id",
         header: "#",
-        cell: ({ row }) => {row.index + 1}
+        cell: ({ row }) => {
+            row.index + 1;
+        },
     },
     {
         accessorKey: "title",
@@ -57,16 +57,15 @@ const columns: ColumnDef<Course>[] = [
     {
         accessorKey: "category",
         header: "دسته بندی",
-        cell: ({ row }) => row.original.category.title
+        cell: ({ row }) => row.original.category.title,
     },
     {
         accessorKey: "price",
         header: "قیمت",
-        cell: ({row}) => {
-            const price = Number(row.original.price)
-            console.log(row.original.price.toLocaleString("en-US"))
-            return price.toLocaleString()
-        }
+        cell: ({ row }) => {
+            const price = Number(row.original.price);
+            return price.toLocaleString();
+        },
     },
     {
         accessorKey: "short_name",
@@ -95,10 +94,11 @@ const columns: ColumnDef<Course>[] = [
             return (
                 <span className="block relative w-24 h-12 rounded overflow-hidden">
                     <Image
+                        sizes="100%"
                         alt="img"
                         fill
-                        objectFit="cover"
                         src={row.getValue("image")}
+                        priority
                     />
                 </span>
             );

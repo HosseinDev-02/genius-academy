@@ -287,51 +287,6 @@ export default function CourseForm({
                             )}
                         />
 
-                        {/* Upload.io */}
-
-                        {/* <FormField
-                            control={form.control}
-                            name="image"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>آپلود عکس</FormLabel> */}
-
-                                    {/* <UploadButton
-                                        options={{
-                                            apiKey: "public_G22nj3CCdK2sZbdR9c1ePkh2agx4",
-                                        }}
-                                        onComplete={(files) => {
-                                            const url = files[0].fileUrl;
-                                            field.onChange(url); // مقدار را به فرم بده
-                                        }}
-                                    >
-                                        {({ onClick }) => (
-                                            <Button
-                                                type="button"
-                                                onClick={onClick}
-                                            >
-                                                انتخاب و آپلود تصویر
-                                            </Button>
-                                        )}
-                                    </UploadButton> */}
-
-                                    {/* پیش‌نمایش عکس */}
-                                    {/* {field.value && (
-                                        <span className="block relative w-24 h-12 rounded overflow-hidden">
-                                            <Image
-                                                alt="img"
-                                                fill
-                                                objectFit="cover"
-                                                src={field.value}
-                                            />
-                                        </span>
-                                    )} */}
-
-                                    {/* <FormMessage />
-                                </FormItem>
-                            )}
-                        /> */}
-
                         <FormField
                             control={form.control}
                             name="image"

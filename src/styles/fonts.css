@@ -1,19 +1,23 @@
 @font-face {
     font-family: 'YekanBakh Regular';
     src: url('/fonts/YekanBakh-Regular.woff') format('woff');
+    font-display: swap;
 }
 
 @font-face {
     font-family: 'YekanBakh Bold';
     src: url('/fonts/YekanBakh-Bold.woff') format('woff');
+    font-display: swap;
 }
 
 @font-face {
     font-family: 'YekanBakh SemiBold';
     src: url('/fonts/YekanBakh-SemiBold.woff') format('woff');
+    font-display: swap;
 }
 
 @font-face {
     font-family: 'YekanBakh Black';
     src: url('/fonts/YekanBakh-Black.woff') format('woff');
+    font-display: swap;
 }

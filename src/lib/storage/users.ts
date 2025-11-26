@@ -1,3 +1,4 @@
+'use server';
 import { sql } from "@/src/db";
 import { User } from "../type-definition";
 import { unstable_cache } from "next/cache";

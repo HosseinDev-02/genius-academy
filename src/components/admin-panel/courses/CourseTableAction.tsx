@@ -18,17 +18,18 @@ export default function CourseTableAction({ courseId }: { courseId: string }) {
             const response = await fetch(`/api/courses/${courseId}`, {
                 method: "DELETE",
             });
+            const result = await response.json();
 
-            console.log("response :", response);
+            console.log("result :", result);
 
-            if (response.ok) {
-                toast.success("دوره با موفقیت حذف شد");
+            if (result.success) {
+                toast.success(result.message);
                 router.refresh();
             } else {
-                throw new Error("هنگام حذف دوره خطایی رخ داد");
+                throw new Error(result.error);
             }
         } catch (error) {
-            toast.error("هنگام حذف دوره خطایی رخ داد");
+            toast.error(error instanceof Error ? error.message : "خطایی رخ داد");
         }
     };
 
