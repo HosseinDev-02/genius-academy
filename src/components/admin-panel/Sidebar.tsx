@@ -41,19 +41,19 @@ export default function Sidebar({ className }: { className: string }) {
     const [isOpen, setIsOpen] = sidebarOpen;
 
     const iconsMap: Record<string, JSX.Element> = {
-        "/admin-panel": <ChartPie size={24} />,
-        "/admin-panel/courses": <GraduationCap size={24} />,
-        "/admin-panel/articles": <FileText size={24} />,
-        "/admin-panel/categories": <Shapes size={24} />,
-        "/admin-panel/services": <WrenchIcon size={24} />,
-        "/admin-panel/menus": <LinkIcon size={24} />,
-        "/admin-panel/submenus": <LinkIcon size={24} />,
-        "/admin-panel/sub-submenus": <LinkIcon size={24} />,
-        "/admin-panel/users": <UsersRound size={24} />,
-        "/admin-panel/basket": <ShoppingBag size={24} />,
-        "/admin-panel/comments": <Mails size={24} />,
-        "/admin-panel/sessions": <Heading size={24} />,
-        "/admin-panel/videos": <MonitorPlay size={24} />,
+        "/counter": <ChartPie size={24} />,
+        "/courses": <GraduationCap size={24} />,
+        "/articles": <FileText size={24} />,
+        "/categories": <Shapes size={24} />,
+        "/services": <WrenchIcon size={24} />,
+        "/menus": <LinkIcon size={24} />,
+        "/submenus": <LinkIcon size={24} />,
+        "/sub-submenus": <LinkIcon size={24} />,
+        "/users": <UsersRound size={24} />,
+        "/basket": <ShoppingBag size={24} />,
+        "/comments": <Mails size={24} />,
+        "/sessions": <Heading size={24} />,
+        "/videos": <MonitorPlay size={24} />,
         "": <PowerIcon size={24} />,
     };
 
@@ -87,11 +87,11 @@ export default function Sidebar({ className }: { className: string }) {
                                 <Link
                                     key={item.id}
                                     className={`hover:bg-teal-600 ${item.title === 'خروج از سیستم' && 'text-red-600 hover:bg-red-600 hover:opacity-80'} ${
-                                        (pathname === item.href && item.title !== 'خروج از سیستم')
+                                        (pathname.includes(item.href) && item.title !== 'خروج از سیستم')
                                             ? "bg-teal-800"
                                             : ""
                                     } `}
-                                    href={item.href}
+                                    href={`/admin-panel/${item.href}`}
                                 >
                                     {Icon ? Icon : (<PowerIcon size={24} />)}
                                     <span>{item.title}</span>
