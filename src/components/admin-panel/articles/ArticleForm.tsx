@@ -30,6 +30,7 @@ import {
     updateArticleSchema,
 } from "@/src/lib/data-schemas";
 import { Category, Course, User } from "@/src/lib/type-definition";
+import { useRouter } from "next/navigation";
 
 interface Props {
     articleId?: string;
@@ -43,6 +44,7 @@ export default function ArticleForm({ articleId, mode, defaultValues }: Props) {
     const editorRef = useRef<EditorRef>(null);
     const [authors, setAuthors] = useState<User[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
+    const router = useRouter();
 
     useEffect(() => {
         fetch("/api/users/authors")
@@ -57,7 +59,7 @@ export default function ArticleForm({ articleId, mode, defaultValues }: Props) {
                 return response.json();
             })
             .then((data) => {
-                setCategories(data);
+                setCategories(data.data);
             });
     }, []);
 
@@ -106,34 +108,25 @@ export default function ArticleForm({ articleId, mode, defaultValues }: Props) {
                 method: method,
                 body: formData,
             });
-            if (res.ok) {
-                form.reset();
-                fileRef.current!.value = "";
-                editorRef.current?.reset();
-                toast.success(
-                    method === "POST"
-                        ? "مقاله با موفقیت افزوده شد"
-                        : "مقاله با موفقیت ویرایش شد"
-                );
+            const result = await res.json();
+
+            if (result.success) {
+                if (method === "POST") {
+                    form.reset();
+                    fileRef.current!.value = "";
+                    editorRef.current?.reset();
+                }
+                if (method === "PUT") {
+                    router.refresh();
+                }
+                toast.success(result.message);
             } else {
-                throw new Error(
-                    method === "POST"
-                        ? "مقاله با موفقیت افزوده نشد"
-                        : "مقاله با موفقیت ویرایش نشد"
-                );
+                throw new Error(result.error);
             }
         } catch (error) {
             toast.error(
-                method === "POST"
-                    ? "مقاله با موفقیت افزوده نشد"
-                    : "مقاله با موفقیت ویرایش نشد"
+                error instanceof Error ? error.message : "خطایی رخ داد"
             );
-            return {
-                massage:
-                    method === "POST"
-                        ? "DATABASE ERROR WHILE CREATING COURSE"
-                        : "DATABASE ERROR WHILE UPDATAING COURSE",
-            };
         }
     };
 
@@ -271,7 +264,7 @@ export default function ArticleForm({ articleId, mode, defaultValues }: Props) {
                                     </FormLabel>
                                     <FormControl>
                                         <Input
-                                        type="number"
+                                            type="number"
                                             className="focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600"
                                             placeholder="30"
                                             {...field}

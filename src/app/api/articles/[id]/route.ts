@@ -9,20 +9,19 @@ export async function DELETE(
 ) {
     try {
         const { id } = await context.params;
-        if (!id) {
-            return NextResponse.json(
-                { error: "شناسه نامعتبر است" },
-                { status: 400 }
-            );
-        }
+
         const response = await sql`DELETE FROM articles WHERE id = ${id}`;
+        
         revalidateTag("articles");
         return NextResponse.json(
             { message: "مقاله با موفقیت حذف شد", id, success: true },
             { status: 201 }
         );
     } catch (error) {
-        return NextResponse.json({ error }, { status: 500 });
+        return NextResponse.json(
+            { error: "هنگام حذف مقاله خطایی رخ داد" },
+            { status: 500 }
+        );
     }
 }
 
@@ -35,10 +34,7 @@ export async function GET(
         const data = await sql`SELECT * FROM articles WHERE id = ${id}`;
         return NextResponse.json(data[0], { status: 201 });
     } catch (error) {
-        return NextResponse.json(
-            { error: "هنگام حذف مقاله خطایی رخ داد" },
-            { status: 500 }
-        );
+        return NextResponse.json({ error }, { status: 500 });
     }
 }
 
@@ -89,9 +85,16 @@ export async function PUT(
                   content = ${content}
                 WHERE id = ${id}
               `;
-        return NextResponse.json({ success: true, imageUrl });
+        revalidateTag("articles");
+        return NextResponse.json({
+            success: true,
+            imageUrl,
+            message: "مقاله با موفقیت ویرایش شد",
+        });
     } catch (error) {
-        console.error("Update failed:", error);
-        return NextResponse.json({ error: "Update failed" }, { status: 500 });
+        return NextResponse.json(
+            { error: "هنگام ویرایش مقاله خطایی رخ داد" },
+            { status: 500 }
+        );
     }
 }

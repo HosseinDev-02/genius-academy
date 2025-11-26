@@ -10,7 +10,7 @@ import React from "react";
 export default async function AdminPanelArticles() {
     const articles = await getAllArticles();
     return (
-        <div dir='rtl'>
+        <div dir="rtl">
             {/* Page Header */}
             <PageHeader title="مقاله ها" className="!flex" />
             {/* Page Content */}

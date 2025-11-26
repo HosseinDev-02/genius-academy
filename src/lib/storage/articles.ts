@@ -34,15 +34,23 @@ export const getAllArticles = unstable_cache(
     }
 );
 
-export async function getShortArticles(): Promise<Article[]> {
-    try {
-        const data = await sql`SELECT * FROM articles ORDER BY created_at DESC`;
-        return data as unknown as Article[];
-    } catch (error) {
-        console.error(error);
-        return [];
+export const getShortArticles = unstable_cache(
+    async (): Promise<Article[]> => {
+        try {
+            const data =
+                await sql`SELECT * FROM articles ORDER BY created_at DESC`;
+            return data as unknown as Article[];
+        } catch (error) {
+            console.error(error);
+            return [];
+        }
+    },
+    ["articles"],
+    {
+        revalidate: 10,
+        tags: ["articles"],
     }
-}
+);
 
 export const getLatestArticles = unstable_cache(
     async () => {

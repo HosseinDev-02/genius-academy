@@ -58,7 +58,8 @@ const columns: ColumnDef<ArticleWithRelations>[] = [
                     <Image
                         alt="img"
                         fill
-                        objectFit="cover"
+                        sizes="100%"
+                        priority
                         src={row.getValue("image")}
                     />
                 </span>

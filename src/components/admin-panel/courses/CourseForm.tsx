@@ -130,7 +130,7 @@ export default function CourseForm({
                 return response.json();
             })
             .then((data) => {
-                setCategories(data);
+                setCategories(data.data);
             });
     }, []);
 
