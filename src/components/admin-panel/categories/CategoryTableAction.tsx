@@ -16,23 +16,24 @@ export default function CategoryTableAction({
 }: {
     categoryId: string;
 }) {
-    const router = useRouter()
+    const router = useRouter();
     const handleDeleteCourse = async () => {
         try {
             const response = await fetch(`/api/categories/${categoryId}`, {
                 method: "DELETE",
             });
+            const result = await response.json();
 
-            console.log("response :", response);
-
-            if (response.ok) {
-                toast.success("دسته بندی با موفقیت حذف شد");
+            if (result.success) {
+                toast.success(result.message);
                 router.refresh();
             } else {
-                throw new Error("هنگام حذف دسته بندی خطایی رخ داد");
+                throw new Error(result.error);
             }
         } catch (error) {
-            toast.error("هنگام حذف دسته بندی خطایی رخ داد");
+            toast.error(
+                error instanceof Error ? error.message : "خطایی رخ داد"
+            );
         }
     };
     return (

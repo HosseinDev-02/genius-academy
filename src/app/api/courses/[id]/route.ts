@@ -43,11 +43,11 @@ export async function GET(
         // اگر چیزی پیدا نشد
         if (result.length === 0) {
             return NextResponse.json(
-                { message: "Course not found" },
+                { success: false, message: "دوره یافت نشد" },
                 { status: 404 }
             );
         }
-
+        revalidateTag('courses')
         return NextResponse.json(result[0], { status: 200 });
     } catch (error) {
         console.error(error);
@@ -108,9 +108,9 @@ export async function PUT(
         WHERE id = ${id}
       `;
 
-        return NextResponse.json({ success: true, imageUrl });
+      revalidateTag('courses')
+        return NextResponse.json({ success: true, imageUrl, message: 'دوره با موفقیت بروزرسانی شد' });
     } catch (error) {
-        console.error("Update failed:", error);
-        return NextResponse.json({ error: "Update failed" }, { status: 500 });
+        return NextResponse.json({ error: "خطایی در بروزرسانی دوره رخ داد" }, { status: 500 });
     }
 }

@@ -1,4 +1,5 @@
 import { sql } from "@/src/db";
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function DELETE(
@@ -17,8 +18,9 @@ export async function DELETE(
         const response = await sql`
             DELETE FROM categories WHERE id = ${id}
         `;
+        revalidateTag('categories');
         return NextResponse.json(
-            { message: "دسته با موفقیت حذف شد", id },
+            { success: true, message: "دسته با موفقیت حذف شد", id },
             { status: 201 }
         );
     } catch (error) {
@@ -75,8 +77,8 @@ export async function PUT(
             short_name = ${short_name}
             WHERE id = ${id}
         `;
-
-        return NextResponse.json({success: true, message: "دسته با موفقیت ویرایش شد"}, {status: 201});
+        revalidateTag('categories');
+        return NextResponse.json({success: true, message: "دسته بندی با موفقیت ویرایش شد"}, {status: 201});
     } catch (error) {
         return NextResponse.json(
             { error: "هنگام ویرایش دسته بندی خطایی رخ داد" },

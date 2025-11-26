@@ -6,24 +6,24 @@ export const getAllCourses = unstable_cache(
     async (): Promise<CourseWithRelations[]> => {
         try {
             const data = await sql`SELECT 
-          c.id,
-          c.title,
-          c.price,
-          c.image,
-          c.short_name,
-          c.is_completed,
-          c.content,
-          c.about,
-          -- Category object (all fields)
-        row_to_json(c) AS category,
-          -- User object (all fields)
-        row_to_json(u) AS user,
-            c.created_at,
-          c.updated_at
-        FROM courses c
-        JOIN categories cat ON c.category_id = cat.id
-        JOIN users u ON c.user_id = u.id
-        ORDER BY c.created_at DESC`;
+            c.id,
+            c.title,
+            c.price,
+            c.image,
+            c.short_name,
+            c.is_completed,
+            c.content,
+            c.about,
+            -- Category object (all fields)
+            row_to_json(c) AS category,
+            -- User object (all fields)
+            row_to_json(u) AS user,
+                c.created_at,
+            c.updated_at
+            FROM courses c
+            JOIN categories cat ON c.category_id = cat.id
+            JOIN users u ON c.user_id = u.id
+            ORDER BY c.created_at DESC`;
             return data as unknown as CourseWithRelations[];
         } catch (error) {
             console.error(error);

@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { createCategorySchema } from "@/src/lib/data-schemas";
 import { Category } from "@/src/lib/type-definition";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Toaster, toast } from "sonner";
@@ -38,6 +39,7 @@ export default function CategoryForm({
                   }
                 : defaultValues,
     });
+    const router = useRouter()
 
     const onSubmit = async (values: z.infer<typeof createCategorySchema>) => {
 
@@ -57,31 +59,21 @@ export default function CategoryForm({
                 method: method,
                 body: categoryData,
             });
-            if (response.ok) {
-                toast.success(
-                    method === "POST"
-                        ? "دسته بندی با موفقیت ثبت شد"
-                        : "دسته بندی با موفقیت ویرایش شد"
-                );
-                form.reset();
+            const result = await response.json();
+            if (result.success) {
+                toast.success(result.message);
+                if(method === 'POST') form.reset();
+                if(method === 'PUT') router.refresh();
             } else {
-                throw new Error(
-                    method === "POST"
-                        ? "دسته بندی با موفقیت ثبت نشد"
-                        : "دسته بندی با موفقیت ویرایش نشد"
-                );
+                throw new Error(result.error);
             }
         } catch (error) {
-            toast.error(
-                method === "POST"
-                    ? "دسته بندی با موفقیت ثبت نشد"
-                    : "دسته بندی با موفقیت ویرایش نشد"
-            );
+            toast.error(error instanceof Error ? error.message : "خطایی رخ داد");
         }
     };
 
     return (
-        <div>
+        <div dir="rtl">
             <Form {...form}>
                 <form
                     className="space-y-10"

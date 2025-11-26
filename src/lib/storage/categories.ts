@@ -13,8 +13,9 @@ export const getAllCategories = unstable_cache(
             return [];
         }
     },
-    ['categories'],
+    ["categories"],
     {
-        revalidate: 10
+        revalidate: 10,
+        tags: ["categories"],
     }
-)
+);

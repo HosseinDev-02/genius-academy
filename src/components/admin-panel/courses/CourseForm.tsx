@@ -28,6 +28,7 @@ import { Textarea } from "@/components/ui/textarea";
 import Image from "next/image";
 import { createCourseSchema, updateCourseSchema } from "@/src/lib/data-schemas";
 import { Category, Course, User } from "@/src/lib/type-definition";
+import { useRouter } from "next/navigation";
 
 interface CourseForm {
     courseId?: string;
@@ -45,6 +46,7 @@ export default function CourseForm({
     const editorRef = useRef<EditorRef>(null);
     const [teachers, setTeachers] = useState<User[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
+    const router = useRouter();
 
     const form = useForm<z.infer<typeof schema>>({
         resolver: zodResolver(schema),
@@ -94,34 +96,24 @@ export default function CourseForm({
                 method: method,
                 body: formData,
             });
+            const result = await res.json();
             if (res.ok) {
-                form.reset();
-                fileRef.current!.value = "";
-                editorRef.current?.reset();
-                toast.success(
-                    method === "POST"
-                        ? "دوره با موفقیت افزوده شد"
-                        : "دوره با موفقیت ویرایش شد"
-                );
+                if (method === "POST") {
+                    form.reset();
+                    fileRef.current!.value = "";
+                    editorRef.current?.reset();
+                }
+                if (method === "PUT") {
+                    router.refresh();
+                }
+                toast.success(result.message);
             } else {
-                throw new Error(
-                    method === "POST"
-                        ? "دوره با موفقیت افزوده نشد"
-                        : "دوره با موفقیت ویرایش نشد"
-                );
+                throw new Error(result.error);
             }
         } catch (error) {
             toast.error(
-                method === "POST"
-                    ? "دوره با موفقیت افزوده نشد"
-                    : "دوره با موفقیت ویرایش نشد"
+                error instanceof Error ? error.message : "خطایی رخ داد"
             );
-            return {
-                massage:
-                    method === "POST"
-                        ? "DATABASE ERROR WHILE CREATING COURSE"
-                        : "DATABASE ERROR WHILE UPDATAING COURSE",
-            };
         }
     };
 

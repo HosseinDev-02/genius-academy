@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { writeFile } from "fs/promises";
 import { sql } from "@/src/db";
 import { uploadImage } from "@/src/lib/utils/uploadImage";
+import { revalidateTag } from "next/cache";
 
 export async function POST(req: Request) {
     try {
@@ -25,7 +26,7 @@ export async function POST(req: Request) {
         INSERT INTO courses (title, category_id, price, image, user_id, short_name, is_completed, content, about)
         VALUES (${title}, ${category_id}, ${price}, ${fileUrl}, ${user_id}, ${short_name}, ${is_completed}, ${content}, ${about})
         `;
-
+        revalidateTag('courses')
         return NextResponse.json({ success: true, fileUrl });
     } catch (error) {
         console.error(error);
