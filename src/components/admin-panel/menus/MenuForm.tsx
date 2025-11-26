@@ -19,6 +19,7 @@ import {
 import { createMenuSchema, updateMenuSchema } from "@/src/lib/data-schemas";
 import { Menu } from "@/src/lib/type-definition";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Toaster, toast } from "sonner";
@@ -30,12 +31,8 @@ type Props = {
     menuId?: string;
 };
 
-export default function MenuForm({
-    mode,
-    defaultValues,
-    menuId,
-}: Props) {
-    const schema = mode === 'add' ? createMenuSchema : updateMenuSchema
+export default function MenuForm({ mode, defaultValues, menuId }: Props) {
+    const schema = mode === "add" ? createMenuSchema : updateMenuSchema;
     const form = useForm<z.infer<typeof schema>>({
         resolver: zodResolver(schema),
         defaultValues:
@@ -47,6 +44,7 @@ export default function MenuForm({
                   }
                 : defaultValues,
     });
+    const router = useRouter();
 
     const onSubmit = async (values: z.infer<typeof schema>) => {
         try {
@@ -56,37 +54,24 @@ export default function MenuForm({
             formData.append("order_index", values.order_index.toString());
 
             const method = mode === "add" ? "POST" : "PUT";
-            const url =
-                mode === "add"
-                    ? "/api/menus"
-                    : `/api/menus/${menuId}`;
+            const url = mode === "add" ? "/api/menus" : `/api/menus/${menuId}`;
 
             const response = await fetch(url, {
                 method: method,
                 body: formData,
             });
+            const result = await response.json();
 
-            console.log('response :', response);
-
-            if (response.ok) {
-                toast.success(
-                    mode === "add"
-                        ? "منو با موفقیت افزوده شد"
-                        : "منو با موفقیت ویرایش شد"
-                );
-                form.reset()
+            if (result.success) {
+                if (method === "POST") form.reset();
+                else if (method === "PUT") router.refresh();
+                toast.success(result.message);
             } else {
-                throw new Error(
-                    mode === "add"
-                        ? "هنگام افزودن منو خطایی رخ داد"
-                        : "هنگام ویرایش منو خطایی رخ داد"
-                );
+                throw new Error(result.error);
             }
         } catch (error) {
             toast.error(
-                mode === "add"
-                    ? "هنگام افزودن منو خطایی رخ داد"
-                    : "هنگام ویرایش منو خطایی رخ داد"
+                error instanceof Error ? error.message : "خطایی رخ داد"
             );
         }
     };

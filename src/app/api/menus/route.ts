@@ -1,10 +1,10 @@
 import { sql } from "@/src/db";
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
     try {
-        const data =
-            await sql`SELECT * FROM menus ORDER BY created_at DESC`;
+        const data = await sql`SELECT * FROM menus ORDER BY created_at DESC`;
         return NextResponse.json(data, { status: 200 });
     } catch (error) {
         return NextResponse.json(error, { status: 500 });
@@ -23,11 +23,15 @@ export async function POST(req: Request) {
             INSERT INTO menus (title, url, order_index)
             VALUES (${title}, ${url}, ${order_index})
         `;
+        revalidateTag("menus");
         return NextResponse.json(
-            { message: "Menu Added Successfully" },
+            { success: true, message: "منو با موفقیت ساخته شد" },
             { status: 201 }
         );
     } catch (error) {
-        return NextResponse.json(error, { status: 500 });
+        return NextResponse.json(
+            { error: "هنگام ساخت منو خطایی رخ داد" },
+            { status: 500 }
+        );
     }
 }

@@ -1,4 +1,5 @@
 import { sql } from "@/src/db";
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function DELETE(
@@ -8,23 +9,19 @@ export async function DELETE(
     try {
         const { id } = await context.params;
 
-        if (!id) {
-            return NextResponse.json(
-                { error: "شناسه یافت نشد !" },
-                { status: 400 }
-            );
-        }
-
         await sql`
             DELETE FROM menus WHERE id = ${id}
         `;
-
+        revalidateTag("menus");
         return NextResponse.json(
-            { message: "ایتم با موفقیت حذف شد", id },
+            { success: true, message: "منو با موفقیت حذف شد", id },
             { status: 201 }
         );
     } catch (error) {
-        return NextResponse.json(error, { status: 500 });
+        return NextResponse.json(
+            { error: "هنگام حذف منو خطایی رخ داد" },
+            { status: 500 }
+        );
     }
 }
 
@@ -61,6 +58,7 @@ export async function PUT(
                 { status: 400 }
             );
         }
+
         await sql`
             UPDATE menus 
             SET 
@@ -69,6 +67,7 @@ export async function PUT(
             order_index = ${order_index}
             WHERE id = ${id};
         `;
+        revalidateTag("menus");
 
         return NextResponse.json(
             { success: true, message: "منو با موفقیت ویرایش شد" },
@@ -76,7 +75,7 @@ export async function PUT(
         );
     } catch (error) {
         return NextResponse.json(
-            { error },
+            { error: "هنگام ویرایش منو خطایی رخ داد" },
             { status: 500 }
         );
     }

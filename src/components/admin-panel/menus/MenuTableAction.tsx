@@ -11,28 +11,25 @@ import {
 import { Button } from "@/components/ui/button";
 import { MoreHorizontalIcon, PencilIcon, TrashIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-export default function MenuTableAction({
-    menuId,
-}: {
-    menuId: string;
-}) {
-    const router = useRouter()
+export default function MenuTableAction({ menuId }: { menuId: string }) {
+    const router = useRouter();
     const handleDeleteMenu = async () => {
         try {
             const response = await fetch(`/api/menus/${menuId}`, {
                 method: "DELETE",
             });
+            const result = await response.json();
 
-            console.log("response :", response);
-
-            if (response.ok) {
-                toast.success("ایتم با موفقیت حذف شد");
+            if (result.success) {
+                toast.success(result.message);
                 router.refresh();
             } else {
-                throw new Error("هنگام حذف ایتم خطایی رخ داد");
+                throw new Error(result.error);
             }
         } catch (error) {
-            toast.error("هنگام حذف ایتم خطایی رخ داد");
+            toast.error(
+                error instanceof Error ? error.message : "خطایی رخ داد"
+            );
         }
     };
     return (

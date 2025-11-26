@@ -13,6 +13,7 @@ export const getAllMenus = unstable_cache(
     },
     ['menus'],
     {
-        revalidate: 10
+        revalidate: 10,
+        tags: ['menus'],
     }
 ) 
