@@ -29,7 +29,8 @@ export const getAllSubSubmenus = unstable_cache(
   },
   ['sub_submenus'],
   {
-      tags: ['sub_submenus']
+      tags: ['sub_submenus'],
+      revalidate: 10
   },
   
 )

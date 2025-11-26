@@ -17,10 +17,16 @@ export async function DELETE(
         await sql`
             DELETE FROM sub_submenus WHERE id = ${id}
         `;
-        revalidateTag('sub_submenus');
-        return NextResponse.json({ success: true }, { status: 200 });
+        revalidateTag("sub_submenus");
+        return NextResponse.json(
+            { success: true, message: "زیرمنو فرعی با موفقیت حذف شد" },
+            { status: 200 }
+        );
     } catch (error) {
-        return NextResponse.json(error, { status: 500 });
+        return NextResponse.json(
+            { error: "هنگام حذف زیرمنو فرعی خطایی رخ داد" },
+            { status: 500 }
+        );
     }
 }
 
@@ -52,7 +58,7 @@ export async function PUT(
             order_index = ${order_index}
             WHERE id = ${id};
         `;
-        revalidateTag('sub_submenus');
+        revalidateTag("sub_submenus");
 
         return NextResponse.json(
             { success: true, message: "زیرمنو فرعی با موفقیت ویرایش شد" },
@@ -60,7 +66,7 @@ export async function PUT(
         );
     } catch (error) {
         return NextResponse.json(
-            { error },
+            { error: "هنگام ویرایش زیرمنو فرعی خطایی رخ داد" },
             { status: 500 }
         );
     }

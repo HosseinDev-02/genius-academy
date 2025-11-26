@@ -15,14 +15,13 @@ export async function POST(req: Request) {
             VALUES (${title}, ${url}, ${order_index}, ${submenu_id})
         `;
 
-        revalidateTag('sub_submenus');
+        revalidateTag("sub_submenus");
 
-        
         return NextResponse.json(
-            { message: "sub-submenu Added Successfully" },
+            { success: true, message: "زیرمنو فرعی با موفقیت ساخته شد" },
             { status: 201 }
         );
     } catch (error) {
-        return NextResponse.json(error, { status: 500 });
+        return NextResponse.json({ error: "هنگام ساخت زیرمنو فرعی خطایی رخ داد" }, { status: 500 });
     }
 }

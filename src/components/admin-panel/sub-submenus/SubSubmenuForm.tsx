@@ -24,6 +24,7 @@ import {
 import { SubMenu } from "@/src/lib/type-definition";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { revalidateTag } from "next/cache";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Toaster, toast } from "sonner";
@@ -55,6 +56,7 @@ export default function SubSubmenuForm({
                 : { ...defaultValues },
     });
     const [submenus, setSubmenus] = useState<SubMenu[]>([]);
+    const router = useRouter();
 
     useEffect(() => {
         const fetchSubmenus = async () => {
@@ -84,28 +86,18 @@ export default function SubSubmenuForm({
                 method: method,
                 body: formData,
             });
+            const result = await response.json();
 
-            console.log('response :', response);
-
-            if(response.ok) {
-                toast.success(
-                    mode === "add"
-                        ? "زیرمنو فرعی با موفقیت افزوده شد"
-                        : "زیرمنو فرعی با موفقیت ویرایش شد"
-                );
-                form.reset()
-            }else {
-                throw new Error(
-                    mode === "add"
-                        ? "هنگام ثبت زیرمنو فرعی خطایی رخ داد"
-                        : "هنگام ویرایش زیرمنو فرعی خطایی رخ داد"
-                );
+            if (result.message) {
+                if (method === "POST") form.reset();
+                else if (method === "PUT") router.refresh();
+                toast.success(result.message);
+            } else {
+                throw new Error(result.error);
             }
         } catch (error) {
             toast.error(
-                mode === "add"
-                    ? "هنگام ثبت زیرمنو فرعی خطایی رخ داد"
-                    : "هنگام ویرایش زیرمنو فرعی خطایی رخ داد"
+                error instanceof Error ? error.message : "خطایی رخ داد"
             );
         }
     };
