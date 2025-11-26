@@ -1,4 +1,5 @@
 import { sql } from "@/src/db";
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function DELETE(
@@ -17,10 +18,11 @@ export async function DELETE(
         await sql`
             DELETE FROM submenus WHERE id = ${id}
         `;
+        revalidateTag("submenus");
 
-        return NextResponse.json({ success: true }, { status: 200 });
+        return NextResponse.json({ success: true, message: 'زیرمنو با موفقیت حذف شد' }, { status: 200 });
     } catch (error) {
-        return NextResponse.json(error, { status: 500 });
+        return NextResponse.json({error: 'هنگام حذف زیرمنو خطایی رخ داد'}, { status: 500 });
     }
 }
 
@@ -67,6 +69,7 @@ export async function PUT(
             order_index = ${order_index}
             WHERE id = ${id};
         `;
+        revalidateTag('submenus');
 
         return NextResponse.json(
             { success: true, message: "زیر منو با موفقیت ویرایش شد" },
@@ -74,7 +77,7 @@ export async function PUT(
         );
     } catch (error) {
         return NextResponse.json(
-            { error },
+            { error: 'هنگام ویرایش زیرمنو خطایی رخ داد' },
             { status: 500 }
         );
     }

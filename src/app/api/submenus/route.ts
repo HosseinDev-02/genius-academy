@@ -1,10 +1,10 @@
 import { sql } from "@/src/db";
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
     try {
-        const data =
-            await sql`SELECT * FROM submenus ORDER BY created_at DESC`;
+        const data = await sql`SELECT * FROM submenus ORDER BY created_at DESC`;
         return NextResponse.json(data, { status: 200 });
     } catch (error) {
         return NextResponse.json(error, { status: 500 });
@@ -24,11 +24,15 @@ export async function POST(req: Request) {
             INSERT INTO submenus (title, url, order_index, menu_id)
             VALUES (${title}, ${url}, ${order_index}, ${menu_id});
         `;
+        revalidateTag("submenus");
         return NextResponse.json(
-            { message: "Menu Added Successfully" },
+            { success: true, message: "زیرمنو با موفقیت ساخته شد" },
             { status: 201 }
         );
     } catch (error) {
-        return NextResponse.json(error, { status: 500 });
+        return NextResponse.json(
+            { error: "هنگام ساخت زیرمنو خطایی رخ داد" },
+            { status: 500 }
+        );
     }
 }

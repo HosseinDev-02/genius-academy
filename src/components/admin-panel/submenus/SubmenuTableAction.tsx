@@ -16,23 +16,24 @@ export default function SubmenuTableAction({
 }: {
     submenuId: string;
 }) {
-    const router = useRouter()
+    const router = useRouter();
     const handleDeleteSubmenu = async () => {
         try {
             const response = await fetch(`/api/submenus/${submenuId}`, {
                 method: "DELETE",
             });
+            const result = await response.json();
 
-            console.log("response :", response);
-
-            if (response.ok) {
-                toast.success("ایتم با موفقیت حذف شد");
+            if (result.success) {
+                toast.success(result.message);
                 router.refresh();
             } else {
-                throw new Error("هنگام حذف ایتم خطایی رخ داد");
+                throw new Error(result.error);
             }
         } catch (error) {
-            toast.error("هنگام حذف ایتم خطایی رخ داد");
+            toast.error(
+                error instanceof Error ? error.message : "خطایی رخ داد"
+            );
         }
     };
     return (

@@ -16,9 +16,15 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { createMenuSchema, createSubmenuSchema, updateMenuSchema, updateSubmenuSchema } from "@/src/lib/data-schemas";
+import {
+    createMenuSchema,
+    createSubmenuSchema,
+    updateMenuSchema,
+    updateSubmenuSchema,
+} from "@/src/lib/data-schemas";
 import { Menu } from "@/src/lib/type-definition";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Toaster, toast } from "sonner";
@@ -30,13 +36,9 @@ type Props = {
     submenuId?: string;
 };
 
-export default function SubmenuForm({
-    mode,
-    defaultValues,
-    submenuId,
-}: Props) {
-    const schema = mode === 'add' ? createSubmenuSchema : updateSubmenuSchema
-    const [menus, setMenus] = useState<Menu[]>([])
+export default function SubmenuForm({ mode, defaultValues, submenuId }: Props) {
+    const schema = mode === "add" ? createSubmenuSchema : updateSubmenuSchema;
+    const [menus, setMenus] = useState<Menu[]>([]);
     const form = useForm<z.infer<typeof schema>>({
         resolver: zodResolver(schema),
         defaultValues:
@@ -49,16 +51,17 @@ export default function SubmenuForm({
                   }
                 : defaultValues,
     });
+    const router = useRouter();
 
     useEffect(() => {
         const fetchMenus = async () => {
             const response = await fetch("/api/menus");
             const data = await response.json();
-            console.log('menus :', data);
+            console.log("menus :", data);
             setMenus(data);
         };
         fetchMenus();
-    }, [])
+    }, []);
 
     const onSubmit = async (values: z.infer<typeof schema>) => {
         try {
@@ -68,40 +71,28 @@ export default function SubmenuForm({
             formData.append("menu_id", values.menu_id);
             formData.append("order_index", values.order_index.toString());
 
-            console.log('menu_id :', values.menu_id);
+            console.log("menu_id :", values.menu_id);
 
             const method = mode === "add" ? "POST" : "PUT";
             const url =
-                mode === "add"
-                    ? "/api/submenus"
-                    : `/api/submenus/${submenuId}`;
+                mode === "add" ? "/api/submenus" : `/api/submenus/${submenuId}`;
 
             const response = await fetch(url, {
                 method: method,
                 body: formData,
             });
+            const result = await response.json();
 
-            console.log('response :', response);
-
-            if (response.ok) {
-                toast.success(
-                    mode === "add"
-                        ? "منو با موفقیت افزوده شد"
-                        : "منو با موفقیت ویرایش شد"
-                );
-                form.reset()
+            if (result.success) {
+                if (method === "POST") form.reset();
+                else if (method === "PUT") router.refresh();
+                toast.success(result.message);
             } else {
-                throw new Error(
-                    mode === "add"
-                        ? "هنگام افزودن منو خطایی رخ داد"
-                        : "هنگام ویرایش منو خطایی رخ داد"
-                );
+                throw new Error(result.error);
             }
         } catch (error) {
             toast.error(
-                mode === "add"
-                    ? "هنگام افزودن منو خطایی رخ داد"
-                    : "هنگام ویرایش منو خطایی رخ داد"
+                error instanceof Error ? error.message : "خطایی رخ داد"
             );
         }
     };

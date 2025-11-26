@@ -3,9 +3,9 @@ import { SubMenuWithRelations } from "../type-definition";
 import { unstable_cache } from "next/cache";
 
 export const getAllSubmenus = unstable_cache(
-  async (): Promise<SubMenuWithRelations[]> => {
-    try {
-      const data = await sql`
+    async (): Promise<SubMenuWithRelations[]> => {
+        try {
+            const data = await sql`
       SELECT 
       s.id,
       s.title,
@@ -21,14 +21,15 @@ export const getAllSubmenus = unstable_cache(
     FROM submenus s
     JOIN menus m ON s.menu_id = m.id
     ORDER BY s.created_at DESC;`;
-      return data as unknown as SubMenuWithRelations[];
-  } catch (error) {
-      console.error(error);
-      return [];
-  }
-  },
-  ['submenus'],
-  {
-      revalidate: 10
-  }
-)
+            return data as unknown as SubMenuWithRelations[];
+        } catch (error) {
+            console.error(error);
+            return [];
+        }
+    },
+    ["submenus"],
+    {
+        revalidate: 10,
+        tags: ["submenus"],
+    }
+);
