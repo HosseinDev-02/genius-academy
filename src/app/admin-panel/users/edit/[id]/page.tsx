@@ -9,16 +9,20 @@ export default async function EditUser({
     const { id } = await params;
     const response = await fetch(`http://localhost:3000/api/users/${id}`);
     const user = await response.json();
+    console.log(
+        'user :',
+        user
+    );
     return (
         <UserForm
             mode="edit"
             userId={id}
             defaultValues={{
                 name: user.name,
-                email: user.email,
+                email: user.email || "",
                 role: user.role,
                 phone_number: user.phone_number,
-                about: user.about,
+                about: user.about || "",
                 image: user.image,
             }}
         />

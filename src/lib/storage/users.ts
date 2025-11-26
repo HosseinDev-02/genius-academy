@@ -1,4 +1,4 @@
-'use server';
+"use server";
 import { sql } from "@/src/db";
 import { User } from "../type-definition";
 import { unstable_cache } from "next/cache";
@@ -20,6 +20,7 @@ export const getAllTeachers = unstable_cache(
     ["users"],
     {
         revalidate: 10,
+        tags: ["users"],
     }
 );
 
@@ -37,6 +38,7 @@ export const getAllUsers = unstable_cache(
     ["users"],
     {
         tags: ["users"],
+        revalidate: 10,
     }
 );
 
@@ -54,6 +56,7 @@ export const getAdminUsers = unstable_cache(
     ["users"],
     {
         revalidate: 10,
+        tags: ["users"],
     }
 );
 

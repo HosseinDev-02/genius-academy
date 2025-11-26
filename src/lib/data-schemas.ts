@@ -39,15 +39,14 @@ export const createUserSchema = z.object({
     role: z.enum(["user", "teacher", "author", "admin"], {
         errorMap: () => ({ message: "نقش را انتخاب کنید" }),
     }),
-    image: z
-        .any()
-        .optional(),
+    image: z.any().optional(),
     about: z.string().optional(),
 });
 
 export const updateUserSchema = createUserSchema.extend({
     image: z.any().optional(),
     password: z.string().optional(),
+    repeat_password: z.string().optional(),
 });
 
 export const createArticleSchema = z.object({

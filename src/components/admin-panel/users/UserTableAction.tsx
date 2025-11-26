@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React from "react";
 import Link from "next/link";
 import { Toaster, toast } from "sonner";
@@ -12,24 +12,22 @@ import { Button } from "@/components/ui/button";
 import { MoreHorizontalIcon, PencilIcon, TrashIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 export default function UserTableAction({ userId }: { userId: string }) {
-    const router = useRouter()
+    const router = useRouter();
     const handleDeleteUser = async () => {
-        console.log('User With Id : ', userId, ' Deleted'); 
         try {
             const response = await fetch(`/api/users/${userId}`, {
                 method: "DELETE",
             });
+            const result = await response.json();
 
-            console.log("response :", response);
-
-            if (response.ok) {
-                toast.success("کاربر با موفقیت حذف شد");
+            if (result.success) {
+                toast.success(result.message);
                 router.refresh();
             } else {
-                throw new Error("هنگام حذف کاربر خطایی رخ داد");
+                throw new Error(result.error);
             }
         } catch (error) {
-            toast.error("هنگام حذف کاربر خطایی رخ داد");
+            toast.error(error instanceof Error ? error.message : "خطایی رخ داد");
         }
     };
 

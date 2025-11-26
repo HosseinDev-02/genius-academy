@@ -18,7 +18,11 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { createUserSchema, updateCourseSchema, updateUserSchema } from "@/src/lib/data-schemas";
+import {
+    createUserSchema,
+    updateCourseSchema,
+    updateUserSchema,
+} from "@/src/lib/data-schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import React, { useRef } from "react";
@@ -26,6 +30,7 @@ import { Controller, useForm } from "react-hook-form";
 import { Toaster, toast } from "sonner";
 import z from "zod";
 import { PasswordInput } from "../../forms/PasswordInput";
+import { useRouter } from "next/navigation";
 
 type Props = {
     mode: "add" | "edit";
@@ -44,6 +49,7 @@ export default function UserForm({ mode, defaultValues, userId }: Props) {
                       name: "",
                       email: "",
                       password: "",
+                      repeat_password: "",
                       phone_number: "",
                       role: "user",
                       about: "",
@@ -51,6 +57,7 @@ export default function UserForm({ mode, defaultValues, userId }: Props) {
                   }
                 : defaultValues,
     });
+    const router = useRouter();
 
     const handleSubmit = async (values: z.infer<typeof schema>) => {
         try {
@@ -58,10 +65,12 @@ export default function UserForm({ mode, defaultValues, userId }: Props) {
             formData.append("name", values.name);
             if (values.email) formData.append("email", values.email);
             formData.append("role", values.role);
-            if(values.password) formData.append("password", values.password);
+            if (values.password) formData.append("password", values.password);
+            if (values.repeat_password)
+                formData.append("repeat_password", values.repeat_password);
             formData.append("phone_number", values.phone_number);
             if (values.about) formData.append("about", values.about);
-            if(values.image) formData.append("image", values.image);
+            if (values.image) formData.append("image", values.image);
 
             const method = mode === "add" ? "POST" : "PUT";
             const url = mode === "add" ? "/api/users" : `/api/users/${userId}`;
@@ -70,26 +79,21 @@ export default function UserForm({ mode, defaultValues, userId }: Props) {
                 method,
                 body: formData,
             });
-            if (response.ok) {
-                toast.success(
-                    mode === "add"
-                        ? "کاربر با موفقیت اضافه شد"
-                        : "کاربر با موفقیت ویرایش شد"
-                );
-                form.reset();
-                fileRef.current!.value = "";
+            const result = await response.json();
+            if (result.success) {
+                if (method === "POST") {
+                    form.reset();
+                    fileRef.current!.value = "";
+                } else if (method === "PUT") {
+                    router.refresh();
+                }
+                toast.success(result.message);
             } else {
-                throw new Error(
-                    mode === "add"
-                        ? "هنگام افزودن کاربر خطایی رخ داد"
-                        : "هنگام ویرایش کاربر خطایی رخ داد"
-                );
+                throw new Error(result.error);
             }
         } catch (error) {
             toast.error(
-                mode === "add"
-                    ? "هنگام افزودن کاربر خطایی رخ داد"
-                    : "هنگام ویرایش کاربر خطایی رخ داد"
+                error instanceof Error ? error.message : "خطایی رخ داد"
             );
         }
     };
@@ -124,11 +128,50 @@ export default function UserForm({ mode, defaultValues, userId }: Props) {
 
                         <FormField
                             control={form.control}
+                            name="phone_number"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-gray-400 font-YekanBakh-SemiBold mb-2">
+                                        شماره تماس
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            className="focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600"
+                                            placeholder="09123456789"
+                                            {...field}
+                                        />
+                                    </FormControl>
+
+                                    <FormMessage className="form-message" />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
                             name="password"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel className="text-gray-400 font-YekanBakh-SemiBold mb-2">
                                         رمز عبور
+                                    </FormLabel>
+                                    <FormControl>
+                                        <PasswordInput
+                                            className="!bg-transparent"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage className="form-message" />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="repeat_password"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-gray-400 font-YekanBakh-SemiBold mb-2">
+                                        تکرار رمز عبور
                                     </FormLabel>
                                     <FormControl>
                                         <PasswordInput {...field} />
@@ -185,26 +228,6 @@ export default function UserForm({ mode, defaultValues, userId }: Props) {
                                                 </SelectItem>
                                             </SelectContent>
                                         </Select>
-                                    </FormControl>
-                                    <FormMessage className="form-message" />
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="phone_number"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-gray-400 font-YekanBakh-SemiBold mb-2">
-                                        شماره تماس
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            className="focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600"
-                                            placeholder="09123456789"
-                                            {...field}
-                                        />
                                     </FormControl>
                                     <FormMessage className="form-message" />
                                 </FormItem>

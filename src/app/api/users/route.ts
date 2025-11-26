@@ -16,16 +16,28 @@ export async function POST(req: Request) {
         const name = data.get("name") as string;
         const email = data.get("email") as string;
         const password = data.get("password") as string;
+        const repeat_password = data.get("repeat_password") as string;
         const role = data.get("role") as string;
         const about = data.get("about") as string;
         const image = data.get("image") as File;
         const phone_number = data.get("phone_number") as string;
         const hashedPassword = await bcrypt.hash(password, 10);
 
+        if (repeat_password && password) {
+            if (password !== repeat_password) {
+                return Response.json(
+                    { error: "رمز عبور با تکرار آن مطابقت ندارد" },
+                    { status: 400 }
+                );
+            }
+        }
+
         let imageUrl: string | null = null;
 
         if (image) {
             imageUrl = await uploadImage(image, "genius-academy/images/users");
+        }else {
+            imageUrl = 'https://upcdn.io/G22nj3C/raw/uploads/2025/11/26/genius-academy/images/avatars/man.png';
         }
 
         const existing = await sql`SELECT * FROM users WHERE email = ${email}`;
@@ -39,7 +51,9 @@ export async function POST(req: Request) {
 
         const inserted = await sql`
             INSERT INTO users (name, email, password, role, image, about, phone_number)
-            VALUES (${name}, ${email}, ${hashedPassword}, ${role ?? 'user'}, ${imageUrl}, ${about}, ${phone_number}) RETURNING *
+            VALUES (${name}, ${email}, ${hashedPassword}, ${
+            role ?? "user"
+        }, ${imageUrl}, ${about}, ${phone_number}) RETURNING *
         `;
 
         const newUser = inserted[0];

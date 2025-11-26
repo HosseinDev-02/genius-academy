@@ -16,7 +16,7 @@ const PasswordInput = React.forwardRef<
             <Input
                 placeholder="*******"
                 type={showPassword ? "text" : "password"}
-                className={`hide-password-toggle focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 outline-none h-11 rounded-2xl bg-secondary border border-border px-2 w-full text-title placeholder:text-sm`}
+                className={`hide-password-toggle focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 outline-none rounded-md h-9 border-zinc-600 border px-2 w-full placeholder:text-sm ${className}`}
                 ref={ref}
                 {...props}
             />

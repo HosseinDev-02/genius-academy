@@ -2,6 +2,7 @@ import { sql } from "@/src/db";
 import { uploadImage } from "@/src/lib/utils/uploadImage";
 import bcrypt from "bcryptjs";
 import { writeFile, unlink } from "fs/promises";
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 import path from "path";
 
@@ -18,8 +19,9 @@ export async function DELETE(
             );
         }
         const response = await sql`DELETE FROM users WHERE id = ${id}`;
+        revalidateTag("users");
         return NextResponse.json(
-            { message: "کاربر با موفقیت حذف شد", id },
+            { success: true, message: "کاربر با موفقیت حذف شد", id },
             { status: 201 }
         );
     } catch (error) {
@@ -67,13 +69,25 @@ export async function PUT(
         const phone_number = formData.get("phone_number") as string;
         const email = formData.get("email") as string;
         const password = formData.get("password") as string;
+        const repeat_password = formData.get("repeat_password") as string;
         const role = formData.get("role") as string;
         const about = formData.get("about") as string;
         const image = formData.get("image") as File;
 
         let passwordHash = mainUser.password;
 
-        if (password && password.trim() !== "") {
+        if (
+            repeat_password &&
+            password &&
+            password.trim() !== "" &&
+            repeat_password.trim() !== ""
+        ) {
+            if (password !== repeat_password) {
+                return NextResponse.json(
+                    { error: "رمز عبور با تکرار آن مطابقت ندارد" },
+                    { status: 400 }
+                );
+            }
             const salt = await bcrypt.genSalt(10);
             passwordHash = await bcrypt.hash(password, salt);
         }
@@ -103,9 +117,16 @@ export async function PUT(
             WHERE id = ${id};
           `;
 
-        return NextResponse.json({ success: true, status: 201 });
+        revalidateTag("users");
+
+        return NextResponse.json(
+            { success: true, message: "کاربر با موفقیت ویرایش شد" },
+            { status: 201 }
+        );
     } catch (error) {
-        console.log(error);
-        return NextResponse.json({ error }, { status: 500 });
+        return NextResponse.json(
+            { error: "خطایی در ویرایش کاربر رخ داد" },
+            { status: 500 }
+        );
     }
 }
