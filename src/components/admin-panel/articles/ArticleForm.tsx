@@ -31,6 +31,7 @@ import {
 } from "@/src/lib/data-schemas";
 import { Category, Course, User } from "@/src/lib/type-definition";
 import { useRouter } from "next/navigation";
+import { getShortArticles } from "@/src/lib/storage/articles";
 
 interface Props {
     articleId?: string;
@@ -47,6 +48,11 @@ export default function ArticleForm({ articleId, mode, defaultValues }: Props) {
     const router = useRouter();
 
     useEffect(() => {
+        // const fetchArticles = async () => {
+        //     const data = await getShortArticles();
+        //     console.log(data);
+        // };
+        // fetchArticles()
         fetch("/api/users/authors")
             .then((response) => {
                 return response.json();

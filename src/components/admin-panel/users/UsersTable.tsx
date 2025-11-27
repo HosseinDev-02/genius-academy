@@ -46,7 +46,7 @@ const columns: ColumnDef<User>[] = [
     {
         accessorKey: "email",
         header: "ایمیل",
-        cell: ({ row }) => row.original.email || '-----------'
+        cell: ({ row }) => row.original.email || "-----------",
     },
     {
         accessorKey: "role",
@@ -67,23 +67,13 @@ const columns: ColumnDef<User>[] = [
         cell: ({ row }) => {
             return (
                 <span className="block relative w-14 h-14 rounded-full overflow-hidden">
-                    {row.getValue("image") ? (
-                        <Image
-                            alt={row.original.name}
-                            fill
-                            sizes="100%"
-                            src={row.getValue("image")}
-                            priority
-                        />
-                    ) : (
-                        <Image
-                            alt={row.original.name}
-                            fill
-                            sizes="100%"
-                            src={'/images/avatars/man.png'}
-                            priority
-                        />
-                    )}
+                    <Image
+                        alt={row.original.name}
+                        fill
+                        sizes="100%"
+                        src={row.getValue("image")}
+                        priority
+                    />
                 </span>
             );
         },

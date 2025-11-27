@@ -1,9 +1,6 @@
-"use server";
 import { sql } from "@/src/db";
 import { User } from "../type-definition";
 import { unstable_cache } from "next/cache";
-import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
 
 export const getAllTeachers = unstable_cache(
     async (): Promise<User[]> => {
@@ -59,30 +56,3 @@ export const getAdminUsers = unstable_cache(
         tags: ["users"],
     }
 );
-
-export const getMe = async (): Promise<User | null> => {
-    try {
-        const cookieStore = await cookies();
-        const token = cookieStore.get("auth_token")?.value;
-
-        let decoded: any = null;
-
-        if (!token) {
-            throw new Error("Unauthorized: No token provided");
-        }
-
-        decoded = jwt.verify(token, process.env.JWT_SECRET!);
-
-        const rows =
-            await sql`SELECT * FROM users WHERE id = ${decoded.id} LIMIT 1`;
-
-        if (rows.length === 0) {
-            throw new Error("User not found");
-        }
-
-        return rows[0] as unknown as User;
-    } catch (error) {
-        console.log(error);
-        return null;
-    }
-};

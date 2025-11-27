@@ -1,7 +1,11 @@
 import { sql } from "@/src/db";
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
-export async function DELETE(req: Request, context: { params: Promise<{ id: string }> }) {
+export async function DELETE(
+    req: Request,
+    context: { params: Promise<{ id: string }> }
+) {
     try {
         const { id } = await context.params;
         if (!id) {
@@ -11,11 +15,15 @@ export async function DELETE(req: Request, context: { params: Promise<{ id: stri
             );
         }
         await sql`DELETE FROM comments WHERE id = ${id}`;
+        revalidateTag("comments");
         return NextResponse.json(
-            { message: "نظر با موفقیت حذف شد", id },
+            { success: true, message: "نظر با موفقیت حذف شد", id },
             { status: 201 }
         );
     } catch (error) {
-        return NextResponse.json({ error }, { status: 500 });
+        return NextResponse.json(
+            { error: "خطایی در حذف نظر رخ داد" },
+            { status: 500 }
+        );
     }
 }

@@ -99,7 +99,6 @@ export const createCommentSchema = z
         course_id: z.string().uuid().optional().nullable(),
         article_id: z.string().uuid().optional().nullable(),
         user_id: z.string().nonempty("کاربر مربوطه را انتخاب کنید"),
-        parent_id: z.string().uuid().optional().nullable(),
         status: z.enum(["pending", "approved", "rejected"], {
             errorMap: () => ({ message: "وضعیت را انتخاب کنید" }),
         }),
@@ -111,7 +110,7 @@ export const createCommentSchema = z
         (data) => {
             // یکی از course_id یا article_id باید مقدار داشته باشه، یا parent_id
             const hasTarget =
-                data.course_id || data.article_id || data.parent_id;
+                data.course_id || data.article_id;
             return !!hasTarget;
         },
         {

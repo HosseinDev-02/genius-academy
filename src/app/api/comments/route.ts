@@ -4,14 +4,11 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
     try {
-        const { content, user_id, article_id, course_id, parent_id } =
-            await req.json();
+        const { content, user_id, article_id, course_id } = await req.json();
 
         await sql`
             INSERT INTO comments (content, user_id, course_id, article_id, parent_id)
-            VALUES (${content}, ${user_id}, ${course_id || null}, ${
-            article_id || null
-        }, ${parent_id || null})
+            VALUES (${content}, ${user_id}, ${course_id || null}, ${article_id || null}, null)
         `;
 
         revalidateTag("comments");

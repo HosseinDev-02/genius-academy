@@ -1,4 +1,5 @@
 import { sql } from "@/src/db";
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function PUT(
@@ -20,12 +21,16 @@ export async function PUT(
             SET status = 'rejected'
             WHERE id = ${id}
         `;
+        revalidateTag('comments');
 
         return NextResponse.json(
-            { message: "نظر با موفقیت رد شد", response },
-            { status: 201 },
+            { success: true, message: "نظر با موفقیت رد شد", response },
+            { status: 201 }
         );
     } catch (error) {
-        return NextResponse.json(error, { status: 500 });
+        return NextResponse.json(
+            { error: "خطایی در رد نظر رخ داد" },
+            { status: 500 }
+        );
     }
 }

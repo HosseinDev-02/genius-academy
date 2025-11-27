@@ -1,6 +1,7 @@
 import { sql } from "@/src/db";
 // import { CommentWithRelations } from "../type-definition";
 import { unstable_cache } from "next/cache";
+import { CommentWithRelations } from "../type-definition";
 
 interface User {
     id: string;
@@ -35,8 +36,8 @@ interface CommentRow {
     article: Article | null;
 }
 
-interface CommentWithRelations extends CommentRow {
-    replies: CommentWithRelations[];
+export interface CommentWithReplies extends CommentRow {
+    replies: CommentWithReplies[];
 }
 
 export const getCommentsByShortName = unstable_cache(
@@ -46,7 +47,7 @@ export const getCommentsByShortName = unstable_cache(
     }: {
         courseShortName?: string | null;
         articleShortName?: string | null;
-    }): Promise<CommentWithRelations[]> => {
+    }): Promise<CommentWithReplies[]> => {
         try {
             // 🔥 fix: always convert undefined → null
             const courseName = courseShortName ?? null;
@@ -107,14 +108,14 @@ export const getCommentsByShortName = unstable_cache(
             const rows = data as CommentRow[];
 
             // ساخت آرایه تایپ‌سیف
-            const comments: CommentWithRelations[] = rows.map((row) => ({
+            const comments: CommentWithReplies[] = rows.map((row) => ({
                 ...row,
                 replies: [],
             }));
 
             // ساخت درخت کامنت‌ها
-            const map: Record<number, CommentWithRelations> = {};
-            const roots: CommentWithRelations[] = [];
+            const map: Record<number, CommentWithReplies> = {};
+            const roots: CommentWithReplies[] = [];
 
             comments.forEach((c) => (map[parseInt(c.id)] = c));
 
@@ -171,7 +172,7 @@ export const getAllComments = unstable_cache(
             LEFT JOIN users pu ON pu.id = p.user_id
             ORDER BY comment.created_at DESC;
             `;
-            return data as unknown as CommentWithRelations[];
+            return data as CommentWithRelations[];
         } catch (error) {
             console.error(error);
             return [];

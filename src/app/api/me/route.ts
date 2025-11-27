@@ -26,6 +26,8 @@ export async function GET(req: Request) {
             );
         }
 
+        console.log('decoded', decoded);
+
         const rows =
             await sql`SELECT * FROM users WHERE id = ${decoded.id} LIMIT 1`;
         // const user = rows[0] ?? null;

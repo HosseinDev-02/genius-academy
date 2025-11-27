@@ -284,6 +284,7 @@ export default function UserForm({ mode, defaultValues, userId }: Props) {
                                                 width={80}
                                                 height={80}
                                                 alt="course image"
+                                                priority
                                             />
                                         </div>
                                     )}

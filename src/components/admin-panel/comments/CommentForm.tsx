@@ -23,7 +23,7 @@ import {
     updateCommentSchema,
 } from "@/src/lib/data-schemas";
 import { getShortArticles } from "@/src/lib/storage/articles";
-import { getAllComments } from "@/src/lib/storage/comments";
+import { CommentWithReplies, getAllComments } from "@/src/lib/storage/comments";
 import { getShortCourses } from "@/src/lib/storage/courses";
 import { getAdminUsers } from "@/src/lib/storage/users";
 import {
@@ -34,6 +34,7 @@ import {
     User,
 } from "@/src/lib/type-definition";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Toaster, toast } from "sonner";
@@ -46,6 +47,9 @@ type Props = {
     course_id?: string | null;
     article_id?: string | null;
     parent_id?: string | null;
+    users: User[];
+    articles: Article[];
+    courses: Course[];
 };
 
 export default function CommentForm({
@@ -55,12 +59,11 @@ export default function CommentForm({
     course_id,
     article_id,
     parent_id,
+    users,
+    articles,
+    courses,
 }: Props) {
     const schema = mode === "add" ? createCommentSchema : updateCommentSchema;
-    const [parents, setParents] = React.useState<CommentWithRelations[]>([]);
-    const [articles, setArticles] = React.useState<Article[]>([]);
-    const [courses, setCourses] = React.useState<Course[]>([]);
-    const [users, setUsers] = React.useState<User[]>([]);
     const form = useForm<z.infer<typeof schema>>({
         resolver: zodResolver(schema),
         defaultValues:
@@ -69,7 +72,6 @@ export default function CommentForm({
                       content: "",
                       article_id,
                       course_id,
-                      parent_id,
                       user_id: "",
                       status: "pending",
                       target_type: "course",
@@ -77,37 +79,13 @@ export default function CommentForm({
                 : defaultValues,
     });
     const commentType = form.watch("target_type");
-
-    useEffect(() => {
-        const fetchAllUsers = async () => {
-            const data = await getAdminUsers();
-            setUsers(data);
-        };
-        const fetchCourses = async () => {
-            const data = await getShortCourses();
-            setCourses(data);
-        };
-        const fetchArticles = async () => {
-            const data = await getShortArticles();
-            setArticles(data);
-        };
-        const fetchComments = async () => {
-            const data = await getAllComments();
-            setParents(data);
-        };
-        fetchAllUsers();
-        fetchComments();
-        fetchCourses();
-        fetchArticles();
-    }, []);
+    const router = useRouter();
 
     const onSubmit = async (values: z.infer<typeof schema>) => {
         try {
             const formData = new FormData();
             formData.append("content", values.content);
             formData.append("user_id", values.user_id);
-            if (values.parent_id)
-                formData.append("parent_id", values.parent_id);
             if (values.course_id)
                 formData.append("course_id", values.course_id);
             if (values.article_id)
@@ -119,29 +97,22 @@ export default function CommentForm({
                 method: method,
                 body: formData,
             });
-            if (response.ok) {
-                toast.success(
-                    mode === "add"
-                        ? "کامنت با موفقیت ثبت شد"
-                        : "کامنت با موفقیت ویرایش شد"
-                );
+            const result = await response.json();
+            if (result.success) {
+                if (method === "POST") form.reset();
+                else if (method === "PUT") router.refresh();
+                toast.success(result.message);
             } else {
-                throw new Error(
-                    mode === "add"
-                        ? "Failed To Add Comment"
-                        : "Failed To Edit Comment"
-                );
+                throw new Error(result.error);
             }
         } catch (error) {
             toast.error(
-                mode === "add"
-                    ? "هنگام افزودن کامنت خطایی رخ داد"
-                    : "هنگام ویرایش کامنت خطایی رخ داد"
+                error instanceof Error ? error.message : "خطایی رخ داد"
             );
         }
     };
     return (
-        <div>
+        <div dir="rtl">
             <Form {...form}>
                 <form
                     className="space-y-10"
@@ -177,45 +148,6 @@ export default function CommentForm({
                                                             value={user.id}
                                                         >
                                                             {user.name}
-                                                        </SelectItem>
-                                                    ))}
-                                                </SelectContent>
-                                            </Select>
-                                        )}
-                                    </FormControl>
-                                    <FormMessage className="form-message" />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="parent_id"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-gray-400 font-YekanBakh-SemiBold mb-2">
-                                        والد کامنت (اختیاری)
-                                    </FormLabel>
-                                    <FormControl>
-                                        {parents.length !== 0 && (
-                                            <Select
-                                                onValueChange={field.onChange} // مقدار انتخابی رو به state فرم می‌فرسته
-                                                value={field.value || ""}
-                                                dir="rtl"
-                                            >
-                                                <SelectTrigger className="w-full focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600">
-                                                    <SelectValue
-                                                        className={`font-YekanBakh-SemiBold`}
-                                                        placeholder="انتخاب کامنت برای پاسخ"
-                                                    />
-                                                </SelectTrigger>
-                                                <SelectContent className="bg-zinc-800 border-none">
-                                                    {parents?.map((parent) => (
-                                                        <SelectItem
-                                                            className="cursor-pointer hover:bg-gray-200 hover:text-title"
-                                                            key={parent.id}
-                                                            value={parent.id}
-                                                        >
-                                                            {parent.content}
                                                         </SelectItem>
                                                     ))}
                                                 </SelectContent>
