@@ -21,11 +21,14 @@ import { createVideoSchema, updateVideoSchema } from "@/src/lib/data-schemas";
 import { getShortSessions } from "@/src/lib/storage/sessions";
 import { Session } from "@/src/lib/type-definition";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Toaster, toast } from "sonner";
 import z from "zod";
 import { CldUploadButton } from "next-cloudinary";
+import { uploadVideo } from "@/src/lib/utils/uploadVideo";
+import { Loader2, LoaderCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type Props = {
     mode: "add" | "edit";
@@ -43,6 +46,7 @@ export default function VideoForm({
     const schema = mode === "add" ? createVideoSchema : updateVideoSchema;
     const fileRef = React.useRef<HTMLInputElement | null>(null);
     const [uploading, setUploading] = useState(false);
+    const router = useRouter();
     const form = useForm<z.infer<typeof schema>>({
         resolver: zodResolver(schema),
         defaultValues:
@@ -60,55 +64,13 @@ export default function VideoForm({
                   },
     });
 
-    const handleFileChange = (file: File) => {
-        const video = document.createElement("video");
-        video.preload = "metadata";
+    const watchVideo = form.watch("video");
 
-        video.onloadedmetadata = () => {
-            window.URL.revokeObjectURL(video.src);
-            const duration = video.duration; // بر حسب ثانیه
-            form.setValue("duration", duration); // مقداردهی در فرم
-        };
-
-        video.src = URL.createObjectURL(file);
-    };
-
-    async function uploadVideoToCloudinary(file: File) {
-        setUploading(true);
-
-        // 1) گرفتن امضا از API
-        const { timestamp, signature, apiKey, cloudName } = await fetch(
-            "/api/uploads/video",
-            { method: "POST" }
-        ).then((r) => r.json());
-
-        // 2) فرم داده برای ویدیو
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("api_key", apiKey);
-        formData.append("timestamp", timestamp);
-        formData.append("signature", signature);
-        formData.append("folder", "videos");
-        formData.append("resource_type", "video");
-
-        // 3) آپلود فایل ویدیو به Cloudinary
-        const uploadResponse = await fetch(
-            `https://api.cloudinary.com/v1_1/${cloudName}/video/upload`,
-            {
-                method: "POST",
-                body: formData,
-            }
-        ).then((r) => r.json());
-        console.log("uploadResponse", uploadResponse);
-        console.log("uploadResponse url", uploadResponse.secure_url);
-
-        setUploading(false);
-
-        return {
-            url: uploadResponse.secure_url,
-            duration: uploadResponse.duration,
-        };
-    }
+    useEffect(() => {
+        if (watchVideo) {
+            console.log("watchVideo", watchVideo);
+        }
+    }, [watchVideo]);
 
     const onSubmit = async (values: z.infer<typeof schema>) => {
         console.log(values);
@@ -131,8 +93,11 @@ export default function VideoForm({
             const result = await response.json();
 
             if (result.success) {
+                if (method === "POST") {
+                    form.reset();
+                    fileRef.current!.value = "";
+                } else if (method === "PATCH") router.refresh();
                 toast.success(result.message);
-                form.reset();
             } else {
                 throw new Error(result.error);
             }
@@ -172,27 +137,6 @@ export default function VideoForm({
                             )}
                         />
 
-                        {/* <FormField
-                            control={form.control}
-                            name="duration"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-gray-400 font-YekanBakh-SemiBold mb-2">
-                                        مدت زمان فیلم
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            type="number"
-                                            className="focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600"
-                                            placeholder="مدت زمان فیلم را وارد کنید"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage className="form-message" />
-                                </FormItem>
-                            )}
-                        /> */}
-
                         <FormField
                             control={form.control}
                             name="session_id"
@@ -231,7 +175,7 @@ export default function VideoForm({
                             )}
                         />
 
-                        {/* <FormField
+                        <FormField
                             control={form.control}
                             name="video"
                             render={({ field }) => (
@@ -245,52 +189,19 @@ export default function VideoForm({
                                             className="border-zinc-600"
                                             type="file"
                                             accept="video/*"
-                                            onChange={(e) => {
-                                                const file =
-                                                    e.target.files?.[0]!;
-                                                console.log(file);
-                                                field.onChange(file);
-                                                handleFileChange(file);
+                                            onLoad={() => {
+                                                console.log("loaded");
                                             }}
-                                        />
-                                    </FormControl>
-                                    <FormMessage className="form-message" />
-                                </FormItem>
-                            )}
-                        /> */}
-
-                        <FormField
-                            control={form.control}
-                            name="video"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>آپلود ویدیو</FormLabel>
-
-                                    <FormControl>
-                                        <Input
-                                            type="file"
-                                            accept="video/*"
-                                            disabled={uploading}
                                             onChange={async (e) => {
                                                 const file =
                                                     e.target.files?.[0];
                                                 if (!file) return;
-
-                                                // محدودیت حجم (مثال: 200MB)
-                                                if (
-                                                    file.size >
-                                                    200 * 1024 * 1024
-                                                ) {
-                                                    alert(
-                                                        "حجم فایل بیش از 200MB است"
-                                                    );
-                                                    return;
-                                                }
+                                                setUploading(true);
 
                                                 const { url, duration } =
-                                                    await uploadVideoToCloudinary(
-                                                        file
-                                                    );
+                                                    await uploadVideo(file);
+
+                                                setUploading(false);
 
                                                 form.setValue("video", url, {
                                                     shouldValidate: true,
@@ -301,35 +212,26 @@ export default function VideoForm({
                                                     duration,
                                                     { shouldValidate: true }
                                                 );
+
+                                                toast.info(
+                                                    "فایل با موفقیت آپلود شد."
+                                                );
                                             }}
                                         />
                                     </FormControl>
-
                                     {uploading && (
-                                        <p className="text-sm text-blue-500">
-                                            در حال آپلود... (لطفاً صبر کنید)
-                                        </p>
+                                        <div className="flex items-center justify-center rounded-full w-8 h-8">
+                                            <LoaderCircle
+                                                strokeWidth={4}
+                                                size={32}
+                                                className="animate-spin text-sky-700"
+                                            />
+                                        </div>
                                     )}
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-                        {/* <FormField
-                            name="video"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-gray-400 font-YekanBakh-SemiBold mb-2">
-                                        فیلم
-                                    </FormLabel>
-                                    <FormControl>
-                                        <CldUploadButton  uploadPreset="sessions-video" />
-                                    </FormControl>
                                     <FormMessage className="form-message" />
                                 </FormItem>
                             )}
-                        /> */}
+                        />
 
                         <FormField
                             name="is_free"
@@ -390,6 +292,7 @@ export default function VideoForm({
                     classNames: {
                         success: "!bg-teal-700",
                         error: "!bg-red-700",
+                        info: "!bg-sky-700 text-title",
                     },
                     className: "!text-white !border-none",
                 }}

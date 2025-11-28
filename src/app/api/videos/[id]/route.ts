@@ -65,40 +65,21 @@ export async function PATCH(
         }
         const formData = await req.formData();
         const title = formData.get("title") as string;
-        const video = formData.get("video") as File;
+        const video = formData.get("video") as string;
         const duration = Math.floor(Number(formData.get("duration"))) as number;
         const session_id = formData.get("session_id") as string;
         const is_free = formData.get("is_free") === "free" ? true : false;
 
-        let video_url: string | null = null;
+        let videoUrl: string | null = null;
 
-        if (video && video.size > 0) {
+        if (!video) {
             // دریافت ویدیو فعلی برای حذف
             const [old] =
                 await sql`SELECT video_url FROM videos WHERE id = ${id};`;
 
-            if (old?.video_url) {
-                const oldPath = path.join(
-                    process.cwd(),
-                    "public",
-                    old.video_url.replace(/^\/+/, "")
-                );
-                try {
-                    await unlink(oldPath);
-                } catch (err) {
-                    console.warn("حذف ویدیو قبلی انجام نشد:", err);
-                }
-            }
-
-            // ذخیره ویدیو جدید
-            const bytes = await video.arrayBuffer();
-            const buffer = Buffer.from(bytes);
-            const filename = `${Date.now()}-${video.name}`;
-            const uploadDir = path.join(process.cwd(), "public/uploads/videos");
-            const filePath = path.join(uploadDir, filename);
-
-            await writeFile(filePath, buffer);
-            video_url = `/uploads/videos/${filename}`;
+            videoUrl = old.video_url;
+        }else {
+            videoUrl = video
         }
 
         // بروزرسانی دیتا در دیتابیس
@@ -106,7 +87,7 @@ export async function PATCH(
             UPDATE videos
             SET 
               title = ${title},
-              ${video_url ? sql`video_url = ${video_url},` : sql``}
+              ${videoUrl ? sql`video_url = ${videoUrl},` : sql``}
               ${duration ? sql`duration = ${duration},` : sql``}
               is_free = ${is_free},
               session_id = ${session_id},

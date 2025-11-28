@@ -1,4 +1,5 @@
 import VideoForm from "@/src/components/admin-panel/videos/VideoForm";
+import { getShortSessions } from "@/src/lib/storage/sessions";
 import React from "react";
 
 export default async function EditVideoPage(context: {
@@ -7,5 +8,7 @@ export default async function EditVideoPage(context: {
     const { id } = await context.params;
     const response = await fetch(`http://localhost:3000/api/videos/${id}`);
     const video = await response.json();
-    return <VideoForm mode="edit" videoId={id} defaultValues={{ ...video }} />;
+    const sessions = await getShortSessions();
+
+    return <VideoForm sessions={sessions} mode="edit" videoId={id} defaultValues={{ ...video }} />;
 }
