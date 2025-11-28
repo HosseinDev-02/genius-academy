@@ -1,26 +1,29 @@
-'use client';
+"use client";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { Toaster, toast } from "sonner";
 
 export default function RejectComment({ commentId }: { commentId: string }) {
-    const router = useRouter()
+    const router = useRouter();
     const rejectCommentHandler = async () => {
         try {
             const response = await fetch(`/api/comments/reject/${commentId}`, {
-                method: 'PUT',
-            })
-            if(response.ok) {
-                toast.success('کامت مورد نظر رد شد')
-                router.refresh()
-            }else {
-                throw new Error('Failed to reject comment')
+                method: "PUT",
+            });
+            const result = await response.json();
+            if (result.success) {
+                toast.success(result.message);
+                router.refresh();
+            } else {
+                throw new Error(result.error);
             }
         } catch (error) {
-            toast.error('هنگام رد کامنت خطایی رخ داد')
+            toast.error(
+                error instanceof Error ? error.message : "خطایی رخ داد"
+            );
         }
-    }
+    };
     return (
         <div>
             <Toaster

@@ -15,24 +15,33 @@ export default function CommentAnswer({
 }) {
     const [showContent, setShowContent] = useState(false);
     const [content, setContent] = useState("");
-    const router = useRouter()
+    const router = useRouter();
 
     const commentReplyHandler = async () => {
         // setShowContent(false);
-        const response = await fetch("/api/comments/reply", {
-            method: "POST",
-            body: JSON.stringify({
-                parent_id: comment.id,
-                user_id: "e2a0812c-c8d2-400e-a9cb-5605520ef60b",
-                content: content,
-                status: "approved", // 👈 همزمان تغییر وضعیت
-            }),
-        });
-        if (response.ok) {
-            toast.success("پاسخ با موفقیت ارسال شد");
-            setContent('')
-            setShowContent(false)
-            router.refresh()
+        try {
+            const response = await fetch("/api/comments/reply", {
+                method: "POST",
+                body: JSON.stringify({
+                    parent_id: comment.id,
+                    user_id: "e2a0812c-c8d2-400e-a9cb-5605520ef60b",
+                    content: content,
+                    status: "approved", // 👈 همزمان تغییر وضعیت
+                }),
+            });
+            const result = await response.json();
+            if (result.success) {
+                toast.success(result.message);
+                setContent("");
+                setShowContent(false);
+                router.refresh();
+            } else {
+                throw new Error(result.error);
+            }
+        } catch (error) {
+            toast.error(
+                error instanceof Error ? error.message : "خطایی رخ داد"
+            );
         }
     };
     return (
@@ -58,7 +67,15 @@ export default function CommentAnswer({
                 پاسخ
             </Button>
             {showContent && (
-                <CommentReplyForm content={content} setContent={setContent} setShowContent={setShowContent} commentReplyHandler={commentReplyHandler}/>
+                <CommentReplyForm
+                    cancelBtnClassName="bg-zinc-900"
+                    sendBtnClassName="bg-zinc-900 text-white"
+                    className="!text-white"
+                    content={content}
+                    setContent={setContent}
+                    setShowContent={setShowContent}
+                    commentReplyHandler={commentReplyHandler}
+                />
             )}
             <Cover
                 className={`z-[999] !bg-black/80 ${

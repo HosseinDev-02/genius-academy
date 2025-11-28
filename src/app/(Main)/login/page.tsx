@@ -117,7 +117,7 @@ export default function Login() {
                                                         رمز عبور
                                                     </FormLabel>
                                                     <FormControl>
-                                                        <PasswordInput
+                                                        <PasswordInput className="h-11 rounded-2xl bg-secondary border border-border px-2 w-full text-title placeholder:text-sm"
                                                             {...field}
                                                         />
                                                     </FormControl>

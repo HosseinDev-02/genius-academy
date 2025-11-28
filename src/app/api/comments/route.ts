@@ -6,6 +6,8 @@ export async function POST(req: Request) {
     try {
         const { content, user_id, article_id, course_id } = await req.json();
 
+        console.log({ content, user_id, article_id, course_id });
+
         await sql`
             INSERT INTO comments (content, user_id, course_id, article_id, parent_id)
             VALUES (${content}, ${user_id}, ${course_id || null}, ${article_id || null}, null)
@@ -18,6 +20,7 @@ export async function POST(req: Request) {
             { status: 201 }
         );
     } catch (err) {
+        console.log(err);
         return NextResponse.json(
             { error: "هنگام ارسال کامنت خطایی رخ داد" },
             { status: 500 }

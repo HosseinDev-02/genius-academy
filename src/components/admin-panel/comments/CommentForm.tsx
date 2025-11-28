@@ -46,7 +46,6 @@ type Props = {
     commentId?: string;
     course_id?: string | null;
     article_id?: string | null;
-    parent_id?: string | null;
     users: User[];
     articles: Article[];
     courses: Course[];
@@ -58,7 +57,6 @@ export default function CommentForm({
     commentId,
     course_id,
     article_id,
-    parent_id,
     users,
     articles,
     courses,
@@ -83,19 +81,18 @@ export default function CommentForm({
 
     const onSubmit = async (values: z.infer<typeof schema>) => {
         try {
-            const formData = new FormData();
-            formData.append("content", values.content);
-            formData.append("user_id", values.user_id);
-            if (values.course_id)
-                formData.append("course_id", values.course_id);
-            if (values.article_id)
-                formData.append("article_id", values.article_id);
+            const commentObj = {
+                content: values.content,
+                user_id: values.user_id,
+                course_id: values.course_id || null,
+                article_id: values.article_id || null,
+            };
             const method = mode === "add" ? "POST" : "PUT";
             const url =
                 mode === "add" ? "/api/comments" : `/api/comments/${commentId}`;
             const response = await fetch(url, {
                 method: method,
-                body: formData,
+                body: JSON.stringify(commentObj),
             });
             const result = await response.json();
             if (result.success) {
@@ -159,6 +156,108 @@ export default function CommentForm({
                             )}
                         />
 
+                        {commentType === "course" ? (
+                            <FormField
+                                control={form.control}
+                                name="course_id"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-gray-400 font-YekanBakh-SemiBold mb-2">
+                                            دوره مورد نظر
+                                        </FormLabel>
+                                        <FormControl>
+                                            {courses.length !== 0 && (
+                                                <Select
+                                                    onValueChange={
+                                                        field.onChange
+                                                    } // مقدار انتخابی رو به state فرم می‌فرسته
+                                                    value={field.value || ""}
+                                                    dir="rtl"
+                                                >
+                                                    <SelectTrigger className="w-full focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600">
+                                                        <SelectValue
+                                                            className={`font-YekanBakh-SemiBold`}
+                                                            placeholder="محصولات"
+                                                        />
+                                                    </SelectTrigger>
+                                                    <SelectContent className="bg-zinc-800 border-none">
+                                                        {courses?.map(
+                                                            (course) => (
+                                                                <SelectItem
+                                                                    className="cursor-pointer hover:bg-gray-200 hover:text-title"
+                                                                    key={
+                                                                        course.id
+                                                                    }
+                                                                    value={
+                                                                        course.id
+                                                                    }
+                                                                >
+                                                                    {
+                                                                        course.title
+                                                                    }
+                                                                </SelectItem>
+                                                            )
+                                                        )}
+                                                    </SelectContent>
+                                                </Select>
+                                            )}
+                                        </FormControl>
+                                        <FormMessage className="form-message" />
+                                    </FormItem>
+                                )}
+                            />
+                        ) : (
+                            <FormField
+                                control={form.control}
+                                name="article_id"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-gray-400 font-YekanBakh-SemiBold mb-2">
+                                            مقاله مورد نظر
+                                        </FormLabel>
+                                        <FormControl>
+                                            {articles.length !== 0 && (
+                                                <Select
+                                                    onValueChange={
+                                                        field.onChange
+                                                    } // مقدار انتخابی رو به state فرم می‌فرسته
+                                                    value={field.value || ""}
+                                                    dir="rtl"
+                                                >
+                                                    <SelectTrigger className="w-full focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600">
+                                                        <SelectValue
+                                                            className={`font-YekanBakh-SemiBold`}
+                                                            placeholder="محصولات"
+                                                        />
+                                                    </SelectTrigger>
+                                                    <SelectContent className="bg-zinc-800 border-none">
+                                                        {articles?.map(
+                                                            (article) => (
+                                                                <SelectItem
+                                                                    className="cursor-pointer hover:bg-gray-200 hover:text-title"
+                                                                    key={
+                                                                        article.id
+                                                                    }
+                                                                    value={
+                                                                        article.id
+                                                                    }
+                                                                >
+                                                                    {
+                                                                        article.title
+                                                                    }
+                                                                </SelectItem>
+                                                            )
+                                                        )}
+                                                    </SelectContent>
+                                                </Select>
+                                            )}
+                                        </FormControl>
+                                        <FormMessage className="form-message" />
+                                    </FormItem>
+                                )}
+                            />
+                        )}
+
                         <FormField
                             control={form.control}
                             name="content"
@@ -220,111 +319,6 @@ export default function CommentForm({
                                     </FormItem>
                                 )}
                             />
-                            {commentType === "course" ? (
-                                <FormField
-                                    control={form.control}
-                                    name="course_id"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel className="text-gray-400 font-YekanBakh-SemiBold mb-2">
-                                                دوره مورد نظر
-                                            </FormLabel>
-                                            <FormControl>
-                                                {courses.length !== 0 && (
-                                                    <Select
-                                                        onValueChange={
-                                                            field.onChange
-                                                        } // مقدار انتخابی رو به state فرم می‌فرسته
-                                                        value={
-                                                            field.value || ""
-                                                        }
-                                                        dir="rtl"
-                                                    >
-                                                        <SelectTrigger className="w-full focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600">
-                                                            <SelectValue
-                                                                className={`font-YekanBakh-SemiBold`}
-                                                                placeholder="محصولات"
-                                                            />
-                                                        </SelectTrigger>
-                                                        <SelectContent className="bg-zinc-800 border-none">
-                                                            {courses?.map(
-                                                                (course) => (
-                                                                    <SelectItem
-                                                                        className="cursor-pointer hover:bg-gray-200 hover:text-title"
-                                                                        key={
-                                                                            course.id
-                                                                        }
-                                                                        value={
-                                                                            course.id
-                                                                        }
-                                                                    >
-                                                                        {
-                                                                            course.title
-                                                                        }
-                                                                    </SelectItem>
-                                                                )
-                                                            )}
-                                                        </SelectContent>
-                                                    </Select>
-                                                )}
-                                            </FormControl>
-                                            <FormMessage className="form-message" />
-                                        </FormItem>
-                                    )}
-                                />
-                            ) : (
-                                <FormField
-                                    control={form.control}
-                                    name="article_id"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel className="text-gray-400 font-YekanBakh-SemiBold mb-2">
-                                                مقاله مورد نظر
-                                            </FormLabel>
-                                            <FormControl>
-                                                {articles.length !== 0 && (
-                                                    <Select
-                                                        onValueChange={
-                                                            field.onChange
-                                                        } // مقدار انتخابی رو به state فرم می‌فرسته
-                                                        value={
-                                                            field.value || ""
-                                                        }
-                                                        dir="rtl"
-                                                    >
-                                                        <SelectTrigger className="w-full focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600">
-                                                            <SelectValue
-                                                                className={`font-YekanBakh-SemiBold`}
-                                                                placeholder="محصولات"
-                                                            />
-                                                        </SelectTrigger>
-                                                        <SelectContent className="bg-zinc-800 border-none">
-                                                            {articles?.map(
-                                                                (article) => (
-                                                                    <SelectItem
-                                                                        className="cursor-pointer hover:bg-gray-200 hover:text-title"
-                                                                        key={
-                                                                            article.id
-                                                                        }
-                                                                        value={
-                                                                            article.id
-                                                                        }
-                                                                    >
-                                                                        {
-                                                                            article.title
-                                                                        }
-                                                                    </SelectItem>
-                                                                )
-                                                            )}
-                                                        </SelectContent>
-                                                    </Select>
-                                                )}
-                                            </FormControl>
-                                            <FormMessage className="form-message" />
-                                        </FormItem>
-                                    )}
-                                />
-                            )}
                         </div>
                     </div>
                     <div className="flex items-center justify-center">

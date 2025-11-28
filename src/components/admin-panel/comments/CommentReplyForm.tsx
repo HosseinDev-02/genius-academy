@@ -8,7 +8,9 @@ type Props = {
     content: string;
     setContent: React.Dispatch<React.SetStateAction<string>>;
     setShowContent: React.Dispatch<React.SetStateAction<boolean>>;
-    className?: string
+    className?: string;
+    sendBtnClassName?: string;
+    cancelBtnClassName?: string;
 };
 
 export default function CommentReplyForm({
@@ -16,15 +18,17 @@ export default function CommentReplyForm({
     setContent,
     setShowContent,
     commentReplyHandler,
-    className
+    className,
+    sendBtnClassName,
+    cancelBtnClassName
 }: Props) {
     return (
-        <div className={`p-4 rounded-2xl bg-zinc-800 fixed inset-0 max-w-xl w-full m-auto max-h-80 h-full z-[1000] flex flex-col ${className}`}>
+        <div className={`p-4 rounded-2xl bg-zinc-800 fixed inset-0 max-w-xl w-full m-auto max-h-80 h-full z-[1000] text-title flex flex-col ${className}`}>
             <Textarea
                 value={content || ""}
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="متن پاسخ را وارد کنید ..."
-                className="focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600 h-full resize-none focus-visible:h-full text-title"
+                className="focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600 h-full resize-none focus-visible:h-full"
             />
             <div className="flex gap-2 mt-4">
                 <Button
@@ -32,7 +36,7 @@ export default function CommentReplyForm({
                     size={"lg"}
                     variant="ghost"
                     type="button"
-                    className="bg-zinc-800 text-xs cursor-pointer text-title font-YekanBakh-SemiBold hover:opacity-80 transition-all duration-300"
+                    className={`bg-zinc-800 text-xs cursor-pointer text-title font-YekanBakh-SemiBold hover:opacity-80 transition-all duration-300 ${sendBtnClassName}`}
                 >
                     ارسال
                 </Button>
@@ -41,7 +45,7 @@ export default function CommentReplyForm({
                     size={"lg"}
                     variant="ghost"
                     type="button"
-                    className="bg-zinc-800 text-xs cursor-pointer text-red-500 font-YekanBakh-SemiBold hover:opacity-80 transition-all duration-300"
+                    className={`bg-zinc-800 text-xs cursor-pointer text-red-500 font-YekanBakh-SemiBold hover:opacity-80 transition-all duration-300 ${cancelBtnClassName}`}
                 >
                     لغو
                 </Button>

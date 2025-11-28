@@ -1,6 +1,6 @@
 import React from "react";
 import UserProfile from "./UserProfile";
-import { getMe } from "@/src/lib/storage/users";
+import { getMe } from "@/src/lib/storage/me";
 
 export default async function UserProfileWrapper() {
     const user = await getMe();
