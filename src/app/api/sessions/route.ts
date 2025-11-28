@@ -1,23 +1,26 @@
 import { sql } from "@/src/db";
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
     try {
-        const formData = await req.formData();
-        const title = formData.get("title") as string;
-        const description = formData.get("description") as string;
-        const course_id = formData.get("course_id") as string;
+        const { title, description, course_id } = await req.json();
 
         await sql`
             INSERT INTO sessions (title, description, course_id)
             VALUES (${title}, ${description}, ${course_id});
         `;
 
+        revalidateTag("sessions");
+
         return NextResponse.json(
-            { message: "Session created successfully" },
+            { success: true, message: "سرفصل با موفقیت ساخته شد" },
             { status: 201 }
         );
     } catch (error) {
-        return NextResponse.json(error, { status: 500 });
+        return NextResponse.json(
+            { error: "هنگام ساخت سرفصل خطایی رخ داد" },
+            { status: 500 }
+        );
     }
 }

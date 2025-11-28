@@ -1,4 +1,5 @@
 import { sql } from "@/src/db";
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function DELETE(
@@ -14,12 +15,16 @@ export async function DELETE(
             );
         }
         await sql`DELETE FROM sessions WHERE id = ${id}`;
+        revalidateTag("sessions");
         return NextResponse.json(
-            { message: "جلسه با موفقیت حذف شد", id },
+            { success: true, message: "سرفصل با موفقیت حذف شد", id },
             { status: 201 }
         );
     } catch (error) {
-        return NextResponse.json({ error }, { status: 500 });
+        return NextResponse.json(
+            { error: "هنگام حذف سرفصل خطایی رخ داد" },
+            { status: 500 }
+        );
     }
 }
 
@@ -54,11 +59,7 @@ export async function PUT(
                 { status: 400 }
             );
         }
-        const formData = await req.formData();
-
-        const title = formData.get("title");
-        const description = formData.get("description");
-        const course_id = formData.get("course_id");
+        const { title, description, course_id } = await req.json();
 
         await sql`
         UPDATE sessions 
@@ -67,12 +68,16 @@ export async function PUT(
         course_id = ${course_id} 
         WHERE id = ${id}
         `;
-        
+        revalidateTag('sessions')
+
         return NextResponse.json(
-            { message: "session updated successfully" },
+            { success: true, message: "سرفصل با موفقیت ویرایش شد" },
             { status: 201 }
         );
     } catch (error) {
-        return NextResponse.json(error, { status: 500 });
+        return NextResponse.json(
+            { error: "هنگام ویرایش سرفصل خطایی رخ داد" },
+            { status: 500 }
+        );
     }
 }

@@ -24,6 +24,7 @@ import {
 import { getShortCourses } from "@/src/lib/storage/courses";
 import { Course } from "@/src/lib/type-definition";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Toaster, toast } from "sonner";
@@ -33,11 +34,17 @@ type Props = {
     mode: "add" | "edit";
     defaultValues?: z.infer<typeof updateSessionSchema>;
     sessionId?: string;
+    shortCourses: Course[];
 };
 
-export default function SessionForm({ mode, defaultValues, sessionId }: Props) {
+export default function SessionForm({
+    mode,
+    defaultValues,
+    sessionId,
+    shortCourses: courses,
+}: Props) {
     const schema = mode === "add" ? createSessionSchema : updateSessionSchema;
-    const [courses, setCourses] = React.useState<Course[]>([]);
+    // const [courses, setCourses] = React.useState<Course[]>([]);
     const form = useForm<z.infer<typeof schema>>({
         resolver: zodResolver(schema),
         defaultValues:
@@ -49,60 +56,39 @@ export default function SessionForm({ mode, defaultValues, sessionId }: Props) {
                   }
                 : defaultValues,
     });
-
-    React.useEffect(() => {
-        const fetchCourses = async () => {
-            try {
-                const data = await getShortCourses();
-                setCourses(data);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        fetchCourses();
-    }, []);
+    const router = useRouter();
 
     const onSubmit = async (values: z.infer<typeof schema>) => {
         try {
-            const formData = new FormData();
-            formData.append("title", values.title);
-            formData.append("description", values.description);
-            formData.append("course_id", values.course_id);
-
+            const sessionObj = {
+                title: values.title,
+                description: values.description,
+                course_id: values.course_id,
+            };
             const method = mode === "add" ? "POST" : "PUT";
             const url =
                 mode === "add" ? "/api/sessions" : `/api/sessions/${sessionId}`;
 
             const response = await fetch(url, {
                 method: method,
-                body: formData,
+                body: JSON.stringify(sessionObj),
             });
-
-            if (response.ok) {
-                toast.success(
-                    mode === "add"
-                        ? "سرفصل با موفقیت افزوده شد"
-                        : "سرفصل با موفقیت ویرایش شد"
-                );
-                form.reset();
+            const result = await response.json();
+            if (result.success) {
+                if(method === 'POST') form.reset();
+                else if(method === 'PUT') router.refresh();
+                toast.success(result.message);
             } else {
-                throw new Error(
-                    mode === "add"
-                        ? "Failed To Add New Session"
-                        : "Failed To Edit Session"
-                );
+                throw new Error(result.error);
             }
         } catch (error) {
             toast.error(
-                mode === "add"
-                    ? "هنگام افزودن سرفصل خطایی رخ داد"
-                    : "هنگام ویرایش سرفصل خطایی رخ داد"
+                error instanceof Error ? error.message : "خطایی رخ داد"
             );
         }
-        console.log("values :", values);
     };
     return (
-        <div>
+        <div dir="rtl">
             <Form {...form}>
                 <form
                     className="space-y-10"

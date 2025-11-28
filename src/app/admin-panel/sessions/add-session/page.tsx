@@ -1,10 +1,12 @@
-import SessionForm from '@/src/components/admin-panel/sessions/SessionForm'
-import React from 'react'
+import SessionForm from "@/src/components/admin-panel/sessions/SessionForm";
+import { getShortCourses } from "@/src/lib/storage/courses";
+import React from "react";
 
-export default function AddSessionPage() {
-  return (
-    <div>
-        <SessionForm mode="add"/>
-    </div>
-  )
+export default async function AddSessionPage() {
+    const shortCourses = await getShortCourses();
+    return (
+        <div>
+            <SessionForm shortCourses={shortCourses} mode="add" />
+        </div>
+    );
 }

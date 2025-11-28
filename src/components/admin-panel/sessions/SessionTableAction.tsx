@@ -16,23 +16,24 @@ export default function SessionTableAction({
 }: {
     sessionId: string;
 }) {
-    const router = useRouter()
+    const router = useRouter();
     const handleDeleteSession = async () => {
         try {
             const response = await fetch(`/api/sessions/${sessionId}`, {
                 method: "DELETE",
             });
+            const result = await response.json();
 
-            console.log("response :", response);
-
-            if (response.ok) {
-                toast.success("سرویس با موفقیت حذف شد");
+            if (result.success) {
+                toast.success(result.message);
                 router.refresh();
             } else {
-                throw new Error("هنگام حذف سرویس خطایی رخ داد");
+                throw new Error(result.error);
             }
         } catch (error) {
-            toast.error("هنگام حذف سرویس خطایی رخ داد");
+            toast.error(
+                error instanceof Error ? error.message : "خطایی رخ داد"
+            );
         }
     };
     return (

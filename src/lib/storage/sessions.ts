@@ -30,6 +30,7 @@ export const getAllSessions = unstable_cache(
     ["sessions"],
     {
         revalidate: 10,
+        tags: ["sessions"],
     }
 );
 
