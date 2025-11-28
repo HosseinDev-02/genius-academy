@@ -25,17 +25,24 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Toaster, toast } from "sonner";
 import z from "zod";
+import { CldUploadButton } from "next-cloudinary";
 
 type Props = {
     mode: "add" | "edit";
     videoId?: string;
     defaultValues?: z.infer<typeof updateVideoSchema>;
+    sessions: Session[];
 };
 
-export default function VideoForm({ mode, defaultValues, videoId }: Props) {
+export default function VideoForm({
+    mode,
+    defaultValues,
+    videoId,
+    sessions,
+}: Props) {
     const schema = mode === "add" ? createVideoSchema : updateVideoSchema;
-    const [sessions, setSessions] = React.useState<Session[]>([]);
     const fileRef = React.useRef<HTMLInputElement | null>(null);
+    const [uploading, setUploading] = useState(false);
     const form = useForm<z.infer<typeof schema>>({
         resolver: zodResolver(schema),
         defaultValues:
@@ -50,21 +57,8 @@ export default function VideoForm({ mode, defaultValues, videoId }: Props) {
                 : {
                       ...defaultValues,
                       is_free: defaultValues?.is_free ? "free" : "premium",
-                },
+                  },
     });
-
-    React.useEffect(() => {
-        const fetchSessions = async () => {
-            try {
-                const data = await getShortSessions();
-                console.log("sessions :", data);
-                setSessions(data);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        fetchSessions();
-    }, []);
 
     const handleFileChange = (file: File) => {
         const video = document.createElement("video");
@@ -79,8 +73,45 @@ export default function VideoForm({ mode, defaultValues, videoId }: Props) {
         video.src = URL.createObjectURL(file);
     };
 
+    async function uploadVideoToCloudinary(file: File) {
+        setUploading(true);
+
+        // 1) گرفتن امضا از API
+        const { timestamp, signature, apiKey, cloudName } = await fetch(
+            "/api/uploads/video",
+            { method: "POST" }
+        ).then((r) => r.json());
+
+        // 2) فرم داده برای ویدیو
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("api_key", apiKey);
+        formData.append("timestamp", timestamp);
+        formData.append("signature", signature);
+        formData.append("folder", "videos");
+        formData.append("resource_type", "video");
+
+        // 3) آپلود فایل ویدیو به Cloudinary
+        const uploadResponse = await fetch(
+            `https://api.cloudinary.com/v1_1/${cloudName}/video/upload`,
+            {
+                method: "POST",
+                body: formData,
+            }
+        ).then((r) => r.json());
+        console.log("uploadResponse", uploadResponse);
+        console.log("uploadResponse url", uploadResponse.secure_url);
+
+        setUploading(false);
+
+        return {
+            url: uploadResponse.secure_url,
+            duration: uploadResponse.duration,
+        };
+    }
+
     const onSubmit = async (values: z.infer<typeof schema>) => {
-        console.log('form submitted')
+        console.log(values);
         try {
             const formData = new FormData();
             formData.append("title", values.title);
@@ -92,41 +123,32 @@ export default function VideoForm({ mode, defaultValues, videoId }: Props) {
             const method = mode === "add" ? "POST" : "PATCH";
             const url =
                 mode === "add" ? "/api/videos" : `/api/videos/${videoId}`;
-                
+
             const response = await fetch(url, {
                 method: method,
                 body: formData,
             });
+            const result = await response.json();
 
-            console.log("response :", response);
-
-            if (response.ok) {
-                toast.success(
-                    mode === "add"
-                        ? "فیلم با موفقیت افزوده شد"
-                        : "فیلم با موفقیت ویرایش شد"
-                );
+            if (result.success) {
+                toast.success(result.message);
                 form.reset();
             } else {
-                throw new Error(
-                    mode === "add"
-                        ? "Failed To Add New Video"
-                        : "Failed To Edit Video"
-                );
+                throw new Error(result.error);
             }
         } catch (error) {
-            console.log(error);
             toast.error(
-                mode === "add" ? "خطا در افزودن فیلم" : "خطا در ویرایش فیلم"
+                error instanceof Error ? error.message : "خطایی رخ داد"
             );
         }
-        console.log("values :", values);
     };
     return (
         <div dir="rtl">
             <Form {...form}>
                 <form
-                    onSubmit={form.handleSubmit(onSubmit)}
+                    onSubmit={form.handleSubmit(onSubmit, (error) => {
+                        console.log(error);
+                    })}
                     className="space-y-10"
                 >
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
@@ -209,7 +231,7 @@ export default function VideoForm({ mode, defaultValues, videoId }: Props) {
                             )}
                         />
 
-                        <FormField
+                        {/* <FormField
                             control={form.control}
                             name="video"
                             render={({ field }) => (
@@ -235,7 +257,79 @@ export default function VideoForm({ mode, defaultValues, videoId }: Props) {
                                     <FormMessage className="form-message" />
                                 </FormItem>
                             )}
+                        /> */}
+
+                        <FormField
+                            control={form.control}
+                            name="video"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>آپلود ویدیو</FormLabel>
+
+                                    <FormControl>
+                                        <Input
+                                            type="file"
+                                            accept="video/*"
+                                            disabled={uploading}
+                                            onChange={async (e) => {
+                                                const file =
+                                                    e.target.files?.[0];
+                                                if (!file) return;
+
+                                                // محدودیت حجم (مثال: 200MB)
+                                                if (
+                                                    file.size >
+                                                    200 * 1024 * 1024
+                                                ) {
+                                                    alert(
+                                                        "حجم فایل بیش از 200MB است"
+                                                    );
+                                                    return;
+                                                }
+
+                                                const { url, duration } =
+                                                    await uploadVideoToCloudinary(
+                                                        file
+                                                    );
+
+                                                form.setValue("video", url, {
+                                                    shouldValidate: true,
+                                                });
+
+                                                form.setValue(
+                                                    "duration",
+                                                    duration,
+                                                    { shouldValidate: true }
+                                                );
+                                            }}
+                                        />
+                                    </FormControl>
+
+                                    {uploading && (
+                                        <p className="text-sm text-blue-500">
+                                            در حال آپلود... (لطفاً صبر کنید)
+                                        </p>
+                                    )}
+
+                                    <FormMessage />
+                                </FormItem>
+                            )}
                         />
+
+                        {/* <FormField
+                            name="video"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-gray-400 font-YekanBakh-SemiBold mb-2">
+                                        فیلم
+                                    </FormLabel>
+                                    <FormControl>
+                                        <CldUploadButton  uploadPreset="sessions-video" />
+                                    </FormControl>
+                                    <FormMessage className="form-message" />
+                                </FormItem>
+                            )}
+                        /> */}
 
                         <FormField
                             name="is_free"

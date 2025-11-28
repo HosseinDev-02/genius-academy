@@ -32,5 +32,6 @@ export const getAllVideos = unstable_cache(
     ["videos"],
     {
         revalidate: 10,
+        tags: ["videos"],
     }
 )

@@ -11,28 +11,25 @@ import {
 import { Button } from "@/components/ui/button";
 import { MoreHorizontalIcon, PencilIcon, TrashIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-export default function VideoTableAction({
-    videoId,
-}: {
-    videoId: string;
-}) {
-    const router = useRouter()
+export default function VideoTableAction({ videoId }: { videoId: string }) {
+    const router = useRouter();
     const handleDeleteVideo = async () => {
         try {
             const response = await fetch(`/api/videos/${videoId}`, {
                 method: "DELETE",
             });
+            const result = await response.json();
 
-            console.log("response :", response);
-
-            if (response.ok) {
-                toast.success("ویدیو با موفقیت حذف شد");
+            if (result.success) {
+                toast.success(result.message);
                 router.refresh();
             } else {
-                throw new Error("هنگام حذف ویدیو خطایی رخ داد");
+                throw new Error(result.error);
             }
         } catch (error) {
-            toast.error("هنگام حذف ویدیو خطایی رخ داد");
+            toast.error(
+                error instanceof Error ? error.message : "خطایی رخ داد"
+            );
         }
     };
     return (

@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 import { unlink, writeFile } from "fs/promises";
+import { revalidateTag } from "next/cache";
 
 export async function DELETE(
     req: Request,
@@ -18,12 +19,16 @@ export async function DELETE(
             );
         }
         await sql`DELETE FROM videos WHERE id = ${id}`;
+        revalidateTag("videos");
         return NextResponse.json(
-            { message: "ویدیو با موفقیت حذف شد", id },
+            { success: true, message: "ویدیو با موفقیت حذف شد", id },
             { status: 201 }
         );
     } catch (error) {
-        return NextResponse.json(error, { status: 500 });
+        return NextResponse.json(
+            { error: "هنگام حذف ویدیو خطایی رخ داد" },
+            { status: 500 }
+        );
     }
 }
 
@@ -110,11 +115,17 @@ export async function PATCH(
             RETURNING *;
           `;
 
+        revalidateTag("videos");
+
         return NextResponse.json({
+            success: true,
             message: "ویدیو با موفقیت بروزرسانی شد",
             data: updated,
         });
     } catch (error) {
-        return NextResponse.json(error, { status: 500 });
+        return NextResponse.json(
+            { error: "خطا در بروزرسانی ویدیو" },
+            { status: 500 }
+        );
     }
 }

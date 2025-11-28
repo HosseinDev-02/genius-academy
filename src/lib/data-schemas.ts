@@ -138,9 +138,7 @@ export const createVideoSchema = z.object({
     duration: z.coerce
         .number()
         .refine((val) => val > 0, "مدت زمان باید بزرگتر از صفر باشد"),
-    video: z
-        .any()
-        .refine((file) => file instanceof File, "لطفاً یک فیلم انتخاب کنید"),
+    video: z.string().nonempty("ویدیو را انتخاب کنید"),
     session_id: z.string().uuid().nonempty("دوره را انتخاب کنید"),
     is_free: z.enum(["free", "premium"], {
         errorMap: () => ({ message: "نوع ویدیو را انتخاب کنید" }),
