@@ -21,6 +21,7 @@ import CommentWrapper from "@/src/components/section/courses/CommentsWrapper";
 import CourseRegister from "@/src/components/section/courses/CourseRegister";
 import { getMe } from "@/src/lib/storage/me";
 import { getUserCourseById, getUserCourses } from "@/src/lib/storage/users";
+import { notFound } from "next/navigation";
 export default async function Page({
     params,
 }: {
@@ -29,16 +30,25 @@ export default async function Page({
     const { shortName } = await params;
     const user = await getMe();
 
-    const course = (await getCourseByShortName(
+    const course = await getCourseByShortName(
         shortName
-    )) as unknown as CourseWithRelations;
-    let isUserRegistered: any = {};
+    )
+    let isUserRegisteredInCourse: Course | null = null
+
+    if(!course) {
+        notFound()
+    }
+
+    console.log(course);
+
     const content = course.content;
     const htmlContent = generateHTML(content, extensions);
-    if (user) {
-        isUserRegistered = await getUserCourseById(user?.id, course.id);
-        console.log(isUserRegistered);
+
+    if(user) {
+        isUserRegisteredInCourse = await getUserCourseById(user.id, course.id);
     }
+
+
     return (
         <section className="py-5">
             <div className="container">
@@ -388,7 +398,7 @@ export default async function Page({
                     </div>
                     {/*  course detail left side  */}
                     <div className="md:w-4/12 space-y-8 md:sticky md:top-24">
-                        <CourseRegister isUserRegistered={isUserRegistered} user={user} course={course} />
+                        <CourseRegister isUserRegisteredInCourse={isUserRegisteredInCourse} user={user} course={course} />
                         <div className="space-y-3">
                             <SubTitle
                                 className="text-sm"

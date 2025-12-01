@@ -105,7 +105,7 @@ export const getUserCourses = unstable_cache(
 );
 
 export const getUserCourseById = unstable_cache(
-    async (userId: string, courseId: string) => {
+    async (userId: string, courseId: string): Promise<Course | null> => {
         try {
             const data = await sql`
         SELECT 
@@ -116,10 +116,10 @@ export const getUserCourseById = unstable_cache(
         AND uc.course_id = '8291cc97-8b3c-4078-8bb0-d432daa538ac'
         LIMIT 1;
         `;
-            return data[0] as unknown as Course;
+            return data[0] as Course;
         } catch (error) {
             console.log(error);
-            return {};
+            return null;
         }
     }
 );

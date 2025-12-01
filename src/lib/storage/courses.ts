@@ -56,7 +56,7 @@ export const getShortCourses = unstable_cache(
 );
 
 export const getCourseByShortName = unstable_cache(
-    async (shortName: string): Promise<CourseWithRelations | {}> => {
+    async (shortName: string): Promise<CourseWithRelations | null> => {
         try {
             const data = await sql`SELECT 
                 c.id,
@@ -85,10 +85,9 @@ export const getCourseByShortName = unstable_cache(
               JOIN categories cat ON c.category_id = cat.id
               JOIN users u ON c.user_id = u.id
               WHERE c.short_name = ${shortName} ORDER BY c.created_at DESC`;
-            return data[0] as unknown as CourseWithRelations;
+            return data[0] as CourseWithRelations
         } catch (error) {
-            console.error(error);
-            return {};
+            return null
         }
     },
     ["courses"],

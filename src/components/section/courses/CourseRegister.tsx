@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import SubTitle from "../../ui/SubTitle";
 import PrimaryButton from "../../ui/button/PrimaryButton";
 import { LucideArrowUpLeft } from "lucide-react";
@@ -8,19 +8,19 @@ import { Course, CourseWithRelations, User } from "@/src/lib/type-definition";
 import { Button } from "@/components/ui/button";
 import { Toaster, toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { getUserCourseById } from "@/src/lib/storage/users";
 
 export default function CourseRegister({
     course,
     user,
-    isUserRegistered,
+    isUserRegisteredInCourse,
 }: {
     course: CourseWithRelations;
     user: User | null;
-    isUserRegistered: Course;
+    isUserRegisteredInCourse: Course | null;
 }) {
     // const { user } = useAuthContext();
     const router = useRouter();
-    console.log(isUserRegistered);
 
     const courseRegisterHandler = async () => {
         try {
@@ -74,7 +74,7 @@ export default function CourseRegister({
                 <div className="flex items-center gap-3 mt-3">
                     {user ? (
                         <>
-                            {!isUserRegistered && (
+                            {!isUserRegisteredInCourse ? (
                                 <>
                                     <Button
                                         onClick={courseRegisterHandler}
@@ -85,6 +85,10 @@ export default function CourseRegister({
                                     </Button>
                                     <LikeButton />
                                 </>
+                            ) : (
+                                <div className="primary-btn pointer-events-none">
+                                    <span>شما دانشجوی دوره هستید</span>
+                                </div>
                             )}
                         </>
                     ) : (
