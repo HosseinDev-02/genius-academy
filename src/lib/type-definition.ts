@@ -31,6 +31,10 @@ export type User = {
     updated_at: Date;
 };
 
+export type UserWithRelations = User & {
+    courses: Course[];
+}
+
 export type Category = {
     id: string;
     title: string;

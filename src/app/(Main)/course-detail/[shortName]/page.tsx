@@ -13,27 +13,32 @@ import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 import CourseDetailMenu from "@/src/components/ui/CourseDetailMenu";
-import { CourseWithRelations } from "@/src/lib/type-definition";
+import { Course, CourseWithRelations } from "@/src/lib/type-definition";
 import { extensions } from "@/src/lib/tiptapExtensions";
 import { generateHTML } from "@tiptap/html";
 import { getCourseByShortName } from "@/src/lib/storage/courses";
 import CommentWrapper from "@/src/components/section/courses/CommentsWrapper";
 import CourseRegister from "@/src/components/section/courses/CourseRegister";
-import { getMe } from "@/src/lib/storage/users";
+import { getMe } from "@/src/lib/storage/me";
+import { getUserCourseById, getUserCourses } from "@/src/lib/storage/users";
 export default async function Page({
     params,
 }: {
     params: Promise<{ shortName: string }>;
 }) {
     const { shortName } = await params;
+    const user = await getMe();
 
     const course = (await getCourseByShortName(
         shortName
     )) as unknown as CourseWithRelations;
-
+    let isUserRegistered: any = {};
     const content = course.content;
     const htmlContent = generateHTML(content, extensions);
-    const user = await getMe();
+    if (user) {
+        isUserRegistered = await getUserCourseById(user?.id, course.id);
+        console.log(isUserRegistered);
+    }
     return (
         <section className="py-5">
             <div className="container">
@@ -378,15 +383,12 @@ export default async function Page({
                         </div>
                         {/*  course detail comments  */}
                         <div id="comments" className="pt-8 pb-5">
-                            <CommentWrapper
-                                user={user}
-                                course={course}
-                            />
+                            <CommentWrapper user={user} course={course} />
                         </div>
                     </div>
                     {/*  course detail left side  */}
                     <div className="md:w-4/12 space-y-8 md:sticky md:top-24">
-                        <CourseRegister user={user} course={course} />
+                        <CourseRegister isUserRegistered={isUserRegistered} user={user} course={course} />
                         <div className="space-y-3">
                             <SubTitle
                                 className="text-sm"
