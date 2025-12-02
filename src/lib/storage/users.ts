@@ -1,5 +1,11 @@
 import { sql } from "@/src/db";
-import { Course, CourseWithRelations, User, UserWithRelations } from "../type-definition";
+import {
+    CommentWithRelations,
+    Course,
+    CourseWithRelations,
+    User,
+    UserWithRelations,
+} from "../type-definition";
 import { unstable_cache } from "next/cache";
 
 export const getAllTeachers = unstable_cache(
@@ -110,5 +116,82 @@ export const getUserCourseById = unstable_cache(
     {
         revalidate: 10,
         tags: ["user_courses"],
+    }
+);
+
+interface UComment {
+    id: string;
+    name: string;
+    image: string;
+}
+
+interface CComment {
+    id: string;
+    title: string;
+    image: string;
+    short_name: string;
+}
+
+interface AComment {
+    id: string;
+    title: string;
+    image: string;
+    short_name: string;
+}
+
+export type UserComment = {
+    id: string;
+    content: string;
+    status: 'approved' | 'pending' | 'rejected';
+    user: UComment;
+    course: CComment | null;
+    article: AComment | null;
+};
+
+export const getUserComments = unstable_cache(
+    async (userId: string): Promise<UserComment[]> => {
+        try {
+            const data = await sql`
+            SELECT 
+            comment.id,
+            comment.content,
+            comment.created_at,
+            comment.updated_at,
+            comment.status,
+            json_build_object(
+                    'id', u.id,
+                    'name', u.name,
+                    'image', u.image
+                ) AS user,
+            CASE
+                WHEN comment.course_id IS NOT NULL THEN json_build_object(
+                    'id', c.id,
+                    'title', c.title,
+                    'image', c.image,
+                    'short_name', c.short_name
+                )
+                ELSE NULL
+            END AS course,
+            CASE
+                WHEN comment.article_id IS NOT NULL THEN json_build_object(
+                    'id', a.id,
+                    'title', a.title,
+                    'image', a.image,
+                    'short_name', a.short_name
+                )
+                ELSE NULL
+            END AS article
+            FROM comments comment
+            JOIN users u ON comment.user_id = u.id
+            LEFT JOIN courses c ON comment.course_id = c.id
+            LEFT JOIN articles a ON comment.article_id = a.id
+            WHERE comment.user_id = ${userId}
+            AND comment.parent_id IS NULL 
+            ORDER BY comment.created_at DESC;
+            `;
+            return data as UserComment[];
+        } catch (error) {
+            return [];
+        }
     }
 );

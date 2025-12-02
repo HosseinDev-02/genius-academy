@@ -106,7 +106,7 @@ export type UserCounterItem = {
     text: string;
 };
 
-export type UserComment = {
+type UserComment = {
     id: number | string;
     text: string;
     title: string

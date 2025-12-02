@@ -1,11 +1,17 @@
-import { UserComment } from "@/src/lib/definition";
 import { LucideArrowUpLeft } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import PrimaryButton from "../button/PrimaryButton";
 import Image from "next/image";
+import { UserComment as UserCommentType } from "@/src/lib/storage/users";
 
-export default function UserComment(props: UserComment) {
+export default function UserComment({
+    comment,
+}: {
+    comment: UserCommentType;
+}) {
+    const { course: course, article: article, user, status, content } = comment;
+
     return (
         <div className="flex md:flex-row flex-col md:items-start gap-5 py-8">
             <Link
@@ -16,8 +22,8 @@ export default function UserComment(props: UserComment) {
                     width={302}
                     height={170}
                     className="w-full h-full"
-                    src={props.img}
-                    alt={props.title}
+                    src={course?.image! ?? article?.image!}
+                    alt={course?.title! ?? article?.title!}
                 />
             </Link>
             <div className="md:w-8/12 px-5 rounded-3xl bg-gradient-to-b from-secondary to-background">
@@ -25,14 +31,14 @@ export default function UserComment(props: UserComment) {
                     <h3 className="line-clamp-1">
                         <Link
                             className="font-YekanBakh-Black text-title transition-colors hover:text-primary"
-                            href={props.courseHref}
+                            href={course ? `/course-detail/${course.short_name}` : `/article-detail/${article?.short_name}`}
                         >
-                            {props.title}
+                            {course?.title! ?? article?.title!}
                         </Link>
                     </h3>
                 </div>
                 <div className="mt-5">
-                    {props.status ? (
+                    {status === 'approved' ? (
                         <div className="flex items-center gap-2">
                             <div className="flex items-center justify-center rounded-full bg-border w-3.5 h-3.5">
                                 <span className="bg-success w-1.5 h-1.5 rounded-full"></span>
@@ -41,21 +47,30 @@ export default function UserComment(props: UserComment) {
                                 تایید شده
                             </span>
                         </div>
-                    ) : (
+                    ) : status === 'rejected' ? (
                         <div className="flex items-center gap-2">
                             <div className="flex items-center justify-center rounded-full bg-border w-3.5 h-3.5">
                                 <span className="bg-red-500 w-1.5 h-1.5 rounded-full"></span>
                             </div>
                             <span className="text-red-500 font-YekanBakh-Bold text-sm">
-                                درانتظار تایید
+                                رد شده
+                            </span>
+                        </div>
+                    ) : (
+                        <div className="flex items-center gap-2">
+                            <div className="flex items-center justify-center rounded-full bg-border w-3.5 h-3.5">
+                                <span className="bg-yellow-500 w-1.5 h-1.5 rounded-full"></span>
+                            </div>
+                            <span className="text-yellow-500 font-YekanBakh-Bold text-sm">
+                                در انتظار تایید
                             </span>
                         </div>
                     )}
                     <p className="line-clamp-2 my-3 text-sm font-YekanBakh-SemiBold">
-                        {props.text}
+                        {content}
                     </p>
                     <PrimaryButton
-                        href={props.courseHref}
+                        href={course ? `/course-detail/${course.short_name}` : `/article-detail/${article?.short_name}`}
                         icon={<LucideArrowUpLeft size={20} />}
                         title="مشاهده در صفحه دوره"
                     ></PrimaryButton>
