@@ -9,7 +9,7 @@ export async function POST(req: Request) {
             INSERT INTO user_courses (user_id, course_id)
             VALUES (${user_id}, ${course_id}) RETURNING *;
         `;
-        revalidateTag('user-courses');
+        revalidateTag('user_courses');
         return NextResponse.json(
             { success: true, message: "دوره با موفقیت افزوده شد" },
             { status: 201 }

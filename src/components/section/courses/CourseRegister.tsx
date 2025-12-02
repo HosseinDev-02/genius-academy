@@ -22,6 +22,8 @@ export default function CourseRegister({
     // const { user } = useAuthContext();
     const router = useRouter();
 
+    console.log('isUserRegisteredInCourse', isUserRegisteredInCourse);
+
     const courseRegisterHandler = async () => {
         try {
             const courseInfo = {

@@ -112,8 +112,8 @@ export const getUserCourseById = unstable_cache(
         c.*
         FROM user_courses uc
         JOIN courses c ON c.id = uc.course_id
-        WHERE uc.user_id = '12527d23-a4c3-44a6-b3ea-636912cc85fd'
-        AND uc.course_id = '8291cc97-8b3c-4078-8bb0-d432daa538ac'
+        WHERE uc.user_id = ${userId}
+        AND uc.course_id = ${courseId}
         LIMIT 1;
         `;
             return data[0] as Course;
@@ -121,5 +121,10 @@ export const getUserCourseById = unstable_cache(
             console.log(error);
             return null;
         }
+    },
+    ["user_courses"],
+    {
+        revalidate: 10,
+        tags: ["user_courses"],
     }
 );
