@@ -6,21 +6,38 @@ import SubTitle from "../SubTitle";
 import { courses } from "@/src/lib/placeholder-data";
 import UserCourse from "../user-panel/UserCourse";
 import UserCoursesMenu from "./UserCoursesMenu";
-import { Course } from "@/src/lib/definition";
+import { CourseWithRelations } from "@/src/lib/type-definition";
 
-export default function UserCourses() {
+export default function UserCourses({
+    userCourses,
+}: {
+    userCourses: CourseWithRelations[];
+}) {
     const [type, setType] = useState("inProgress");
-    const [filteredCourses, setFilteredCourses] =  useState<Course[]>([]);
+    const [filteredCourses, setFilteredCourses] = useState<
+        CourseWithRelations[]
+    >([]);
 
     useEffect(() => {
-        if(type === 'inProgress' ) {
-           const inProgressCourses = courses.filter((course) => !course.isCompleted);
-           setFilteredCourses(inProgressCourses)
-        }else {
-            const completedCourses = courses.filter((course) => course.isCompleted);
-            setFilteredCourses(completedCourses)
+        console.log("type :", type);
+
+        let newList = [];
+
+        if (type === "inProgress") {
+            console.log("inProgress");
+            newList = userCourses.filter((course) => !course.is_completed);
+            console.log("inProgressCourses :", newList);
+        } else {
+            newList = userCourses.filter((course) => course.is_completed);
+            console.log("completedCourses :", newList);
         }
-    }, [type]);
+
+        setFilteredCourses(newList);
+    }, [type, userCourses]);
+
+    useEffect(() => {
+        console.log("filteredCourses", filteredCourses);
+    }, [filteredCourses]);
 
     return (
         <>
@@ -29,7 +46,7 @@ export default function UserCourses() {
                 <UserCoursesMenu type={type} setType={setType} />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
-                {filteredCourses.map(course => (
+                {filteredCourses.map((course) => (
                     <UserCourse key={course.id} {...course}></UserCourse>
                 ))}
             </div>

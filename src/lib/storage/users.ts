@@ -1,5 +1,5 @@
 import { sql } from "@/src/db";
-import { Course, User, UserWithRelations } from "../type-definition";
+import { Course, CourseWithRelations, User, UserWithRelations } from "../type-definition";
 import { unstable_cache } from "next/cache";
 
 export const getAllTeachers = unstable_cache(
@@ -62,39 +62,23 @@ export const getUserCourses = unstable_cache(
         try {
             const data = await sql`
             SELECT 
-            u.id,
-            u.name,
-            u.phone_number,
-            u.email,
-            u.image,
-            u.created_at,
-            u.updated_at,
-        
-            COALESCE(
-                JSON_AGG(
-                    DISTINCT JSONB_BUILD_OBJECT(
-                        'id', c.id,
-                        'title', c.title,
-                        'short_name', c.short_name,
-                        'image', c.image,
-                        'created_at', c.created_at,
-                        'updated_at', c.updated_at
-                    )
-                ) FILTER (WHERE c.id IS NOT NULL),
-                '[]'
-            ) AS courses
-        
-        FROM users u
-        LEFT JOIN user_courses uc ON u.id = uc.user_id
-        LEFT JOIN courses c ON c.id = uc.course_id
-        WHERE u.id = ${userId}
-        GROUP BY u.id;
-        
+            c.price, 
+            c.is_completed, 
+            c.short_name, 
+            c.title, 
+            c.image,
+            to_json(cat.*) AS category,
+            to_json(u.*) AS user
+            FROM user_courses uc
+            JOIN courses c ON c.id = uc.course_id
+            LEFT JOIN categories cat ON cat.id = c.category_id
+            LEFT JOIN users u ON u.id = c.user_id
+            WHERE uc.user_id = ${userId};
             `;
-            return data[0] as unknown as UserWithRelations;
+            return data as CourseWithRelations[];
         } catch (error) {
             console.log(error);
-            return {};
+            return [];
         }
     },
     ["user_courses"],
