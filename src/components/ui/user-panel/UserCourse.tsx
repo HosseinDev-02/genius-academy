@@ -9,9 +9,13 @@ import ClockIcon from "../../icon/ClockIcon";
 import Image from "next/image";
 import { CourseWithRelations } from "@/src/lib/type-definition";
 
-export default function UserCourse(props: CourseWithRelations) {
+type Props = {
+    course: CourseWithRelations;
+};
+
+export default function UserCourse({ course }: Props) {
     const { category, price, is_completed, short_name, title, image, user } =
-        props;
+        course;
 
     return (
         <div>
@@ -23,6 +27,7 @@ export default function UserCourse(props: CourseWithRelations) {
                         className="w-full h-full"
                         src={image}
                         alt={title}
+                        priority
                     />
                 </Link>
                 <Link
@@ -87,7 +92,8 @@ export default function UserCourse(props: CourseWithRelations) {
                                 src={user?.image}
                                 alt={user?.name}
                                 fill
-                                objectFit="cover"
+                                sizes="100%"
+                                priority
                             />
                         </span>
                         <div className="flex flex-col gap-1 text-xs font-YekanBakh-SemiBold">

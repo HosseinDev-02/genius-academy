@@ -68,6 +68,7 @@ export const getUserCourses = unstable_cache(
         try {
             const data = await sql`
             SELECT 
+            c.id,
             c.price, 
             c.is_completed, 
             c.short_name, 

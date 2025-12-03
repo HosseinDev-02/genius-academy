@@ -45,11 +45,13 @@ export default function UserCourses({
                 <SubTitle title="دوره های من"></SubTitle>
                 <UserCoursesMenu type={type} setType={setType} />
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
-                {filteredCourses.map((course) => (
-                    <UserCourse key={course.id} {...course}></UserCourse>
-                ))}
-            </div>
+            {filteredCourses.length !== 0 && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
+                    {filteredCourses?.map((course) => (
+                        <UserCourse key={course.id} course={course} />
+                    ))}
+                </div>
+            )}
         </>
     );
 }

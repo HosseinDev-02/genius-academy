@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
-    remotePatterns: [new URL('https://upcdn.io/**')],
+    remotePatterns: [new URL('https://upcdn.io/**'), new URL('https://res.cloudinary.com/**')],
   }
 };
 

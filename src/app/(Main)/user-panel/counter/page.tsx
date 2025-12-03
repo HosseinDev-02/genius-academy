@@ -28,7 +28,7 @@ export default async function page() {
                         ? userCourses.map((course) => (
                               <UserCourse
                                   key={course.id}
-                                  {...course}
+                                  course={course}
                               ></UserCourse>
                           ))
                         : ""}

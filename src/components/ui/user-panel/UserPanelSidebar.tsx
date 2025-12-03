@@ -40,7 +40,8 @@ export default function UserPanelSidebar() {
                         src="/images/profile.jpeg"
                         alt="User Profile Image"
                         fill
-                        objectFit="cover"
+                        sizes="100%"
+                        priority
                     />
                 </span>
                 <div className="flex flex-col gap-1 text-xs font-YekanBakh-SemiBold">
