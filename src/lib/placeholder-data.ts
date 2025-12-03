@@ -919,11 +919,6 @@ export const adminPanelMenuItems = [
         href: "/services",
     },
     {
-        id: 5,
-        title: "سفارشات",
-        href: "/basket",
-    },
-    {
         id: 6,
         title: "منو",
         href: "/menus",
@@ -957,6 +952,11 @@ export const adminPanelMenuItems = [
         id: 13,
         title: "ویدیوها",
         href: "/videos",
+    },
+    {
+        id: 15,
+        title: "تخفیف ها",
+        href: "/offers",
     },
     {
         id: 14,

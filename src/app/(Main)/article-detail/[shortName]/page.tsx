@@ -7,7 +7,7 @@ import { getArticleByShortName } from "@/src/lib/storage/articles";
 import { generateHTML } from "@tiptap/html";
 import { extensions } from "@/src/lib/tiptapExtensions";
 import CommentWrapper from "@/src/components/section/courses/CommentsWrapper";
-import { getMe } from "@/src/lib/storage/users";
+import { getMe } from "@/src/lib/storage/me";
 
 export default async function ArticleDetail({
     params,

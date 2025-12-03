@@ -1,7 +1,8 @@
-import React from 'react'
+import OfferForm from "@/src/components/admin-panel/offers/OfferForm";
+import { getShortCourses } from "@/src/lib/storage/courses";
+import React from "react";
 
-export default function AddOfferPage() {
-  return (
-    <div>AddOfferPage</div>
-  )
+export default async function AddOfferPage() {
+    const courses = await getShortCourses();
+    return <OfferForm courses={courses} />;
 }

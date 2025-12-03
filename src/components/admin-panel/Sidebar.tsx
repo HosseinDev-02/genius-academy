@@ -23,6 +23,7 @@ import {
     Video,
     WrenchIcon,
     XIcon,
+    TicketPercent
 } from "lucide-react";
 import { adminPanelMenuItems } from "@/src/lib/placeholder-data";
 import { usePathname } from "next/navigation";
@@ -50,10 +51,10 @@ export default function Sidebar({ className }: { className: string }) {
         "/submenus": <LinkIcon size={24} />,
         "/sub-submenus": <LinkIcon size={24} />,
         "/users": <UsersRound size={24} />,
-        "/basket": <ShoppingBag size={24} />,
         "/comments": <Mails size={24} />,
         "/sessions": <Heading size={24} />,
         "/videos": <MonitorPlay size={24} />,
+        "/offers": <TicketPercent size={24} />,
         "": <PowerIcon size={24} />,
     };
 

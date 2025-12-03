@@ -1,7 +1,9 @@
+import OfferForm from '@/src/components/admin-panel/offers/OfferForm'
+import { getShortCourses } from '@/src/lib/storage/courses'
 import React from 'react'
 
-export default function EditOfferPage() {
+export default async function EditOfferPage() {
   return (
-    <div>EditOfferPage</div>
+    <div>Eidit Offer</div>
   )
 }

@@ -109,8 +109,7 @@ export const createCommentSchema = z
     .refine(
         (data) => {
             // یکی از course_id یا article_id باید مقدار داشته باشه، یا parent_id
-            const hasTarget =
-                data.course_id || data.article_id;
+            const hasTarget = data.course_id || data.article_id;
             return !!hasTarget;
         },
         {
@@ -148,3 +147,14 @@ export const createVideoSchema = z.object({
 export const updateVideoSchema = createVideoSchema.extend({
     video: z.any().optional(),
 });
+
+export const createOfferSchema = z.object({
+    course_id: z.string().uuid().nonempty("دوره را انتخاب کنید"),
+    code: z.string().nonempty("کد تخفیف را وارد کنید"),
+    discount_percent: z.coerce
+        .number()
+        .refine((val) => val > 0, "درصد تخفیف باید بزرگتر از صفر باشد"),
+    is_active: z.boolean().default(true),
+});
+
+export const updateOfferSchema = createOfferSchema.extend({});
