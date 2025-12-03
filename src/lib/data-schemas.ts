@@ -154,7 +154,7 @@ export const createOfferSchema = z.object({
     discount_percent: z.coerce
         .number()
         .refine((val) => val > 0, "درصد تخفیف باید بزرگتر از صفر باشد"),
-    is_active: z.boolean().default(true),
+    is_active: z.enum(['active' , 'inactive']),
 });
 
 export const updateOfferSchema = createOfferSchema.extend({});

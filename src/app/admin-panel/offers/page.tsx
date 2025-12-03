@@ -8,10 +8,11 @@ import React from "react";
 
 export default async function OffersPage() {
     const offers = await getAllOffers();
+    console.log('offers :', offers);
     return (
         <div dir="rtl">
             {/* Page Header */}
-            <PageHeader title="منو ها" className="!flex" />
+            <PageHeader title="تخفیف ها" className="!flex" />
             {/* Page Content */}
             <div className="h-full overflow-hidden">
                 <Link

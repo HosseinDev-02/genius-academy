@@ -50,17 +50,6 @@ export default function OfferTableAction({
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-40 bg-zinc-800 border-0 transition-all duration-300 *:hover:bg-zinc-700 *:hover:opacity-80">
-                    <DropdownMenuItem className="p-3">
-                        <Link
-                            className="flex items-center justify-start gap-2 text-white"
-                            href={`offers/edit/${offerId}`}
-                        >
-                            <PencilIcon size={18} />
-                            <span className="font-YekanBakh-SemiBold text-sm">
-                                ویرایش
-                            </span>
-                        </Link>
-                    </DropdownMenuItem>
                     <DropdownMenuItem
                         onClick={handleDeleteSession}
                         className="p-3 flex items-center cursor-pointer text-red-600"

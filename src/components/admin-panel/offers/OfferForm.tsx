@@ -45,13 +45,38 @@ export default function OfferForm({ courses }: Props) {
         defaultValues: {
             code: "",
             discount_percent: 0,
-            is_active: true,
+            is_active: "active",
             course_id: "",
         },
     });
 
-    const onSubmit = (values: z.infer<typeof schema>) => {
+    const onSubmit = async (values: z.infer<typeof schema>) => {
         console.log(values);
+        try {
+            const offerInfo = {
+                code: values.code,
+                discount_percent: values.discount_percent,
+                is_active: values.is_active,
+                course_id: values.course_id,
+            };
+            const response = await fetch("/api/offers", {
+                method: "POST",
+                body: JSON.stringify(offerInfo),
+            });
+            const result = await response.json();
+
+            if (result.success) {
+                toast.success(result.message);
+                form.reset();
+            } else {
+                throw new Error(result.error);
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(
+                error instanceof Error ? error.message : "خطایی رخ داد"
+            );
+        }
     };
 
     return (
@@ -99,7 +124,7 @@ export default function OfferForm({ courses }: Props) {
                                             <SelectTrigger className="w-full focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600">
                                                 <SelectValue
                                                     className={`font-YekanBakh-SemiBold`}
-                                                    placeholder="آموزش پروژه محور React"
+                                                    placeholder="انتخاب دوره"
                                                 />
                                             </SelectTrigger>
                                             <SelectContent className="bg-zinc-800 border-none">
