@@ -26,7 +26,7 @@ export const getMe = async (): Promise<User | null> => {
             throw new Error("User not found");
         }
 
-        return rows[0] as unknown as User;
+        return rows[0] as User;
     } catch (error) {
         console.log(error);
         return null;

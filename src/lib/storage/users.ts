@@ -194,5 +194,10 @@ export const getUserComments = unstable_cache(
         } catch (error) {
             return [];
         }
+    },
+    ["user_comments"],
+    {
+        revalidate: 10,
+        tags: ["user_comments"],
     }
 );
