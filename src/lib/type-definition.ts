@@ -8,9 +8,8 @@ export type Course = {
     user_id: string;
     short_name: string;
     is_completed: boolean;
-    created_at: Date;
-    updated_at: Date;
     content: any;
+    offer: number | null;
 };
 
 export type CourseWithRelations = Omit<Course, "category_id" | "user_id"> & {

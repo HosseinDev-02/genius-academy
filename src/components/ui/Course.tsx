@@ -10,15 +10,60 @@ import Image from "next/image";
 import { Course, CourseWithRelations } from "@/src/lib/type-definition";
 
 export default function Course(props: CourseWithRelations) {
-    const { category, price, is_completed, short_name, title, image, user } = props
-    // const [isImgLoaded, setIsImgLoaded] = useState(false);
+    const {
+        category,
+        price,
+        is_completed,
+        short_name,
+        title,
+        image,
+        user,
+        offer,
+    } = props;
 
-    // const imgLoadedHandler = () => setIsImgLoaded(true);
+    const renderPriceContent = () => {
+        if (price == 0)
+            return (
+                <div className="flex items-center justify-center h-14">
+                    <span className="text-success font-YekanBakh-Black text-xl line-clamp-1">
+                        رایگان !
+                    </span>
+                </div>
+            );
+        if (offer) {
+            const costPrice = (
+                Math.round((price - price * (offer / 100)) / 1000) * 1000
+            ) // Math.round(price - (price with offer) / 1000) * 1000
+                .toLocaleString();
+            return (
+                <div className="flex items-end h-14 flex-col justify-center">
+                    <span className='relative block before:bg-caption before:absolute before:-top-1 before:bottom-0 before:w-full before:my-auto before:h-px before:content[" "] font-YekanBakh-SemiBold'>
+                        {Number(price).toLocaleString()}
+                    </span>
+                    <div className="flex items-center gap-1">
+                        <span className="text-tXitle font-YekanBakh-Black text-lg xl:text-xl">
+                            {costPrice}
+                        </span>
+                    </div>
+                </div>
+            );
+        }
+        return (
+            <div className="flex items-center gap-1 h-14">
+                <span className="text-title font-YekanBakh-Black text-lg xl:text-xl">
+                    {Number(price).toLocaleString()}
+                </span>
+            </div>
+        );
+    };
 
     return (
         <div>
             <div className="flex items-center justify-center rounded-3xl overflow-hidden relative">
-                <Link className="flex w-full" href={`/course-detail/${short_name}`}>
+                <Link
+                    className="flex w-full"
+                    href={`/course-detail/${short_name}`}
+                >
                     <Image
                         width={400}
                         height={225}
@@ -85,19 +130,7 @@ export default function Course(props: CourseWithRelations) {
                         name={user?.name}
                         image={user?.image}
                     ></UserInfo>
-                    {price == 0 ? (
-                        <div className="flex items-center justify-center h-14">
-                            <span className="text-success font-YekanBakh-Black text-xl line-clamp-1">
-                                رایگان !
-                            </span>
-                        </div>
-                    ) : (
-                        <div className="flex items-center gap-1 h-14">
-                            <span className="text-title font-YekanBakh-Black text-lg xl:text-xl">
-                                {Number(price).toLocaleString()}
-                            </span>
-                        </div>
-                    )}
+                    {renderPriceContent()}
                 </div>
                 <div className="flex items-center gap-3 mt-3">
                     <PrimaryButton

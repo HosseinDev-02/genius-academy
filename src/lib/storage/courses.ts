@@ -5,26 +5,31 @@ import { unstable_cache } from "next/cache";
 export const getAllCourses = unstable_cache(
     async (): Promise<CourseWithRelations[]> => {
         try {
-            const data = await sql`SELECT 
-            c.id,
-            c.title,
-            c.price,
-            c.image,
-            c.short_name,
-            c.is_completed,
-            c.content,
-            c.about,
-            -- Category object (all fields)
-            row_to_json(c) AS category,
-            -- User object (all fields)
-            row_to_json(u) AS user,
-                c.created_at,
-            c.updated_at
+            const data = await sql`
+            SELECT
+                c.id,
+                c.title,
+                c.price,
+                c.image,
+                c.short_name,
+                c.is_completed,
+                c.content,
+                c.about,
+                -- Category object (all fields)
+                row_to_json(c) AS category,
+                -- User object (all fields)
+                row_to_json(u) AS user,
+                o.discount_percent AS offer
             FROM courses c
             JOIN categories cat ON c.category_id = cat.id
             JOIN users u ON c.user_id = u.id
-            ORDER BY c.created_at DESC`;
-            return data as unknown as CourseWithRelations[];
+            LEFT JOIN offers o 
+                ON o.course_id = c.id
+                AND o.is_active = TRUE
+            ORDER BY c.created_at DESC
+            `;
+
+            return data as CourseWithRelations[];
         } catch (error) {
             console.error(error);
             return [];
@@ -85,9 +90,9 @@ export const getCourseByShortName = unstable_cache(
               JOIN categories cat ON c.category_id = cat.id
               JOIN users u ON c.user_id = u.id
               WHERE c.short_name = ${shortName} ORDER BY c.created_at DESC`;
-            return data[0] as CourseWithRelations
+            return data[0] as CourseWithRelations;
         } catch (error) {
-            return null
+            return null;
         }
     },
     ["courses"],
@@ -167,7 +172,7 @@ export const getPopularCourses = unstable_cache(
     }
 );
 
-// SELECT 
+// SELECT
 //         c.id,
 //             c.title,
 //             c.price,
@@ -189,7 +194,7 @@ export const getPopularCourses = unstable_cache(
 //         JOIN courses c ON c.id = uf.course_id
 //         LEFT JOIN categories cat ON cat.id = c.category_id
 //         LEFT JOIN users u ON u.id = c.user_id
-//         GROUP BY 
+//         GROUP BY
 //             c.id,
 //             cat.*,
 //             u.*

@@ -4,5 +4,6 @@ import React from "react";
 
 export default async function AddOfferPage() {
     const courses = await getShortCourses();
-    return <OfferForm courses={courses} />;
+    const filteredCourses = courses.filter(course => course.price > 0)
+    return <OfferForm courses={filteredCourses} />;
 }
