@@ -13,7 +13,7 @@ export default function AdminPanelHeader({ className }: { className: string }) {
     const [isOpen, setIsOpen] = sidebarOpen;
     return (
         <div
-            className={`flex lg:hidden rounded-2xl items-center justify-between bg-zinc-900 p-4 ${className}`}
+            className={`flex lg:hidden rounded-4xl items-center justify-between bg-zinc-900 p-4 ${className}`}
         >
             <span className="cursor-pointer" onClick={() => setIsOpen((prevState) => !prevState)} title="Toggle Sidebar">
                 <TextAlignEnd size={24} />
