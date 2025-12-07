@@ -61,7 +61,7 @@ export default function Sidebar({ className }: { className: string }) {
     return (
         <>
             <div
-                className={`bg-zinc-900 transition-all duration-300 lg:rounded-2xl rounded-l-2xl fixed lg:static z-50 top-0 bottom-0 w-64 lg:w-full overflow-hidden flex flex-col ${
+                className={`content-wrapper transition-all duration-300 lg:rounded-2xl rounded-l-2xl fixed lg:static z-50 top-0 bottom-0 w-64 lg:w-full overflow-hidden flex flex-col ${
                     isOpen ? "right-0" : "-right-64"
                 } ${className}`}
             >

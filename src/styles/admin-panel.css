@@ -34,3 +34,9 @@
 .sidebar-content::-webkit-scrollbar-thumb:hover {
     background: rgba(9, 9, 11, 0.5);
 }
+
+.content-wrapper {
+    background-color: var(--color-zinc-900);
+    border-radius: var(--radius-2xl);
+    border: 2px solid var(--color-teal-900);
+}

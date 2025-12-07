@@ -39,7 +39,7 @@ export function DataTable<TData, TValue>({
     });
 
     return (
-        <div>
+        <div className="">
             <Table className="font-YekanBakh-SemiBold mb-8">
                 <TableHeader className="h-20">
                     {table.getHeaderGroups().map((headerGroup) => (

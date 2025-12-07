@@ -11,11 +11,11 @@ import { getAllCourses } from "@/src/lib/storage/courses";
 export default async function AdminPanelCourses() {
     const courses = await getAllCourses();
     return (
-        <div dir='rtl'>
+        <div className="grow flex flex-col">
             {/* Page Header */}
             <PageHeader className="!flex" title="دوره ها" />
             {/* Page Content */}
-            <div className="h-full overflow-hidden">
+            <div className="h-full">
                 {/* Course Table Header */}
                 <Link
                     href="courses/add-course"

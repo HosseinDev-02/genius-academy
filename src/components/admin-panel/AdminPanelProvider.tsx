@@ -26,11 +26,13 @@ export default function AdminPanelProvider({
                 <Sidebar className="lg:col-span-3 2xl:col-span-2" />
                 <div
                     dir="ltr"
-                    className={`panel-content grow w-full lg:col-span-9 2xl:col-span-8 bg-zinc-900 rounded-4xl transition-all duration-300 p-4 overflow-auto ${
+                    className={`content-wrapper flex lg:col-span-9 2xl:col-span-8 transition-all duration-300 max-h-screen overflow-hidden ${
                         sidebarState ? "" : ""
                     }`}
                 >
+                    <div dir="rtl" className="overflow-y-auto w-full h-full p-4 panel-content">
                     {children}
+                    </div>
                 </div>
                 <AdminPanelUserSidebar/>
             </div>

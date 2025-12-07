@@ -8,6 +8,7 @@ import Image from "next/image";
 import { toast } from "sonner";
 import dynamic from "next/dynamic";
 import CourseTableAction from "./CourseTableAction";
+import { CourseWithRelations } from "@/src/lib/type-definition";
 
 type Category = {
     id: string;
@@ -37,7 +38,7 @@ type Course = {
     about: string;
 };
 
-const columns: ColumnDef<Course>[] = [
+const columns: ColumnDef<CourseWithRelations>[] = [
     {
         accessorKey: "actions",
         header: "عملیات",
@@ -106,7 +107,7 @@ const columns: ColumnDef<Course>[] = [
     },
 ];
 
-export default function CoursesTable({ data }: { data: Course[] }) {
+export default function CoursesTable({ data }: { data: CourseWithRelations[] }) {
     const [columnVisibility, setColumnVisibility] =
         React.useState<VisibilityState>({});
     const isSmallerMobile = useMediaQuery("(max-width: 480px)");
