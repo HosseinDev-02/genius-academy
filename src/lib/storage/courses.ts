@@ -105,7 +105,7 @@ export const getCourseByShortName = unstable_cache(
 export const getLatestCourses = unstable_cache(
     async (): Promise<CourseWithRelations[]> => {
         try {
-            const data = await sql`SELECT 
+            const data = await sql` SELECT
             c.id,
             c.title,
             c.price,
@@ -115,15 +115,17 @@ export const getLatestCourses = unstable_cache(
             c.content,
             c.about,
             -- Category object (all fields)
-          row_to_json(c) AS category,
+            row_to_json(c) AS category,
             -- User object (all fields)
-          row_to_json(u) AS user,
-              c.created_at,
-            c.updated_at
-          FROM courses c
-          JOIN categories cat ON c.category_id = cat.id
-          JOIN users u ON c.user_id = u.id
-          ORDER BY c.created_at DESC LIMIT 3;`;
+            row_to_json(u) AS user,
+            o.discount_percent AS offer
+        FROM courses c
+        JOIN categories cat ON c.category_id = cat.id
+        JOIN users u ON c.user_id = u.id
+        LEFT JOIN offers o 
+            ON o.course_id = c.id
+            AND o.is_active = TRUE
+        ORDER BY c.created_at DESC LIMIT 3;`;
             return data as CourseWithRelations[];
         } catch (error) {
             console.error(error);
@@ -140,7 +142,7 @@ export const getLatestCourses = unstable_cache(
 export const getPopularCourses = unstable_cache(
     async (): Promise<CourseWithRelations[]> => {
         try {
-            const data = await sql`SELECT 
+            const data = await sql` SELECT
             c.id,
             c.title,
             c.price,
@@ -153,12 +155,14 @@ export const getPopularCourses = unstable_cache(
             row_to_json(c) AS category,
             -- User object (all fields)
             row_to_json(u) AS user,
-            c.created_at,
-            c.updated_at
-            FROM courses c
-            JOIN categories cat ON c.category_id = cat.id
-            JOIN users u ON c.user_id = u.id
-            ORDER BY c.created_at DESC LIMIT 6`;
+            o.discount_percent AS offer
+        FROM courses c
+        JOIN categories cat ON c.category_id = cat.id
+        JOIN users u ON c.user_id = u.id
+        LEFT JOIN offers o 
+            ON o.course_id = c.id
+            AND o.is_active = TRUE
+        ORDER BY c.created_at DESC LIMIT 6`;
             return data as CourseWithRelations[];
         } catch (error) {
             console.error(error);
