@@ -58,7 +58,7 @@ const columns: ColumnDef<CourseWithRelations>[] = [
     {
         accessorKey: "category",
         header: "دسته بندی",
-        cell: ({ row }) => row.original.category.title,
+        cell: ({ row }) => row.original.category.short_name,
     },
     {
         accessorKey: "price",
@@ -93,7 +93,7 @@ const columns: ColumnDef<CourseWithRelations>[] = [
         header: "تصویر",
         cell: ({ row }) => {
             return (
-                <span className="block relative w-24 h-12 rounded overflow-hidden">
+                <span className="block relative w-20 h-10 rounded overflow-hidden">
                     <Image
                         sizes="100%"
                         alt="img"

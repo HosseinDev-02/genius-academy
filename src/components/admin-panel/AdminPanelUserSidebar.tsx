@@ -3,7 +3,7 @@ import React from "react";
 
 export default function AdminPanelUserSidebar() {
     return (
-        <div className="content-wrapper text-sm font-YekanBakh-SemiBold col-span-2">
+        <div className="content-wrapper text-sm font-YekanBakh-SemiBold col-span-2 hidden">
             <div className="flex items-center lg:justify-center justify-between border-b border-teal-800 py-4 px-2">
                 <h5 className="block font-YekanBakh-Black text-2xl text-center text-teal-700">
                     اطلاعات کاربر
@@ -22,13 +22,13 @@ export default function AdminPanelUserSidebar() {
                     </div>
                 </div>
                 <div className="space-y-5 mt-6">
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between flex-wrap gap-2">
                         <span className="font-YekanBakh-Bold">نام کامل :</span>
                         <span className="font-YekanBakh-Regular">
                             حسین رستمی
                         </span>
                     </div>
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between flex-wrap gap-2">
                         <span className="font-YekanBakh-Bold">
                             شماره تماس :
                         </span>
@@ -36,13 +36,13 @@ export default function AdminPanelUserSidebar() {
                             09930094221
                         </span>
                     </div>
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between flex-wrap gap-2">
                         <span className="font-YekanBakh-Bold">ایمیل :</span>
                         <span className="font-YekanBakh-Regular">
                             a6PbI@example.com
                         </span>
                     </div>
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between flex-wrap gap-2">
                         <span className="font-YekanBakh-Bold">
                             سطح دسترسی :
                         </span>

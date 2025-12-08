@@ -66,7 +66,7 @@ export default function Sidebar({ className }: { className: string }) {
                 } ${className}`}
             >
                 {/* Sidebar Header */}
-                <div className="flex items-center lg:justify-center justify-between border-b border-teal-800 py-4 px-2">
+                {/* <div className="flex items-center lg:justify-center justify-between border-b border-teal-800 py-4 px-2">
                     <h5 className="block font-YekanBakh-Black text-2xl text-center text-teal-700">
                         پنل مدیریت
                     </h5>
@@ -76,7 +76,7 @@ export default function Sidebar({ className }: { className: string }) {
                     >
                         <XIcon size={20} />
                     </span>
-                </div>
+                </div> */}
                 {/* Sidebar Menu */}
                 <div dir="ltr" className="sidebar-content overflow-y-auto h-full">
                     <ul
