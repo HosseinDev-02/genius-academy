@@ -23,7 +23,7 @@ import {
     Video,
     WrenchIcon,
     XIcon,
-    TicketPercent
+    TicketPercent,
 } from "lucide-react";
 import { adminPanelMenuItems } from "@/src/lib/placeholder-data";
 import { usePathname } from "next/navigation";
@@ -55,7 +55,6 @@ export default function Sidebar({ className }: { className: string }) {
         "/sessions": <Heading size={24} />,
         "/videos": <MonitorPlay size={24} />,
         "/offers": <TicketPercent size={24} />,
-        "": <PowerIcon size={24} />,
     };
 
     return (
@@ -78,23 +77,24 @@ export default function Sidebar({ className }: { className: string }) {
                     </span>
                 </div> */}
                 {/* Sidebar Menu */}
-                <div dir="ltr" className="sidebar-content overflow-y-auto h-full">
-                    <ul
-                        className="flex flex-col gap-3 font-YekanBakh-SemiBold text-white h-fit *:rounded-md my-4 px-2 *:transition-colors *:duration-300 *:cursor-pointer *:w-full *:px-2 *:shrink-0 *:h-12 *:flex *:flex-row-reverse *:items-center *:justify-start *:gap-3"
-                    >
+                <div
+                    dir="ltr"
+                    className="sidebar-content overflow-y-auto h-full"
+                >
+                    <ul className="flex flex-col gap-3 font-YekanBakh-SemiBold text-white h-fit *:rounded-md my-4 px-2 *:transition-colors *:duration-300 *:cursor-pointer *:w-full *:px-2 *:shrink-0 *:h-12 *:flex *:flex-row-reverse *:items-center *:justify-start *:gap-3">
                         {adminPanelMenuItems.map((item) => {
                             const Icon = iconsMap[item.href];
                             return (
                                 <Link
                                     key={item.id}
-                                    className={`hover:bg-teal-600 ${item.title === 'خروج از سیستم' && 'text-red-600 hover:bg-red-600 hover:opacity-80'} ${
-                                        (pathname.includes(item.href) && item.title !== 'خروج از سیستم')
+                                    className={`hover:bg-teal-600 ${
+                                        pathname.includes(item.href)
                                             ? "bg-teal-800"
                                             : ""
                                     } `}
                                     href={`/admin-panel/${item.href}`}
                                 >
-                                    {Icon ? Icon : (<PowerIcon size={24} />)}
+                                    {Icon}
                                     <span>{item.title}</span>
                                 </Link>
                             );

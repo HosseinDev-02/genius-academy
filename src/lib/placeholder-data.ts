@@ -958,9 +958,4 @@ export const adminPanelMenuItems = [
         title: "تخفیف ها",
         href: "/offers",
     },
-    {
-        id: 14,
-        title: "خروج از سیستم",
-        href: "/",
-    },
 ];
