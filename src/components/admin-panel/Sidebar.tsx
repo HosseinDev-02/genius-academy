@@ -65,9 +65,9 @@ export default function Sidebar({ className }: { className: string }) {
                 } ${className}`}
             >
                 {/* Sidebar Header */}
-                {/* <div className="flex items-center lg:justify-center justify-between border-b border-teal-800 py-4 px-2">
+                <div className="flex items-center lg:justify-center justify-between border-b border-teal-800 py-4 px-2">
                     <h5 className="block font-YekanBakh-Black text-2xl text-center text-teal-700">
-                        پنل مدیریت
+                        منو
                     </h5>
                     <span
                         onClick={() => setIsOpen(false)}
@@ -75,7 +75,7 @@ export default function Sidebar({ className }: { className: string }) {
                     >
                         <XIcon size={20} />
                     </span>
-                </div> */}
+                </div>
                 {/* Sidebar Menu */}
                 <div
                     dir="ltr"
@@ -104,7 +104,7 @@ export default function Sidebar({ className }: { className: string }) {
             </div>
             <Cover
                 setElemStatus={setIsOpen}
-                className={`z-40 bg-zinc-900/80 ${
+                className={`lg:hidden z-40 bg-zinc-900/80 ${
                     isOpen ? "opacity-100 visible" : "opacity-0 invisible"
                 }`}
             />
