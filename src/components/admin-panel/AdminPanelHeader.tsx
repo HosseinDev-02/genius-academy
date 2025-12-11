@@ -3,6 +3,7 @@ import { LucideCircleUserRound, LucideMenu, LucidePower } from "lucide-react";
 import React from "react";
 import { useAdminPanelContext } from "./AdminPanelProvider";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 export default function AdminPanelHeader({
     className,
@@ -12,7 +13,7 @@ export default function AdminPanelHeader({
     const { sidebarOpen } = useAdminPanelContext();
     const [isOpen, setIsOpen] = sidebarOpen;
     return (
-        <div className="content-wrapper h-20 flex flex-row items-center justify-between px-4">
+        <div className="content-wrapper shadow-[0_0_6px_2px_rgba(0,0,0,0.8)] h-20 flex flex-row items-center justify-between px-4">
             <div className="flex items-center gap-4">
                 <span
                     onClick={() => {
@@ -23,10 +24,13 @@ export default function AdminPanelHeader({
                     <LucideMenu className="shrink-0 text-stone-400" size={24} />
                 </span>
                 <div className="flex items-center gap-2">
-                    <LucideCircleUserRound
+                    {/* <LucideCircleUserRound
                         className="text-teal-700"
                         size={32}
-                    />
+                    /> */}
+                    <div className="w-12 h-12 overflow-hidden flex items-center justify-center border-3 border-teal-700 rounded-full">
+                        <Image className="rounded-full" priority alt="user_image" width={44} height={44} src={'/images/profile.jpeg'}/>
+                    </div>
                     <div className="hidden md:flex flex-col gap-2 items-start font-YekanBakh-Bold">
                         <h6 className="text-sm">حسین رستمی</h6>
                         <span className="text-xs">مدرس</span>

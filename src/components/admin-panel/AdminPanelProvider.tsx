@@ -33,17 +33,19 @@ export default function AdminPanelProvider({
     const sidebarState = useState(false);
     return (
         <AdminPanelContext.Provider value={{ sidebarOpen: sidebarState }}>
-            <div className="h-full overflow-hidden grid grid-rows-[auto_1fr] gap-4 p-3 lg:p-4">
+            <div className="h-full overflow-hidden grid grid-rows-[auto_1fr] p-3">
                 {/* Admin Panel Header */}
+                <div className="w-full h-full p-3">
                 <AdminPanelHeader/>
+                </div>
                 {/* Admin Panel Body */}
-                <div className="w-full h-full flex flex-col lg:grid lg:grid-cols-12 lg:gap-4 gap-3 overflow-hidden">
+                <div className="w-full h-full flex flex-col lg:grid lg:grid-cols-12 gap-6 overflow-hidden p-3">
                     {/* Admin Panel Sidebar */}
                     <Sidebar className="lg:col-span-3 2xl:col-span-2 h-full" />
                     {/* Admin Panel Content */}
                     <div
                         dir="ltr"
-                        className={`content-wrapper flex lg:col-span-9 2xl:col-span-10 transition-all duration-300 overflow-hidden h-full ${
+                        className={`content-wrapper shadow-[0_0_6px_2px_rgba(0,0,0,0.8)] flex lg:col-span-9 2xl:col-span-10 transition-all duration-300 overflow-hidden h-full ${
                             sidebarState ? "" : ""
                         }`}
                     >

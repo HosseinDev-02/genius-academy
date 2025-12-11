@@ -60,12 +60,12 @@ export default function Sidebar({ className }: { className: string }) {
     return (
         <>
             <div
-                className={`content-wrapper transition-all duration-300 lg:rounded-2xl rounded-l-2xl fixed lg:static z-50 top-0 bottom-0 w-64 lg:w-full overflow-hidden flex flex-col ${
+                className={`content-wrapper overflow-hidden transition-all duration-300 shadow-[0_0_6px_2px_rgba(0,0,0,0.8)] lg:rounded-2xl rounded-l-2xl fixed lg:static z-50 top-0 bottom-0 w-64 lg:w-full flex flex-col ${
                     isOpen ? "right-0" : "-right-64"
                 } ${className}`}
             >
                 {/* Sidebar Header */}
-                <div className="flex items-center lg:justify-center justify-between border-b border-teal-800 py-4 px-2">
+                <div className="flex items-center lg:justify-center justify-between border-b-2 border-teal-800 py-4 px-2">
                     <h5 className="block font-YekanBakh-Black text-2xl text-center text-teal-700">
                         منو
                     </h5>

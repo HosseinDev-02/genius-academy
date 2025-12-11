@@ -39,6 +39,6 @@
     background-color: var(--color-zinc-900);
     border-radius: var(--radius-2xl);
     /* border: 2px solid var(--color-teal-900); */
-    box-shadow: 0 0 20px var(--color-zinc-900);
+    /* box-shadow: 0 0 20px var(--color-zinc-900); */
     /* box-shadow: 0 0 20px var(--color-teal-900); */
 }
