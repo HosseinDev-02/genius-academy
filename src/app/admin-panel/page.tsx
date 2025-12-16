@@ -37,11 +37,11 @@ export default function Page() {
             {/* Page Header */}
             <PageHeader className="!flex" title="داشبورد" />
             {/* Dashboard Count Boxes */}
-            <div className="flex justify-between w-full gap-8">
+            {/* <div className="flex justify-between w-full gap-8">
                 {counterItems.map((item) => (
                     <Box key={item.id} {...item} />
                 ))}
-            </div>
+            </div> */}
         </div>
     );
 }

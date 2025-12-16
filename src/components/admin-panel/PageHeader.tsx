@@ -1,31 +1,38 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 
-type PageHeader = {
-    title: string;
-    className?: string;
-};
+const breadcrumbMap: Record<string, string> = {
+    'admin-panel': 'پنل مدیریت',
+    'courses': 'دوره ها',
+    'add': 'افزودن',
+    'edit': 'ویرایش'
+}
 
-export default function PageHeader({ title, className }: PageHeader) {
+export default function PageHeader() {
+    const pathname = usePathname();
+    const segments = pathname.split("/").filter(Boolean);
     return (
-        <div dir="rtl" className={`flex md:inline-flex items-center justify-center gap-3 mb-8 ${className}`}>
-            <div className="hidden sm:flex items-center gap-1">
-                <span className="block w-20 md:w-40 h-1 rounded-xl bg-gradient-to-r from-teal-600 to-teal-400/10"></span>
-                <span className="block w-2 h-2 rounded-full border-3 border-teal-600 bg-teal-600"></span>
-                <span className="hidden md:block w-3 h-3 rounded-full border-3 border-teal-600"></span>
-                <span className="hidden md:block w-4 h-4 rounded-full border-3 border-teal-600"></span>
-            </div>
-            <h2 className="text-2xl md:text-3xl text-center font-YekanBakh-Bold">
-                {title}
-            </h2>
-            <div className="hidden sm:flex items-center gap-1">
-                <span className="hidden md:block w-4 h-4 rounded-full border-3 border-teal-600"></span>
-                <span className="hidden md:block w-3 h-3 rounded-full border-3 border-teal-600"></span>
-                <span className="block w-2 h-2 rounded-full border-3 border-teal-600 bg-teal-600"></span>
-                <span className="block w-20 md:w-40 h-1 rounded-xl bg-gradient-to-l from-teal-600 to-teal-400/10"></span>
-            </div>
+        <div className="flex items-center gap-1 text-sm font-YekanBakh-Bold pb-4 mb-4 border-b border-gray-700">
+            {segments.map((segment, index) => {
+                const href = "/" + segments.slice(0, index + 1).join("/");
+                const isLast = index === segments.length - 1;
+                return (
+                    <span className="flex items-center gap-1" key={index}>
+                        {index !== 0 && <span>/</span>}
+                        {isLast ? (
+                            <span className="text-teal-600">{breadcrumbMap[segment]}</span>
+                        ) : (
+                            <Link href={href}>
+                                {breadcrumbMap[segment]}
+                            </Link>
+                        )}
+                    </span>
+                );
+            })}
         </div>
     );
 }

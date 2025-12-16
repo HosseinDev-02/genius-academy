@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import { StateProp } from "@/src/lib/definition";
 import AdimnPanelHeader from "./AdminPanelHeader";
@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AdminPanelHeader from "./AdminPanelHeader";
+import { User } from "@/src/lib/type-definition";
 
 type LayoutContextType = {
     sidebarOpen: StateProp<boolean>; // state + setState
@@ -27,16 +28,20 @@ const AdminPanelContext = createContext<LayoutContextType | undefined>(
 
 export default function AdminPanelProvider({
     children,
+    user
 }: {
     children: React.ReactNode;
+    user: User
 }) {
+
     const sidebarState = useState(false);
+
     return (
         <AdminPanelContext.Provider value={{ sidebarOpen: sidebarState }}>
             <div className="h-full overflow-hidden grid grid-rows-[auto_1fr] p-3">
                 {/* Admin Panel Header */}
                 <div className="w-full h-full p-3">
-                <AdminPanelHeader/>
+                    <AdminPanelHeader user={user}/>
                 </div>
                 {/* Admin Panel Body */}
                 <div className="w-full h-full flex flex-col lg:grid lg:grid-cols-12 gap-6 overflow-hidden p-3">

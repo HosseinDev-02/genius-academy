@@ -1,4 +1,5 @@
 import {
+    LogIn,
     LucideShoppingCart,
 } from "lucide-react";
 import UserProfile from "../ui/user/UserProfile";
@@ -10,6 +11,7 @@ import MobileMenuButton from "../ui/Menu/MobileMenuButton";
 import MenuWrapper from "../ui/Menu/MenuWrapper";
 import { cookies } from "next/headers";
 import UserProfileWrapper from "../ui/user/UserProfileWrapper";
+import PrimaryButton from "../ui/button/PrimaryButton";
 
 async function Header() {
     const cookiesStore = await cookies()
@@ -41,7 +43,9 @@ async function Header() {
                                 count={2}
                             ></RoundButton>
                             {/* header user profile btn */}
-                            {token && <UserProfileWrapper/>}
+                            {token ? <UserProfileWrapper/> : (
+                                <PrimaryButton href="/login" icon={<LogIn size={20}/>} title="ورود/ثبت نام"/>
+                            )}
                         </div>
                     </nav>
                 </div>
