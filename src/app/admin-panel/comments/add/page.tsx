@@ -1,3 +1,4 @@
+import PageHeader from "@/src/components/admin-panel/PageHeader";
 import CommentForm from "@/src/components/admin-panel/comments/CommentForm";
 import { getShortArticles } from "@/src/lib/storage/articles";
 import { getAllComments } from "@/src/lib/storage/comments";
@@ -12,11 +13,14 @@ export default async function AddCommentPage() {
     const comments = await getAllComments();
 
     return (
-        <CommentForm
-            users={users}
-            courses={courses}
-            articles={articles}
-            mode="add"
-        />
+        <>
+            <PageHeader />
+            <CommentForm
+                users={users}
+                courses={courses}
+                articles={articles}
+                mode="add"
+            />
+        </>
     );
 }

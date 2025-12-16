@@ -1,3 +1,4 @@
+import PageHeader from "@/src/components/admin-panel/PageHeader";
 import ArticleForm from "@/src/components/admin-panel/articles/ArticleForm";
 import React from "react";
 
@@ -7,5 +8,14 @@ export default async function EditArticlePage(context: {
     const { id } = await context.params;
     const response = await fetch(`http://localhost:3000/api/articles/${id}`);
     const data = await response.json();
-    return <ArticleForm articleId={id} defaultValues={{ ...data }} mode="edit" />;
+    return (
+        <>
+            <PageHeader />
+            <ArticleForm
+                articleId={id}
+                defaultValues={{ ...data }}
+                mode="edit"
+            />
+        </>
+    );
 }

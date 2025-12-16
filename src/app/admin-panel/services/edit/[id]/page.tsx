@@ -1,3 +1,4 @@
+import PageHeader from "@/src/components/admin-panel/PageHeader";
 import ServiceForm from "@/src/components/admin-panel/services/ServiceForm";
 import { Service } from "@/src/lib/type-definition";
 import React from "react";
@@ -10,10 +11,13 @@ export default async function EditServicePage(context: {
     const data = (await response.json()) as unknown as Service;
     console.log("service :", data);
     return (
-        <ServiceForm
-            mode="edit"
-            serviceId={id}
-            defaultValues={{ title: data.title, key: data.key }}
-        />
+        <>
+            <PageHeader />
+            <ServiceForm
+                mode="edit"
+                serviceId={id}
+                defaultValues={{ title: data.title, key: data.key }}
+            />
+        </>
     );
 }

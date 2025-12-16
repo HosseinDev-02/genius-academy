@@ -1,12 +1,12 @@
 import PageHeader from "@/src/components/admin-panel/PageHeader";
-import SubmenuForm from "@/src/components/admin-panel/submenus/SubmenuForm";
+import CategoryForm from "@/src/components/admin-panel/categories/CategoryForm";
 import React from "react";
 
-export default function AddSubmenuPage() {
+export default function AddCategoryPage() {
     return (
         <>
             <PageHeader />
-            <SubmenuForm mode="add" />
+            <CategoryForm mode="add" />
         </>
     );
 }

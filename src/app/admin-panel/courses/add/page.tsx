@@ -1,16 +1,14 @@
+import PageHeader from "@/src/components/admin-panel/PageHeader";
 import CourseForm from "@/src/components/admin-panel/courses/CourseForm";
-import { getAllCategories, getAllCourses, getAllTeachers } from "@/src/lib/actions";
 import React from "react";
-
-
-
 
 export default async function AddCourse() {
     return (
-        <div>
+        <>
+            <PageHeader />
             {/* Page Header */}
             {/* Page Content */}
-            <CourseForm mode="add"/>
-        </div>
+            <CourseForm mode="add" />
+        </>
     );
 }

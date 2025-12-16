@@ -13,7 +13,7 @@ export default async function SubSubmenuPage() {
     return (
         <div dir='rtl'>
             {/* Page Header */}
-            <PageHeader className="!flex" title="منوهای فرعی" />
+            <PageHeader />
             {/* Page Content */}
             <div className="h-full overflow-hidden">
                 <Link

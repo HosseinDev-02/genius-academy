@@ -13,7 +13,7 @@ export default async function AdminPanelMenuLinks() {
     return (
         <div dir="rtl">
             {/* Page Header */}
-            <PageHeader title="منو ها" className="!flex" />
+            <PageHeader />
             {/* Page Content */}
             <div className="h-full overflow-hidden">
                 <Link

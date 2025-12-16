@@ -8,8 +8,19 @@ import React from "react";
 const breadcrumbMap: Record<string, string> = {
     'admin-panel': 'پنل مدیریت',
     'courses': 'دوره ها',
+    'categories': 'دسته بندی ها',
+    'services': 'خدمات',
+    'menus': 'منوها',
+    'users': 'کاربران',
+    'videos': 'ویدیوها',
+    'offers': 'تخفیف ها',
+    'submenus': 'زیرمنوها',
+    'sub-submenus': 'زیرمنوهای فرعی',
+    'sessions': 'سرفصل ها',
+    'comments': 'کامنت ها',
+    'articles': 'مقاله ها',
     'add': 'افزودن',
-    'edit': 'ویرایش'
+    'edit': 'ویرایش',
 }
 
 export default function PageHeader() {
@@ -24,10 +35,10 @@ export default function PageHeader() {
                     <span className="flex items-center gap-1" key={index}>
                         {index !== 0 && <span>/</span>}
                         {isLast ? (
-                            <span className="text-teal-600">{breadcrumbMap[segment]}</span>
+                            <span className="text-teal-600">{breadcrumbMap[segment] ?? segment}</span>
                         ) : (
                             <Link href={href}>
-                                {breadcrumbMap[segment]}
+                                {breadcrumbMap[segment] ?? segment}
                             </Link>
                         )}
                     </span>

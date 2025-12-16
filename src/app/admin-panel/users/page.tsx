@@ -12,11 +12,11 @@ export default async function AdminPanelUsers() {
     return (
         <div dir='rtl'>
             {/* Page Header */}
-            <PageHeader title="کاربران" className="!flex" />
+            <PageHeader />
             {/* Page Content */}
             <div className="overflow-hidden h-full">
                 <Link
-                    href="users/add-user"
+                    href="users/add"
                     className="col-span-1 inline-flex items-center justify-center gap-2 text-sm h-10 px-3 rounded transition-colors duration-300 bg-teal-800 hover:bg-teal-600 font-YekanBakh-SemiBold text-white cursor-pointer mb-3"
                 >
                     <span>افزودن کاربر</span>

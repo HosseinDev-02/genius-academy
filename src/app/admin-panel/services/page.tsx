@@ -13,11 +13,11 @@ export default async function AdminPanelServices() {
     return (
         <div dir='rtl'>
             {/* Page Header */}
-            <PageHeader title="خدمات" className="!flex" />
+            <PageHeader />
             {/* Page Content */}
             <div className="h-full overflow-hidden">
                 <Link
-                    href="services/add-service"
+                    href="services/add"
                     className="col-span-1 inline-flex items-center justify-center gap-2 text-sm h-10 px-3 rounded transition-colors duration-300 bg-teal-800 hover:bg-teal-600 font-YekanBakh-SemiBold text-white cursor-pointer mb-3"
                 >
                     <span>افزودن سرویس</span>

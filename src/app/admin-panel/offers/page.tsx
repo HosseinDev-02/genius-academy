@@ -12,7 +12,7 @@ export default async function OffersPage() {
     return (
         <div dir="rtl">
             {/* Page Header */}
-            <PageHeader title="تخفیف ها" className="!flex" />
+            <PageHeader />
             {/* Page Content */}
             <div className="h-full overflow-hidden">
                 <Link

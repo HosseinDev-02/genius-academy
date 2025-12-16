@@ -13,12 +13,12 @@ export default async function AdminPanelCourses() {
     return (
         <div className="grow flex flex-col">
             {/* Page Header */}
-            <PageHeader className="!flex" title="دوره ها" />
+            <PageHeader />
             {/* Page Content */}
             <div className="h-full">
                 {/* Course Table Header */}
                 <Link
-                    href="courses/add-course"
+                    href="courses/add"
                     className="col-span-1 inline-flex items-center justify-center gap-2 text-sm h-10 px-3 rounded transition-colors duration-300 bg-teal-800 hover:bg-teal-600 font-YekanBakh-SemiBold text-white cursor-pointer mb-3"
                 >
                     <span>افزودن دوره</span>

@@ -1,3 +1,4 @@
+import PageHeader from "@/src/components/admin-panel/PageHeader";
 import CourseForm from "@/src/components/admin-panel/courses/CourseForm";
 import React from "react";
 
@@ -8,7 +9,8 @@ export default async function EditCourse(context: {
     const response = await fetch(`http://localhost:3000/api/courses/${id}`);
     const course = await response.json();
     return (
-        <div>
+        <>
+            <PageHeader />
             {/* Edit Course Form */}
             <CourseForm
                 defaultValues={{
@@ -27,6 +29,6 @@ export default async function EditCourse(context: {
                 courseId={id}
                 mode="edit"
             />
-        </div>
+        </>
     );
 }

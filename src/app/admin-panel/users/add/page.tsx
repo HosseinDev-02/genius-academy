@@ -1,12 +1,12 @@
 import PageHeader from "@/src/components/admin-panel/PageHeader";
-import SubmenuForm from "@/src/components/admin-panel/submenus/SubmenuForm";
+import UserForm from "@/src/components/admin-panel/users/UserForm";
 import React from "react";
 
-export default function AddSubmenuPage() {
+export default function AddUserPage() {
     return (
         <>
             <PageHeader />
-            <SubmenuForm mode="add" />
+            <UserForm mode="add" />
         </>
     );
 }
