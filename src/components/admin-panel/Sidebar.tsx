@@ -31,31 +31,31 @@ import { useAdminPanelContext } from "./AdminPanelProvider";
 import Cover from "../shared/Cover";
 import CommentsIcon from "../icon/CommentsIcon";
 
-type SidebarProps = {
-    showSidebar: boolean;
-    setShowSidebar: React.Dispatch<SetStateAction<boolean>>;
-};
-
 export default function Sidebar({ className }: { className: string }) {
     const pathname = usePathname();
     const { sidebarOpen } = useAdminPanelContext();
     const [isOpen, setIsOpen] = sidebarOpen;
+    // console.log('pathname :', pathname);
 
     const iconsMap: Record<string, JSX.Element> = {
-        "/counter": <ChartPie size={24} />,
-        "/courses": <GraduationCap size={24} />,
-        "/articles": <FileText size={24} />,
-        "/categories": <Shapes size={24} />,
-        "/services": <WrenchIcon size={24} />,
-        "/menus": <LinkIcon size={24} />,
-        "/submenus": <LinkIcon size={24} />,
-        "/sub-submenus": <LinkIcon size={24} />,
-        "/users": <UsersRound size={24} />,
-        "/comments": <Mails size={24} />,
-        "/sessions": <Heading size={24} />,
-        "/videos": <MonitorPlay size={24} />,
-        "/offers": <TicketPercent size={24} />,
+        "/": <ChartPie size={24} />,
+        "courses": <GraduationCap size={24} />,
+        "articles": <FileText size={24} />,
+        "categories": <Shapes size={24} />,
+        "services": <WrenchIcon size={24} />,
+        "menus": <LinkIcon size={24} />,
+        "submenus": <LinkIcon size={24} />,
+        "sub-submenus": <LinkIcon size={24} />,
+        "users": <UsersRound size={24} />,
+        "comments": <Mails size={24} />,
+        "sessions": <Heading size={24} />,
+        "videos": <MonitorPlay size={24} />,
+        "offers": <TicketPercent size={24} />,
     };
+
+    const splitPathname = pathname.split('/').filter(Boolean)
+
+    console.log(splitPathname);
 
     return (
         <>
@@ -88,7 +88,7 @@ export default function Sidebar({ className }: { className: string }) {
                                 <Link
                                     key={item.id}
                                     className={`hover:bg-teal-600 ${
-                                        pathname.includes(item.href)
+                                        (pathname.includes(`/${item.href}`) || item.href === '/' && splitPathname.length == 1)
                                             ? "bg-teal-800"
                                             : ""
                                     } `}
