@@ -72,7 +72,7 @@ export async function PUT(
         const repeat_password = formData.get("repeat_password") as string;
         const role = formData.get("role") as string;
         const about = formData.get("about") as string;
-        const image = formData.get("image") as File;
+        const image = formData.get("image") as string | null;
 
         let passwordHash = mainUser.password;
 
@@ -94,8 +94,8 @@ export async function PUT(
 
         let imageUrl: string | null = null;
 
-        if (image && typeof image === "object" && "arrayBuffer" in image) {
-            imageUrl = await uploadImage(image, "genius-academy/images/users");
+        if (image) {
+            imageUrl = image;
         }
 
         // اگر تصویر جدیدی نیست، مقدار قبلی حفظ شود

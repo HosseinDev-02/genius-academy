@@ -1,5 +1,7 @@
 import PageHeader from "@/src/components/admin-panel/PageHeader";
 import CourseForm from "@/src/components/admin-panel/courses/CourseForm";
+import { getAllCategories } from "@/src/lib/storage/categories";
+import { getAllTeachers } from "@/src/lib/storage/users";
 import React from "react";
 
 export default async function EditCourse(context: {
@@ -8,11 +10,15 @@ export default async function EditCourse(context: {
     const { id } = await context.params;
     const response = await fetch(`http://localhost:3000/api/courses/${id}`);
     const course = await response.json();
+    const teachers = await getAllTeachers();
+    const categories = await getAllCategories();
     return (
         <>
             <PageHeader />
             {/* Edit Course Form */}
             <CourseForm
+                teachers={teachers}
+                categories={categories}
                 defaultValues={{
                     title: course.title,
                     about: course.about,
