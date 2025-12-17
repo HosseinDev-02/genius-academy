@@ -14,7 +14,6 @@ import { useState } from "react";
 import RoundButton from "../button/RoundButton";
 import { useAuthContext } from "../../layout/LayoutProvider";
 import { Toaster, toast } from "sonner";
-import { useRouter } from "next/navigation";
 import { User } from "@/src/lib/type-definition";
 
 function setUserProfileItemIcon(title: string): LucideIcon {
@@ -33,7 +32,6 @@ function setUserProfileItemIcon(title: string): LucideIcon {
 export default function UserProfile({ user }: { user: User | null }) {
     const [userProfileShow, setUserProfileShow] = useState(false);
     const { logout } = useAuthContext();
-    const router = useRouter();
 
     const logOutHandler = async (
         e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -44,7 +42,7 @@ export default function UserProfile({ user }: { user: User | null }) {
             console.log("response :", response);
             if (response.success) {
                 toast.success(response.message);
-                router.push("/login");
+                window.location.href = "/login";
             } else {
                 throw new Error(response.message);
             }
