@@ -1,27 +1,42 @@
-import  * as ByteScale from '@bytescale/sdk';
+import * as ByteScale from "@bytescale/sdk";
 
-export async function uploadImage(file: File, folderPath: string) {
-
+export async function uploadImage(
+    file: File,
+    setUploading?: React.Dispatch<React.SetStateAction<boolean>>
+) {
     try {
-        const arrayBuffer = await file.arrayBuffer();
+        // 1) گرفتن signature
+        if (setUploading) {
+            setUploading(true);
+        }
+        const { timestamp, signature, apiKey, cloudName } = await fetch(
+            "/api/cloudinary-image-sign",
+            { method: "POST" }
+        ).then((r) => r.json());
 
-        const uploadManager = new ByteScale.UploadManager({
-            apiKey: process.env.BYTESCALE_API_KEY!,
-        });
+        // 2) فرم دیتا
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("api_key", apiKey);
+        formData.append("timestamp", timestamp);
+        formData.append("signature", signature);
+        formData.append("folder", "images");
 
-        const { fileUrl } = await uploadManager.upload({
-            data: Buffer.from(arrayBuffer),
-            path: { folderPath },
-            originalFileName: file.name,
-            mime: file.type,
-        });
-
-        console.log('fileUrl', fileUrl);
-
-        return fileUrl;
-    }catch(error){
+        // 3) آپلود تصویر
+        const uploadResponse = await fetch(
+            `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+            {
+                method: "POST",
+                body: formData,
+            }
+        ).then((r) => r.json());
+        if (setUploading) {
+            setUploading(false);
+        }
+        console.log("image url :", uploadResponse.secure_url);
+        return uploadResponse.secure_url;
+    } catch (error) {
         console.log(error);
-        return null
+        return null;
     }
-
 }

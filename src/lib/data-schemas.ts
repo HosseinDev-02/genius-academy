@@ -16,9 +16,7 @@ export const createCourseSchema = z.object({
     content: z.any().refine((val) => Object.keys(val).length > 0, {
         message: "محتوای دوره را وارد کنید",
     }),
-    image: z
-        .any()
-        .refine((file) => file instanceof File, "لطفاً یک تصویر انتخاب کنید"),
+    image: z.string().nonempty('تصویر را انتخاب کنید'),
 });
 
 export const updateCourseSchema = createCourseSchema.extend({

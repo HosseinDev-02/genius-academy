@@ -10,6 +10,7 @@ import { getAllCourses } from "@/src/lib/storage/courses";
 
 export default async function AdminPanelCourses() {
     const courses = await getAllCourses();
+    console.log('courses', courses);
     return (
         <div className="grow flex flex-col">
             {/* Page Header */}

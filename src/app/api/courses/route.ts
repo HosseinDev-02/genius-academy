@@ -12,7 +12,7 @@ export async function POST(req: Request) {
         const about = formData.get("about") as string;
         const price = parseFloat(formData.get("price") as string);
         const category_id = formData.get("category_id") as string;
-        const image = formData.get("image") as File;
+        const image = formData.get("image") as string;
         const user_id = formData.get("user_id") as string;
         const short_name = formData.get("short_name") as string;
         const is_completed =
@@ -20,14 +20,12 @@ export async function POST(req: Request) {
         const contentSrt = formData.get("content") as string;
         const content = JSON.parse(contentSrt);
 
-        const fileUrl = await uploadImage(image, "genius-academy/images/courses");  // upload image in upload.io by imageUpload function
-
         await sql`
         INSERT INTO courses (title, category_id, price, image, user_id, short_name, is_completed, content, about)
-        VALUES (${title}, ${category_id}, ${price}, ${fileUrl}, ${user_id}, ${short_name}, ${is_completed}, ${content}, ${about})
+        VALUES (${title}, ${category_id}, ${price}, ${image}, ${user_id}, ${short_name}, ${is_completed}, ${content}, ${about})
         `;
         revalidateTag('courses')
-        return NextResponse.json({ success: true, fileUrl });
+        return NextResponse.json({ success: true, image });
     } catch (error) {
         console.error(error);
         return NextResponse.json({ error: "Upload failed" }, { status: 500 });

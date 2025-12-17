@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { extensions } from "@/src/lib/tiptapExtensions";
 import { UploadButton } from "@bytescale/upload-widget-react";
+import { uploadImage } from "@/src/lib/utils/uploadImage";
 
 type EditorProps = {
     value: any; // مقدار فعلی ادیتور
@@ -78,8 +79,8 @@ const TiptapEditor = forwardRef<EditorRef, EditorProps>(
         const options = {
             apiKey: "public_G22nj3CCdK2sZbdR9c1ePkh2agx4", // یا API KEY خودت
             path: {
-                folderPath: 'genius-academy/images/editor',
-            } 
+                folderPath: "genius-academy/images/editor",
+            },
         };
 
         return (
@@ -171,7 +172,7 @@ const TiptapEditor = forwardRef<EditorRef, EditorProps>(
                         <List size={16} />
                     </Button>
 
-                    <UploadButton
+                    {/* <UploadButton
                         options={options}
                         onComplete={(files) => {
                             editor
@@ -190,9 +191,9 @@ const TiptapEditor = forwardRef<EditorRef, EditorProps>(
                                 آپلود تصویر
                             </Button>
                         )}
-                    </UploadButton>
+                    </UploadButton> */}
 
-                    {/* <Button
+                    <Button
                         type="button"
                         size="icon"
                         variant="ghost"
@@ -212,26 +213,12 @@ const TiptapEditor = forwardRef<EditorRef, EditorProps>(
                                 formData.append("image", file);
 
                                 try {
-                                    const res = await fetch("/api/uploads", {
-                                        method: "POST",
-                                        body: formData,
-                                    });
-
-                                    if (!res.ok) {
-                                        console.error("Upload failed");
-                                        return;
-                                    }
-
-                                    const data = await res.json();
-
-                                    // فرض می‌کنیم API ما { fileName: "...", url: "..." } برمی‌گردونه
-                                    const imageUrl =
-                                        data.url || `/uploads/${data.fileName}`;
+                                    const url = await uploadImage(file);
 
                                     editor
                                         .chain()
                                         .focus()
-                                        .setImage({ src: imageUrl })
+                                        .setImage({ src: url })
                                         .run();
                                 } catch (err) {
                                     console.error(
@@ -245,7 +232,7 @@ const TiptapEditor = forwardRef<EditorRef, EditorProps>(
                         }}
                     >
                         <ImageIcon size={16} />
-                    </Button> */}
+                    </Button>
 
                     <div className="ml-auto flex flex-row-reverse gap-2">
                         <Button

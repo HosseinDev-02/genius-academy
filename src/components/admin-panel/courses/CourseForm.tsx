@@ -29,24 +29,30 @@ import Image from "next/image";
 import { createCourseSchema, updateCourseSchema } from "@/src/lib/data-schemas";
 import { Category, Course, User } from "@/src/lib/type-definition";
 import { useRouter } from "next/navigation";
+import { uploadImage } from "@/src/lib/utils/uploadImage";
 
 interface CourseForm {
     courseId?: string;
     mode: "add" | "edit";
     defaultValues?: z.infer<typeof updateCourseSchema>;
+    teachers: User[];
+    categories: Category[];
 }
 
 export default function CourseForm({
     courseId,
     mode,
     defaultValues,
+    teachers,
+    categories
 }: CourseForm) {
     const schema = mode === "add" ? createCourseSchema : updateCourseSchema;
     const fileRef = useRef<HTMLInputElement | null>(null);
     const editorRef = useRef<EditorRef>(null);
-    const [teachers, setTeachers] = useState<User[]>([]);
-    const [categories, setCategories] = useState<Category[]>([]);
+    // const [teachers, setTeachers] = useState<User[]>([]);
+    // const [categories, setCategories] = useState<Category[]>([]);
     const router = useRouter();
+    const [uploading, setUploading] = React.useState(false);
 
     const form = useForm<z.infer<typeof schema>>({
         resolver: zodResolver(schema),
@@ -117,22 +123,22 @@ export default function CourseForm({
         }
     };
 
-    useEffect(() => {
-        fetch("/api/courses/teachers")
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                setTeachers(data);
-            });
-        fetch("/api/categories")
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                setCategories(data.data);
-            });
-    }, []);
+    // useEffect(() => {
+    //     fetch("/api/courses/teachers")
+    //         .then((response) => {
+    //             return response.json();
+    //         })
+    //         .then((data) => {
+    //             setTeachers(data);
+    //         });
+    //     fetch("/api/categories")
+    //         .then((response) => {
+    //             return response.json();
+    //         })
+    //         .then((data) => {
+    //             setCategories(data.data);
+    //         });
+    // }, []);
 
     return (
         <div dir="rtl">
@@ -293,10 +299,30 @@ export default function CourseForm({
                                             className="border-zinc-600"
                                             type="file"
                                             accept="image/*"
-                                            onChange={(e) => {
-                                                field.onChange(
-                                                    e.target.files?.[0]
-                                                );
+                                            onChange={async (e) => {
+                                                const file =
+                                                    e.target.files?.[0];
+                                                if (!file) return;
+
+                                                // محدودیت حجم (مثلاً 5MB)
+                                                if (
+                                                    file.size >
+                                                    5 * 1024 * 1024
+                                                ) {
+                                                    alert(
+                                                        "حجم تصویر نباید بیشتر از 5MB باشد"
+                                                    );
+                                                    return;
+                                                }
+
+                                                const url =
+                                                    await uploadImage(
+                                                        file,
+                                                        setUploading
+                                                    );
+                                                form.setValue("image", url, {
+                                                    shouldValidate: true,
+                                                });
                                             }}
                                         />
                                     </FormControl>
@@ -308,8 +334,14 @@ export default function CourseForm({
                                                 width={80}
                                                 height={80}
                                                 alt="course image"
+                                                priority
                                             />
                                         </div>
+                                    )}
+                                    {uploading && (
+                                        <p className="text-sm text-blue-500">
+                                            در حال آپلود تصویر...
+                                        </p>
                                     )}
                                 </FormItem>
                             )}

@@ -31,6 +31,7 @@ import { Toaster, toast } from "sonner";
 import z from "zod";
 import { PasswordInput } from "../../forms/PasswordInput";
 import { useRouter } from "next/navigation";
+import { uploadImage } from "@/src/lib/utils/uploadImage";
 
 type Props = {
     mode: "add" | "edit";
@@ -60,36 +61,16 @@ export default function UserForm({ mode, defaultValues, userId }: Props) {
     });
     const router = useRouter();
 
-    async function uploadImageToCloudinary(file: File) {
-        setUploading(true);
-
-        // 1) گرفتن signature
-        const { timestamp, signature, apiKey, cloudName } = await fetch(
-            "/api/cloudinary-image-sign",
-            { method: "POST" }
-        ).then((r) => r.json());
-
-        // 2) فرم دیتا
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("api_key", apiKey);
-        formData.append("timestamp", timestamp);
-        formData.append("signature", signature);
-        formData.append("folder", "images");
-
-        // 3) آپلود تصویر
-        const uploadResponse = await fetch(
-            `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-            {
-                method: "POST",
-                body: formData,
-            }
-        ).then((r) => r.json());
-
-        setUploading(false);
-
-        return uploadResponse.secure_url as string;
-    }
+    // async function uploadImageToCloudinary(file: File) {
+    //     try {
+    //         const fileUrl = await uploadImage(file, uploading, setUploading);
+    //         return fileUrl;
+    //     } catch (error) {
+    //         toast.error(
+    //             error instanceof Error ? error.message : "خطایی رخ داد"
+    //         );
+    //     }
+    // }
 
     const handleSubmit = async (values: z.infer<typeof schema>) => {
         try {
@@ -317,8 +298,9 @@ export default function UserForm({ mode, defaultValues, userId }: Props) {
                                                 }
 
                                                 const url =
-                                                    await uploadImageToCloudinary(
-                                                        file
+                                                    await uploadImage(
+                                                        file,
+                                                        setUploading
                                                     );
                                                 form.setValue("image", url, {
                                                     shouldValidate: true,
