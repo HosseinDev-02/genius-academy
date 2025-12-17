@@ -84,14 +84,14 @@ export default function CourseForm({
         formData.append("image", values.image);
         formData.append("content", JSON.stringify(values.content));
 
-        for (const key in values) {
-            const val = values[key as keyof typeof values];
-            if (key === "image") {
-                if (val instanceof File) formData.append("image", val);
-            } else {
-                formData.append(key, JSON.stringify(val));
-            }
-        }
+        // for (const key in values) {
+        //     const val = values[key as keyof typeof values];
+        //     if (key === "image") {
+        //         if (val instanceof File) formData.append("image", val);
+        //     } else {
+        //         formData.append(key, JSON.stringify(val));
+        //     }
+        // }
 
         const method = mode === "add" ? "POST" : "PUT";
         const url =

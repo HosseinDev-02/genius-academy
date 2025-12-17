@@ -120,6 +120,23 @@ export const getUserCourseById = unstable_cache(
     }
 );
 
+export const getAllAuthors = unstable_cache(
+    async (): Promise<User[]> => {
+        try {
+            const data =
+                await sql`SELECT * FROM users WHERE role = 'author' ORDER BY created_at DESC`;
+            return data as User[];
+        } catch (error) {
+            return [];
+        }
+    },
+    ["users"],
+    {
+        revalidate: 10,
+        tags: ["users"],
+    }
+);
+
 interface UComment {
     id: string;
     name: string;
@@ -143,7 +160,7 @@ interface AComment {
 export type UserComment = {
     id: string;
     content: string;
-    status: 'approved' | 'pending' | 'rejected';
+    status: "approved" | "pending" | "rejected";
     user: UComment;
     course: CComment | null;
     article: AComment | null;

@@ -54,9 +54,7 @@ export const createArticleSchema = z.object({
     time_read: z.coerce.number().min(1, "زمان خواندن باید حداقل ۱ دقیقه باشد"),
     about: z.string().nonempty(),
     short_name: z.string().min(3, "نام کوتاه باید حداقل ۳ حرف باشد"),
-    image: z
-        .any()
-        .refine((file) => file instanceof File, "لطفاً یک تصویر انتخاب کنید"),
+    image: z.string().nonempty('تصویر را انتخاب کنید'),
     content: z.any().refine((val) => Object.keys(val).length > 0, {
         message: "محتوای مقاله را وارد کنید",
     }),

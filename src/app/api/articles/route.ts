@@ -14,12 +14,9 @@ export async function POST(req: Request) {
         const short_name = formData.get("short_name") as string;
         const time_read = formData.get("time_read") as string;
         const about = formData.get("about") as string;
-        const image = formData.get("image") as File;
+        const image = formData.get("image") as string;
 
-        const imageUrl = await uploadImage(
-            image,
-            "genius-academy/images/articles"
-        );
+        const imageUrl = image
 
         await sql`
             INSERT INTO articles (title, content, category_id, user_id, short_name, time_read, about, image)

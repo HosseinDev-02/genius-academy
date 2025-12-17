@@ -32,42 +32,28 @@ import {
 import { Category, Course, User } from "@/src/lib/type-definition";
 import { useRouter } from "next/navigation";
 import { getShortArticles } from "@/src/lib/storage/articles";
+import { uploadImage } from "@/src/lib/utils/uploadImage";
 
 interface Props {
     articleId?: string;
     mode: "add" | "edit";
     defaultValues?: z.infer<typeof updateArticleSchema>;
+    authors: User[];
+    categories: Category[];
 }
 
-export default function ArticleForm({ articleId, mode, defaultValues }: Props) {
+export default function ArticleForm({
+    articleId,
+    mode,
+    defaultValues,
+    authors,
+    categories,
+}: Props) {
     const schema = mode === "add" ? createArticleSchema : updateArticleSchema;
     const fileRef = useRef<HTMLInputElement | null>(null);
     const editorRef = useRef<EditorRef>(null);
-    const [authors, setAuthors] = useState<User[]>([]);
-    const [categories, setCategories] = useState<Category[]>([]);
+    const [uploading, setUploading] = React.useState(false);
     const router = useRouter();
-
-    useEffect(() => {
-        // const fetchArticles = async () => {
-        //     const data = await getShortArticles();
-        //     console.log(data);
-        // };
-        // fetchArticles()
-        fetch("/api/users/authors")
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                setAuthors(data);
-            });
-        fetch("/api/categories")
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                setCategories(data.data);
-            });
-    }, []);
 
     const form = useForm<z.infer<typeof schema>>({
         resolver: zodResolver(schema),
@@ -97,14 +83,14 @@ export default function ArticleForm({ articleId, mode, defaultValues }: Props) {
         formData.append("image", values.image);
         formData.append("content", JSON.stringify(values.content));
 
-        for (const key in values) {
-            const val = values[key as keyof typeof values];
-            if (key === "image") {
-                if (val instanceof File) formData.append("image", val);
-            } else {
-                formData.append(key, JSON.stringify(val));
-            }
-        }
+        // for (const key in values) {
+        //     const val = values[key as keyof typeof values];
+        //     if (key === "image") {
+        //         if (val instanceof File) formData.append("image", val);
+        //     } else {
+        //         formData.append(key, JSON.stringify(val));
+        //     }
+        // }
 
         const method = mode === "add" ? "POST" : "PUT";
         const url =
@@ -295,10 +281,29 @@ export default function ArticleForm({ articleId, mode, defaultValues }: Props) {
                                             className="border-zinc-600"
                                             type="file"
                                             accept="image/*"
-                                            onChange={(e) => {
-                                                field.onChange(
-                                                    e.target.files?.[0]
+                                            onChange={async (e) => {
+                                                const file =
+                                                    e.target.files?.[0];
+                                                if (!file) return;
+
+                                                // محدودیت حجم (مثلاً 5MB)
+                                                if (
+                                                    file.size >
+                                                    5 * 1024 * 1024
+                                                ) {
+                                                    alert(
+                                                        "حجم تصویر نباید بیشتر از 5MB باشد"
+                                                    );
+                                                    return;
+                                                }
+
+                                                const url = await uploadImage(
+                                                    file,
+                                                    setUploading
                                                 );
+                                                form.setValue("image", url, {
+                                                    shouldValidate: true,
+                                                });
                                             }}
                                         />
                                     </FormControl>
@@ -310,8 +315,14 @@ export default function ArticleForm({ articleId, mode, defaultValues }: Props) {
                                                 width={80}
                                                 height={80}
                                                 alt="course image"
+                                                priority
                                             />
                                         </div>
+                                    )}
+                                    {uploading && (
+                                        <p className="text-sm text-blue-500">
+                                            در حال آپلود تصویر...
+                                        </p>
                                     )}
                                 </FormItem>
                             )}
