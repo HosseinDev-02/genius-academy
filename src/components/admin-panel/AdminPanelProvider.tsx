@@ -19,7 +19,8 @@ import AdminPanelHeader from "./AdminPanelHeader";
 import { User } from "@/src/lib/type-definition";
 
 type LayoutContextType = {
-    sidebarOpen: StateProp<boolean>; // state + setState
+    sidebarOpen: StateProp<boolean>; // state + setState;
+    user: User | null
 };
 
 const AdminPanelContext = createContext<LayoutContextType | undefined>(
@@ -37,7 +38,7 @@ export default function AdminPanelProvider({
     const sidebarState = useState(false);
 
     return (
-        <AdminPanelContext.Provider value={{ sidebarOpen: sidebarState }}>
+        <AdminPanelContext.Provider value={{ sidebarOpen: sidebarState, user: user }}>
             <div className="h-full overflow-hidden grid grid-rows-[auto_1fr] p-3">
                 {/* Admin Panel Header */}
                 <div className="w-full h-full p-3">

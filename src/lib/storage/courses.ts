@@ -63,33 +63,28 @@ export const getShortCourses = unstable_cache(
 export const getCourseByShortName = unstable_cache(
     async (shortName: string): Promise<CourseWithRelations | null> => {
         try {
-            const data = await sql`SELECT 
-                c.id,
-                c.title,
-                c.price,
-                c.image,
-                c.short_name,
-                c.is_completed,
-                c.content,
-                c.about,
-                json_build_object(
-                  'id', cat.id,
-                  'title', cat.title,
-                  'short_name', cat.short_name
-                ) AS category,
-                json_build_object(
-                  'id', u.id,
-                  'name', u.name,
-                  'role', u.role,
-                  'image', u.image,
-                  'about', u.about
-                ) AS user,
-                  c.created_at,
-                c.updated_at
-              FROM courses c
-              JOIN categories cat ON c.category_id = cat.id
-              JOIN users u ON c.user_id = u.id
-              WHERE c.short_name = ${shortName} ORDER BY c.created_at DESC`;
+            const data = await sql`SELECT
+            c.id,
+            c.title,
+            c.price,
+            c.image,
+            c.short_name,
+            c.is_completed,
+            c.content,
+            c.about,
+            -- Category object (all fields)
+            row_to_json(c) AS category,
+            -- User object (all fields)
+            row_to_json(u) AS user,
+            o.discount_percent AS offer
+        FROM courses c
+        JOIN categories cat ON c.category_id = cat.id
+        JOIN users u ON c.user_id = u.id
+        LEFT JOIN offers o 
+            ON o.course_id = c.id
+            AND o.is_active = TRUE
+              WHERE c.short_name = ${shortName} 
+              ORDER BY c.created_at DESC`;
             return data[0] as CourseWithRelations;
         } catch (error) {
             return null;

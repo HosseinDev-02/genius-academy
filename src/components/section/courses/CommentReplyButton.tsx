@@ -70,17 +70,20 @@ export default function CommentReplyButton({
             />
             {showContent && (
                 <CommentReplyForm
-                    className="bg-zinc-900"
+                    className="!bg-background dark:!bg-zinc-950 z-[1200]"
                     commentReplyHandler={commentReplyHandler}
                     setShowContent={setShowContent}
                     setContent={setContent}
                     content={content}
+                    sendBtnClassName="bg-primary text-white"
+                    cancelBtnClassName="bg-red-600 text-white"
+                    textareaClassName="border-border"
                 />
             )}
 
             {showContent && (
                 <Cover
-                    className="!bg-black/80"
+                    className="!bg-black/80 z-[1000]"
                     setElemStatus={setShowContent}
                 />
             )}

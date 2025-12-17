@@ -19,7 +19,7 @@ export async function POST(req: Request) {
         const repeat_password = data.get("repeat_password") as string;
         const role = data.get("role") as string;
         const about = data.get("about") as string;
-        const image = data.get("image") as File;
+        const image = data.get("image") as string;
         const phone_number = data.get("phone_number") as string;
         const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
         let imageUrl: string | null = null;
 
         if (image) {
-            imageUrl = await uploadImage(image, "genius-academy/images/users");
+            imageUrl = image
         }else {
             imageUrl = 'https://upcdn.io/G22nj3C/raw/uploads/2025/11/26/genius-academy/images/avatars/man.png';
         }

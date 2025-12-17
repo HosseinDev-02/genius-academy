@@ -22,7 +22,7 @@ export default function CourseRegister({
     // const { user } = useAuthContext();
     const router = useRouter();
 
-    console.log('isUserRegisteredInCourse', isUserRegisteredInCourse);
+    console.log("isUserRegisteredInCourse", isUserRegisteredInCourse);
 
     const courseRegisterHandler = async () => {
         try {
@@ -53,6 +53,45 @@ export default function CourseRegister({
             );
         }
     };
+
+    const renderCoursePrice = () => {
+        if (course.offer) {
+            return (
+                <div className="flex flex-col items-end">
+                    <span className="line-through">
+                        {Number(course.price).toLocaleString()}
+                    </span>
+                    <div className="flex items-center gap-1">
+                        <span className="text-xl text-title font-YekanBakh-Black">
+                            {(
+                                Math.round(
+                                    (course.price -
+                                        course.price * (course.offer / 100)) /
+                                        1000
+                                ) * 1000
+                            ).toLocaleString()}
+                        </span>
+                        <span className="text-xs hidden lg:inline-block">
+                            تومان
+                        </span>
+                    </div>
+                </div>
+            );
+        } else if (course.price == 0) {
+            return (
+                <span className="text-xl text-success font-YekanBakh-Black">
+                    رایگان
+                </span>
+            );
+        } else {
+            <div className="flex items-center gap-1">
+                <span className="text-xl text-title font-YekanBakh-Black">
+                    {Number(course.price).toLocaleString()}
+                </span>
+                <span className="text-xs hidden lg:inline-block">تومان</span>
+            </div>;
+        }
+    };
     return (
         <>
             <div className="bg-gradient-to-b from-secondary to-background rounded-2xl px-5 pb-5">
@@ -61,17 +100,7 @@ export default function CourseRegister({
                 </div>
                 <div className="flex items-center justify-between">
                     <span className="font-YekanBakh-Bold">هزینه ثبت نام :</span>
-                    <div className="flex flex-col items-end">
-                        <span className="line-through">1,900,000</span>
-                        <div className="flex items-center gap-1">
-                            <span className="text-xl text-title font-YekanBakh-Black">
-                                {Number(course.price).toLocaleString()}
-                            </span>
-                            <span className="text-xs hidden lg:inline-block">
-                                تومان
-                            </span>
-                        </div>
-                    </div>
+                    {renderCoursePrice()}
                 </div>
                 <div className="flex items-center gap-3 mt-3">
                     {user ? (

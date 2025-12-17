@@ -7,6 +7,7 @@ import Cover from "../../shared/Cover";
 import { Toaster, toast } from "sonner";
 import { useRouter } from "next/navigation";
 import CommentReplyForm from "./CommentReplyForm";
+import { useAdminPanelContext } from "../AdminPanelProvider";
 
 export default function CommentAnswer({
     comment,
@@ -16,6 +17,7 @@ export default function CommentAnswer({
     const [showContent, setShowContent] = useState(false);
     const [content, setContent] = useState("");
     const router = useRouter();
+    const { user } = useAdminPanelContext();
 
     const commentReplyHandler = async () => {
         // setShowContent(false);
@@ -24,7 +26,7 @@ export default function CommentAnswer({
                 method: "POST",
                 body: JSON.stringify({
                     parent_id: comment.id,
-                    user_id: "e2a0812c-c8d2-400e-a9cb-5605520ef60b",
+                    user_id: user?.id,
                     content: content,
                     status: "approved", // 👈 همزمان تغییر وضعیت
                 }),

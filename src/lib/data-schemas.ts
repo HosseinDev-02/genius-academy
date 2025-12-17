@@ -39,7 +39,7 @@ export const createUserSchema = z.object({
     role: z.enum(["user", "teacher", "author", "admin"], {
         errorMap: () => ({ message: "نقش را انتخاب کنید" }),
     }),
-    image: z.any().optional(),
+    image: z.string().nonempty('تصویر را انتخاب کنید'),
     about: z.string().optional(),
 });
 

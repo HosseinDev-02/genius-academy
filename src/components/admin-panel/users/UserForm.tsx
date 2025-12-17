@@ -39,6 +39,7 @@ type Props = {
 };
 
 export default function UserForm({ mode, defaultValues, userId }: Props) {
+    const [uploading, setUploading] = React.useState(false);
     const schema = mode === "add" ? createUserSchema : updateUserSchema;
     const fileRef = useRef<HTMLInputElement | null>(null);
     const form = useForm<z.infer<typeof schema>>({
@@ -58,6 +59,37 @@ export default function UserForm({ mode, defaultValues, userId }: Props) {
                 : defaultValues,
     });
     const router = useRouter();
+
+    async function uploadImageToCloudinary(file: File) {
+        setUploading(true);
+
+        // 1) گرفتن signature
+        const { timestamp, signature, apiKey, cloudName } = await fetch(
+            "/api/cloudinary-image-sign",
+            { method: "POST" }
+        ).then((r) => r.json());
+
+        // 2) فرم دیتا
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("api_key", apiKey);
+        formData.append("timestamp", timestamp);
+        formData.append("signature", signature);
+        formData.append("folder", "images");
+
+        // 3) آپلود تصویر
+        const uploadResponse = await fetch(
+            `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+            {
+                method: "POST",
+                body: formData,
+            }
+        ).then((r) => r.json());
+
+        setUploading(false);
+
+        return uploadResponse.secure_url as string;
+    }
 
     const handleSubmit = async (values: z.infer<typeof schema>) => {
         try {
@@ -268,11 +300,29 @@ export default function UserForm({ mode, defaultValues, userId }: Props) {
                                             className="border-zinc-600"
                                             type="file"
                                             accept="image/*"
-                                            onChange={(e) => {
-                                                console.log(e.currentTarget);
-                                                field.onChange(
-                                                    e.target.files?.[0]
-                                                );
+                                            onChange={async (e) => {
+                                                const file =
+                                                    e.target.files?.[0];
+                                                if (!file) return;
+
+                                                // محدودیت حجم (مثلاً 5MB)
+                                                if (
+                                                    file.size >
+                                                    5 * 1024 * 1024
+                                                ) {
+                                                    alert(
+                                                        "حجم تصویر نباید بیشتر از 5MB باشد"
+                                                    );
+                                                    return;
+                                                }
+
+                                                const url =
+                                                    await uploadImageToCloudinary(
+                                                        file
+                                                    );
+                                                form.setValue("image", url, {
+                                                    shouldValidate: true,
+                                                });
                                             }}
                                         />
                                     </FormControl>
@@ -287,6 +337,11 @@ export default function UserForm({ mode, defaultValues, userId }: Props) {
                                                 priority
                                             />
                                         </div>
+                                    )}
+                                    {uploading && (
+                                        <p className="text-sm text-blue-500">
+                                            در حال آپلود تصویر...
+                                        </p>
                                     )}
                                 </FormItem>
                             )}

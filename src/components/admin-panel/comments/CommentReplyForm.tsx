@@ -11,6 +11,7 @@ type Props = {
     className?: string;
     sendBtnClassName?: string;
     cancelBtnClassName?: string;
+    textareaClassName?: string;
 };
 
 export default function CommentReplyForm({
@@ -20,7 +21,8 @@ export default function CommentReplyForm({
     commentReplyHandler,
     className,
     sendBtnClassName,
-    cancelBtnClassName
+    cancelBtnClassName,
+    textareaClassName,
 }: Props) {
     return (
         <div className={`p-4 rounded-2xl bg-zinc-800 fixed inset-0 max-w-xl w-full m-auto max-h-80 h-full z-[1000] text-title flex flex-col ${className}`}>
@@ -28,7 +30,7 @@ export default function CommentReplyForm({
                 value={content || ""}
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="متن پاسخ را وارد کنید ..."
-                className="focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600 h-full resize-none focus-visible:h-full"
+                className={`focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-1 focus-visible:border-primary transition-all duration-300 border-zinc-600 h-full resize-none focus-visible:h-full ${textareaClassName}`}
             />
             <div className="flex gap-2 mt-4">
                 <Button
