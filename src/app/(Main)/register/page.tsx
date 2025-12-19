@@ -30,7 +30,7 @@ const schema = z.object({
     phone_number: z.string().min(11, "شماره موبایل باید 11 رقم باشد"),
     password: z.string().min(8, "رمز عبور باید حداقل 8 کاراکتر باشد"),
     repeat_password: z.string().min(8, "رمز عبور باید حداقل 8 کاراکتر باشد"),
-})
+});
 
 export default function Register() {
     const form = useForm<z.infer<typeof schema>>({
@@ -43,12 +43,9 @@ export default function Register() {
         },
     });
     const router = useRouter();
-    const { setUser } = useAuthContext()
+    const { setUser } = useAuthContext();
 
-
-    const registerHandler = async (
-        values: z.infer<typeof schema>
-    ) => {
+    const registerHandler = async (values: z.infer<typeof schema>) => {
         try {
             const formData = new FormData();
             formData.append("name", values.name);
@@ -67,18 +64,20 @@ export default function Register() {
 
             const result = await response.json();
 
-            const decoded : any = jwt.decode(result.token);
+            const decoded: any = jwt.decode(result.token);
             setUser(decoded);
 
             if (result.success) {
                 toast.success(result.message);
                 form.reset();
-                router.push("/");
+                window.location.href = "/";
             } else {
                 throw new Error(result.error);
             }
         } catch (error) {
-            toast.error(error instanceof Error ? error.message : "خطایی رخ داد");
+            toast.error(
+                error instanceof Error ? error.message : "خطایی رخ داد"
+            );
         }
     };
 
@@ -139,7 +138,8 @@ export default function Register() {
                                                             رمز عبور
                                                         </FormLabel>
                                                         <FormControl>
-                                                            <PasswordInput className="h-11 rounded-2xl bg-secondary border border-border px-2 w-full text-title placeholder:text-sm"
+                                                            <PasswordInput
+                                                                className="h-11 rounded-2xl bg-secondary border border-border px-2 w-full text-title placeholder:text-sm"
                                                                 {...field}
                                                             />
                                                         </FormControl>
@@ -157,7 +157,8 @@ export default function Register() {
                                                             تکرار رمز عبور
                                                         </FormLabel>
                                                         <FormControl>
-                                                            <PasswordInput className="h-11 rounded-2xl bg-secondary border border-border px-2 w-full text-title placeholder:text-sm"
+                                                            <PasswordInput
+                                                                className="h-11 rounded-2xl bg-secondary border border-border px-2 w-full text-title placeholder:text-sm"
                                                                 {...field}
                                                             />
                                                         </FormControl>

@@ -238,11 +238,6 @@ export const userProfileItems = [
         title: "پنل کاربری",
         href: "/user-panel",
     },
-    {
-        id: 3,
-        title: "پنل مدیریت",
-        href: "/admin-panel",
-    },
 ];
 
 export const services = [
@@ -807,24 +802,9 @@ export const userPanelMenuLinks: UserPanelMenuLink[] = [
         href: "courses",
     },
     {
-        id: 3,
-        title: "علاقه مندی ها",
-        href: "favorites",
-    },
-    {
-        id: 4,
-        title: "مالی و اشتراک",
-        href: "transactions",
-    },
-    {
         id: 5,
         title: "دیدگاه و پرسش های شما",
         href: "questions",
-    },
-    {
-        id: 6,
-        title: "اعلانات",
-        href: "notifications",
     },
     {
         id: 7,

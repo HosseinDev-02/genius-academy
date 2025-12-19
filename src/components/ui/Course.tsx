@@ -110,21 +110,7 @@ export default function Course(props: CourseWithRelations) {
                 </h6>
             </div>
             <div className="p-5">
-                <div className="flex items-center gap-5">
-                    <div className="flex items-center gap-1">
-                        <PapersIcon width={20} height={20} />
-                        <span className="text-xs font-YekanBakh-SemiBold">
-                            24 فصل
-                        </span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                        <ClockIcon width={20} height={20} />
-                        <span className="text-xs font-YekanBakh-SemiBold">
-                            15 ساعت
-                        </span>
-                    </div>
-                </div>
-                <div className="flex items-center justify-between gap-5 mt-3">
+                <div className="flex items-center justify-between gap-5">
                     <UserInfo
                         title="مدرس دوره :"
                         name={user?.name}
@@ -138,7 +124,7 @@ export default function Course(props: CourseWithRelations) {
                         title="مشاهده دوره"
                         href={`/course-detail/${short_name}`}
                     ></PrimaryButton>
-                    <LikeButton></LikeButton>
+                    {/* <LikeButton></LikeButton> */}
                 </div>
             </div>
         </div>

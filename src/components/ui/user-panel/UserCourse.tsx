@@ -68,23 +68,7 @@ export default function UserCourse({ course }: Props) {
                 </h6>
             </div>
             <div className="p-5">
-                <div className="flex items-center gap-5">
-                    <div className="flex items-center gap-1">
-                        <span>
-                            <PapersIcon width={20} height={20} />
-                        </span>
-                        <span className="text-xs font-YekanBakh-SemiBold">
-                            12 فصل
-                        </span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                        <ClockIcon width={20} height={20} />
-                        <span className="text-xs font-YekanBakh-SemiBold">
-                            24 ساعت
-                        </span>
-                    </div>
-                </div>
-                <div className="flex items-center justify-between gap-5 mt-3">
+                <div className="flex items-center justify-between gap-5">
                     <div className="flex items-center gap-2">
                         <span className="block overflow-hidden w-10 h-10 rounded-full shrink-0 relative">
                             <Image
@@ -112,12 +96,12 @@ export default function UserCourse({ course }: Props) {
                     ) : price !== 0 ? (
                         <div className="flex items-end h-14 flex-col justify-center">
                             <span className='relative block before:bg-caption before:absolute before:-top-1 before:bottom-0 before:w-full before:my-auto before:h-px before:content[" "] font-YekanBakh-SemiBold'>
-                                {price.toLocaleString()}
+                                {Number(price).toLocaleString()}
                             </span>
                             {price !== 0 && (
                                 <div className="flex items-center gap-1">
                                     <span className="text-title font-YekanBakh-Black text-xl">
-                                        {price.toLocaleString()}
+                                        {Number(price).toLocaleString()}
                                     </span>
                                 </div>
                             )}
@@ -125,7 +109,7 @@ export default function UserCourse({ course }: Props) {
                     ) : (
                         <div className="flex items-center gap-1 h-14">
                             <span className="text-title font-YekanBakh-Black text-xl">
-                                {price.toLocaleString()}
+                                {Number(price).toLocaleString()}
                             </span>
                         </div>
                     )}

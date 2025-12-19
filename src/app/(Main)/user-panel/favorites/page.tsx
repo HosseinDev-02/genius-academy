@@ -8,12 +8,15 @@ export default function Favorites() {
         <div>
             <SubTitle title="دوره هایی که پسندیدید" />
             <div className="divide-y divide-border mt-5">
-                {courses.map((course) => (
+                <h4 className="font-YekanBakh-SemiBold text-title text-sm">
+                    داده ای برای نمایش وجود ندارد !
+                </h4>
+                {/* {courses.map((course) => (
                     <UserFavoriteCourse
                         {...course}
                         key={course.id}
                     ></UserFavoriteCourse>
-                ))}
+                ))} */}
             </div>
         </div>
     );

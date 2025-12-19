@@ -32,6 +32,7 @@ function setUserProfileItemIcon(title: string): LucideIcon {
 export default function UserProfile({ user }: { user: User | null }) {
     const [userProfileShow, setUserProfileShow] = useState(false);
     const { logout } = useAuthContext();
+    console.log('user :', user);
 
     const logOutHandler = async (
         e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -56,7 +57,7 @@ export default function UserProfile({ user }: { user: User | null }) {
     };
 
     return (
-        <div>
+        <>
             <div className="group/profile">
                 <button
                     type="button"
@@ -103,6 +104,15 @@ export default function UserProfile({ user }: { user: User | null }) {
                             </Link>
                         );
                     })}
+                    {user?.role !== "user" && (
+                        <Link
+                            className={`flex items-center gap-2 py-2 px-3 transition-colors hover:text-primary`}
+                            href={"/admin-panel/counter"}
+                        >
+                            <LucideSparkle size={20} />
+                            <span>پنل مدیریت</span>
+                        </Link>
+                    )}
                     <Link
                         onClick={(e) => logOutHandler(e)}
                         className={`flex items-center gap-2 py-2 px-3 transition-colors hover:text-red-700 text-red-500`}
@@ -124,6 +134,6 @@ export default function UserProfile({ user }: { user: User | null }) {
                     className: "!text-white !border-none",
                 }}
             />
-        </div>
+        </>
     );
 }
