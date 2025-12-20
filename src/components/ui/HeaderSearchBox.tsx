@@ -5,6 +5,8 @@ import RoundButton from "./button/RoundButton";
 import { LucideSearch, LucideX } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import EducationIcon from "../icon/EducationIcon";
+import BookIcon from "../icon/BookIcon";
 
 type SearchItem = {
     id: string;
@@ -47,15 +49,15 @@ export default function HeaderSearchBox() {
             ></RoundButton>
             {/* modal search wrapper */}
             <div
-                style={searchModalShow ? { top: "0" } : {}}
                 id="header-search-modal"
-                className="transition-all fixed left-0 right-0 -top-20 bg-background z-50 hidden lg:flex items-center justify-center h-20"
+                className={`transition-all duration-500 fixed left-0 right-0 bg-background z-[1000] hidden lg:flex items-center justify-center h-20 ${searchModalShow ? 'top-0' : '-top-20'}`}
             >
-                <div className="container relative">
+                <div className="container relative borer border-primary">
                     <div className="flex items-center justify-between gap-5">
                         <form className="block w-full h-10" action="#">
                             {/* Handle Search Logic When Add Courses Data To Project */}
                             <Input
+                                value={query}
                                 className="placeholder:text-caption w-full h-full outline-none text-title bg-transparent border-none shadow-none ring-0 focus-visible:ring-0"
                                 type="text"
                                 placeholder="نام دوره یا مقاله را وارد کنید ..."
@@ -65,14 +67,18 @@ export default function HeaderSearchBox() {
                         <RoundButton
                             className="w-9 h-9 shrink-0 cursor-pointer"
                             icon={<LucideX size={20} />}
-                            clickEvent={() => setSearchModalShow(false)}
+                            clickEvent={() => {
+                                setSearchModalShow(false);
+                                setResults([]);
+                                setQuery("");
+                            }}
                         ></RoundButton>
                     </div>
                     {searchModalShow && query.length > 0 && (
-                        <div className="absolute w-full left-0 right-0 top-full overflow-hidden">
-                            <div className="flex flex-col gap-1 rounded-xl overflow-y-scroll max-h-40 bg-secondary p-2">
+                        <div className="absolute w-full left-0 right-0 top-[120%] overflow-hidden shadow border border-border p-3 bg-background rounded-xl">
+                            <div className="search-results flex flex-col gap-1 overflow-y-auto max-h-48 rounded-xl">
                                 {isLoading ? (
-                                    <span className="px-6 flex items-center gap-4 py-2.5 text-title font-YekanBakh-SemiBold text-sm bg-blue-100 rounded-xl hover:bg-blue-200 transition-all duration-300">
+                                    <span className="px-6 flex items-center gap-4 py-2.5 text-title font-YekanBakh-SemiBold text-sm rounded-xl transition-all duration-300">
                                         در حال دریافت نتیجه
                                     </span>
                                 ) : (
@@ -80,15 +86,35 @@ export default function HeaderSearchBox() {
                                         {results.length > 0 ? (
                                             results.map((item, index) => (
                                                 <Link
+                                                    onClick={() => {
+                                                        setSearchModalShow(
+                                                            false
+                                                        );
+                                                        setQuery("");
+                                                        setResults([]);
+                                                    }}
                                                     key={item.id}
                                                     href={
                                                         item.type === "course"
                                                             ? `/course-detail/${item.short_name}`
                                                             : `/article-detail/${item.short_name}`
                                                     }
-                                                    className="px-6 flex items-center gap-4 py-2.5 text-title font-YekanBakh-SemiBold text-sm bg-blue-50 rounded-xl hover:bg-blue-200 transition-all duration-300"
+                                                    className="px-6 flex items-center gap-4 py-2.5 text-title font-YekanBakh-SemiBold text-xs rounded-xl transition-all duration-300 hover:text-primary"
                                                 >
-                                                    <span>{index + 1}</span>
+                                                    <span>
+                                                        {item.type ===
+                                                        "course" ? (
+                                                            <EducationIcon
+                                                                width={16}
+                                                                height={16}
+                                                            />
+                                                        ) : (
+                                                            <BookIcon
+                                                                width={16}
+                                                                height={16}
+                                                            />
+                                                        )}
+                                                    </span>
                                                     <div className="flex flex-col gap-1">
                                                         <span>
                                                             {item.title}
@@ -103,7 +129,7 @@ export default function HeaderSearchBox() {
                                                 </Link>
                                             ))
                                         ) : (
-                                            <div className="px-6 py-2.5 text-title font-YekanBakh-SemiBold text-sm flex bg-blue-50 rounded-xl hover:bg-blue-200 transition-all duration-300">
+                                            <div className="px-6 py-2.5 text-title font-YekanBakh-SemiBold text-sm flex rounded-xl transition-all duration-300">
                                                 نتیجه ای یافت نشد
                                             </div>
                                         )}
