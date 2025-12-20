@@ -12,11 +12,15 @@ import LatestCourses from "@/src/components/section/courses/LatestCourses";
 import { getAllServices } from "@/src/lib/storage/services";
 import { getPopularCourses } from "@/src/lib/storage/courses";
 import { getLatestArticles } from "@/src/lib/storage/articles";
+import { getAllComments } from "@/src/lib/storage/comments";
 
 export default async function Home() {
     const services = await getAllServices();
     const popularCourses = await getPopularCourses();
     const latestArticles = await getLatestArticles();
+    const comments = await getAllComments();
+
+    const bestComments = comments.filter((comment) => comment.status === "approved" && comment.parent_user === null);
 
     return (
         <div className="space-y-14 py-5">
@@ -106,7 +110,7 @@ export default async function Home() {
                             ></SectionTitle>
                         </div>
                         <div className="lg:col-span-8 max-w-xl mx-auto relative">
-                            <CommentsSlider />
+                            <CommentsSlider comments={bestComments} />
                         </div>
                     </div>
                 </div>

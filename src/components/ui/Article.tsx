@@ -43,10 +43,10 @@ export default function Article(props: Props) {
                         />
                     )}
                 </Link>
-                <LikeButton
+                {/* <LikeButton
                     shadow={true}
                     className="w-9 h-9 !absolute -bottom-3 left-3"
-                ></LikeButton>
+                ></LikeButton> */}
             </div>
             <div className="space-y-3 mt-3">
                 <h6 className="mt-2 text-title text-sm font-YekanBakh-Bold">

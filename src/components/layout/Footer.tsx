@@ -1,3 +1,4 @@
+'use client';
 import React from "react";
 import RoundButton from "../ui/button/RoundButton";
 import Input from "../ui/Input";
@@ -119,6 +120,9 @@ function Footer() {
                                             />
                                         </div>
                                         <button
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                            }}
                                             className="bg-primary text-white rounded-xl px-4 h-11 text-xs shrink-0 hover:opacity-80 transition-opacity"
                                             type="submit"
                                         >
@@ -128,13 +132,32 @@ function Footer() {
                                     <SubTitle title="شبکه های اجتماعی"></SubTitle>
                                     <div className="flex items-center gap-5">
                                         {socialMediaLinks.map((link) => (
-                                            <RoundButton key={link.id}
+                                            <RoundButton
+                                                key={link.id}
                                                 className="w-12 h-12 hover:text-primary transition-colors"
                                                 href={link.href}
                                                 icon={
-                                                    link.title === 'telegram' && <TelegramIcon width={20} height={20}/> || 
-                                                    link.title === 'instagram' && <InstagramIcon width={20} height={20}/> ||
-                                                    link.title === 'youtube' && <YoutubeIcon width={20} height={20}/>
+                                                    (link.title ===
+                                                        "telegram" && (
+                                                        <TelegramIcon
+                                                            width={20}
+                                                            height={20}
+                                                        />
+                                                    )) ||
+                                                    (link.title ===
+                                                        "instagram" && (
+                                                        <InstagramIcon
+                                                            width={20}
+                                                            height={20}
+                                                        />
+                                                    )) ||
+                                                    (link.title ===
+                                                        "youtube" && (
+                                                        <YoutubeIcon
+                                                            width={20}
+                                                            height={20}
+                                                        />
+                                                    ))
                                                 }
                                             ></RoundButton>
                                         ))}

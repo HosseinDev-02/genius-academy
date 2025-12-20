@@ -1,7 +1,4 @@
-import {
-    LogIn,
-    LucideShoppingCart,
-} from "lucide-react";
+import { LogIn, LucideShoppingCart } from "lucide-react";
 import UserProfile from "../ui/user/UserProfile";
 import ThemeToggleButton from "../ui/button/ThemeToggleButton";
 import RoundButton from "../ui/button/RoundButton";
@@ -14,8 +11,8 @@ import UserProfileWrapper from "../ui/user/UserProfileWrapper";
 import PrimaryButton from "../ui/button/PrimaryButton";
 
 async function Header() {
-    const cookiesStore = await cookies()
-    const token = await cookiesStore.get('auth_token')?.value
+    const cookiesStore = await cookies();
+    const token = await cookiesStore.get("auth_token")?.value;
     console.log(token);
     return (
         <>
@@ -25,35 +22,42 @@ async function Header() {
                         {/* header right side */}
                         <div className="flex items-center gap-3 lg:gap-8">
                             {/* header mobile menu btn */}
-                            <MobileMenuButton/>
+                            <MobileMenuButton />
                             {/* header logo */}
                             <Logo />
                             {/* Header Menu */}
-                            <MenuWrapper type="desktop"/>
+                            <MenuWrapper type="desktop" />
                         </div>
                         {/* header left side */}
                         <div className="flex items-center gap-3 md:gap-5">
-                            <HeaderSearchBox/>
+                            <HeaderSearchBox />
                             {/* header change theme btn */}
-                            <ThemeToggleButton type="desktop"/>
+                            <ThemeToggleButton type="desktop" />
                             {/* header basket btn */}
-                            <RoundButton
-                                href="/shopping-cart"
-                                icon={<LucideShoppingCart size={20} />}
-                                count={2}
-                            ></RoundButton>
+                            {token && (
+                                <RoundButton
+                                    href="/shopping-cart"
+                                    icon={<LucideShoppingCart size={20} />}
+                                    count={2}
+                                />
+                            )}
                             {/* header user profile btn */}
-                            {token ? <UserProfileWrapper/> : (
-                                <PrimaryButton href="/login" icon={<LogIn size={20}/>} title="ورود/ثبت نام"/>
+                            {token ? (
+                                <UserProfileWrapper />
+                            ) : (
+                                <PrimaryButton
+                                    href="/login"
+                                    icon={<LogIn size={20} />}
+                                    title="ورود/ثبت نام"
+                                />
                             )}
                         </div>
                     </nav>
                 </div>
             </header>
             {/* Mobile Menu */}
-            <MenuWrapper type="mobile"/>
+            <MenuWrapper type="mobile" />
             {/*  mobile menu cover elem  */}
-            
         </>
     );
 }

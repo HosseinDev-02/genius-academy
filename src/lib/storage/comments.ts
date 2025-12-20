@@ -151,11 +151,14 @@ export const getAllComments = unstable_cache(
             comment.updated_at,
             comment.status,
             json_build_object(
-            'id', u.id,
-            'name', u.name,
-            'image', u.image
-            ) AS user,
-            json_build_object('id', pu.id, 'name', pu.name) AS parent_user,
+                'id', u.id,
+                'name', u.name,
+                'image', u.image
+                ) AS user,
+            CASE
+                WHEN comment.parent_id IS NOT NULL THEN json_build_object('id', u.id,'name', u.name)
+            ELSE NULL
+                END AS parent_user,
             CASE
                 WHEN comment.course_id IS NOT NULL THEN json_build_object('id', c.id,'title', c.title,'image', c.image,'short_name', c.short_name)
             ELSE NULL
@@ -184,3 +187,10 @@ export const getAllComments = unstable_cache(
         tags: ["comments"],
     }
 );
+
+// json_build_object(
+//     'id', u.id,
+//     'name', u.name,
+//     'image', u.image
+//     ) AS user,
+//     json_build_object('id', pu.id, 'name', pu.name) AS parent_user,
