@@ -9,11 +9,12 @@ import MenuWrapper from "../ui/Menu/MenuWrapper";
 import { cookies } from "next/headers";
 import UserProfileWrapper from "../ui/user/UserProfileWrapper";
 import PrimaryButton from "../ui/button/PrimaryButton";
+import Cover from "../shared/Cover";
+import SearchCover from "./SearchCover";
 
 async function Header() {
     const cookiesStore = await cookies();
     const token = await cookiesStore.get("auth_token")?.value;
-    console.log(token);
     return (
         <>
             <header className="h-20 border-b border-b-border backdrop-blur-xl flex items-center justify-center bg-background/80 z-50 sticky left-0 right-0 top-0">
@@ -58,6 +59,7 @@ async function Header() {
             {/* Mobile Menu */}
             <MenuWrapper type="mobile" />
             {/*  mobile menu cover elem  */}
+            <SearchCover />
         </>
     );
 }

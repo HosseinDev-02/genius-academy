@@ -4,6 +4,7 @@ import React, { createContext, useState } from "react";
 
 type HeaderContextType = {
     mobileMenuOpen: StateProp<boolean>;
+    searchModalShow: StateProp<boolean>;
 };
 
 const HeaderContext = createContext<HeaderContextType | undefined>(undefined);
@@ -14,8 +15,9 @@ export default function HeaderProvider({
     children: React.ReactNode;
 }) {
     const showMobileMenu = useState(false);
+    const searchModalShow = useState(false)
     return (
-        <HeaderContext.Provider value={{ mobileMenuOpen: showMobileMenu }}>
+        <HeaderContext.Provider value={{ mobileMenuOpen: showMobileMenu, searchModalShow }}>
             {children}
         </HeaderContext.Provider>
     );

@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import EducationIcon from "../icon/EducationIcon";
 import BookIcon from "../icon/BookIcon";
+import Cover from "../shared/Cover";
+import { useHeaderContext } from "../layout/HeaderProvider";
 
 type SearchItem = {
     id: string;
@@ -16,7 +18,8 @@ type SearchItem = {
 };
 
 export default function HeaderSearchBox() {
-    const [searchModalShow, setSearchModalShow] = React.useState(false);
+    const { searchModalShow } = useHeaderContext()
+    const [open, setOpen] = searchModalShow
     const [isLoading, setIsLoading] = useState(false);
     const [query, setQuery] = useState("");
     const [results, setResults] = useState<SearchItem[]>([]);
@@ -40,17 +43,19 @@ export default function HeaderSearchBox() {
     }, [query]);
 
     return (
-        <div>
+        <>
             {/* header search btn */}
             <RoundButton
                 className={"hidden lg:flex cursor-pointer"}
-                clickEvent={() => setSearchModalShow(true)}
+                clickEvent={() => setOpen(true)}
                 icon={<LucideSearch size={20} />}
             ></RoundButton>
             {/* modal search wrapper */}
             <div
                 id="header-search-modal"
-                className={`transition-all duration-500 fixed left-0 right-0 bg-background z-[1000] hidden lg:flex items-center justify-center h-20 ${searchModalShow ? 'top-0' : '-top-20'}`}
+                className={`transition-all duration-500 fixed left-0 right-0 bg-background z-[1300] hidden lg:flex items-center justify-center h-20 ${
+                    open ? "top-0" : "-top-20"
+                }`}
             >
                 <div className="container relative borer border-primary">
                     <div className="flex items-center justify-between gap-5">
@@ -68,13 +73,13 @@ export default function HeaderSearchBox() {
                             className="w-9 h-9 shrink-0 cursor-pointer"
                             icon={<LucideX size={20} />}
                             clickEvent={() => {
-                                setSearchModalShow(false);
+                                setOpen(false);
                                 setResults([]);
                                 setQuery("");
                             }}
                         ></RoundButton>
                     </div>
-                    {searchModalShow && query.length > 0 && (
+                    {open && query.length > 0 && (
                         <div className="absolute w-full left-0 right-0 top-[120%] overflow-hidden shadow border border-border p-3 bg-background rounded-xl">
                             <div className="search-results flex flex-col gap-1 overflow-y-auto max-h-48 rounded-xl">
                                 {isLoading ? (
@@ -87,7 +92,7 @@ export default function HeaderSearchBox() {
                                             results.map((item, index) => (
                                                 <Link
                                                     onClick={() => {
-                                                        setSearchModalShow(
+                                                        setOpen(
                                                             false
                                                         );
                                                         setQuery("");
@@ -140,6 +145,6 @@ export default function HeaderSearchBox() {
                     )}
                 </div>
             </div>
-        </div>
+        </>
     );
 }
